@@ -29,14 +29,14 @@ book:
         - content/2.4/representable-functors.qmd
         - content/2.5/the-yoneda-lemma.qmd
         - content/2.6/yoneda-embedding.qmd
-    # - part: "Part 3"
-    #   chapters:
-    #     - content/3.1/its-all-about-morphisms.qmd
-    #     - content/3.2/adjunctions.qmd
-    #     - content/3.3/free-forgetful-adjunctions.qmd
-    #     - content/3.4/monads-programmers-definition.qmd
-    #     - content/3.5/monads-and-effects.qmd
-    #     - content/3.6/monads-categorically.qmd
+    - part: "Part 3"
+      chapters:
+        - content/3.1/its-all-about-morphisms.qmd
+        - content/3.2/adjunctions.qmd
+        - content/3.3/free-forgetful-adjunctions.qmd
+        - content/3.4/monads-programmers-definition.qmd
+        - content/3.5/monads-and-effects.qmd
+        - content/3.6/monads-categorically.qmd
     - part: "Appendices"
       chapters:
         - content/etc/glossary.qmd
