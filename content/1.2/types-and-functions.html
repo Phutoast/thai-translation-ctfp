@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 3&nbsp; Typeและfunction (Draft)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/etc/glossary.html" rel="next">
+<link href="../../content/1.1/category-the-essence-of-composition.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">Translator’s Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Part 1</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ใครตองการtype" id="toc-ใครตองการtype" class="nav-link active" data-scroll-target="#ใครตองการtype"><span class="toc-section-number">3.1</span>  ใครต้องการtype?</a></li>
+  <li><a href="#typeตางๆนนเกยวกบการประกอบ" id="toc-typeตางๆนนเกยวกบการประกอบ" class="nav-link" data-scroll-target="#typeตางๆนนเกยวกบการประกอบ"><span class="toc-section-number">3.2</span>  Typeต่างๆนั้นเกี่ยวกับการประกอบ</a></li>
+  <li><a href="#typesตางๆคออะไร" id="toc-typesตางๆคออะไร" class="nav-link" data-scroll-target="#typesตางๆคออะไร"><span class="toc-section-number">3.3</span>  Typesต่างๆคืออะไร</a></li>
+  <li><a href="#แลวทำไมเราตองการmodelทางคณตศาสตร" id="toc-แลวทำไมเราตองการmodelทางคณตศาสตร" class="nav-link" data-scroll-target="#แลวทำไมเราตองการmodelทางคณตศาสตร"><span class="toc-section-number">3.4</span>  แล้วทำไมเราต้องการmodelทางคณิตศาสตร์ ?</a></li>
+  <li><a href="#functionท-pureและdirty" id="toc-functionท-pureและdirty" class="nav-link" data-scroll-target="#functionท-pureและdirty"><span class="toc-section-number">3.5</span>  Functionที่ PureและDirty</a></li>
+  <li><a href="#ตวอยางของ-type-ตางๆ" id="toc-ตวอยางของ-type-ตางๆ" class="nav-link" data-scroll-target="#ตวอยางของ-type-ตางๆ"><span class="toc-section-number">3.6</span>  ตัวอย่างของ Type ต่างๆ</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="toc-section-number">3.7</span>  โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Categoryของtypeและfunctionมีบทบาทสำคัญในการเขียนโปรแกรม ดันนั้นเรามาคุยเกี่ยวกับว่าtype คืออะไรและทำไมเราต้องการมัน</p>
+<section id="ใครตองการtype" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="ใครตองการtype"><span class="header-section-number">3.1</span> ใครต้องการtype?</h2>
+<p>อาจจะดูเหมือนจะมีการโต้เถียงกันเกี่ยวกับข้อดีของต่างๆของ การทำtypeให้static(คงที่)เมื่อเทียบกับtypeให้dynamaic(ไม่ตายตัว) และการทำtypeให้strong(เคร่งครัด)หรือweak(ไม่เข้มงวด) ขออนุญาตให้ผมใช้การทดลองทางความคิด(thought experiment)ในการแสดงให้เห็นถึงตัวเลือกต่างๆ ลองจิตนาการว่ามีลิงอยู่หลายล้านตัวอยู่หน้าคีย์บอร์ดคอมพิวเตอร์ที่กำลังกดปุ่มต่างๆแบบสุ่มๆอย่างมีความสุข โดยที่ซึ่งได้สร้างโปรแกรมออกมา นำมาcompileและนำมาใช้งาน</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/img_1329.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>ด้วยการที่เป็นภาษาเครื่องจักร การผสมกันของbyteต่างๆแบบไหนก็ได้ที่ถูกเขียนโดยลิงพวกนี้ก็จะสามารถนำมาใช้งานได้ (โดยที่ไม่มีปัญหา) แต่ถ้าเป็นภาษาที่ระดับสูงมากขึ้น เราก็จะรู้สึกยินดีที่compilerนั้นสามารถที่จะตรวจจับปัญหาทางศัพท์(lexical)หรือทางไวยกรณ์(grammatical) ลิงหลายๆตัวอาจจะต้องอดกินกล้วยแต่โปรแกรมที่เหลือจะมีโอกาสที่จะมีประโยคมากกว่า การตรวจสอบtypeนั้นได้นำการป้องกัน(ในอีกแบบหนึ่ง)ต่อโปรแกรมที่ไม่มีสาระ(หรือหลักการ) นอกเหนือจากนี้ ถ้าเราใช้ภาษาที่มีtypeแบบdynamic ความไม่ลงลอยของtypeก็จะถูกพบในขณะโปรแกรมกำลังทำงาน (runtime) ในภาษาที่มีtypeแบบstrongและถูกตรวจสอบในแบบstatic(strongly typed statically checked) ความไม่ลงลอยของtypeก็จะถูกพบในขณะcompile ซึ่งเป็นการขจัดโปรแกรมที่ไม่ถูกต้องก่อนการที่มันจะมีโอกาสที่จะถูกใช้งานเสียอีก</p>
+<p>ดังนั้นคำถามคือว่า เราต้องการให้ลิงพวกนี้มีความสุขหรือเราต้องการที่จะสร้างโปรแกรมที่ถูกต้อง</p>
+<p>จุดมุ่งหมายทั่วๆของการทดลองทางความคิดนี้คือการเขียนงานของShakespeareใหม่ทั้งหมด โดยการที่มีการตรวจสอบการสะกดและไวยกรณ์ในขบวนการก็จะเพิ่มความเป็นไปได้อย่างเห็นได้ชัด ในทางคล้ายๆกันการตรวจสอบtypeอาจจะเลยไปถึงการที่จะให้มั่นใจว่า หลังจากที่Romeoได้ถูกประกาศว่าเป็นมนุษย์ เขาจะไม่มีใบไม้งอกออกมาหรือดักจับphotonในสนามแรงโน้มถ่วงที่ทรงพลังของเขา</p>
+</section>
+<section id="typeตางๆนนเกยวกบการประกอบ" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="typeตางๆนนเกยวกบการประกอบ"><span class="header-section-number">3.2</span> Typeต่างๆนั้นเกี่ยวกับการประกอบ</h2>
+<p>ทฤษฎีcategoryนั้นเกี่ยวกับการประกอบของลูกศร แต่ไม่ใช่แค่ลูกศรสองอันที่จะสามารถถูกนำมาประกอบกันได้ วัตถุเป้าหมายของลูกศรหนึ่งต้องเหมือนกับวัตถุเริ่มต้นของลูกศรถัดไป โปรแกรมจะไม่สามารถทำงานได้ถ้าfunctionเป้าหมายไม่สามารถที่จะอ่านข้อมูลที่สร้างมาจากfunctionเริ่มต้นได้อย่างถูกต้อง จุดเริ่มและจุดจบของทั้งสองลูกศรต้องเข้ากันได้ ถ้าจะให้การประกอบกันเป็นไปได้ ระบบtypeที่มีความเคร่งครัดมาเท่าไหร่การจับคู่นี้ก็สามารถถูกอธิบายและถูกตรวจสอบโดยกลไกต่างๆได้ดีมากเท่านั้น</p>
+<p>ข้อโต้แย้งที่จริงจังอย่างเดียวในตอนที่ผมได้ยินต่อการตรวจสอบtypeแบบ staticและstrongคือการที่ว่ามันอาจจะขจัดโปรแกรมบางตัวที่ถูกต้องในทางความหมาย ในทางปฏิบัติแล้วการที่สิ่งแบบนี้จะเกิดขึ้นค่อนข้างที่จะเป็นไปไม่ได้ และอย่างไรก็ตามทุกๆภาษาก็จะมีช่องทางประตูหลังในการที่จะก้าวข้ามระบบtypeในตอนที่มีความจำเป็นจริงๆ แม้กระทั้งในHaskellก็มี <code>unsafeCoerce</code>แต่สิ่งเล่านี้ควรที่จะถูกใช้อย่างรอบคอบ ตัวละครของFranz Kafkaอย่างGregor Samsaได้ทำลายระบบtypeในตอนที่เขาเปลี่ยนไปเป็นแมลงตัวใหญ่และเราทั้งหมดก็รู้ว่าจุดจบคืออะไร</p>
+<p>ข้อโต้แย้งอีกอย่างหนึ่งที่ผมได้ยินเป็นประจำคือการที่การทำงานกับtypeเป็นการโยนภาระไปยังโปรแกรมเมอร์กจนเกินเกินไป ผมสามารถที่จะเข้าใจกับความรู้สึกนี้หลังจากการเขียนการประกาศiteratorsในC++ด้วยตัวเอง ยกเว้นแต่ว่าได้มีเทคโนโลยีที่เรียกว่า <em>type inference</em> (การคาดเดาtype) ที่อนุญาตให้compilerคาดเดาtypeเกือบทั้งหมดจากบริบทที่มันถูกใช้งาน ในC++คุณสามารถที่จะประกาศตัวแปรเป็น <code>auto</code> และก็ให้compilerตามหาtypeของมัน</p>
+<p>ในHaskellนอกเหนือจากโอกาสที่เป็นไปได้ยากมาก การมีคำอธิบาย(annotation)ต่อtypeนั้นไม่ต้องจำเป็นที่มี ถึงอย่างไรก็ตามโปรแกรมเมอร์มีแนวโน้มที่จะใช้มัน ก็เพราะว่าสิ่งเหล่านี้สามารถที่จะบอกได้หลายๆอย่างเกี่ยวกับความหมายของcode และก็สามารถทำให้ข้อผิดพลาดในการcompileง่ายต่อการเข้าใจ มันเป็นหลักปฏิบัติทั่วไปในHaskellที่จะเริ่มprojectโดยการออกแบบtypeต่างๆ โดยหลังจากนั้นคำอธิบายของtypeได้ขับเคลื่อนการเขียน(code) และกลายมาเป็นcommentsที่บังคับใช้โดยcompiler (compiler-enforced)</p>
+<p>ประเภทtypeที่เคร่งครัดและคงที่มักจะถูกใช้ในฐานะข้อแก้ตัวในการที่ไม่ทำการทดสอบcodeที่ถูกเขียน คุณอาจจะได้ยินในบางครั้งโดยโปรแกรมเมอร์Haskellพูดว่า “ถ้ามันสามารถที่จะถูกcompileได้มันจำเป็นต้องถูก” แน่นอนว่ามันไม่มีการรับประกันว่าโปรแกรมที่ถูกในเชิงของtype จะถูกในความหมายในการผลิตoutputที่ถูกต้อง ผลของทัศนคติที่มีความประมาทคือการที่ว่าในหลายการศึกษาHaskellไม่ได้นำหน้าอย่างไปมากในด้านคุณภาพของcodeที่ถูกเขียนในแบบที่คาดคิดไว้ อาจจะมองได้ว่าในเชิงการค้า แรงกดดันในการแก้bugนั้นถูกมาใช้ได้ถึงแค่บางระดับของคุณภาพ ซึ่งทั้งหมดก็เกี่ยวกับเศรษฐศาสตร์ของการการพัฒนาซอฟต์แวร์และความอดทนของผู้ใช้สุดท้าย (end user)ที่มี แต่ไม่ค่อยที่จะเกี่ยวกับภาษาโปรแกรมหรือวิธีวิทยา (methodology) บรรทัดฐานที่ดีกว่านี้ก็อาจจะเป็นการวัดจำนวนของprojectsที่ล่าช้ากว่ากำหนดหรือถูกส่งมอบแต่มีฟังก์ชันการทำงานที่ลดลงไปอย่างมาก</p>
+<p>สำหรับข้อโต้แย้งที่ว่าการทำunit testingสามารถที่จะแทนที่ประเภทtypeที่เคร่งครัดและคงที่ ให้ลองคิดถึงการrefactoringแบบทั่วๆไปในภาษาที่มีประเภทtypeที่เคร่งครัด การเปลี่ยนแปลงtypeของargumentในfunctionบางตัว ในภาษาที่มีประเภทtypeที่เคร่งครัด มันนั้นมากพอที่จะเปลี่ยนการประกาศของfunctionนั้นและก็แก้การbuildที่เสียหาย ในภาษาที่typeเป็นแบบไม่เข้มงวด ความจริงที่ว่าfunctionในตอนนี้คาดหวังข้อมูลที่แตกต่างออกไปไม่สามารถถูกเผยแพร่ในที่ที่มีการนำมาใช้งาน(cannot be propagated to call sites) การทำUnit testingอาจจะจับความไม่เข้ากันนี้ได้แต่การtestนั้นมีขึ้นอยู่กับโชค(ในการเจอปัญหา)(probabilistic)โดยแทนที่จะเป็นกระบวนการที่กำหนดได้ (determinstic) เสมอมา การtestคือตัวแทนที่ไม่ดีสำหรับการพิสูจน์</p>
+</section>
+<section id="typesตางๆคออะไร" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="typesตางๆคออะไร"><span class="header-section-number">3.3</span> Typesต่างๆคืออะไร</h2>
+<p>ภาพ(intuition)ที่ง่ายที่สุดของtypeคือการที่มันคือsetของค่าต่างๆ typeอย่าง<code>Bool</code> (อย่าลืมว่าtypeที่เป็นรูปธรรม (concrete types)จะเริ่มด้วยตัวพิมพ์ใหญ่ในภาษาHaskell) คือsetที่มีสองสมาชิกอย่าง <code>True</code> และ <code>False</code> typeอย่าง<code>Char</code>คือsetของตัวอักษรUnicodeทั้งหมกอย่าง <code>a</code> หรือ <code>ą</code></p>
+<p>setนี้สามารถมีขนาดที่จำกัดหรือไม่จำกัด typeอย่าง<code>String</code>ที่ก็คือlistของ<code>Char</code>ที่คือตัวอย่างของsetที่มีจำนวนไม่จำกัด</p>
+<p>ในตอนที่เราประกาศ<code>x</code>ให้เป็น<code>Integer</code></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">x ::</span> <span class="dt">Integer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เรากำลังบอกว่ามันคือสมาชิกของsetของจำนวนเต็ม <code>Integer</code>ในHaskellคือsetที่มีจำนวนไม่จำกัดและมันสามารถนำมาใช้ในการทำการคำนวนที่กำหนดความเที่ยงตรงได้ (arbitrary precision arithmetic) มันก็มีsetที่จำกัดอย่าง<code>Int</code>ที่จะสอดคล้องกับประเภทของเครื่อง ที่ก็เหมือนกับ<code>int</code>ของC++</p>
+<p>แต่ก็จะมีรายละเอียดปลีกย่อยที่ทำให้การมองtypeและsetแบบนี้ยุ่งยาก ได้มีปัญหากับfunctionแบบpolymorphicที่เกี่ยวข้องกับการนิยามเป็นวงกลมและความจริงที่ว่าคุณไม่สามารถมีsetของsetทั้งหมดได้ แต่ตามที่ผมให้สัญญาเอาไว้ผมจะไม่เคร่งกับคณิตศาสตร์มาก สิ่งที่ดีคือมันมีcategoryของsetต่างๆที่เราจะเรียกว่า<span class="math inline">\(\textbf{Set}\)</span> และเราจะแค่ทำงานกับมัน ใน<span class="math inline">\(\textbf{Set}\)</span>นั้นวัตถุคือsetและmorphism(ลูกศร)คือfunctionต่างๆ</p>
+<p><span class="math inline">\(\textbf{Set}\)</span>นั้นเป็นcategoryที่พิเศษอย่างมากเพราะว่าเราสามารถที่จะมองเข้าไปในวัตถุต่างๆของมันได้และได้ความเข้าใจจากการทำแบบนี้ ตัวอย่างเช่น เรารู้ว่าเซตว่างนั้นไม่มีสมาชิก เรารู้ว่ามันมีsetพิเศษที่มีสมาชิกอยู่ตัวเดียว เรารู้ว่าfunctionจะโยงสมาชิกของsetหนึ่งๆไปยังสมาชิกของอีกsetหนึ่ง มันสามารถที่จะโยงสองสมาชิกไปยังหนึ่งแต่ไม่สามารถมาจากหนึ่งสมาชิกไปยังสอง เรารู้ว่า function identityโยงแต่ละสมาชิกของsetนั้นสู่ตนเองและอื่นๆ จุดหมายของเราคือการที่จะค่อยๆลืมข้อมูลพวกนี้และเขียน(แปลง)แนวคิดเหล่านี้ในแบบcategoricalทั้งหมด นั่นก็คือให้อยู่ในแบบของวัตถุและลูกศร</p>
+<p>ในโลกอุดคติเราก็อาจจะพูดได้ว่าtypeของHaskellคือsetและfunctionของHaskellคือfunctionทางคณิตศาสตร์ระหว่างset แต่ก็จะมีปัญหาเล็กน้อย: functionทางคณิตศาสตร์ไม่ได้ทำการดำเนินการผ่านcodeเลย มันก็แค่รู้คำตอบของปัญหา functionของHaskellมีความจำเป็นที่จะต้องคํานวณคำตอบ นี่จะไม่เป็นปัญหาถ้าเราสามารถได้รับคำตอบในขั้นตอนการคำนวณที่จำกัด โดยไม่คำนึงถึงขนาดของตัวเลข(ที่จะใหญ่อย่างไรก็ได้) แต่ก็มีการคํานวณบางประเภทที่ข้องที่เกี่ยวกับการrecursionและที่ที่อาจจะไม่มีวันยุติ เราไม่สามารถแค่สั่งห้ามไม่ให้มีfunctionที่ไม่สามารถยุติได้ในHaskellก็เพราะว่าการแยกแยะระหว่างfunctionที่ยุติได้และยุติไม่ได้ ที่ก็คือปัญหาการยุติการทำงาน (Halting Problem) ที่โด่งดังเป็นสิ่งที่กำหนดไม่ได้ (undeciable) นั่นจึงเป็นเหตุผลที่ว่าทำไมนักวิทยาศาสตร์คอมพิวเตอร์ จึงคิดค้นแนวคิดที่ฉลาดเป็นอย่างมาก หรือเป็นการhack(ในความหมายที่เป็นการแก้ปัญหาเฉพาะหน้า)ที่สำคัญแล้วแต่มุมมองของคุณ โดยการขยายtypeทุกประเภทด้วยค่าพิเศษเพียงอย่างเดียวที่เรียกว่า <em>bottom(ตัวล่าง)</em> โดยถูกเขียนว่า <code>_|_</code> หรือในUnicodeอย่าง <code>⊥</code> ค่าๆนี้ตรงกับการคำนวนที่ไม่มีที่สิ้นสุด functionนี้จะถูกประกาศอย่าง:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>โดยที่มันอาจจะคืนค่าเป็น <code>True</code>, <code>False</code> หรือ <code>_|_</code> โดยอย่างหลังหมายความว่ามันจะไม่มีทางสิ้นสุด</p>
+<p>น่าสนใจอยู่ว่า หลังจากการที่คุณยอมรับbottomในฐานะส่วนๆหนึ่งของระบบtype มันเป็นการสะดวกที่จะคิดถึงทุกๆข้อผิดพลาดในขณะดำเนินการในฐานะbottom หรือก็อาจจะอนุญาตfunctionทำการคืนbottomกลับมาอย่างโจ่งแจ้ง การทำอย่างหลังสามารถทำได้โดยทั่วไปโดยการใช้ คำเฉพาะอย่าง <code>undefined</code> ในแบบที่ว่า:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>f x <span class="ot">=</span> <span class="fu">undefined</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นิยามนี้ผ่านการตรวจสอบtypeก็เพราะว่า <code>undefined</code> ถูกตีค่าเป็น bottom ซึ่งก็เป็นสมาชิกของtypeใดๆก็ตาม รวมไปถึง <code>Bool</code> ที่คุณก็สามารถที่จะเขียนว่า</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">undefined</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(แบบไม่มี <code>x</code>) เพราะว่า bottom ก็เป็นสมาชิกของtype <code>Bool -&gt; Bool</code></p>
+<p>functionที่อาจจะคืนค่าbottonจะถูกเรียกว่าfunctionไม่สมบูรณ์(partial)ตรงกันข้ามกับfunctionสมบูรณ์(total)ที่จะคืนผลลัพธ์ที่ใช้ได้สำหรับargumentที่เป็นไปได้ทั้งหมด</p>
+<p>เพราะว่าbottom คุณจะเห็นได้ว่าcategoryของtypesและfunctionในHaskellจะถูกเรียกถึงว่า <span class="math inline">\(\textbf{Hask}\)</span>แทนที่จะเป็น<span class="math inline">\(\textbf{Set}\)</span> จากมุมมองเชิงทฤษฎีแล้ว นี่เป็นเหมือนจุดเริ่มต้นของความซับซ้อน (หรือความแทรกซ้อน complication) ดังนั้นในจุดๆนี้ผมจะใช้มีดทำครัวของผมและยุติแนวทางของเหตุผล(line of reasoning)นี้ ในมุมมองเชิงปฏิบัติ มันเป็นไปได้ที่จะไม่ต้องสนใจfunctionที่ไม่ยุติและbottom และมอง<span class="math inline">\(\textbf{Hask}\)</span>ให้เป็นยังกับ<span class="math inline">\(\textbf{Set}\)</span>จริงๆ<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</section>
+<section id="แลวทำไมเราตองการmodelทางคณตศาสตร" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="แลวทำไมเราตองการmodelทางคณตศาสตร"><span class="header-section-number">3.4</span> แล้วทำไมเราต้องการmodelทางคณิตศาสตร์ ?</h2>
+<p>ในฐานะที่เป็นโปรแกรมเมอร์ คุณนั้นมีความใกล้ชิดและคุ้นชินกับไวยากรณ์ (syntax และ grammar) ของภาษาโปรแกรมของคุณ ด้านต่างๆเหล่านี้ของภาษานั้นโดยปกติแล้วถูกอธิบายโดย สัญลักษณ์อย่างเป็นทางการในจุดเริ่มต้นของข้อกำหนดของภาษา แต่ความหมาย (meaning หรือ semantics) ของภาษานั้นยากมากกว่าที่จะอธิบาย มันใช้จำนวนหน้าที่มากกว่ามากๆและนานๆครั้งที่จะเป็นทางการมากพอ ดังนั้นจึงมีการสนทนาระหว่างทนายภาษาและวงการหนังสือที่อุทิศให้กับการตีความในจุดย่อยๆต่างๆของมาตรฐานทางภาษา</p>
+<p>ได้มีเครื่องมือที่เป็นทางการในการอธิบายความหมายในภาษาแต่เนื่องด้วยความชับช้อนของพวกมัน มันจึงถูกใช้คู่กับภาษาเชิงวิชาการที่ถูกทำให้ง่ายขึ้น ไม่ใช่ ภาษาโปรแกรมในความเป็นจริงที่มีขนาดใหญ่ หนึ่งในเครื่องมือที่ทำแบบนี้ถูกเรียกว่า <em>ความหมายเชิงการดำเนินงาน (opeartional semantics)</em> ที่อธิบายกลไกของการดำเนินการของโปรแกรม มันทำการจำกัดความinterpreterที่เป็นอุดมคติและทางการ ความหมายในภาษาที่ใช้ในทางพาณิชย์(industrial) อย่างเช่น C++ นั้นมักจะถูกอธิบายโดยการใช้ การให้เหตุผลเชิงการดำเนินงาน (opeartional reasoning) ที่ไม่เป็นทางการ ส่วนมากอยู่ในแง่ของ “เครื่องจักรนามธรรม”</p>
+<p>ปัญหาคือว่ามันเป็นไปได้ยากที่จะพิสูจน์สิ่งต่างๆเกี่ยวกับโปรแกรมนั้นๆผ่านความหมายเชิงการดำเนินงาน ในการแสดงคุณสมบัติของprogramจริงๆคุณต้อง “ดำเนินการมัน”ผ่านinterpreterในอุดมคติ</p>
+<p>มันไม่สำคัญสำหรับโปรแกรมเมอร์ที่จะไม่เคยทำการพิสูจน์อย่างเป็นทางการกับความถูกต้องของโปรแกรม เรา”คิด”ว่าเราเขียนโปรแกรมที่ถูกต้องเสมอ ไม่มีใครนั่งอยู่หน้าคีย์บอร์ดแล้วพูดว่า “เราแค่จะเขียนโค้ดเพียงไม่กี่บรรทัดและดูว่ามันจะเกิดอะไรขึ้น” เราคิดว่าโค้ดที่เราเขียนจะกระทำการบางอย่างที่จะนำไปสู่ผลที่เราต้องการ โดยปกติเราก็จะประหลาดใจในตอนที่มันไม่เป็นแบบนั้น นั้นหมายความว่าเราให้เหตุผลจริงๆเกี่ยวกับโปรแกรมที่เราเขียนและเราทำมันโดยปกติโดยการใช้งานinterpreterในหัวของเรา มันก็แค่ยากมากที่จะติดตามตัวแปรทั้งหมด คอมพิวเตอร์นั้นเก่งในการดำเนินการโปรแกรม มนุษย์นั้นไม่ค่อย แต่ถ้าเราเก่งแล้วจะมีคอมพิวเตอร์ไปทำไม</p>
+<p>แต่เราก็มีทางเลือกอื่นๆ มันถูกเรียกว่า<em>ความหมายเชิงสัญลักษณ์(denotational semantics)</em>ที่มีพื้นฐานมาจากคณิตศาสตร์ ในความหมายเชิงสัญลักษณ์ทุกๆสิ่งที่สร้างจากการเขียนโปรแกรมจะมีการตีความทางคณิตศาสตร์ ในแบบนี้แล้วถ้าคุณต้องการที่จะพิสูจน์คุณสมบัติของโปรแกรม คุณแค่ต้องพิสูจน์ทฤษฎีบททางคณิตศาสตร์ คุณอาจจะคิดว่าการพิสูจน์ทฤษฎีบทนั้นยากแต่ความจริงที่ว่าเรามนุษย์ได้ทำการสร้างวิธีการทางคณิตศาสตร์มาแล้วหลายพันปี เพราะฉะนั้นจึงมีความรู้ที่สั่งสมเป็นจำนวนมากที่เราสามารถนำมาใช้ได้ แล้วก็ถ้านำมันมาเปรียบเทียบกับทฤษฎีบทที่นักคณิตศาสตร์ทำการพิสูจน์ ปัญหาที่เราเจอในการเขียนโปรแกรมนั้นค่อนข้างง่าย ไม่ก็ตรงตัวเลย</p>
+<p>มาลองดูนิยามของfunction factorialของHaskellที่เป็นภาษาที่ค่อนข้างตรงตามความหมายเชิงสัญลักษณ์อย่าง</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fact n <span class="ot">=</span> <span class="fu">product</span> [<span class="dv">1</span><span class="op">..</span>n]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>โดยเครื่องหมาย <code>[1..n]</code> คือlistของจำนวนเต็มจาก <code>1</code> ไปยัง <code>n</code> โดยfunction<code>product</code>ได้ทำการคูณสิ่งที่อยู่ในlistทั้งหมด นั่นก็คือนิยามของfactorialที่มาจากคณิตศาสตร์ เมื่อนำมาเทียบกับการเขียนในCแล้ว:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> fact<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> result <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        result <span class="op">*=</span> i<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ผมจำเป็นที่จะต้องพูดอะไรอีกไหม?</p>
+<p>Ok ผมจะยอมรับว่านี่ก็เป็นการชกใต้เข็มขัด functionของfactorialนั้นมีการแสดงออกทางคณิตศาสตร์ที่ชัดเจน ผู้อ่านที่มีไหวพริบก็จะอาจจะถามว่า อะไรคือmodelทางคณิตศาสตร์สำหรับการอ่านตัวอักษรจากคีย์บอร์ดหรือการส่งpackageข้ามมาผ่านnetwork ในเวลาที่นานมากนี่ก็อาจจะเป็นคำถามที่อึดอัด ที่นำไปสู่การอธิบายที่สับสน มันเหมือนกับว่าความหมายเชิงสัญลักษณ์ไม่ใช่สิ่งที่เหมาะสมสำหรับ การทำงานสำคัญบางอย่างในจำนวนไม่น้อย ที่มีความจำเป็นสำหรับการเขียนโปรแกรมที่มีประโยชน์ และที่ความหมายเชิงการดำเนินงาน (operational semantics)สามารถนำมาใช้ได้ง่ายกว่า พัฒนาแบบก้าวกระโดดมาจากทฤษฎีcategory ที่Eugenio Moggiได้ค้นพบว่าeffectของการคำนวน(computation effect)สามารถถูกผูกกับmonads นี่กลับกลายมาเป็นการสังเกตที่สำคัญ ไม่แค่ทำให้ความหมายเชิงสัญลักษณ์มีชีวิตชีวาขึ้นอีกครั้งและทำให้โปรแกรมที่pureแบบfunctionalสามารถใช้งานได้ง่ายขึ้น แต่ก็ช่วยอธิบายในมุมมองใหม่ต่อการเขียนโปรแกรมแบบดั่งเดิม ผมจะพูดเกี่ยวกับmonadในถัดๆไป ในตอนที่เราได้พัฒนาเครื่องมือทางcategoricalมากพอแล้ว</p>
+<p>หนึ่งในข้อดีที่สำคัญของการมีmodelทางคณิตศาสตร์สำหรับการเขียนโปรแกรมคือความเป็นไปได้ที่จะแสดงการพิสูจน์แบบเป็นทางการของความถูกต้องของsoftware ที่อาจจะดูเหมือนไม่มีความสำคัญมากในตอนที่คุณกำลังเขียนโปรแกรมให้สำหรับผู้บริโภค(ทั่วไป) แต่ในสาขาของการเขียนโปรแกรมที่ค่าของความผิดพลาดอาจจะสูงลิบลิ่วหรือที่ที่มีชีวิตของมนุษย์อยู่ในความเสี่ยง แต่แค่การเขียนapplicationในwebสำหรับระบบทางสุขภาพ คุณอาจจะชื่นชมความคิดที่ว่าfunctionและalgorithmต่างๆจากHaskellในlibraryมาตรฐานมาคู่กับการพิสูจน์ความถูกต้อง</p>
+</section>
+<section id="functionท-pureและdirty" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="functionท-pureและdirty"><span class="header-section-number">3.5</span> Functionที่ PureและDirty</h2>
+<p>สิ่งที่เราเรียกว่าfunctionในC++หรือภาษาimperativeอื่นๆไม่เหมือนกับสิ่งที่เราเรีกว่าfunctionในทางคณิตศาสตร์ functionทางคณิตศาสตร์คือการจับคู่(map)ของค่าไปยังอีกค่า</p>
+<p>เราสามารถเขียนfunctionทางคณิตศาสตร์ในภาษาโปรแกรมอย่างเช่น functionในแบบที่ถ้าให้ค่าเป็นinputแล้วก็จะคำนวนค่าคำตอบออกมา functionในการผลิตจำนวนที่เป็นกำลังสองของตัวเลขก็คงที่จะคูณค่าที่เข้ามา กับตนเอง มันจะทำแบบนั้นในทุกที่ที่เรียกมันมาใช้และรับประกันที่จะผลิตคำตอบที่เหมือนกันทุกครั้งในตอนที่มันถูกเรียกโดยinputที่เหมือนกัน กำลังสองของตัวเลขนั้นจะไม่เปลี่ยนต่อข้างขึ้นข้างแรมของดวงจันทร์</p>
+<p>แล้วก็การคำนวนกำลังสองของตัวเลขไม่ควรที่จะมีผลข้างเคียง(side effect)ของการปล่อยขนมให้กับน้องหมาของคุณ “function”ที่ทำแบบนั้นไม่สามารถถูกmodelในฐานะfunctionทางคณิตศาสตร์ได้อย่างง่ายๆ</p>
+<p>ในภาษาในการเขียนโปรแกรม functionที่ผลิตผลลัพธ์ที่เหมือนกันถ้าinputที่ถูกให้มาเป็นแบบเดียวกันและไม่มีผลข้างเคียงจะถูกเรียกว่า<em>functionที่pure</em> ในภาษาที่pureแบบfunctionalอย่างHaskell ทุกๆfunctionนั้นเป็นแบบpure เพราะว่าอย่างนี้ มันจึงง่ายกว่าที่จะให้ภาษาพวกนี้ความหมายเชิงสัญลักษณ์และmodelพวกมันผ่านทฤษฎีcategory สำหรับภาษาอื่นๆ มันเป็นไปได้ตลอดที่จะจำกัดตัวเราเองในการใช้functionที่pureอย่างเดียวหรือแยกการให้เหตุผลกับผลข้างเคียงออกไป ต่อไปจากนี้เราจะเห็นการที่monads อนุญาติให้เราmodelทุกๆประเภทของผลต่างๆโดนการใช้functionที่pureอย่างเดียว ดังนั้นเราจะไม่สูญเสียอะไรเลยโดยการจำกัดเราเองกับfunctionทางคณิตศาสตร์</p>
+</section>
+<section id="ตวอยางของ-type-ตางๆ" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="ตวอยางของ-type-ตางๆ"><span class="header-section-number">3.6</span> ตัวอย่างของ Type ต่างๆ</h2>
+<p>หลังจากที่คุณตระหนักว่าtypeต่างๆคือsetคุณสามารถที่จะคิดถึงtypeบางtypeที่อาจจะแปลกประหลาด ตัวอย่างเช่นอะไรคือtypeที่ตรงกันกับsetว่าง ไม่มันไม่ใช่<code>void</code>ของC++ ถึงแม้typeนี้จะถูกเรียกว่า<code>Void</code>(ว่างเปล่า)ในHaskell มันคือtypeที่ไม่มีค่าต่างๆอาศัยอยู่ คุณสามารถที่จะนิยามfunctionที่นำ<code>Void</code>เข้ามาแต่คุณจะไม่สามารถท่ีจะเรียกมันได้ ในการที่จะเรียกมัน คุณต้องนำค่าที่อยู่ในtype<code>Void</code>และมันไม่มีค่าแบบนี้ ในสิ่งที่functionนี้จะนำกลับมา ก็จะไม่มีข้อจำกัดใดๆทั้งสิ้น มันสามารถที่จะคืนtypeแบบไหนก็ได้ (ถึงแม้มันจะไม่ทำเพราะมันไม่สามารถถูกเรียกได้) ในความหมายเดียวกันมันคือfunctionที่polymorphicในtypeของสิ่งที่คืนมา คนที่ใช้งานHaskellมีชื่อสำหรับมัน</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">absurd ::</span> <span class="dt">Void</span> <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(เตือนความจำว่า<code>a</code>คือตัวแปรtypeที่สามารถเป็นtypeอะไรก็ได้) ชื่อนี้(absurdแปลว่าไม่สมเหตุผล) ไม่ใช่ความบังเอิญ ได้มีการตีความที่ลึกไปกว่านี้ของtypeและfunctionต่างๆในแง่ของlogicที่เรียกว่าisomorphismของCurry-Howard โดนที่type<code>Void</code>แสดงถึงความไม่จริง(falisty)และtypeของfunction<code>absurd</code>สอดคล้องกับคำประกาศ(statement)ที่ว่าจากความไม่จริงจะมีอะไรตามก็ได้ เหมือนกับสุภาษิตLatinที่ว่า “ex falso sequitur quodlibet.”</p>
+<p>ต่อมาtypeที่ตรงกันกับsetที่มีสมาชิกเพียงตัวเดียว(singleton set)ก็คือtypeที่มีค่าที่เป็นไปได้เพียงอย่างเดียว ค่าค่านี้แค่“มีอยู่” คุณอาจจะไม่เห็นมันโดยทันทีในแบบนั้น แต่นี่คือ<code>void</code>ของC++ ลองคิดต่อfunctionsจากtypeนี้ไปยังสู่typeนี้ functionจาก<code>void</code>สามารถถูกเรียกได้ตลอด ถ้ามันเป็นfunctionที่pureมันก็จะคืนผลลัพธ์ที่เหมือนกันตลอดเวลา นี่คือตัวอย่างของfunctionแบบนี้</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f44<span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">44</span><span class="op">;</span> <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณอาจจะคิดว่าfunctionนี้ไม่ได้นำอะไรเข้ามาเลยแต่เราพึ่งเห็นว่าfunctionที่ไม่ได้นำอะไรเข้ามาเลยไม่สามารถถูกเรียกได้เพราะว่ามันไม่มีค่าอะไรเลยที่จะเป็นตัวแทนของความไม่มีอะไร แล้วfunctionนี้นำอะไรเข้ามา? ในทางแนวคิด(conceptually)แล้วมันนำค่าที่ไม่มีความหมาย(dummy value)ที่มันมีแค่ค่าค่าเดียวมา เพื่อที่เราจะไม่ต้องกล่าวถึงมันอย่างชัดแจ้ง แต่ในHaskellได้มีเครื่องหมายสำหรับค่านี้นั่นก็คือวงเล็บที่ไม่มีอะไรอยู่ข้างใน <code>()</code> ดังนั้นโดยความบังเอิญที่ตลก (หรือมันคือบังเอิญจริงๆใช้ไหม?) ในการเรียกfunctionของvoidของดูเหมือนกันทั้งของC++และHaskell แล้วก็เพราะว่าความชอบความเข้มงวดของHaskell เครื่องหมาย <code>()</code>ก็ถูกใช้สำหรับtype (เป็นconstructor)และค่าเพียงค่าเดียวที่ตรงกับsetที่มีสมาชิกเพียงตัวเดียว และนี่คือfunctionนั้นในHaskell</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f44 ::</span> () <span class="ot">-&gt;</span> <span class="dt">Integer</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f44 () <span class="ot">=</span> <span class="dv">44</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในบรรทัดแรกเป็นการประกาศว่า <code>f44</code> นำtype<code>()</code>ที่เรียกว่า”unit”ไปสู่type<code>Integer</code>ในบรรทัดสองนิยาม<code>f44</code>ผ่านการการจับคู่รูปแบบ(Pattern matching)โดยที่ที่แค่constructorของunitที่นี้ก็คือ<code>()</code>และผลิตตัวเลข<span class="math inline">\(44\)</span>ออกมา คุณสามารถที่จะเรียกfunctionนี้โดยการให้ค่าunit<code>()</code>กับมัน</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f44 ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราจะเห็นว่าทุกๆfunctionของunitจะเป็นเหมือนกับการเลือกสมาชิกเดี่ยวจากtypeเป้าหมาย (ในที่นี้เป็นการเลือก<code>Integer 44</code>) ในความจริงแล้วคุณสามารถที่จะคิดว่า<code>f44</code>ในฐานะการแสดงในอีกรูปแบบหนึ่งของตัวเลข<span class="math inline">\(44\)</span> นี่คือตัวอย่างของวิธีการที่เราสามารถที่จะพูดถึงfunction(ลูกศร)แทนที่จะเป็นการกล่าวถึงสมาชิกของsetอย่างโจ่งแจ้ง functionจากunitไปยังtypeอะไรก็ตามนั้นมีความตรงกันเป็นหนึ่งต่อหนึ่งกับสมาชิกของsetนั้น</p>
+<p>แล้วถ้าเป็นfunctionที่คืนค่าเป็นtypeประเภท<code>void</code>หรือในHaskellที่มีtypeที่คืนเป็นunitจะเป็นอย่างไร? ในC++functionแบบนี้ถูกใช้สำหรับผลข้างเคียงแต่เรารู้ว่าfunctionเหล่านี้ไม่ได้เป็นfunctionจริงๆในทางความหมายของคำนี้ในทางคณิตศาสตร์ functionที่pureนั้นคืนค่าunitโดยที่ไม่ทำอะไร มันละทิ้งargumentของมัน</p>
+<p>ในทางคณิตศาสตร์ functionจากset<span class="math inline">\(A\)</span>ไปยังsetที่มีสมาชิกเพียงตัวเดียวจับคู่ทุกสมาชิกของ<span class="math inline">\(A\)</span>ไปยังสมาชิกเดี่ยวของsetที่มีสมาชิกเพียงตัวเดียว สำหรับทุกๆ<span class="math inline">\(A\)</span>แล้วมันจะมีfunctionแบบนี้เพียงอย่างเดียว นี่คือfunctionแบบนี้ใน<code>Integer</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">fInt ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> ()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fInt x <span class="ot">=</span> ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตอนที่คุณให้ตัวเลขกับมัน มันจะให้unitกลับมาให้คุณ ในความเคร่งคัดของHaskellคุณจะใช้รูปแบบตัวแทน (wildcard pattern) ซึ่งเขียนเป็นขีดล่าง สำหรับargumentที่จะถูกกำจัด ในแบบนี้คุณไม่ต้องที่จะคิดชื่อให้กับมัน ดังนั้นโค้ดข้างบนจึงสามารถถูกเขียนใหม่ว่า</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">fInt ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> ()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fInt _ <span class="ot">=</span> ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตว่าการเขียนของfunctionนี้ไม่ได้แค่ไม่ได้ขึ้นอยู่กับค่าที่ถูกใส่มาเท่านั้นแต่ก็ไม่ได้ขึ้นอยู่กับtypeของargumentด้วย</p>
+<p>functionที่สามารถที่จะถูกเขียนในสูตรสำหรับtypeแบบไหนก็ได้จะถูกเรียกว่า polymorphicในทางparameter (parametrically polymorphic) คุณสามารถที่จะเขียนทั้งครอบครัวของfunctionแบบนี้โดยหนึ่งสมการที่ใช้typeแบบparameterแทนที่จะเป็นtypeที่เป็นรูปธรรม เราควรจะเรียกfunctionแบบpolymorphicจากtypeแบบไหนก็ได้ไปยังสู่typeแบบunit? แน่นอนว่าต้องเป็นสิ่งที่เราเรียกว่า<code>unit</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">unit ::</span> a <span class="ot">-&gt;</span> ()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>unit _ <span class="ot">=</span> ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในC++คุณก็จะเขียนfunctionนี้ว่า</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> T<span class="op">&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> unit<span class="op">(</span>T<span class="op">)</span> <span class="op">{}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ต่อไปในประเภทของtypeคือsetที่มีสมาชิกสองตัว ในC++มันถูกเรียกว่า<code>bool</code>และในHaskellก็เดาไม่ยากว่าคือ<code>Bool</code> ความแตกต่างคือว่าในC++<code>bool</code>เป็นtypeที่build-inในขณะที่Haskellมันสามารถที่จะถูกนิยามว่า</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Bool</span> <span class="ot">=</span> <span class="dt">True</span> <span class="op">|</span> <span class="dt">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(วิธีการอ่านนิยามนี้คือการที่ว่า<code>Bool</code>นั้นเป็น<code>True</code>หรือ<code>False</code>)ในทางหลักการแล้วเราควรที่จะสามารถนิยามtype BooleanในC++ในฐานะenumerationว่า</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> <span class="dt">bool</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">false</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่<code>enum</code>ของC++นั้นเป็นจำนวนเต็มอย่างลับๆ ในC++11 “<code>enum class</code>”ควรที่จะถูกใช้แทนที่แต่คุณต้องให้สมบัติต่อค่าต่างๆของมันคู่กับชื่อของclassในแบบอย่าง <code>bool::true</code>และ<code>bool::false</code> ไม่ต้องพูดถึงการที่จะต้องนำheaderที่ถูกต้องมาในทุกๆfileที่ใช้งานกับมัน</p>
+<p>functionที่pureจาก<code>Bool</code>ก็แค่เลือกค่าทั้งสองค่าจากtypeเป้าหมาย ที่หนึ่งในนั้นคู่กับ<code>True</code>และอีกตัวคู่กับ<code>False</code></p>
+<p>functionไปยัง<code>Bool</code>จะถูกเรียกว่า<em>predicate</em> ตัวอย่างเข่นในlibary<code>Data.Char</code>ของHaskelนั้นเต็มไปด้วยpredicateอย่าง<code>isAlpha</code>หรือ<code>isDigit</code> ในC++ก็มีlibaryที่คล้ายๆกันที่กำหนด ในชุดของfunctionต่างๆ อย่าง<code>isalpha</code>และ<code>isdigit</code> แต่functionเหล่านี้จะคืนค่าเป็น<code>int</code>แทนที่จะเป็นBoolean predicateจริงๆจะถูกนิยามใน <code>std::ctype</code> และมีรูปร่างแบบ <code>ctype::is(alpha, c)</code>, <code>ctype::is(digit, c)</code> และอื่นๆ</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">3.7</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองนิยามfunctionลำดับสูง(หรือก็คือobjectแบบfunction) <code>memoize</code> ในภาษาโปรดของคุณ functionนี้นำfunctionที่pure <code>f</code> เป็นargumentและคืนfunctionที่ทำการเหมือน<code>f</code>แต่แค่ว่ามันจะเรียกfunctionดั้งเดิมในหนึ่งครั้งต่อทุกๆargument เก็บผลลัพธ์เอาไว้ข้างในและหลังจากนั้นก็คืนผลลัพธ์ที่ถูกเก็บไว้ในทุกๆครั้งที่มันถูกเรียกโดยarguemntอันเดียวกัน คุณสามารถที่จะแยกแยะfunctionที่มีการจำจากตัวดั้งเดิมโดยการดูความเร็วในการคำนวน (performance) ตัวอย่างเช่นให้ลองการจำfunctionที่ใช้เวลานานในการที่จะหาค่า คุณจะต้องรอสำหรับค่าที่ออกมาในตอนแรกที่คุณเรียกมัน แต่ในการเรียกถัดๆไปโดยargumentที่เหมือนเดิมแล้วนั้นคุณควรที่จะได้ผลลัพธ์มาโดยทันที</li>
+<li>ลองที่จะจำfunctionจากlibraryมาตรฐานที่คุณใช้ในการสร้างหมายเลขสุ่ม มันจะสามารถทำได้หรือเปล่า</li>
+<li>สิ่งในการสร้างหมายเลขสุ่มส่วนมากสามารถที่จะinitializedโดยseed ลองเขียนfunctionที่นำseedเข้ามาและเรียกfunctionในการสร้างหมายเลขสุ่มด้วยseedและreturnผลลัพธ์ออกมาและทำการจำfunctionนี้ มันจะทำได้หรือเปล่า</li>
+<li>functionของC++อันไหนที่pure ลองทำการจำมันและสังเกตว่าอะไรจะเกิดขึ้นในตอนที่คุณเรียกมันในหลายๆครั้ง ทั้งที่จำไปแล้วและไยังไม่ได้จำ
+<ol type="a">
+<li>functionที่เป็นfactorialที่อยู่ในตัวอย่างข้างบน</li>
+<li><code>std::getchar()</code></li>
+<li><div class="sourceCode" id="cb17"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>     <span class="dt">bool</span> f<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>         <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">"Hello!"</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>         <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>     <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><div class="sourceCode" id="cb18"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>     <span class="dt">int</span> f<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">static</span> <span class="dt">int</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>         y <span class="op">+=</span> x<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="cf">return</span> y<span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>     <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol></li>
+<li>แล้วมีfunctionที่แตกต่างกันระหว่าง<code>Bool</code>ไปยัง<code>Bool</code>อยู่กี่ตัวแล้ว คุณสามารถที่จะเขียนมันมาทั้งหมดหรือเปล่า</li>
+<li>ลองวาดภาพของcategoryที่objectคือtype<code>Void</code>, () (unit) และ <code>Bool</code> โดยที่ลูกศรจะคู่กับfunctionที่เป็นไปได้ทั้งหมดระหว่างtypeต่างๆ แล้วก็เขียนช่ือของแต่ละfunctionด้วย</li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>ในบทความของNils Anders Danielsson, John Hughes, Patrik Jansson, Jeremy Gibbonsที่มีชื่อว่า <a href="http://www.cs.ox.ac.uk/jeremy.gibbons/publications/fast+loose.pdf"><em>Fast and Loose Reasoning is Morally Correct</em></a> (การให้เหตุผลอย่างรวดเร็วและหละหลวมนั้นถูกต้องทางจริยธรรม) ได้เสนอเหตุผลสำหรับการไม่ต้องใส่ใจต่อbottomในบริบทส่วนมาก<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/1.1/category-the-essence-of-composition.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/etc/glossary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

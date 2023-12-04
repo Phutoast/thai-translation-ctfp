@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 2&nbsp; Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/1.2/types-and-functions.html" rel="next">
+<link href="../../content/0.0/preface.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">Translator’s Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Part 1</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ลกศรในฐานะfunction" id="toc-ลกศรในฐานะfunction" class="nav-link active" data-scroll-target="#ลกศรในฐานะfunction"><span class="toc-section-number">2.1</span>  ลูกศรในฐานะfunction</a></li>
+  <li><a href="#คณสมบตตางๆของการประกอบกน" id="toc-คณสมบตตางๆของการประกอบกน" class="nav-link" data-scroll-target="#คณสมบตตางๆของการประกอบกน"><span class="toc-section-number">2.2</span>  คุณสมบัติต่างๆของการประกอบกัน</a></li>
+  <li><a href="#การประกอบกนเปนแกนแทของการเขยนโปรแกรม" id="toc-การประกอบกนเปนแกนแทของการเขยนโปรแกรม" class="nav-link" data-scroll-target="#การประกอบกนเปนแกนแทของการเขยนโปรแกรม"><span class="toc-section-number">2.3</span>  การประกอบกันเป็นแก่นแท้ของการเขียนโปรแกรม</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="toc-section-number">2.4</span>  โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>แนวคิดของcategoryนั้นเรียบง่ายมากๆ categoryนั้นประกอบด้วย<em>วัตถุ</em>และ<em>ลูกศรต่างๆ</em>ที่อยู่ระหว่างวัตถุด้วยกัน นี่คือเหตุผลที่ว่าทำไมcategoryถึงสามารถแสดงออกมาเป็นภาพได้อย่างง่ายดาย วัตถุสามารถถูกวาดในรูปแบบของวงกลมหรือจุดและลูกศรก็วาดด้วยลูกศร (เพื่อไม่ให้ดูหน้าเบื่อจนเกินไป ในบางครั้งผมจะวาดวัตถุเป็นรูปหมูและลูกศรที่เป็นดอกไม้ไฟ) แต่แก่นแท้ของcategoryคือ<em>การประกอบเข้าด้วยกัน</em> หรือคุณก็อาจจะพูดได้ว่าแก่นแท้ของการประกอบเข้าด้วยกันคือcategory ลูกศรนั้นประกอบกันและดังนั้นถ้าคุณมีลูกศรจากวัตถุ<span class="math inline">\(A\)</span>ไปยังวัตถุ<span class="math inline">\(B\)</span>และลูกศรอีกลูกจากวัตถุ<span class="math inline">\(B\)</span>ไปยังวัตถุ<span class="math inline">\(C\)</span> มันก็จะต้องมีลูกศร(ซึ่งเป็นการประกอบกันของลูกศรทั้งสอง)จาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(C\)</span></p>
+<section id="ลกศรในฐานะfunction" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="ลกศรในฐานะfunction"><span class="header-section-number">2.1</span> ลูกศรในฐานะfunction</h2>
+<p>แบบนี้มันไม่ใช้สิ่งที่นามธรรมไร้สาระ(abstract nonsense)แล้วหรอ? ไม่ต้องกังวงไป เรามาเริ่มจากสิ่งที่เป็นรูปธรรมก่อน โดยการคิดว่าลูกศร(หรือที่ก็ถูกเรียกว่า<em>morphisms</em>)ให้เป็นfunction ถ้าคุณมีfunction <span class="math inline">\(f\)</span> ที่นำargumentของtype <span class="math inline">\(A\)</span>และคืนค่า(return)ที่เป็นtype <span class="math inline">\(B\)</span>กลับมา ในทางกลับกันคุณก็จะมีfunctionอีกอันหนึ่งอย่าง<span class="math inline">\(g\)</span>ที่นำของtype <span class="math inline">\(B\)</span>และคืนค่าที่เป็นtype <span class="math inline">\(C\)</span>กลับมา คุณสามารถที่จะประกอบทั้งสองfunctionนี้โดยการนำผลลัพธ์ของ<span class="math inline">\(f\)</span>ไปใส่ใน<span class="math inline">\(g\)</span> แล้วคุณก็จะได้นิยามfunctionอีกแบบที่นำค่าในtype <span class="math inline">\(A\)</span>และคืนค่าที่เป็นtype <span class="math inline">\(C\)</span>กลับมา</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/img_1330.jpg" height="175" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">ในcategoryถ้ามีลูกศรจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(B\)</span>และลูกศรจาก<span class="math inline">\(B\)</span>ไปยัง<span class="math inline">\(C\)</span>แล้วก็จะต้องมีลูกศรโดยตรงจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(C\)</span>และนี้ก็คือการประกอบของทั้งสอง แผงผังนี้ยังไม่เป็นcategoryก็เพราะว่ามันยังขาดmorphisms identity</figcaption><p></p>
+</figure>
+</div>
+<p>ในทางคณิตศาสตร์ การประกอบเข้าด้วยกันแบบนี้จะถูกเขียนโดยวงกลมขนาดเล็กระหว่างfunctionตัวอย่างเช่น <span class="math inline">\(g\circ f\)</span> จะเห็นได้ว่าลำดับของการประกอบกันมี ทิศทางจากขวาไปช้าย สำหรับบางคนแล้วการทำแบบนี้ค่อนข้างที่จะสับสน คุณอาจจะมีความคุ้นชินกับเครื่องหมายpipeในunixอย่างเช่น</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lsof</span> <span class="kw">|</span> <span class="fu">grep</span> Chrome</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หรือเครื่องหมายchevron <code>&gt;&gt;</code> ใน F# โดยที่ทั้งสองจะเริ่มจากช้ายไปขวา แต่ในคณิตศาสตร์และfunctionต่างๆของHaskellจะถูกประกอบกันจากขวาไปช้าย มันช่วยได้อยู่ถ้าคุณอ่าน <span class="math inline">\(g\circ f\)</span> ว่า “<span class="math inline">\(g\)</span> มาหลัง <span class="math inline">\(f\)</span>”</p>
+<p>เรามาทำให้สิ่งนี้ชัดเจนมากขึ้นโดยการเขียนโค้ดภาษา C เรามีfunction <span class="math inline">\(f\)</span>อยู่โดยที่มันนำargumentที่มีtype <span class="math inline">\(A\)</span>และคืนค่าที่เป็นtype<span class="math inline">\(B\)</span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>B f<span class="op">(</span>A a<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และfunctionอีกอันหนึ่ง:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>C g<span class="op">(</span>B b<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>การประกอบกันก็จะเป็น:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>C <span class="va">g_after_f</span><span class="op">(</span>A a<span class="op">){</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> g<span class="op">(</span>f<span class="op">(</span>a<span class="op">));</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตอนนี้คุณจะเห็นการประกอบกันจากขวาไปช้าย: <code>g(f(a));</code> ในภาษา C</p>
+<p>ผมหวังว่าผมสามารถที่จะบอกคุณว่ามันมีtemplateในlibraryมาตรฐาน (standard library)ของC++ที่นำfunctionสองfunction และคืนfunctionที่มาจากการประกอบกันของสองfunctionก่อนหน้า แต่ในตอนนี้มันไม่มีอยู่ ดังนั้นเรามาลองHaskellกันดู นี่คือการประกาศfunctionจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(B\)</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> <span class="dt">A</span><span class="ot">-&gt;</span><span class="dt">B</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และก็เหมือนกัน</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">g ::</span> <span class="dt">B</span><span class="ot">-&gt;</span><span class="dt">C</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>การประกอบเข้าด้วยกันของสองfunctionก็คือ</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">.</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หลังจากการที่คุณเห็นสิ่งที่ทำได้ง่ายๆในHaskell ความไม่สามารถในการเขียนในแบบfunctionalที่ตรงไปตรงมาในC++นั้นก็จะน่าอายหน่อย ในความเป็นจริงแล้วแล้วHaskell จะอนุญาติในคุณใช้ตัวอักษรUnicodeดังนั้นคุณสามารถที่จะเขียนประกอบกันโดยในแบบที่ว่า</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>g ◦ f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณก็สามารถที่จะใช้ตัวอักษรUnicodeอย่างdouble colons (::)หรือลูกศรได้:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f ∷ <span class="dt">A</span> → <span class="dt">B</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ดังนั้นนี่คือบทเรียนแรกของHaskellที่ว่า double colons หมายความว่า “มีtype ของ…” typeแบบfunctionที่ถูกสร้างโดนการนำลูกศรเข้ามาในระหว่างtypeสองแบบ คุณประกอบสองfunctionโดนการใส่จุด(.)เข้ามาในระหว่างพวกมัน (หรือวงกลมในUnicode)</p>
+</section>
+<section id="คณสมบตตางๆของการประกอบกน" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="คณสมบตตางๆของการประกอบกน"><span class="header-section-number">2.2</span> คุณสมบัติต่างๆของการประกอบกัน</h2>
+<p>ได้มีสองคุณสมบัติที่สำคัญของที่การประกอบกันโดยทั้งหมดนั้นต้องมี</p>
+<ol type="1">
+<li>ประกอบกันนั้นต้องมีคุณสมบัติการเปลี่ยนหมู่ (associativity) ถ้าคุณมีmorphismอยู่สามอัน <span class="math inline">\(f,g\)</span> และ <span class="math inline">\(h\)</span> ที่สามารถประกอบกันได้ (นั้นก็คือวัตถุต่างๆต้องเหมือนกันในตอนเริ่มและจบ) คุณจะไม่ต้องมีวงเล็บในการประกอบกัน ในการเขียนทางคณิตศาสตร์ คุณสมบัตินี้สามารถแสดงได้อย่างนี้: <span class="math display">\[h\circ(g\circ f)=(h\circ g)\circ f=h\circ g\circ f\]</span>หรือในHaskellเสมือน:</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">  f ::</span> <span class="dt">A</span> <span class="ot">-&gt;</span> <span class="dt">B</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  g ::</span> <span class="dt">B</span> <span class="ot">-&gt;</span> <span class="dt">C</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  h ::</span> <span class="dt">C</span> <span class="ot">-&gt;</span> <span class="dt">D</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  h <span class="op">.</span> (g <span class="op">.</span> f) <span class="op">==</span> (h <span class="op">.</span> g) <span class="op">.</span> f <span class="op">==</span> h <span class="op">.</span> g <span class="op">.</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(ผมเขียนว่าเป็นภาษาเสมือนก็เพราะว่าความเท่ากันไม่ได้ถูกกำหนดสำหรับfunction) สมบัติการเปลี่ยนหมู่นั้นค่อนข้างชัดเจนในตอนที่เราทำงานกับfunctionแต่มันอาจจะไม่ชัดเจนในcategoryอื่นๆ</p>
+<ol start="2" type="1">
+<li>สำหรับทุกวัตถุ <span class="math inline">\(A\)</span> ได้มีลูกศรที่เป็นสมาชิกunitของการประกอบกันอยู่ ลูกศรนี้จะวนกลับจากวัตถุมายังตัวมันเอง ในการที่เป็นสมาชิกunitของการประกอบกันย่อมหมายความว่าในตอนที่ทำการประกอบกับลูกศรที่อาจจะเริ่มด้วย <span class="math inline">\(A\)</span> หรือจบที่ <span class="math inline">\(A\)</span> ผลลัพธ์คือตัวลูกศรเองเหมือนเดิม ลูกศรที่เป็นสมาชิกunitสำหรับวัตถุ <span class="math inline">\(A\)</span> จะถูกเรียกว่า <span class="math inline">\(\operatorname{id}_A\)</span> ในการเขียนทางคณิตศาสตร์ ถ้า <span class="math inline">\(f\)</span> มาจาก <span class="math inline">\(A\)</span> ไปยัง <span class="math inline">\(B\)</span> แล้วนั้น <span class="math display">\[f\circ\operatorname{id}_A=f\]</span>และ<span class="math display">\[\operatorname{id}_A\circ f=f\]</span></li>
+</ol>
+<p>ในการทำงานกับfunction ลูกศรunitจะถูกเขียนในฐานะ function identityที่จะคืนค่าที่เป็นargumentกลับมา ในการเขียนแบบนี้ก็เหมือนกันสำหรับทุกtype นั้นหมายความว่าfunctionนี้เป็นpolymorphicที่เป็นสากล ใน C++เราสามารถที่จะกำหนดมันในฐานะtemplateว่า</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> T<span class="op">&gt;</span> T id<span class="op">(</span>T x<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> x<span class="op">;</span> <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แน่นอนว่า ใน C++ ไม่มีอะไรที่ตรงไปตรงมาก็เพราะว่าคุณต้องคำนึงถึงวิธีการนำเข้ามา ด้วยไม่ใช่แค่สิ่งที่คุณนำเข้ามา (นั่นก็คือโดยส่งค่าโดยตรง โดยreference โดยconst reference โดยmove และอื่นๆ)</p>
+<p>ในHaskell function identityคือส่วนหนึ่งของlibraryมาตรฐาน (ที่เรียกว่า Prelude) และนี่คือการประกาศและนิยามของมัน</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span> x <span class="ot">=</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณก็จะเห็นว่า function polymorphic (หลายค่า) ของ Haskell เป็นสิ่งที่เขียนได้ง่ายมาก ในการประกาศ คุณแค่แทนที่typeด้วยตัวแปรของtype ชื่อของtype จริงๆจะเริ่มโดยตัวพิมพ์ใหญ่และตัวแปรของtype จะเริ่มโดยตัวพิมพ์เล็ก(นี่คือเคล็ดลับเล็กน้อย) ในตัวอย่างนี้ <code>a</code> แทนค่าtypeทุกtype</p>
+<p>FunctionของHaskellประกอบด้วยชื่อตามด้วยparameterตามรูปแบบ(ในที่นี้คือแค่ <code>x</code>) ส่วนตัว(body)ของfunctionตามหลังมาจากเครื่องหมายเท่ากับ ความรวดรัดแบบนี้อาจจะดูแปลกใหม่สำหรับคนที่เริ่มใช้งาน แต่หลังจากนี้คุณจะเข้าใจว่าทำไมถึงมีรูปร่างแบบนี้ คำนิยามของfunctionและการเรียกใช้functionนั้นเป็นส่วนหลักของการเขียนโปรแกรมแบบfunctional นั่นก็หมายความว่าไวยกรณ์ของทั้งสองก็จะถูกย่อให้อยู่ในขนาดที่เล็กที่สุด ไม่แค่เพราะว่าไม่มีวงเล็บรอบๆargumentต่างๆแต่ก็ไม่มีลูกน้ำอยู่ระหว่างพวกมันด้วย (คุณจะเห็นหลังจากนี้ในตอนที่เรากำหนดfunctionที่มีargumentหลายตัว)</p>
+<p>ในส่วนตัวของfunctionนั้นเป็นสูตร(expression)โดยตลอด(จะไม่มีstatementในfunction) ผลลัพธ์ของfunctionก็จะเป็นสูตรนี้ (ในตัวอย่างคือแค่ <code>x</code>)</p>
+<p>นี้ก็จุดสุดท้ายของบทเรียนHaskellที่สอง</p>
+<p>เงื่อนไขของfunction identityสามารถถูกเขียน (ในภาษาเสมือน Haskell) อย่าง</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">.</span> <span class="fu">id</span> <span class="op">==</span> f</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span> <span class="op">.</span> f <span class="op">==</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณอาจจะถามตัวเองว่า ทำไมเราต้องมี(หรือสนใจ)function identity ที่เป็นfunctionที่ทำอะไรไม่ได้เลย? ในแบบเดียวกันทำไมเราต้องมี(หรือสนใจ)ตัวเลขศูนย์ด้วย? เลขศูนย์คือเครื่องหมายของความว่าเปล่า ในโรมโบราณก็มีระบบตัวเลขที่ไม่มีเลขศูนย์และพวกเขาก็สามารถสร้างถนนที่ยอกเยี่ยมและท่อระบายนำ้ที่ก็บางส่วนยังอยู่จนถึงวันนี้</p>
+<p>ค่าที่เป็นธรรมชาติอย่างเลขศูนย์หรือ <span class="math inline">\(\operatorname{id}\)</span> นั้นมีประโยชน์มากในตอนที่เราทำงานกับตัวแปลต่างๆที่เป็นสัญลักษณ์ นี่คือเหตุผลที่ชาวโรมันจึงไม่ค่อยเชี่ยวชาญด้านพีชคณิตในขณะที่ชาวอาหรับและชาวเปอร์เซียที่มีความเคยชินกับแนวคิดของเลขศูนย์ก็กลับมีความเชี่ยวชาญด้านพีชคณิต ดังนั้นfunction identityจึงมีประโยชน์ในฐานะargumentหรือเป็นสิ่งที่คืนกลับมาของfunctionลำดับสูง(higher-order function) functionลำดับสูงทำให้การโยกย้ายเครื่องหมาย (symbolic manipulation)ของfunctionต่างๆให้เป็นไปได้ พวมมันคือพีชคณิตของfunctionต่างๆ</p>
+<p>โดยสรุปแล้ว categoryประกอบด้วยวัตถุและลูกศร(morphism) ลูกศรสามารถที่จะประกอบกันได้และการประกอบกันนั้นสามารถเปลี่ยนหมู่ได้ ในวัตถุทั้งหมดก็จะมีfunction identityที่เป็นเหมือนunitภายใต้การประกอบกัน</p>
+</section>
+<section id="การประกอบกนเปนแกนแทของการเขยนโปรแกรม" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="การประกอบกนเปนแกนแทของการเขยนโปรแกรม"><span class="header-section-number">2.3</span> การประกอบกันเป็นแก่นแท้ของการเขียนโปรแกรม</h2>
+<p>โปรแกรมเมอร์แบบfunctionalมีวิธีการที่เจาะจงในการเข้าหาปัญหา พวกเขาถามคำถามที่ค่อนข้างเหมือนZen ยกตัวอย่างเช่น ในการเขียนโปรแกรมที่มีปฏิกิริยากับผู้ใช้พวกเขาก็จะถามว่า อะไรคือการมีปฏิกิริยา(interaction) ในการเขียนGame of LifeของConwayพวกเขาคงที่จะคิดเกี่ยวกับความหมายของชีวิต ในแบบเดียวกันผมก็จะถามว่า อะไรคือการเขียนโปรแกรมในระดับที่เบื้องต้นที่สุด การเขียนโปรแกรมนั้นเกี่ยวกับการบอกให้คอมพิวเตอร์ให้ทำอะไรบางอย่าง “นำข้อมูลในหน่วยความจำที่ <code>x</code> และนำมาบวกกับสิ่งที่อยู่ในregister <code>EAX</code>” แต่แม้กระทั่งในตอนที่เราเขียนโปรแกรมในภาษาassembly คำสั่งที่เราให้กับคอมพิวเตอร์นั้นเป็นการแสดงออกที่มีความหมายมากกว่านี้ เรากำลังที่จะแก้ปัญหาที่ไม่ตรงไปตรงมา (ถ้าไม่อย่างนั้นแล้ว เราคงจะไม่ต้องการความช่วยเหลือจากคอมพิวเตอร์หรอก) แล้วเราจะแก้ปัญหาอย่างไรดี ? เราก็ย่อยปัญหาที่ใหญ่ให้เป็นปัญหาชิ้นเล็กชิ้นน้อย แล้วถ้าปัญหาที่ถูกย่อยแล้วยังที่จะเป็นปัญหาที่ใหญ่อยู่ดี เราก็จะทำการย่อยต่อไป สุดท้ายแล้ว เราเขียนโค้ดที่แก้ปัญหาขนาดเล็กต่างๆทั้งหมด แล้วก็นำโค้ดเหล่านี้มาประกอบกันเพื่อที่จะสร้างคำตอบให้กับปัญหาที่มีขนาดใหญ่ นี่คือแก่นแท้ของการเขียนโปรแกรม การย่อยปัญหาจะไม่ใช้ทางที่ดีเลยถ้าเราไม่สามารถที่จะนำชิ้นส่วน(คำตอบ)ต่างๆมารวมกันได้</p>
+<p>วิธีการของการย่อยที่เป็นลำดับชั้นและการประกอบเข้าใหม่ไม่ได้กำหนดเราโดยคอมพิวเตอร์ มันสะท้อนความจำกัดของความคิดของมนุษย์ สมองของเราสามารถทำงานกับแนวคิดเพียงไม่กี่ตัวในเวลาเดียวกัน หนึ่งในบทความวิจัยที่ถูกอ้างถึงมากที่สุดในจิตวิทยาคือ <a href="https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two">The Magical Number Seven, Plus or Minus Two</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> หรือเลขมหัศจรรย์เจ็ดบวกลบด้วยสอง คาดคะเนว่าเราสามารถที่จะเก็บ “ชิ้นส่วน”ของข้อมูลในความคิดเป็นจำนวน <span class="math inline">\(7\pm2\)</span> รายละเอียดของความเข้าใจของเราต่อความจำระยะสั้นของมนุษย์อาจจะเปลี่ยนไปแต่เราแน่ใจได้ว่ามันนั้นจำกัด สุดท้ายแล้วเราไม่สามารถที่จะทำงานกับทะเลของวัตถุ(จำนวนมาก)หรือสปาเก็ตตี้ของโค้ด เราต้องการโครงสร้างไม่ใช่เพราะว่าโปรแกรมถูกวางโครงสร้างไว้อย่างดีจะดูน่ามอง แต่เพราะว่าไม่อย่างนั้นแล้วสมองของเราจะไม่สามารถประมวลพวกมันได้อย่างมีประสิทธิภาพ เรามักจะอธิบายบางส่วนของโค้ดว่าสง่างามหรือสวยงามแต่สิ่งที่เราหมายถึงจริงๆคือการที่มันสามารถที่จะถูกประมวลโดยความคิดของมนุษย์ที่จำกัด โค้ดที่สง่างามได้สร้างชิ้นส่วนต่างๆในขนาดและในจำนวนที่เหมาะสมสำหรับระบบย่อยทางความคิดของเราเพื่อที่จะดูดซึมพวกมัน</p>
+<p>แล้วอะไรคือจำนวนชิ้นส่วนการประกอบกันของโปรแกรมที่เหาะสม? พื้นที่ผิวของชิ้นส่วนต่างๆเหล่านี้ควรที่จะเพิ่มขึ้นในอัตราที่ช้ากว่าปริมาณของมัน (ผมชอบการเทียบแบบนี้เพราะว่าโดยการที่รู้ว่าพื้นที่ผิวของวัตถุทางเรขาคณิตขยายเป็นกำลังสองของขนาดของมัน แต่ช้ากว่าปริมาณ ที่ขยายเป็นกำลังสามของขนาดของมัน) พื้นที่ผิวก็คือข้อมูลที่เราต้องใช้ในการประกอบชิ้นส่วนต่างๆ ปริมาณก็คือข้องมูลที่เราต้องการเพื่อที่จะเขียนพวกมันออกมา ไอเดียคือว่าหลังจากการชิ้นส่วนเหล่านี้ถูกเขียนขึ้นแล้ว เราสามารถที่จะลืมรายละเอียดของการสร้างและจดจ่อกับการที่ชิ้นส่วนนี้มีปฏิสัมพันธ์กับชิ้นส่วนอื่นๆ ในการเขียนโปรแกรมแบบobject-orientedพื้นที่ผิวก็คือการประกาศclassของobjectหรือabstract interface ในการเขียนแบบfunctionalมันคือการประกาศfunction (ผมก็ทำให้ง่ายจนเกินไปแต่นี่ก็คือสาระสำคัญของมัน)</p>
+<p>ทฤษฎีcategoryนั้นสุดโต่งในความหมายที่ว่ามันป้องกันเราอย่างแข็งขันจากการมองเข้าไปในวัตถุต่างๆ วัตถุในทฤษฎีcategoryคือสิ่งที่คลุมเครือและเป็นนามธรรม สิ่งที่คุณรู้ทั้งหมดและจะรู้เกี่ยวกับมันคือวิธีการที่มันเกี่ยวข้องกับวัตถุอื่นๆ วิธีการที่มันเชื่อมต่อกับวัตถุต่างๆนั้นโดยลูกศร นี่คือการที่search enginesในอินเทอร์เน็ตจัดลำดับเว็บไซต์ต่างๆ โดยการวิเคราะห์linkที่เข้ามาและออกไป (ยกเว้นตอนที่มันโกง) ในการเขียนโปรแกรมแบบobject-oriented วัตถุที่ทำให้เป็นอุดมคติจะถูกมองเห็นผ่านabstract interfaceของมัน (เป็นพื้นที่ผิวอย่างสมบูรณ์ ไม่มีปริมาตร)โดยที่methodต่างๆนั้นมีบทบาทของลูกศร ในตอนที่คุณจะต้องขุดเข้าไปในโค้ดเพื่อที่จะเข้าใจวิธีการประกอบเข้ากับวัตถุอื่น คุณได้เสียความได้เปรียบต่างๆของประเภทการเขียนโปรแกรมของคุณ</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">2.4</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองเขียนfunction identityในภาษาโปรดของคุณ (หรือภาษาโปรดลำดับสองของคุณถ้าภาษาโปรดของคุณคือ Haskell)ดู</li>
+<li>ลองเขียนfunctionในการประกอบของfunctionในภาษาโปรดของคุณ มันควรที่จะนำสองfunctionsเข้ามาและคืนfunctionที่เป็นการประกอบกันของทั้งสองกลับมา</li>
+<li>ลองเขียนโปรแกรมที่พยายามที่จะทดสอบfunctionในการประกอบของคุณกับfunction identity</li>
+<li>world-wide web เป็นcategoryหรือเปล่า linkต่างๆสามารถนับเป็นmorphismได้ไหม?</li>
+<li>facebook เป็นcategoryหรือเปล่า โดยที่มีคนอยู่ในฐานะวัตถุและความเป็นเพื่อนในฐานะmorphsism</li>
+<li>ในตอนไหนที่graphจะเป็นcategory</li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two">https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/0.0/preface.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/1.2/types-and-functions.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

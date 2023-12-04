@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 1&nbsp; คำนำ (Draft)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/1.1/category-the-essence-of-composition.html" rel="next">
+<link href="../../index.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">Translator’s Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Part 1</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<blockquote class="blockquote">
+<p>มาระยะหนึ่งแล้วที่ผมมีความคิดคร่าวๆของการเขียนหนังสือที่เกี่ยวกับทฤษฎีcategory ที่จะเน้นไปที่โปรแกรมเมอร์ ลองสังเกตว่านี้ไม่ใช่นักวิทยาการคอมพิวเตอร์แต่เป็นโปรแกรมเมอร์ ที่เป็นวิศวกรแทนที่จะเป็นนักวิทยาศาสตร์ ผมรู้ว่านี่อาจจะฟังดูเพี้ยนและผมก็กลัวจริงๆ ผมไม่สามารถปฏิเสธได้ว่ามันมีช่องว่างขนาดใหญ่ระหว่างวิทยาศาสตร์กับวิศวกรรมนั้นก็เพราะว่าผมเคยทำงานอยู่ทั้งสองฝั่งของรอยแตก แต่ผมรู้สึกตลอดมาถึงแรงกดดันที่อย่างมากในการอธิบายสิ่งต่างๆ ผมมีคำชื่นชมอย่างล้นหลามต่อริชาร์ด ไฟน์แมนผู้ที่เป็นผู้เชี่ยวชาญด้านการอธิบายแบบง่ายๆ ผมรู้ว่าผมไม่ไช่ไฟน์แมนแต่ผมจะพยายามให้ถึงที่สุด ผมเริ่มจากการเผยแพร่คำนำนี้(ที่ควรที่จะให้แรงบันดาลใจกับผู้อ่านในการเรียนทฤษฎีcategory) เพื่อหวังเป็นให้เป็นการเริ่มต้นของบทสนทนาและการชักชวนให้มีข้อเสนอแนะต่างๆ<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</blockquote>
+<p>สิ่งที่ผมจะทำ ในเพียงไม่กี่ย่อหน้าคือการทำให้คุณเชื่อว่าหนังสือเล่มนี้ถูกเขียนมาสำหรับคุณและไม่ว่าจะมีคำแย้งแบบไหนที่คุณอาจจะมี ก็ตามในการเรียนสาขาในคณิตศาสตร์ที่นามธรรมที่สุดใน”เวลาว่างที่เหลือเฟือ”ของคุณ นั้นไม่มีน้ำหนักเลย</p>
+<p>การมองในแง่ดีของผมนั้นมากจากข้องสังเกตต่างๆ อย่างแรกคือทฤษฎีcategoryคือขุมสมบัติของไอเดียต่างๆในการเขียนโปรแกรมที่มีประโยชน์อย่างมาก คนที่เขียน Haskell ได้นำทรัพยากรเหล่านี้มาใช้ตั้งนานแล้ว และไอเดียต่างๆเหล่านี้ได้ค่อยๆซึมไปยังภาษาอื่นๆแต่กระบวนการนี้นั้นช้าเกินไป เราจึงจำเป็นต้องเร่งมัน</p>
+<p>อย่างที่สอง ได้มีประเภทหลากหลายรูปแบบของคณิตศาสตร์ และพวกมันดึงดูดผู้ติดตามหลายรูปแบบ คุณอาจจะไม่ชอบ calculus หรือ พีชคณิต(algebra) แต่นั้นไม่ได้หมายความว่าคุณจะไม่สนุกไปกับทฤษฎีcategory จนผมอาจจะพูดได้ว่าทฤษฎีcategoryคือประเภทของคณิตศาสตร์ที่ค่อนข้างเหมาะสมสำหรับแนวคิดของโปรแกรมเมอร์ นั่นก็เพราะว่าทฤษฎีcategoryให้ความสนใจกับโครงสร้างแทนที่จะสนใจในสิ่งที่เฉพาะเจาะจง มันทำงานกับโครงสร้างที่ทำให้โปรแกรมนั้น ประกอบกันได้ (Composable)</p>
+<p>การประกอบกัน (Composition) เป็นรากฐานที่แท้จริงของทฤษฎีcategory (มันคือส่วนหนึ่งของคำนิยามของcategoryมันเอง) และผมจะเสนออย่างเต็มที่ว่าการประกอบกันคือแก่นแท้ของการเขียนโปรแกรม เราได้ที่การประกอบสิ่งต่างๆมาโดยตลอด ที่มาก่อนแนวคิดของsubroutineที่มาจากวิศวกรผู้ยิ่งใหญ่ตั้งนานแล้ว ในอดีตที่ผ่านมา หลักการของการเขียนโปรแกรมเชิงโครงสร้าง (structural programming) ที่ได้ปฏิวัติวิธีการเขียนโปรแกรมก็เพราะว่า หลักการเหล่านี้ทำให้ชิ้นส่วนของโค้ดต่างๆสามารถประกอบกันได้ แล้วก็ตามมาจาก object oriented programming ที่ก็เกี่ยวกับวัตถุต่างๆที่ประกอบกันแทบทั้งหมด functional programming นั้นไม่แค่เกี่ยวกับ ที่ประกอบกันของfunctionและโครงสร้างข้อมูลแบบพีชคณิต (algebraic data structures) (มันทำให้concurrencyประกอบเข้ากันได้) ที่เป็นบางอย่างที่แทบจะเป็นไปไม่ได้ในการเขียนโปรแกรมในแบบอื่นๆ</p>
+<p>อย่างที่สาม ผมมีอาวุธลับอยู่คือมีดแล่เนื้อที่ผมจะทำการย่อยคณิตศาสตร์ให้มันง่ายกับ(การอ่านโดย)โปรแกรมเมอร์ ในตอนที่คุณเป็นนักคณิตศาสตร์มืออาชีพ คุณต้องระวังเป็นอย่างมากที่จะทำให้การข้อสมมติของคุณถูกต้องเสียก่อน จำเป็นต้องตรวจสอบทุกๆประพจน์(statement)อย่างระเอียดและสร้างข้อพิสูจน์อย่างรัดกุม นี่จึงทำให้การอ่านงานวิจัยหรือหนังสือทางคณิตศาสตร์นั้นยุ่งยากสำหรับคนภายนอก ผมเป็นจบฟิสิกส์มาและในฟิสิกส์นั้นเราได้มีความก้าวหน้าอย่างน่าเหลือเชื่อโดยการใช้การให้เหตุผลโดยที่ไม่ต้องรัดกุมมากนัก นักคณิตศาสตร์ได้หัวเราะให้กับ Dirac delta function ที่ถูกสร้างมาโดยนักฟิสิกส์ผู้ยิ่งใหญ่อย่าง P. A. M. Dirac เพื่อแค่ที่จะแก้สมการเชิงอนุพันธ์บางตัว แต่พวกเขาก็หยุดหัวเราะในตอนที่พวกเขาค้นพบสาขาของcalculusที่เรียกว่าทฤษฎีdistribution ที่ทำให้แนวคิดที่ลึกซึ้ง(insights)ของDiracเป็นทางการ (formalized)</p>
+<p>แน่นอนว่าในการนำข้อเสนอ(ทางคณิตศาสตร์)ที่ไม่รัดกุม ก็มักจะเป็นไปได้ที่คุณจะเสนอสิ่งที่ผิดอย่างชัดเจน ดันนั้นผมจะพยายามทำให้มั่นใจได้ว่าได้มีทฤษฎีทางคณิตศาสตร์ที่แน่นหนาในการสนับสนุนข้อเสนอที่ไม่รัดกุม ผมได้มีหนังสือ <em>Category Theory for the Working Mathematician</em> ที่เขียนโดย Saunders Mac Lane อยู่ไว้ข้างเตียง</p>
+<p>เนื่องว่านี้คือทฤษฎีcategory<em>สำหรับโปรแกรมเมอร์</em> ผมจะแสดงทุกๆแนวคิดที่สำคัญ (ทางคณิตศาสตร์) ผ่านโค้ดคอมพิวเตอร์ คุณอาจจะได้ยินมาว่า ภาษาต่างๆแบบFunctionalนั้นมีความใกล้เคียงกับคณิตศาสตร์มากกว่าภาษาแบบimperativeที่เป็นที่นิยมมากกว่า ภาษาประเภทเหล่านี้ก็จะมีความสามารถในการabstractingที่มากกว่าเช่นกัน ดันนั้นจึงมีความต้องการที่จะต้องเรียนรู้Haskellก่อนที่จะได้เห็นผลประโยชน์ของทฤษฎีcategory แต่นี่ก็ความหมายว่าทฤษฎีcategoryไม่สามารถถูกใช้งานนอกเหนือไปจากการเขียนโปรแกรมแบบfunctionalและนี่ไม่เป็นจริงเลย ดันนั้นผมก็จะให้ตัวอย่างจำนวนไม่น้อยในภาษาC++ นั้นก็หมายความว่าคุณจะต้องที่จะก้าวข้ามsyntax(ไวยากรณ์)ที่ไม่ค่อยสวยงาม รูปแบบต่างๆ(patterns)ที่อาจจะไม่เด่นขึ้นมาจากพื้นหลังของความเวิ่นเว้อและคุณอาจจะต้องถูกบังคับให้ทำการ copyและpaste แทนที่จะเป็นการทำabstractionที่ขั้นที่สูงกว่า แค่นั้นก็เป็นเหมือนกับโปรแกรมเมอร์C++หลายคน</p>
+<p>แต่คุณจะไม่สามารถหนีได้ถ้าHaskellยังอยู่ในความสนใจ คุณไม่ต้องเป็นโปรแกรมเมอร์Haskell แต่คุณต้องการมันในฐานะภาษาสำหรับการร่างและจดไอเดียต่างๆที่จะถูกเขียนในภาษาC++ และนี้คือวิธีการที่ผมเริ่มต้นกับHaskellจริงๆ ผมพบว่าว่าsyntax(ไวยากรณ์)ที่รวบรัดและระบบtype ที่มีความสามารถสูง เป็นตัวช่วยที่ดีในการทำความเข้าใจและการเขียนtemplates โครงสร้างข้อมูล (data structure) และ algorithms แต่แต่เนื่องว่าผมไม่ได้คาดหวังที่คุณคนอ่างจะรู้การเขียนในภาษาHaskell ผมจึงจะแนะนำมันอย่างช้าๆและอธิบายทุกๆอย่างระหว่างทาง</p>
+<p>ถ้าคุณเป็นโปรแกรมเมอร์ที่มีประสบการณ์ คุณอาจจะถามตัวเองว่า: เราได้เขียนโปรแกรมมาตั้งนานโดยที่ไม่ต้องกังวลเกียวกับทฤษฎีcategoryหรือวิธีการแบบfunctional แล้วมีที่อะไรเปลี่ยน? แน่นอนว่าเราไม่สามารถที่จะมองข้ามการที่ว่าได้มีมีการชึมเข้ามาของfeaturesแบบfunctionalในภาษาแบบimperativeอย่างช้าๆ แม้กระทั้งJavaที่เป็นดั่งปราการของobject oriented programmingก็อนุญาตให้lambdaได้เข้ามา C++ก็ได้กำลังพัฒนาอย่างก้าวกระโดด (ที่มีมาตรฐานใหม่แทบทุกไม่กี่ปี) เพื่อที่จะตามโลกที่กำลังเปลี่ยนแปลงให้ทัน การขยับแบบนี้ก็เพื่อเตรียมตัวสำหรับการเปลี่ยนแปลงอย่างพลิกผัน (disruptive change) หรือนักฟิสิกส์จะเรียกว่าการเปลี่ยนวัฏภาค (phase transition) ถ้าคุณอุ่นนำไปเรื่อยๆน้ำมันก็จะเดือดในสักวัน เราอยู่ในตำแหน่งของกบที่จะต้องเลือกว่าเราจะว่ายต่อไปในน้ำที่ร้อนมากขึ้นหรือเริ่มที่จะหาทางเลือกอื่นๆ</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/img_1299.jpg" class="img-fluid figure-img" width="300"></p>
+</figure>
+</div>
+<p>หนึ่งในสิ่งที่ขับเคลื่อนการเปลี่ยนแปลงครั้งใหญ่คือการปฎิวัติมัลติคอร์(multicore) ประเภทของภาษาโปรแกรมที่ยังอยู่ (อย่าง การเขียนโปรแกรมแบบobject oriented) ก็ไม่ได้เสนออะไรใหม่ให้คุณเลยในสิ่งที่เกี่ยวกับ concurrencyและการทำงานคู่ขนาน (parellelism) ซ้ำร้ายยังสนับสนุนการออกแบบที่เต็มไปด้วยbugและอันตราย การปกป้องข้อมูล(data hinder) ซึ่งเป็นแนวคิดตั้งต้นของภาษาแบบobject oriented ในตอนที่ต้องถูกนำเข้าไปผสมกับการแบ่ง(sharing)และการเปลี่ยนรูป(mutation) กลับกลายมาเป็นจุดเริ่มต้นของdata races แนวคิดของการรวมกันระหว่างmutexกับข้อมูลที่มันปกป้องเป็นสิ่งที่ดีแต่น่าเสียดายที่lockนั้นไม่สามารถที่จะประกอบกันได้ และการซ้อนlockทำให้ปัญหาdeadlocksเกิดง่ายขึ้นและยากต่อการแก้</p>
+<p>แต่แม้กระทั้งในกรณีที่ไม่มีconcurrency ในความชับช้อนของระบบของโปรแกรมที่มีมากขึ้น ก็เป็นการทดสอบขีดจำกัดของ ความสามารถในการขยายตัวของรูปแบบการเขียนของimperative หรือในอีกคำอธิบายที่ง่ายขึ้นก็หมายความว่าผลข้างเคียง(side effects)นั้นมีมากจนล้นมือในลักษณะแบบนี้ functions ที่มีผลข้างเคียงมักจะสะดวกและง่ายต่อการเขียน ผลข้างเคียงต่างๆของพวกมันเหล่านี้สามารถ(ในทางหลักการ)สามารถูกเขียนลงใปในชื่อหรือcommentต่างๆ ตัวอย่างเช่นfunctionที่มีชื่อว่า <code>SetPassword</code> หรือ <code>WriteFile</code> นั้นก็ชัดเจนมากว่ามันจะทำการเปลี่ยนแปลงบางสถานะและก่อให้เกิดผลข้างเคียงและเราก็คุ้นเคยกับการจัดการสิ่งเหล่านี้ แต่ในตอนที่เราเริ่มที่จะประกอบfunctionต่างๆที่มีผลข้างเคียงต่อเข้ากับfunctionต่างๆที่ก็มีผลข้างเคียงและต่อๆกันไป เป็นที่ปัญหาจะเริ่มปรากฏ ไม่ได้เพราะว่าผลข้างเคียงแย่ในตัวมันเองแต่และอื่นๆแต่คือการที่พวกมันถูกซ่อนจากสายตาจึงทำให้การจัดการในขนาดที่กว้างขึ้นเป็นไปไม่ได้ ผลข้างเคียงไม่สามารถถูกใช้เป็นจำนวนมากได้และการเขียนโปรแกรมแบบimperativeนั้นเกี่ยวข้องกับผลข้างเคียงทั้งสิ้น</p>
+<p>การเปลี่ยนแปลงของhardwareและความซับซ้อนของโปรแกรมที่มีมากขึ้นบังคับให้เราต้องคิดใหม่กับรากฐานของการเขียนโปรแกรม เหมือนกับนักก่อสร้างมหาวิหารยิ่งใหญ่แบบgothicของยุโรป เราได้ฝึกฝนการฝีมือของเราจนถึงจุดจำกัดทางวัสดุและโครงสร้าง ได้มีมหาวิหารgothicที่ยังสร้างไม่เสร็จในBeauvais<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>ที่ฝรั่งเศสที่เป็นเหมือนพยานให้กับ การฝ่าฟันของมนุษย์อย่างลึกๆต่อข้อจำกัดต่างๆ มันเคยถูกคาดหวังให้ชนะในทั้งความสูงและความสว่างเมื่อเทียบกับวิหารที่มีมาก่อนแต่มันกลับต้องมีปัญหาของทรุดตัวอยู่อย่างเรื่อยๆ มาตรการเฉพาะกิจอย่างแท่งเหล็กและสิ่งรองรับที่เป็นไม้ป้องกันไม่ให้มันยุบตัวลงมา แต่เห็นได้ชัดว่ามีสิ่งที่ผิดพลาดหลายอย่าง ในมุมมองสมัยใหม่ มันเป็นปาฎิหาริย์ที่โครงสร้างgothicได้สร้างเสร็จโดยที่ไม่ต้องมีการช่วยเหลือจากวัสดุศาสตร์ (materials science), การสร้างแบบจำลองคอมพิวเตอร์ (computer model), finite element analysis และเลขหรือฟิสิกส์ทั่วไป ผมหวังว่าในคนในคนรุ่นถัดๆไปจะมีคำชื่นชมในแบบคล้ายๆกันต่อทักษะของการเขียนโปรแกรมที่เราได้แสดงออกมาผ่านการสร้างระบบปฏิบัติการที่ชับช้อน web serversและโครงสร้างพื้นฐานของอินเทอร์เน็ตและถ้าให้พูดอย่างตรงๆแล้วพวกเขาจะควรที่จะชื่นชมเพราะว่าเราได้ทำสิ่งเหล่านี้จากรากฐาน ทางเชิงทฤษฎีที่บอบบาง เราควรที่จะแก้รากฐานเหล่านี้ถ้าเราต้องการที่จะเดินไปต่อข้างหน้า</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/beauvais_interior_supports.jpg" class="img-fluid figure-img" width="300"></p>
+<p></p><figcaption class="figure-caption">มาตรการเฉพาะกิจในการป้องกันเพื่อไม่ให้มหาวิหารBeauvaisจากการพังทลาย</figcaption><p></p>
+</figure>
+</div>
+
+
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>คุณสามารถที่จะดูผมสอนสิ่งเหล่านี้ให้กับผู้ชมแบบสดๆที่ <a href="https://goo.gl/GT2UWU">https://goo.gl/GT2UWU</a> หรือหรือค้นหาไปที่ “bartosz milewski category theory” ใน YouTube.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="http://en.wikipedia.org/wiki/Beauvais_Cathedral">http://en.wikipedia.org/wiki/Beauvais_Cathedral</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Translator’s Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/1.1/category-the-essence-of-composition.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
