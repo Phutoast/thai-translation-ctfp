@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 19&nbsp; Adjunctions (Sketch)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/3.3/free-forgetful-adjunctions.html" rel="next">
+<link href="../../content/3.1/its-all-about-morphisms.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.2/adjunctions.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.1/its-all-about-morphisms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.2/adjunctions.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.3/free-forgetful-adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.4/monads-programmers-definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.5/monads-and-effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Monadและผลตามมา(Effect) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.6/monads-categorically.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#adjunctionและคของunitcounit" id="toc-adjunctionและคของunitcounit" class="nav-link active" data-scroll-target="#adjunctionและคของunitcounit"><span class="header-section-number">19.1</span> Adjunctionและคู่ของUnit/Counit</a></li>
+  <li><a href="#adjunctionและhom-sets" id="toc-adjunctionและhom-sets" class="nav-link" data-scroll-target="#adjunctionและhom-sets"><span class="header-section-number">19.2</span> AdjunctionและHom-Sets</a></li>
+  <li><a href="#productจากadjunction" id="toc-productจากadjunction" class="nav-link" data-scroll-target="#productจากadjunction"><span class="header-section-number">19.3</span> ProductจากAdjunction</a></li>
+  <li><a href="#exponentialจากadjunction" id="toc-exponentialจากadjunction" class="nav-link" data-scroll-target="#exponentialจากadjunction"><span class="header-section-number">19.4</span> ExponentialจากAdjunction</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">19.5</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>ในคณิตศาสตร์เรามีหลายหลายวิธีของการพูดว่าสิ่งหนึ่งนั้นเหมือนอีกอันหนึ่ง ในแบบที่ัดกุมที่สุดคือความเท่ามัน สองอย่างนั้นเท่ากันถ้าไม่มีวิธีในการแยกพวมมันออกมา มันอาจจะถูกแทนที่สำหรับอีกตัวหนึ่งในทุกๆบริบทที่สามารถจิตนาการได้ ตัวอย่างเช่น คุณได้สังเกตไหมว่าเราได้ใช้<em>ความเท่ากัน</em>ของmorphsimในทุกครั้งที่เราพูดเกี่ยวกับdiagramที่commute? นั้นก็เพราะว่าmorphsimก่อให้เกิดset(hom-set)และสมาชิกของsetสามารถถูกเทียบสำหรับความเท่ากัน</p>
+<p>แต่ความเท่ากันนั้นมักจะเข้มงวดเกินไป ได้มีตัวอย่างมากมายของสิ่งที่เหมือนสำหรับทุกๆความตั้งใจและวัตถุประสงค์ โดยที่ไม่ต้องเท่ากันจริงๆ ตัวอย่างเช่นtypeแบบpair<code>(Bool, Char)</code>นั้นไม่เท่ากับอย่างเข้มงวดกับ<code>(Char, Bool)</code> แต่เราเข้าใจมันว่าพวกมันเก็บข้อมูลเดียวกัน แนวคิดแบบนี้นั้นถูกอธิบายได้โดย<em>isomorphism</em>ระหว่างสองtypes (morphismนั้นinvertได้) เนื่องด้วยมันคือmorphsimมันคงโครงสร้างไว้และการที่เป็น”iso”หมายความว่ามันคือส่วนหนึ่งของการเดินทางไปกลับที่คุณจบที่จุดเดียวกัน ไม่สำคัญว่าคุณจะเริ่มด้านใหน ในกรณีของpairs isomorphismถูกเรียกว่า<code>swap</code></p>
+<p><code>swap</code>เป็นว่ามันคือinverseของตนเอง</p>
+<section id="adjunctionและคของunitcounit" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="adjunctionและคของunitcounit"><span class="header-section-number">19.1</span> Adjunctionและคู่ของUnit/Counit</h2>
+<p>ในตอนที่เราพูดเกี่ยวกับcategoryนั้นisomorphicต่อกัน เราได้แสดงมันในรูปแบบของการโยงรัหว่างcategoryต่างๆหรือที่เรียกกันว่าfunctor เราต้องการที่จะสามารถพูดได้ว่าสองcategory<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span>นั้นisomorphicกัน ถ้าได้มีfunctor<span class="math inline">\(R\)</span>(ย่อมาจาก”right”/ด้านขวา)จาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{D}\)</span>ที่สามารถถูกinverseได้ ในอีกความหมายหนึ่งได้มีอีกfunctor<span class="math inline">\(L\)</span>(ย่อมาจาก”left”/ด้านช้าย)จาก<span class="math inline">\(\textbf{D}\)</span>กลับไปยัง<span class="math inline">\(\textbf{C}\)</span>ที่ในตอนที่เราประกอบกับ<span class="math inline">\(R\)</span>นั้นเท่ากับfunctorแบบidentity<span class="math inline">\(I\)</span> ได้มีสองวิธีที่เป็นไปได้การประกอบกันอย่าง <span class="math inline">\(R\circ L\)</span>และ<span class="math inline">\(L\circ R\)</span>และสองidentity functorที่เป็นไปได้ที่หนึ่งในนั้นอยู่ใน<span class="math inline">\(\textbf{C}\)</span>และอีกอันหนึ่งอยู่ใน<span class="math inline">\(\textbf{D}\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/adj-1.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>แต่นี้คือส่วนที่ยุ่งยาก มันหมายความว่าอะไรสำหรับfunctorทั้งสองในการที่มันจะ<em>เท่ากัน</em>? เราหมาถึงอะไรโดยความเท่ากันนี้</p>
+<p><span class="math display">\[
+R\circ L = I_\textbf{D}
+\]</span></p>
+<p>หรือสิ่งนี้</p>
+<p><span class="math display">\[
+L\circ R = I_\textbf{C}
+\]</span></p>
+<p>มันคงจะสมเหตุสมผลในการนิยามความเท่ากันของfunctorในรูปแบบของควมเท่ากันของวัตถุห สองfunctorในตอนที่กระทำบนวัตถุที่เท่ากัน ควรที่จะสร้างวัตถุที่เท่ากันออกมา แต่โดยเท่าไปเราไม่มีแนวคิดของความเท่ากันของวัตถุcategoryทั่วๆไป มันแค่ไม่เป็นส่วนหนึ่งของคำนิยาม (ถ้าไปให้ลึกกว่านี้คือคำถามว่า”ความเท่ากันจริงๆแล้วหมายความว่าอะไร” เราก็จะจบลงที่Homotopy Type Theory)</p>
+<p>คุณอาจจะแย้งว่าfunctorนั้น<em>คือ</em>morphismในcategoryของcategoryดังนั้นพวกมันควรที่จะเทียบความเท่ากันได้ แค่แน่นอนว่าตราบเท่าที เรากำลังพูดเกี่ยวกับcategoryขนาดเล็ก ที่วัตถุก่อให้เกิดset แน่นอนว่าเราสามารถใช้ความเท่ากันของสมาชิกของsetในการเทียบความเท่ากันของวัตถุต่างๆ</p>
+<p>แต่จงจำไว้ว่า<span class="math inline">\(\textbf{Cat}\)</span>นั้นคือ<span class="math inline">\(\textbf{2}\)</span>-category Hom-setใน<span class="math inline">\(\textbf{2}\)</span>-categoryมีโครงสร้างเพิ่มเติมคือได้มี2-morphismกระทำระหว่าง1-morphism ใน<span class="math inline">\(\textbf{Cat}\)</span> 1-morphismคือfunctorและ2-morphismคือการแปลงแบบธรรมชาติ ดังนั้นมันเป็นธรรมชาติ(ไม่ค่อยอยากจะเล่นคำชักเท่าไหร่)มากกว่าในการพิจารณาisomorphismแบบธรรมชาติในฐานะตัวแทนสำหรับความเท่ากันในตอนที่เราพูดเกี่ยวกับfunctor</p>
+<p>ดังนั้นแทนที่จะใช้isomorphsimของcategoryต่างๆ มันสมเหตุสมผลในการพิจารณาแนวคิดที่กว้างกว่าของ<em>ความเท่ากัน</em> categoryทั้งสอง<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span>นั้น<em>เท่ากัน</em>ถ้าเราสามารถหาสองfunctorที่ไปและกลับระหว่างมัน ในอีกความหมายหนึ่งได้มีการแปลงแบบธรรมชาติในสองทิศทางระหว่างการประกอบกัน<span class="math inline">\(R\circ L\)</span>และfunctor identiy<span class="math inline">\(I_\textbf{D}\)</span>และอีกตัวหนึ่งจาก<span class="math inline">\(L\circ R\)</span>ไปยัง<span class="math inline">\(I_\textbf{C}\)</span> ในที่นี้คือsignaturesของทั้งสองการแปลงแบบธรรมชาติ</p>
+<p><span class="math display">\[
+\begin{gather*}
+  \eta :: I_{\textbf{D}} \to R \circ L \\
+  \varepsilon :: L \circ R \to I_{\textbf{C}}
+\end{gather*}
+\]</span></p>
+<p>ที่<span class="math inline">\(\eta\)</span>ถูกเรียกว่าunitและ<span class="math inline">\(\varepsilon\)</span>คือcounitของadjunction</p>
+<p>สังเกคหว่าความไม่ความไม่สมมาตรระหว่างนิยามสองตัวนี้ โดยทั่วไปแล้วเราไม่มีการโยงที่เหลืออย่าง</p>
+<p><span class="math display">\[
+\begin{gather*}
+  R \circ L \to I_{\textbf{D}} \quad\quad\text{not necessarily} \\
+  I_{\textbf{C}} \to L \circ R \quad\quad\text{not necessarily}
+\end{gather*}
+\]</span></p>
+<p>เพราะว่าความไม่สมมาตรนี้ functor<span class="math inline">\(L\)</span>จึงถูกเรียกว่า<em>adjointด้านช้าย(left adjoint)</em>ของfunctor<span class="math inline">\(R\)</span>ในขณะเดียวกันfunctor<span class="math inline">\(R\)</span>คือadjointด้านขวาของ<span class="math inline">\(L\)</span> (แน่นอนว่าด้านช้ายและขวาสมเหตุสมผลถ้าคุนวาดdiagramในแบบๆหนึ่ง)</p>
+<p>สัญลักษณ์ที่กะทัดรัดสำหรับadjunctionคือ</p>
+<p><span class="math display">\[
+L\vdash R
+\]</span></p>
+<p>ในการที่จะเข้าใจadjunctionมากขึ้น เรามาวิเคราะห์unitและcounitในรายละเอียดมากขึ้น</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/adj-unit.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เรามาเริ่มกับunit มันคือการแปลงแบธรรมชาติดังนั้นมันคือชุดของmorphismต่างๆ ถ้ามีวัตถุ<span class="math inline">\(d\)</span>ใน<span class="math inline">\(\textbf{D}\)</span> ส่วนประกอบของ<span class="math inline">\(\eta\)</span>คือmorphismระหว่าง<span class="math inline">\(Id\)</span>ที่เท่ากับ<span class="math inline">\(d\)</span>และ<span class="math inline">\((R\circ L)d\)</span>ที่ในรูปนั้นถูกเรียกว่า<span class="math inline">\(d'\)</span></p>
+<p><span class="math display">\[
+\eta_d :: d \to (R \circ L) d
+\]</span></p>
+<p>ลองสังเกตถึงการประกอบกันของ<span class="math inline">\(R\circ L\)</span>ที่เป็นendofunctorใน<span class="math inline">\(\textbf{D}\)</span></p>
+<p>สมการนี้บอกกเราว่าเราสามารถเลือกวัตถุ<span class="math inline">\(d\)</span>ใดๆก็ตามใน<span class="math inline">\(\textbf{D}\)</span>ในฐานะจุดเริ่มต้นของเรา และใช้functorที่เดินทางไปกลับ<span class="math inline">\(R\circ L\)</span>ในการเลือกวัตถุ<span class="math inline">\(d'\)</span> แล้วเราก็ยิงลูกศร(ที่ก็คือmorphism<span class="math inline">\(\eta_d\)</span>)ไปยังเป้าหมายของเรา</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/adj-counit.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในแบบเดียวกัน ส่วนประกอบของcounit<span class="math inline">\(\varepsilon\)</span>สามารถถูกอธิบายในฐานะ</p>
+<p><span class="math display">\[
+\varepsilon_{c} :: (L \circ R) c \to c
+\]</span></p>
+<p>มันบอกเราว่าเราสามารถเลือกวัตถุ<span class="math inline">\(c\)</span>อะไรก็ตามใน<span class="math inline">\(\textbf{C}\)</span>ในฐานะเป้าหมายของเรา และใช้functorที่เดินทางไปกลับ<span class="math inline">\(L \circ R\)</span>ในการเลือก<span class="math inline">\(c'=(L \circ R) c\)</span> แล้วเราก็ยิงลูกศร(ที่ก็คือmorphism<span class="math inline">\(\varepsilon\)</span>)จากจุดเริ่มต้นไปยังเป้าหมาย</p>
+<p>ในอีกวิธีหนึ่งของการมองที่unitและcounitคือการที่ว่าunitให้เราได้<em>นำ</em>การประกอบกันของ<span class="math inline">\(R\circ L\)</span>มาในทุกๆที่ เราสามารถแทรกfunctor identityบน<span class="math inline">\(\textbf{D}\)</span>ได้ และcounitให้เราได้<em>ลบ</em>การประกอบกันของ<span class="math inline">\(L\circ R\)</span>แทนที่มันกับidentityบน<span class="math inline">\(\textbf{C}\)</span> ที่นำไปสู่บางเงื่อนไขที่“ตรงไปตรงมา”ของ ความสอดคล้องที่ทำให้แน่ใจว่าการนำมาตามด้วยการลบจะไม่เปลี่นนอะไรเลย</p>
+<p><span class="math display">\[
+\begin{gather*}
+  L = L \circ I_{\textbf{D}} \to L \circ R \circ L \to I_{\textbf{C}} \circ L = L \\
+  R = I_{\textbf{D}} \circ R \to R \circ L \circ R \to R \circ I_{\textbf{C}} = R
+\end{gather*}
+\]</span></p>
+<p>สิ่งเหล่านี้เรียกว่าเอกลักษณ์สามเหลี่ยม(triangular identities)เพราะว่ามันทำให้diagramเหล่านี้commute</p>
+<p align="center">
+<img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20L%20%5Carrow%5Brd%2C%20equal%5D%20%5Carrow%5Br%2C%20%22L%20%5Ccirc%20%5Ceta%22%5D%0A%20%20%20%20%20%20%26%20L%20%5Ccirc%20R%20%5Ccirc%20L%20%5Carrow%5Bd%2C%20%22%5Cepsilon%20%5Ccirc%20L%22%5D%20%5C%5C%0A%20%20%20%20%20%20%26%20L%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%20%20%5Chspace%7B1cm%7D%0A%20%20%20%20%5Ccentering%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20R%20%5Carrow%5Brd%2C%20equal%5D%20%5Carrow%5Br%2C%20%22%5Ceta%20%5Ccirc%20R%22%5D%0A%20%20%20%20%20%20%26%20R%20%5Ccirc%20L%20%5Ccirc%20R%20%5Carrow%5Bd%2C%20%22R%20%5Ccirc%20%5Cepsilon%22%5D%20%5C%5C%0A%20%20%20%20%20%20%26%20R%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd}[column sep=large, row sep=large] L \arrow[rd, equal] \arrow[r, &quot;L \circ \eta&quot;] &amp; L \circ R \circ L \arrow[d, &quot;\epsilon \circ L&quot;] \\ &amp; L \end{tikzcd} \hspace{1cm} \centering \begin{tikzcd}[column sep=large, row sep=large] R \arrow[rd, equal] \arrow[r, &quot;\eta \circ R&quot;] &amp; R \circ L \circ R \arrow[d, &quot;R \circ \epsilon&quot;] \\ &amp; R \end{tikzcd} \] ">
+</p>
+<p>สิ่งเหล่านี้คือdiagramในcategoryของfunctorที่ลูกศรนั้นคือการแปลงแบบธรรมชาติและการประกอบกันของมันเป็นแบบการประกอบกันในแนวนอนของการแปลงแบบธรรมชาติ ในส่วนประกอบต่างๆ เอกลักษณ์เหล่านี้กลายมาเป็น</p>
+<p><span class="math display">\[
+\begin{gather*}
+  \varepsilon_{L d} \circ L \eta_d = \operatorname{id}_{L d} \\
+  R \varepsilon_{c} \circ \eta_{R c} = \operatorname{id}_{R c}
+\end{gather*}
+\]</span></p>
+<p>เรามักจะเห็นunitและcounitในHaskellภายใต้ชื่อที่แตกต่างกัน unitนั้นถูกรู้จักในฐานะ<code>return</code>(หรือ<code>pure</code>ในนิยามของ<code>Applicative</code>)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span><span class="ot"> ::</span> d <span class="ot">-&gt;</span> m d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และcounitในฐานะ<code>extract</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">extract ::</span> w c <span class="ot">-&gt;</span> c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้<code>m</code>คือ(endo-)functorที่ตรงกันกับ<span class="math inline">\(R\circ L\)</span>และ<code>w</code>คือ(endo-)functorที่ตรงกันกับ<span class="math inline">\(L\circ R\)</span> แล้วในสิ่งที่เราจะเห็นต่อไปจากนี้ พวกมันคือส่วนของนิยามของmonadและcomonadตามลำดับ</p>
+<p>ถ้าคุณคิดถึงendofunctorในฐานะภาชนะ unit(หรือ<code>return</code>)คือfunctionแบบ polymorphicที่สร้างกล่องเริ่มต้นรอบๆค่าของtypeทั่วๆไป counit(หรือ<code>extract</code>)ทำในทางกลับกันคือมันดึงหรือสร้างค่าๆเดียวจากภาชนะ</p>
+<p>เราจะเห็นหลังจากนี้ว่าทุกๆคู่ของfunctorแบบadjointนิยามmonadและcomonad ในทางกลับกันทุกๆmonadหรือcomonadอาจจะถูกแยกตัวประกอบไปยังคู่ของfunctorแบบadjoint(แต่การแยกตัวประกอบแบบนี้นั้นไม่เป็นเอกลักษณ์)</p>
+<p>ในHaskellเราใช้monadอย่างมาก แต่เราทำการแยกตัวประกอบของมันไปยังคู่ของfunctorแบบadjointไม่ค่อยบ่อย หลักๆก็เพราะว่าfunctorเหล่านี้อาจจะมักจะนำเราออกไปยัง<span class="math inline">\(\textbf{Hask}\)</span></p>
+<p>แต่เราสามารถนิยามadjunctionของ<em>endofunctor</em>ในHaskell นี้คือส่วนของนิยามนำมาจาก<code>Data.Functor.Adjunction</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> (<span class="dt">Functor</span> f, <span class="dt">Representable</span> u) <span class="ot">=&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Adjunction</span> f u <span class="op">|</span> f <span class="ot">-&gt;</span> u, u <span class="ot">-&gt;</span> f <span class="kw">where</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">      unit ::</span> a <span class="ot">-&gt;</span> u (f a)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ot">      counit ::</span> f (u a) <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นิยามแบบนี้ต้องการการอธิบายบางอย่าง อย่างแรกมันอธิบายtypeแบบclassที่มีหลายparameter(ที่ทั้งสองparameterเป็น<code>f</code>และ<code>u</code>) มันสร้างความสัมพันธ์ที่เรียกว่า<code>Adjunction</code>ระหว่างcontructorของtypeทั้งสอง</p>
+<p>เงื่อนไขเพิ่มเติมหลังจากขีดตั้ง คืกการเจาะจงความเกี่ยวข้องกันทางfunction ตัวอย่างเช่น<code>f -&gt; u</code> หมายความว่า<code>u</code>นั้นถูกกำหนดโดย<code>f</code> (ความสัมพันธ์ระหว่าง<code>f</code>และ<code>u</code>คือfunction ในที่นี้บนcontructorของtype) ในทางกลับกัน<code>u &gt; f</code>หมายความว่าถ้าเรารู้ถึง<code>u</code>แล้ว<code>f</code>นั้นถูกกำหนดแบบเป็นเอกลักษณ์</p>
+<p>ผมจะอธิบายในอีกไม่ช้าว่าทำไมในHaskell เราสามารถกำหนดให้มีเงื่อนไขว่าadjointด้านขวา<code>u</code>เป็นfunctorที่มีตัวแทนได้</p>
+</section>
+<section id="adjunctionและhom-sets" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="adjunctionและhom-sets"><span class="header-section-number">19.2</span> AdjunctionและHom-Sets</h2>
+<p>ได้มีนิยามของนิยามความเท่ากันของadjunctionในรูปแบบของisomorphismแบบธรรมชาติของhom-set นิยามนี้ผูกอย่างง่ายดายกับการสร้างแบบสากล ที่เราได้ทำการศึกษาไปก่อนหน้านี้ ในทุกๆเวลาที่คุณได้ยิน การที่ว่าได้มีบางmorphismที่เป็นเอกลักษณ์ที่แยกตัวประกอบการสร้างบางตัว คุณควรที่จะคิดของมันในฐานะการโยงของบางsetไปยังhom-set นั้นคือความหมายของ”การเลือกmorphismที่เป็นเอกลักษณ์”</p>
+<p>นอกจากนี้ การแยกตัวประกอบมักจะสามารถถูกอธิบายในรูปแบบของการแปลงแบบธรรมชาติ การแยกตัวประกอบเกี่ยวกับdiagramของการcommute(บางmorphismที่เท่ากัยการประกอบกันของmorphismทั้งสอง(ตัวประกอบ)) การแปลงแบบธรรมชาติโยงmorphismไปยังdiagramของการcommute ดังนั้นในการสร้างแบบสากลเราไปจากmorphismไปยังdiagramของการcommuteแล้วก็ไปยังmorphismที่เป็นเอกลักษณ์ เราจบลงที่การโยงจากmorphismไปยังmorphismหรือจากhom-setหนึ่งไปยังอีกอย่างหนึ่ง (มักจะอยู่ในcategoryที่แตกต่างกัน) ถ้าการโยงนี้สามารถinverseได้ แต่ถ้ามันสามารถทำให้กว้างออกไปอย่างแบบธรรมชาติไปทั้งhom-set เรามีadjunction</p>
+<p>ความแตกต่างหลักระหว่างการสร้างแบบสากลและadjunctionคือว่า สิ่งหลังถูกนิยามแบบสากลคือสำหรับhom-setท้งหมด ตัวอย่างเช่น การใช้การสร้างแบบสากล คุณสามารถนิยามproductของวัตถุทั้งสองที่ถูกเลือก ถึงแม้ถ้ามันไม่มีตัวตนอยู่สำหรับอีกคู่ของวัตถุในcategoryนั้น แล้วเราจะได้เห็นในอีกไม่ช้า ถ้าproductของ<em>คู่ใดๆก็ตาม</em>ของวัตถุมีตัวตนอยู่ในcategory มันสามารถถูกนิยามผ่านadjunction</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/adj-homsets.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>นี้คือนิยามทางเลือกของadjunctionโดยการใช้hom-set เหมือนก่อนหน้านี้เรามีสองfunctor <span class="math inline">\(L::\textbf{D}\rightarrow\textbf{C}\)</span>และ<span class="math inline">\(R::\textbf{C}\rightarrow\textbf{D}\)</span> เราเลือกวัตถุใดๆก็ตามสองตัวคือ วัตถุที่เป็นจุดเริ่ม<span class="math inline">\(d\)</span>ใน<span class="math inline">\(\textbf{D}\)</span> และวัตถุเป้าหมาย<span class="math inline">\(c\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> เราสามารถโยงวัตถุที่เป็นจุดเริ่ม<span class="math inline">\(d\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span>โดยการใช้<span class="math inline">\(L\)</span> ในตอนนี้ เรามีสองวัตถุใน<span class="math inline">\(\textbf{C}\)</span>อย่าง<span class="math inline">\(Ld\)</span>และ<span class="math inline">\(c\)</span> พวกมันนิยามhom-setว่า</p>
+<p><span class="math display">\[
+\textbf{C}(L d, c)
+\]</span></p>
+<p>ในทางเดียวกัน เราสามารถโยงวัตถุเป้าหมาย<span class="math inline">\(c\)</span>โดยการใช้<span class="math inline">\(R\)</span> ในตอนนี้เรามีสองวัตถุใน<span class="math inline">\(\textbf{D}\)</span>อย่าง<span class="math inline">\(d\)</span>และ<span class="math inline">\(Rc\)</span> พวกมันก็นิยามhom setว่า</p>
+<p><span class="math display">\[
+\textbf{D}(d, R c)
+\]</span></p>
+<p>เราบอกว่า<span class="math inline">\(L\)</span>คือadjointด้านช้ายไปยัง<span class="math inline">\(R\)</span>ถ้าต่อเมื่อได้มีisomorphismของhom set</p>
+<p><span class="math display">\[
+\textbf{C}(L d, c) \cong \textbf{D}(d, R c)
+\]</span></p>
+<p>มันคือความเป็นธรรมชาติของทั้ง<span class="math inline">\(d\)</span>และ<span class="math inline">\(c\)</span> ความเป็นธรรมชาติหมายความว่าวัตถุที่เป็นจุดเริ่ม<span class="math inline">\(d\)</span>สามารถเปลี่ยนแปลงอย่างเรียบๆใน<span class="math inline">\(\textbf{D}\)</span> และวัตถุเป้าหมาย<span class="math inline">\(c\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> ถ้าให้แม่นยำมากขึ้น เรามีการแปลงแบบธรรมชาติ<span class="math inline">\(\varphi\)</span>ระหว่างfunctor(แบบcovariant)อย่างว่าทั้งสองจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span> ในที่นี้คือการกระทำของfunctorเหล่านี้บนวัตถุ</p>
+<p><span class="math display">\[
+\begin{gather*}
+  c \to \textbf{C}(L d, c) \\
+  c \to \textbf{D}(d, R c)
+\end{gather*}
+\]</span></p>
+<p>ในการแปลงแบบธรรมชาติอีกแบบหนึ่ง<span class="math inline">\(\psi\)</span>กระทำระหว่างfunctor(แบบcontravariant)ต่อไปนี้</p>
+<p><span class="math display">\[
+\begin{gather*}
+  d \to \textbf{C}(L d, c) \\
+  d \to \textbf{D}(d, R c)
+\end{gather*}
+\]</span></p>
+<p>การแปลงแบบธรรมชาติทั้งสองต้องสามารถinverseได้</p>
+<p>มันง่ายที่จะแสดงว่าสองนิยามของadjunctionนั้นเท่ากัน ตัวอย่างเช่น เราตามมาจากการแปลงแบบunitเริ่มมาจากisomorphismของhom-setคือ</p>
+<p><span class="math display">\[
+\textbf{C}(L d, c) \cong \textbf{D}(d, R c)
+\]</span></p>
+<p>เนื่องด้วยisomorphismนี้ทำงานได้สำหรับวัตถุ<span class="math inline">\(c\)</span>ใดๆก็ตาม มันก็ต้องทำงานได้สำหรับ <span class="math inline">\(c=Ld\)</span> นั้นก็คือ</p>
+<p><span class="math display">\[
+\textbf{C}(L d, Ld) \cong \textbf{D}(d, (R\circ L)d)
+\]</span></p>
+<p>เรารู้ว่าด้านช้ายมือต้องมีอย่างน้อยmorphismหนึ่งนั้นก็คือidentity การแปลงแบบธรรมชาติจะโยงmorphismนี้ไปยังสมาชิกของ<span class="math inline">\(\textbf{D}(d, (R\circ L)d)\)</span>หรือ การแทรกfunctorแบบidentity<span class="math inline">\(I\)</span>ก็คือmorphismใน</p>
+<p><span class="math display">\[
+\textbf{D}(Id, (R\circ L)d)
+\]</span></p>
+<p>เราได้มาซึ่งขุดของmorphismที่parameterizedโดย<span class="math inline">\(d\)</span> พวกมันก่อให้เกิดการแปลแบบธรรมชาติระหว่างfunctor<span class="math inline">\(I\)</span>และfunctor<span class="math inline">\(R\circ L\)</span> (เงื่อนไขความเป็นธรรมชาตินั้นง่ายที่จะตรวจสอบ) สิ่งนี้คือunit<span class="math inline">\(\eta\)</span>ของเราจริงๆ</p>
+<p>ในทางกลับกัน เริ่มจากการมีอยู่ของunitและcounit เราสามารถนิยามการแปลงระหว่างhom-set ตัวอย่างเช่นเรามาเลือกmorphismใดๆก็ตาม<span class="math inline">\(f\)</span>ในhom-set<span class="math inline">\(\textbf{C}(L d, c)\)</span> เราต้องการที่จะนิยาม<span class="math inline">\(\varphi\)</span>ว่า กระทำบน<span class="math inline">\(f\)</span>สร้างmorphismใน<span class="math inline">\(\textbf{D}(d, R c)\)</span></p>
+<p>ได้ไม่มีตัวเลือกมากมาย สิ่งหหนึ่งเราสามารถที่จะลองในการlift<span class="math inline">\(f\)</span>โดยการใช้<span class="math inline">\(R\)</span> สิ้งนั้นจะสร้างmorphism<span class="math inline">\(Rf\)</span>จาก<span class="math inline">\(R(Ld)\)</span>ไปยัง<span class="math inline">\(Rc\)</span> (นั้นคือmorphismที่คือสมาชิกของ<span class="math inline">\(\textbf{D}((R\circ L)d,Rc)\)</span>)</p>
+<p>สิ่งเราต้องการสำหรับตัวประกอบของ<span class="math inline">\(\varphi\)</span>คือmorphismจาก<span class="math inline">\(d\)</span>ไปยัง<span class="math inline">\(Rc\)</span> นั้นไม่ใช่ปัญหาเนื่องด้วยเราสามารถใช้ตัวประกอบของ<span class="math inline">\(\eta_d\)</span>ในการได้มาจาก<span class="math inline">\(d\)</span>ไปยัง<span class="math inline">\((R\circ L)d\)</span> เราได้ว่า</p>
+<p><span class="math display">\[
+\varphi_f = Rf\circ \eta_d
+\]</span></p>
+<p>อีกทิศทางหนึ่งนั้นคล้ายๆกันและก็คือการตามหา<span class="math inline">\(\psi\)</span></p>
+<p>กลับมาไปยังนิยามของHaskellของ<code>Adjunction</code> การแปลงแบบธรรมชาติ<span class="math inline">\(\varphi\)</span>และ<span class="math inline">\(\psi\)</span>นั้นถูกแทนที่โดยfunctionแบบpolymorphism(ใน<code>a</code>และ<code>b</code>)<code>leftAdjunct</code>และ<code>rightAdjunct</code>ตามลำดับ functor<span class="math inline">\(L\)</span>และ<span class="math inline">\(R\)</span>สามารถถูกเรียกว่า<code>f</code>และ<code>u</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> (<span class="dt">Functor</span> f, <span class="dt">Representable</span> u) <span class="ot">=&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Adjunction</span> f u <span class="op">|</span> f <span class="ot">-&gt;</span> u, u <span class="ot">-&gt;</span> f <span class="kw">where</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ot">    leftAdjunct  ::</span> (f a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> u b)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ot">    rightAdjunct ::</span> (a <span class="ot">-&gt;</span> u b) <span class="ot">-&gt;</span> (f a <span class="ot">-&gt;</span> b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ความเท่ากันระหว่างการแสดงออกในรูปสูตรของ<code>unit</code>และ<code>counit</code>และการแสดงออกในรูปสูตรของ<code>leftAdjunct</code>และ<code>rightAdjunct</code>นั้นถูกแสดงโดยการโยงแบบนี้</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>unit           <span class="ot">=</span> leftAdjunct <span class="fu">id</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>counit         <span class="ot">=</span> rightAdjunct <span class="fu">id</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>leftAdjunct f  <span class="ot">=</span> <span class="fu">fmap</span> f <span class="op">.</span> unit</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>rightAdjunct f <span class="ot">=</span> counit <span class="op">.</span> <span class="fu">fmap</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันเป็นไปตามขั้นตอนในการตามการแปลจากคำอธิบายทางcategoryของadjunctionไปยังโค้ดของHaskell ผมสนับสนุนอย่างมากในการลองทำในฐานะแบบฝึกหัด</p>
+<p>ในตอนนี้เราพร้อมแล้วในการอธิบายว่าในHaskellทำไมadjoinค้านขวาเป็นfunctorที่มีตัวแทนได้โดยอัตโนมัติ เหตุผลคือว่าในแบบคร่าวๆอย่าแรก เราสามารถมองcategoryของtypeของHaskellในฐานะcategoryของset</p>
+<p>ในcategoryด้านขวา<span class="math inline">\(\textbf{D}\)</span>เป็น<span class="math inline">\(\textbf{Set}\)</span> adjointด้านขวาคือfunctorจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span> functorแบบนี้นั้นสามารถมีตัวแทนได้ถ้าเราสามารถหาวัตถุ<span class="math inline">\(rep\)</span>ใน<span class="math inline">\(\textbf{C}\)</span>ในแบบที่ว่าhom-functor<span class="math inline">\(\textbf{C}(rep,-)\)</span>นั้นisomorphicแบบธรรมชาติไปยัง<span class="math inline">\(R\)</span> มันกลับมาเป็นว่า ถ้า<span class="math inline">\(R\)</span>คือadjointด้านขวาของบางfunctor<span class="math inline">\(L\)</span>จาก<span class="math inline">\(\textbf{Set}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span>โดยที่วัตถุแบบนี้ต้องมีตัวตนอยู่ ก็คือมันคือimageสำหรับsetที่มีสมาชิกเดี่ยว<span class="math inline">\(()\)</span>ภายใต้<span class="math inline">\(L\)</span>อย่าง</p>
+<p>แน่นอนว่าadjunctionบอกเราว่าสองhom-setต่อไปนี้นั้นisomorphicแบบธรรมชาติระหว่างกันคือ</p>
+<p><span class="math display">\[
+\textbf{C}(L(),c)\cong\textbf{Set}((), Rc)
+\]</span></p>
+<p>สำหรับ<span class="math inline">\(c\)</span>มี่ให้มา ด้านขวามือคือsetของfunctionจากsetที่มีสมาชิกเดี่ยว<span class="math inline">\(()\)</span>ไปยัง<span class="math inline">\(Rc\)</span> เราได้เห็นก่อนหน้านี้ว่าบางfunctionแบบนี้เลือกสมาชิกหนึ่งจากset<span class="math inline">\(Rc\)</span> setของfunctionแบบนี้นั้นisomorphicไปยังset<span class="math inline">\(Rc\)</span> ดังนั้นเรามีว่า</p>
+<p><span class="math display">\[
+\textbf{C}(L(),c)\cong R
+\]</span></p>
+<p>ที่แสดงว่า<span class="math inline">\(R\)</span>นั้นสามารถมีตัวแทนได้อย่างแน่นอน</p>
+</section>
+<section id="productจากadjunction" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="productจากadjunction"><span class="header-section-number">19.3</span> ProductจากAdjunction</h2>
+<p>เราได้แนะนำไปก่อนหน้านี้ถึงบางแนวคิดโดนการใช้การสร้างแบบสากล แนวคิดหลายๆอย่างเหล่านี้ ในตอนที่ถูกนิยามแบบสากล นั้นสามารถถูกแลดงโดนการใช้adjunction ตัวอย่างที่ง่ายแต่ไม่ตรงไปตรงมาคือproduct ส่วนสำคัญของการสร้างแบบสากลของproductคือความสามารถในการแยกตัวประกอบ สิ่งที่เหมือนproductใดๆก็ตามที่มีคุณสมบัติผ่านproductแบบสากล</p>
+<p>ถ้าให้แน่นอน productของสองวัตถุ<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>คือวัตถุ<span class="math inline">\((a\times b)\)</span> (หรือ <code>(a, b)</code>ในfunctionของHaskell)ที่มาคู่กับสองmorphism <span class="math inline">\(fst\)</span>และ<span class="math inline">\(snd\)</span>ในการที่ว่า สำหรับอีก<span class="math inline">\(c\)</span>ที่มีคุณสมบัติที่มากับสองmorphism<span class="math inline">\(p::c\rightarrow a\)</span>และ<span class="math inline">\(q::c\rightarrow b\)</span> ได้มีmorphismที่เป็นเอกลักษณ์อย่าง<span class="math inline">\(m::c\rightarrow (a,b)\)</span>ที่แยกตัวประกอบ<span class="math inline">\(p\)</span>และ<span class="math inline">\(q\)</span>ผ่าน<span class="math inline">\(fst\)</span>และ<span class="math inline">\(snd\)</span></p>
+<p>ในการที่เราได้เห็นไปก่อนหน้านี้ ในHaskell เราสามารถที่จะเขียน<code>factorizer</code>ที่สร้างmorphismแบบนี้จากprojectionสองตัวอย่าง</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">factorizer ::</span> (c <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> (c <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (c <span class="ot">-&gt;</span> (a, b))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>factorizer p q <span class="ot">=</span> \x <span class="ot">-&gt;</span> (p x, q x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันง่่ายที่จะตรวจสอบเงื่อนไขการแยกตัวประกอบ</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fst</span> <span class="op">.</span> factorizer p q <span class="ot">=</span> p</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">snd</span> <span class="op">.</span> factorizer p q <span class="ot">=</span> q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เรามีการโยงที่นำpairของmorphism<code>p</code>และ<code>q</code>และสร้างmorphismอีกตัวอย่าง<code>m = factorizer p q</code></p>
+<p>อะไรคือวิธีการที่เราสามารถแปลสิ่งนี้ไปยังการโยงระหว่างhom-setทั้งสองที่เราต้องการในการนิยามadjunction? เคล็ดลับคือการไปยังข้างนอกของ<span class="math inline">\(\textbf{Hask}\)</span>และมองคู่ของmorphismในฐานะmorphismเดี่ยวในcategoryแบบproduct</p>
+<p>ให้ผมได้เตือนคุณว่าcategoryแบบproductคืออะไร นำสองcategory<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span>ใดๆก็ตาม วัตถุในcategoryแบบproductคือตู่ของmorphsim หนึ่งในนั้นมาจาก<span class="math inline">\(\textbf{C}\)</span>และอีกตัวจาก<span class="math inline">\(\textbf{D}\)</span></p>
+<p>ในการนิยามproductในบางcategory<span class="math inline">\(\textbf{C}\)</span> เราอาจจะเริ่มกับcategoryแบบproduct<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span> คู่ของmorphismจาก<span class="math inline">\(\textbf{C}\)</span>คือmorphismเดี่ยวในcategoryแบบproduct<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/adj-productcat.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>มันอาจจะสับสนเล็กน้อยในตอนแรกที่เรากำลังใช้categoryแบบproductในการนิยามproduct แต่พวกมันคือproductที่แตกต่างกัน เราไม่ต้องการการสร้างแบบสากลในการนิยามcategoryแบบproduct ทั้งหมดที่เราต้องการคือของคู่ของวัตถุและคู่ของmorphism</p>
+<p>แต่คู่ของวัตถุจาก<span class="math inline">\(\textbf{C}\)</span>นั้นไม่ใช่วัตถุใน<span class="math inline">\(\textbf{C}\)</span> มันคือวัตถุในcategory<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span>ที่แตกต่างกัน เราสามารถที่จะเขียนpairในแบบอย่างเป็นทางการว่า<span class="math inline">\(\langle a,b\rangle\)</span>ที่<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>คือวัตถุของ<span class="math inline">\(\textbf{C}\)</span> ในอีกด้านหนึ่ง การสร้างแบบสากลนั้นจำเป็นในการนิยามวัตถุ<span class="math inline">\(a\times b\)</span>(หรือ<code>(a, b</code>ในHaskell) ที่คือวัตถุในcategory<em>เดียวกัน</em> วัตถุนี้นั้นควรที่จะแสดงคู่<span class="math inline">\(\langle a,b\rangle\)</span>ในรูปแบบที่กำหนดโดยการสร้างแบบสากล มันไม่จำเป็นต้องมีตัวตนอยู่และถ้ามันมีตัวตนอยู่สำหรับบางตัว อาจจะไม่มีตัวตนในอีกคู่ของวัตถุใน<span class="math inline">\(\textbf{C}\)</span></p>
+<p>เรามามองที่<code>factorizer</code>ในฐานะการโยงของhom-set homomorphismตัวแรกนั้นคือcategoryแบบproduct<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span>และตัวที่สองใน<span class="math inline">\(\textbf{C}\)</span> morphismแบบทั่วไปใน<span class="math inline">\(\textbf{C}\timess\textbf{C}\)</span>อาจจะเป็นคู่ของmorphism<span class="math inline">\(\langle f, g\rangle\)</span>ว่า</p>
+<p><span class="math display">\[
+\begin{gather*}
+  f :: c' \to a \\
+  g :: c'' \to b
+\end{gather*}
+\]</span></p>
+<p>ที่<span class="math inline">\(c''\)</span>นั้นอาจจะแตกต่างจาก<span class="math inline">\(c'\)</span> แต่ในการนิยามproduct เรานั้นสนใจในmorphismพิเศษใน<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span> คู่<span class="math inline">\(p\)</span>และ<span class="math inline">\(q\)</span>ที่ร่วมกันใช้วัตถุจุดเริ่ม<span class="math inline">\(c\)</span> มันไม่มีปัญหาเพราะในนิยามของadjunction วัตถุจุดเริ่มของhom-setด้านช้ายนั้นๆไม่ใช่วัตถุทั่วไป (มันคือผลของfunctor<span class="math inline">\(L\)</span>ด้านช้ายกระทำบนบางวัตถุจากcategoryด้านขวา) functorที่ตรงกับเงื่อนไขเหล่านี้นั้นเดาไมยาก มันคือdiagonal functor<span class="math inline">\(\Delta\)</span>จาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span> ที่การกระทำบนวัตถุว่า</p>
+<p><span class="math display">\[
+\Delta c = \langle c,c\rangle
+\]</span></p>
+<p>ดังนั้นHom-setด้านช้ายมือในadjunctionของเราควรที่จะเป็น</p>
+<p><span class="math display">\[
+(\textbf{C}\times{}\textbf{C})(\Delta\ c, \langle a, b \rangle)
+\]</span></p>
+<p>มันคือhom-setในcategoryของproduct สมาชิกของมันคือคู่ของmorphismที่เราเห็นมันในฐานะargumentของ<code>factorizer</code>ว่า</p>
+<p><span class="math display">\[
+(c \to a) \to (c \to b) \ldots{}
+\]</span></p>
+<p>Hom-setในด้าขวามืออยู่ใน<span class="math inline">\(\textbf{C}\)</span>และมันไปยังระหว่างวัตถุที่เป็นจุดเริ่ม<span class="math inline">\(c\)</span>และผลของบางfunctor<span class="math inline">\(R\)</span>กระทำบนวัตถุเป้าหมายใน<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span>นั้นคือfunctorที่โยงคู่<span class="math inline">\(\langle a,b\rangle\)</span>ไปยังวัตถุproduct <span class="math inline">\(a\times b\)</span> เรามองสมาชิกนี้ของhom-setในฐานะ<em>ผล</em>ของ<code>factorizer</code>อย่าง</p>
+<p><span class="math display">\[
+\ldots{} \to (c \to (a, b))
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/adj-product.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เรายังไม่มีadjunctionเต็มๆ สำหรับสิ่งนั้นเราต้องการ<code>factorizer</code>ของเราเป็นอย่างแรกที่จะสามารถinvertได้ (เรากำลังสร้างisomorphismระหว่างhom-set) inverseของ<code>factorizer</code>ควรที่จะเริ่มจากmorphism<span class="math inline">\(m\)</span> (ที่เป็นmorphismจากบางวัตถุ<span class="math inline">\(c\)</span>ไปยังวัตถุproduct<span class="math inline">\(a\times b\)</span>) ในอีกความหมายหนึ่ง<span class="math inline">\(m\)</span>ควรที่จะเป็นสมาชิกของ</p>
+<p><span class="math display">\[
+\textbf{C}(c,a\times b)
+\]</span></p>
+<p>Factorizerที่เป็นinverseควรที่จะโยง<span class="math inline">\(m\)</span>ไปยังmorphism<span class="math inline">\(\langle p,q\rangle\)</span>ใน<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span>ที่ไปจาก<span class="math inline">\(\langle c,c\rangle\)</span>ไปยัง<span class="math inline">\(\langle q,b\rangle\)</span> ในอีกความหมายหนึ่งmorphismที่เป็นสมาชิกของ</p>
+<p><span class="math display">\[
+(\textbf{C}\times{}\textbf{C})(\Delta\ c, \langle a, b \rangle)
+\]</span></p>
+<p>ถ้าการโยงนี้มีตัวตนอยู่ เราสรุปว่าได้มีadjointด้านขวาไปยังdiagonal functor functorนั้นนิยามproduct</p>
+<p>ในHaskellเราสามารถสร้างinverseของ<code>factorizer</code>โดยประกอบ<code>m</code>กับ<code>fst</code>และ<code>snd</code>ตามลำดับ</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">fst</span> <span class="op">.</span> m</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>q <span class="ot">=</span> <span class="fu">snd</span> <span class="op">.</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการทำให้การพิสูจน์สำเสร็จของความเท่ากันของสองวิธีในการนิยามproduct เราก็ต้องการที่จะแสดงว่าการโดยงระหว่างhom-setนั้นnaturalใน<span class="math inline">\(a\)</span>,<span class="math inline">\(b\)</span>และ<span class="math inline">\(c\)</span> ผมจะเหลือไว้ในฐานะบทฝึกหัดสำหรับผู้อ่านที่ทุ่มเท</p>
+<p>ในการสรุปสิ่งที่เราได้ทำคือproductแบบcategoryอาจจะถูกนิยามแบบสากลในฐานะ<em>adjointด้านขวา</em>ของdiagonal functorอย่าง</p>
+<p><span class="math display">\[
+(\textbf{C}\times{}\textbf{C})(\Delta\ c, \langle a, b \rangle) \cong \textbf{C}(c, a\times{}b)
+\]</span></p>
+<p>ในที่นี้<span class="math inline">\(a\times b\)</span>คือผลของการกระทำของfunctor adjointด้านขวา <em>Product</em>บนคู่<span class="math inline">\(\langle a,b\rangle\)</span> สังเกตว่าfunctorใดๆก็ตามจาก<span class="math inline">\(\textbf{C}\times\textbf{C}\)</span>คือbifunctorดังนั้น<em>Productt</em>คือbifunctor ในHaskell bifunctor <em>Product</em>นั้นถูกเขียนแค่ๆว่า <code>(,)</code> คุณสามารถใช้มันกับสองtypeและได้มาซึ่งtypeแบบproductตัวอย่างเช่น</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(,) <span class="dt">Int</span> <span class="dt">Bool</span> <span class="op">~</span> (<span class="dt">Int</span>, <span class="dt">Bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="exponentialจากadjunction" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="exponentialจากadjunction"><span class="header-section-number">19.4</span> ExponentialจากAdjunction</h2>
+<p>Exponential<span class="math inline">\(b^a\)</span>หรือวัตถุfunction<span class="math inline">\(a\Rightarrow b\)</span>สามารถถูกนิยามโดยการใช้การสร้างแบบสากล การสร้างแบบนี้ ถ้ามันมีอยู่สำหรับทุกๆคู่ของวัตถุ สามารถถูกมองในฐานะadjunction อีกครั้งที่เคล็ดลับคือการรวมไว้ในประโยคนั้น</p>
+<blockquote class="blockquote">
+<p>สำหรัยวัตถุ<span class="math inline">\(z\)</span>ใดๆก็ตามกับmorphism<span class="math inline">\(g::z\times a\rightarrow b\)</span>ได้มีmorphismที่เป็นเอกลักษณ์ <span class="math inline">\(h::z\rightarrow(a\Rightarrow b)\)</span></p>
+</blockquote>
+<p>ประโยคนี้ก่อให้เกิดการโยงระหว่างhom-set</p>
+<p>ในกรณีนี้ เรากำลังทำงานกับวัตถุในcategoryเดียวกัน ดังนั้นสองadjoint functorคือendofunctor (endo-)functorด้านช้าย<span class="math inline">\(L\)</span>ในตอนที่กระทำบนวัตถุ<span class="math inline">\(z\)</span>ก่อให้เกิด<span class="math inline">\(z\times a\)</span> มันคือfunctorที่ตรงกันกับการนำproductกับบาง<span class="math inline">\(a\)</span>ที่คงที่</p>
+<p>(endo-)functorด้านขวา<span class="math inline">\(R\)</span> ในการกระทำบน<span class="math inline">\(b\)</span>ก่อให้เกิดวัตถุfunction <span class="math inline">\(a\Rightarrow b\)</span> (หรือ<span class="math inline">\(b^a\)</span>) ในอีกครั้ง<span class="math inline">\(a\)</span>นั้นคงที่ adjunctionระหว่างfunctorเหล่านี้นั้นมักจะถูกเขียนในฐานะ</p>
+<p><span class="math display">\[
+-\times a \dashv (-)^a
+\]</span></p>
+<p>การโยงของhom-setที่อยู่ข้างใต้adjunctionนี้นั้นถูกมองอย่างชัดเจนโดยการเขียนใหม่diagramที่เราได้ใช้ในการสร้างแบบสากล</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/adj-expo.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>สังเกตว่าmorphism <em>eval</em>นั้นไม่เป็นอย่างอื่นนอกจากcounitของadjunctionนั้น</p>
+<p><span class="math display">\[
+(a \Rightarrow b)\times{}a \to b
+\]</span></p>
+<p>ที่</p>
+<p><span class="math display">\[
+(a \Rightarrow b)\times{}a = (L \circ R) b
+\]</span></p>
+<p>ผมได้กล่าวถึงก่อนหน้านี้ว่าการสร้างแบบสากลนิยามวัตถุที่เป็นเอกลักษณ์ขึ้นอยู่กับisomorphism นั้นคือเหตุผลว่าทำไมเรามีproduct(เดี่ยวๆ)และexponential(เดี่ยวๆ) คุณสมบัติแปลไปเป็นadjunctionด้วยคือถ้าfunctorมีadjoint adjointนี้นั้นเป็นเอกลักษณ์ที่ขึ้นอยู่isomorphism</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">19.5</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองหาsquareความเป็นธรรมชาติสำหรับ<span class="math inline">\(\psi\)</span> การแปลงระหว่างfunctor(แบบcontravariant)<span class="math display">\[\begin{gather*}a \to \textbf{C}(L a, b) \\a \to \textbf{D}(a, R b)\end{gather*}\]</span></li>
+<li>ลองหาcounit<span class="math inline">\(\varepsilon\)</span>เริ่มจากisomorphismของhom-setในนิยามที่สองของadjunction</li>
+<li>ทำให้การพิสูจน์สมบูรณ์ของความเท่ากับของสองนิยามของadjunction</li>
+<li>แสดงว่าcoproductสามารถถูกนิยามโดยadjunction เริ่มจากนิยามของตัวแยกตัวประกอบสำหรับcoproduct</li>
+<li>แสดงว่าcoproductคือadjointด้านช้ายของdiagonal functor</li>
+<li>นิยามadjunctionระหว่างproductและวัตถุfunctionในHaskell</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/3.1/its-all-about-morphisms.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/3.3/free-forgetful-adjunctions.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

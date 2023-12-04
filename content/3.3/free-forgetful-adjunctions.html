@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 20&nbsp; Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/3.4/monads-programmers-definition.html" rel="next">
+<link href="../../content/3.2/adjunctions.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.3/free-forgetful-adjunctions.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.1/its-all-about-morphisms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.2/adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.3/free-forgetful-adjunctions.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.4/monads-programmers-definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.5/monads-and-effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Monadและผลตามมา(Effect) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.6/monads-categorically.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ความเขาใจบางอยาง" id="toc-ความเขาใจบางอยาง" class="nav-link active" data-scroll-target="#ความเขาใจบางอยาง"><span class="header-section-number">20.1</span> ความเข้าใจบางอย่าง</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">20.2</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>การสร้างแบบอิสระ(Free Construction)นั้นเป็นการใช้งานของadjuntionที่มีความสามารถมาก functorอิสระนั้นถูกนิยามในฐานะadjointด้านช้ายของfunctorทำให้ลืม functorทำให้ลืมนั้นมักจะเป็นfunctorที่ค่อนข้างเรียบง่ายที่ลืมบางโครงสร้าง ตัวอย่างเช่น หลายcategoryที่น่าสนใจที่สรา้งบนset แต่วัตถุทางcategoryที่ทำการabstract setเหล่านี้ไม่มีโครงสร้างภายใน (พวมมันไม่มีสมาชิก) แต่วัตถุเหล่านี้มักจะนำความจำของsetต่าๆมาด้วย ในความหมายที่ว่าได้มีการโยง(functor)จากcategory<span class="math inline">\(\textbf{C}\)</span>ที่ให้มาไปยัง<span class="math inline">\(\textbf{Set}\)</span> setที่คู่กับบางวัตถุใน<span class="math inline">\(\textbf{C}\)</span>จะถูกเรียกว่า<em>setภายใต้</em></p>
+<p>Monoidคือวัตถุเหล่านี้ที่มีsetภายใต้(คือsetของสมาชิกต่าๆ) ได้มีfunctorทำให้ลืม<span class="math inline">\(U\)</span>จากcategoryของmonoids<span class="math inline">\(\textbf{Mon}\)</span>ไปยังcategoryของsetที่โยงmonoidไปยังsetภายใต้ของมัน มันก็โยงmorphismsของmonoid(homomorphisms)ไปยังfunctionระหว่างset</p>
+<p>ผมชอบที่จะคิดถึง<span class="math inline">\(\textbf{Mon}\)</span>ในฐานะการที่มีหลายบุคลิก ในด้านหนึ่งมันคือขุดของsetต่างๆกับการคูณและสมาชิกunit ในอีกด้านหนึ่งมันคือcategoryกับวัตถุที่ไม่มีคุณลักษณะที่โครงสร้างอย่างเดียวนั้นถูกฝังลงในmorphismที่ไประหว่างพวกมัน ทุกๆset-functionที่คงการคูณและunitไว้ก่อให้เกิดmorphismใน<span class="math inline">\(\textbf{Mon}\)</span></p>
+<p>สิ่งที่ต้องอยู่ในความคิดคือ</p>
+<ul>
+<li>ได้มีหลากหลายmonoidที่โยงไปยังsetเดียวกัน</li>
+<li>ได้มีจำนวนmorphismแบบmonoidที่น้อยกว่า(หรือไม่สูงไปกว่า)จำนวนของfunctioระหว่างsetภายใต้ของพวมมัน</li>
+</ul>
+<p>functor<span class="math inline">\(F\)</span>ที่คือadjointด้านช้ายกับfunctorทำให้ลืม<span class="math inline">\(U\)</span>คือfunctorอิสระที่สร้างmonoidอิสระจากsetที่เป็นตัวสร้าง(generator)ของมัน adjunctionตามจากการสร้างแบบสากลของmonoidอิสระที่เราได้พูดก่อนหน้านี้<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/forgetful.jpg" height="200" class="figure-img"></p>
+<figcaption class="figure-caption">Monoid<span class="math inline">\(m_1\)</span>และ<span class="math inline">\(m_2\)</span>มีsetภายใต้เดียวกัน ได้มีจำนวนfunctionที่มากกว่าระหว่างsetภายใต้ของ<span class="math inline">\(m_2\)</span>และ<span class="math inline">\(m_3\)</span>เมื่อเทียบกับmorphismระหว่างมัน</figcaption>
+</figure>
+</div>
+<p>ในรูปแบบของhom-setเราสามารถเขียนadjunctionนี้ว่า</p>
+<p><span class="math display">\[
+\textbf{Mon}(Fx,m)\cong\textbf{Set}(x, Um)
+\]</span></p>
+<p>ที่isomorhism(ที่เป็นธรรมชาติใน<span class="math inline">\(x\)</span>และ<span class="math inline">\(m\)</span>)บอกเราว่า</p>
+<ul>
+<li>สำหรับทุกๆhomomorphismของmonoidระหว่างmonoidอิสระ<span class="math inline">\(Fx\)</span>ที่สร้างมาโดย<span class="math inline">\(x\)</span>และmonoidทั่วๆไป<span class="math inline">\(m\)</span> ได้มีfunctionที่เป็นเอกลักษณ์ที่embed setของตัวสร้างอย่าง<span class="math inline">\(x\)</span>ไปในsetภายใต้ของ<span class="math inline">\(m\)</span> นั้นคือfunctionใน<span class="math inline">\(\textbf{Set}(x, Um)\)</span></li>
+<li>สำหรับทุกๆfunctionที่embed <span class="math inline">\(x\)</span>ในsetภายใต้ของบาง<span class="math inline">\(m\)</span> ได้มีmorphismของmonoidที่เป็นเอกลักษณ์ระหว่างfree monoidที่สร้างโดย<span class="math inline">\(x\)</span>และmonoid<span class="math inline">\(m\)</span> (ที่นี้คือmorphismที่เราเรียกว่า<span class="math inline">\(h\)</span>ในการสร้างแบบสากลของเรา)</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/freemonadjunction.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>แนวคิดคือว่า<span class="math inline">\(Fx\)</span>นั้นคือmonoidที่“สูงสุด”ที่สามารถถูกสร้างบนbasisของ<span class="math inline">\(x\)</span> ถ้าเราสามารถมอลเข้าไปในmonoid เราอาจจะเห็นว่าmorphismใดๆก็ตามที่อยู่ใน<span class="math inline">\(\textbf{Mon}(Fx, m)\)</span><em>embed</em>monoidอิสระในบางmonoid<span class="math inline">\(m\)</span>อื่นๆ มันทำอาจจะได้โดยการ ตามหาบางสมาชิก โดยเฉพาะ การที่มันembedตัวสร้าง(generator)ของ<span class="math inline">\(Fx\)</span>(นั้นก็คือสมาชิกของ<span class="math inline">\(x\)</span>)ใน<span class="math inline">\(m\)</span> adjunctionแสดงว่าembeddingของ<span class="math inline">\(x\)</span>ที่ให้โดยfunctionจาก<span class="math inline">\(\textbf{Set}(x, Um)\)</span>ทางด้านขวา กำหนดอย่างป็นเอกลักษณ์การembedของmonoidทางด้านช้ายและในทางกลับกัน</p>
+<p>ในHaskell ข้อมูลแบบlistที่คือmonoidอิสระ(ที่มีข้อควรระวังบางอย่าง ลองดูblog postของdan Doel<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>) typeแบบlist<code>[a]</code>นั้นคือmonoidอิสระกับtype<code>a</code>ที่เป็นตัวแทนของsetของตัวสร้าง(generator) ตัวอย่างเช่นtype<code>[Char]</code>มีสมาชิกunit(listว่าง<code>[]</code>)และสมาชิกที่มีตัวเดียวอย่าง<code>['a']</code>,<code>['b']</code> (ที่คือตัวสร้างของmonoidอิสระ) ส่วนที่เหลือถูกสร้างโดยการใช้งาน”การคูณ” ในที่นี้การคูณของlistสองตัวคือแค่การต่อกันของกันและกัน การต่อกันนั้นมีคุณสมบัติการเปลี่ยนหมู่และการมีunit(นั้นก็คือได้มีสมาชิกธรรมชาติที่ในที่นี้คือlistว่าง)monoidอิสระที่สร้างโดย<code>Char</code>นั้นคือแค่setของstringทั้งหมดของตัวอักษรใน<code>Char</code>มันถูกเรียกว่า<code>String</code>ในHaskell</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">String</span> <span class="ot">=</span> [<span class="dt">Char</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(<code>type</code>นิยามชื่อที่ต่างกันสำหรับtypeที่มีอยู่แล้ว แต่ความหมายเดี่ยวกัน (type synonym))</p>
+<p>ตัวอย่างอีกตัวที่น่าสนใจคือmonoidอิสระที่สร้างจากคือตัวสร้างเดียว มันคือtypeของlistของunitอย่าง<code>[()]</code> สมาชิกของมันคือ<code>[],[()],[(), ()]</code>และอื่นๆ ในทุกๆlistแบบนี้สามารถถูกนิยามในฐานะจำนวนธรรมชาตินั้นก็คือชนากของมัน ไม่ได้มีข้อมูลอื่นๆมากขึ้นที่อยู่ในlistของunitนี้ การต่อกันของสองlistแบบนี้ได้สร้างlistใหม่ที่ขนาดของมันนั้นคือการบวกกันของแต่ละส่วนประกอบของมัน มันง่ายมากที่เห็นว่าtype<code>[()]</code>นั้นisomorphicไปยังmonoidการบวกของจำนวนธรรมชาติ(กับเลขศูนย์) ที่นี้คือfunctionสองตัวที่คือinverseของกันละกัน ทำให้เห็นisomorphismนี้</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">toNat ::</span> [()] <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>toNat <span class="ot">=</span> <span class="fu">length</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ot">toLst ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [()]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>toLst n <span class="ot">=</span> <span class="fu">replicate</span> n ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สำหรับให้ง่ายดาย ผมได้ใช้type<code>Int</code>แทที่จะเป็น<code>Natural</code>แต่แนวคิดนั้นเหมือนกัน function<code>replicate</code>สร้างlistที่มีความยาว<code>n</code>ถูกเติมไปก่อนหน้าโดยค่าที่ให้(ในที่นี้คือunit)</p>
+<section id="ความเขาใจบางอยาง" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="ความเขาใจบางอยาง"><span class="header-section-number">20.1</span> ความเข้าใจบางอย่าง</h2>
+<p>สิ่งที่ตามมาคือการเสนอที่อาจจะไม่เข้มงวดมาก การเสนอต่างๆแบบนี้นั้นไกลเกินไปกว่าแบบรัดกุม แต่พวกมันช่วยก่อให้เกิดการเข้าใจ</p>
+<p>ในการได้มาซึ่งความเข้าใจเกี่ยวกับadjunctionแบบอิสระ/ทำให้ลืม มันช่วยในการที่จะจำได้ว่าfunctorและfunctionนั้นมทารถทำบางข้อมูลหาย(lossy)โดยธรรมชาติ functorอาจจะรวบหลายๆวัตถุและmorphsism functionอาจจะรวบคู่กับหลายสมาชิกของset imageของพวกมันอาจจะรวมไปถึงแค่ส่วนๆหนึ่งของcodomainของมัน</p>
+<p>Hom-set”โดยทั่วไป”ใน<span class="math inline">\(\textbf{Set}\)</span>อาจจะมีทุกความเป็นไปได้ของfunction เริ่มต้นกับสิ่งที่ทำข้อมูลหายน้อยที่สุด(ตัวอย่างเช่นinjectionหรืออาจจะเป็นisomorphism)และจบลงที่functionคงที่ที่ยุบทั้งdomainไปยังสมาชิกหนึ่ง(ถ้ามันจะมีอยู่)</p>
+<p>ผมมักจะคิดถึงmorphismในcategoryทั่วไปในฐานะสิ่งที่ทำข้อมูลหายด้วย มันคือแค่วิธีคิดง่ายๆแต่มันเป็นสิ่งที่มีประโยชน์ โดยเฉพาะเช่นในตอนที่คิดเกี่ยวกับadjunction (โดยเฉพาะสิ่งเหล่านี้ที่เป็นหนึ่งในcategoryของ<span class="math inline">\(\textbf{Set}\)</span>)</p>
+<p>ให้อย่างเป็นทางการ เราสามารถได้แค่พูดถึงmorphismที่สามารถinveresได้(isomorphism)หรือไม่สามารถinvertibleได้ มันคือแค่ว่าแบบหลังที่อาจจะถูกคิดถึงในฐานะสิ่งทำบางข้อมูลหาย ก็ได้มีแนวคิดของmorphismแบบmonoและepiที่สามารถถูกgeneralizeของแนวคิดของinjective(ไม่สามารถถูกรวบได้)และsurjective(คลุมไปยังทั้งcodomain)function แต่มันเป็นไปได้ในการมีmorphismที่เป็นทั้งmonoและepiแต่ยังไม่สามารถinvertibleได้</p>
+<p>ในadjunctionของ<span class="math inline">\(\text{Free}\vdash\text{Forgetful}\)</span> เราได้มีcategoryที่จำกัด<span class="math inline">\(\textbf{C}\)</span>มากกว่าในด้านช้ายและcategory<span class="math inline">\(\textbf{D}\)</span>ที่จำกัดน้อยกว่าทางด้านขวา morphismใน<span class="math inline">\(\textbf{C}\)</span>นั้น”น้อยกว่า”เพราะว่าพวกมันต้องดำรงไว้ของบางโครงสร้าง ในกรณีของ<span class="math inline">\(\textbf{Mon}\)</span> พวกมันต้องการที่จะดำรงไว้ของการคูณและunit morphismใน<span class="math inline">\(\textbf{D}\)</span>ไม่ต้องที่จะดำรงไว้กับโครงสร้างมานัก ดังนั้นได้มีพวมมันที่“มากกว่า”</p>
+<p>ในตอนที่เราใช้งานfunctorทำให้ลืม<span class="math inline">\(U\)</span>ไปยังวัตถุ<span class="math inline">\(c\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> เราคิดถึงมันในฐานะการแสดงให้เห็น”โครงสร้างภายใน”ของ<span class="math inline">\(c\)</span> ในความเป็นจริงแล้ว ถ้า<span class="math inline">\(\textbf{D}\)</span>คือ<span class="math inline">\(\textbf{Set}\)</span> เราคิดถึง<span class="math inline">\(U\)</span>ในฐานะ<em>การนิยาม</em>(โครงสร้างภายในของ<span class="math inline">\(c\)</span>)setภายใต้ของมัน (ในcategoryทั่วๆไป เราไม่สามารถที่จะพูดเกี่ยวกับข้างในของวัตถุนอกเหนือไปจากผ่านการเชื่อมต่อไปยังอีกวัตถุ แต่ที่นี้เราแต่ทำแบบคร่าวๆ)</p>
+<p>ถ้าเราโยงสองวัตถุ<span class="math inline">\(c'\)</span>และ<span class="math inline">\(c\)</span>โดยการใช้<span class="math inline">\(U\)</span> โดยเท่าไปเราคาดหมายว่าการโยงของhom-set<span class="math inline">\(\textbf{C}(c',c)\)</span>เราจะครอบคลุมแค่subsetของ<span class="math inline">\(\textbf{D}(Uc',Uc)\)</span> ที่ก็เพราะว่าmorphismใน<span class="math inline">\(\textbf{C}(c',c)\)</span>ต้องการที่คงไว้ซึ่งโครงสร้างเพิ่มเติมแต่ส่วนของ<span class="math inline">\(\textbf{D}(Uc',Uc)\)</span>ไม่จำเป็นต้อง</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/forgettingmorphisms.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>แต่เนื่องด้วยadjunctionนั้นถูกนิยามในฐานะ<em>isomorphism</em>ของhom-setเฉพาะ เราต้องระวังเป็นอย่างมากกับการเลือกของ<span class="math inline">\(c'\)</span>ของเรา ในadjunction <span class="math inline">\(c'\)</span>นั้นถูกเลือกไม่ได้จากที่ใหนก็ได้ใน<span class="math inline">\(\textbf{C}\)</span>แต่จาก(ที่อาจจะเดาได้ว่าจะเล็กกว่า)imageของfunctor<span class="math inline">\(F\)</span>อิสระ</p>
+<p><span class="math display">\[
+\textbf{C}(F d, c) \cong \textbf{D}(d, U c)
+\]</span></p>
+<p>ดังนั้นimageของ<span class="math inline">\(F\)</span>ต้องประกอบด้วยวัตถุที่มีmorphismหลากหลายที่ไปยัง<span class="math inline">\(c\)</span>ใดๆก็ตาม ในความเป็นจริงแล้วมันจำเป็นต้องให้จำนวนของmorphismที่คงไว้ซึ่งโครงสร้างจาก<span class="math inline">\(Fd\)</span>ไปยัง<span class="math inline">\(c\)</span>นั้นเท่ากับmorphismที่ไม่ได้คงไว้ซึ่งโครงสร้างจาก<span class="math inline">\(d\)</span>ไปยัง<span class="math inline">\(Uc\)</span> มันหมายความว่าimageของ<span class="math inline">\(F\)</span>ต้องประกอบด้วยวัตถุที่ไร้ซึ่งโครงสร้างทั้งหมด(เพื่อที่จะไม่มีโครงสร้างให้คงไว้โดยmorphism) วัตถุที่“ไร้ซึ่งโครงสร้าง”แบบนี้นั้นถูกเรียกว่าวัตถุอิสระ</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/freeimage.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในตัวอย่างของmonoid monoidอิสระไม่มีโครงสร้างนอกเหนือไปจากสิ่งที่ถูกสร้างโดยกฏของunitและการสลับตำแหน่ง นอกเหนือจากนั้นการคูณทั้งหมดก่อให้เกิดสมาชิกใหม่</p>
+<p>ในmonoidอิสระ <span class="math inline">\(2*3\)</span>นั้นไม่ใช่<span class="math inline">\(6\)</span> มันคือสมาชิกใหม่<span class="math inline">\([2,3]\)</span> เนื่องด้วยไม่มีการแยกแยะ(หรือการหาเอกลักษณ์/ความเหมือนกัน)ของ<span class="math inline">\([2,3]\)</span>และ<span class="math inline">\(6\)</span> morphismจากmonoidอิสระนี้ไปยังmonoid<span class="math inline">\(m\)</span>อื่นๆจึงอนุญาติในมีการแยกแยะระหว่างการโยงของพวกมัน แต่มันก็okสำหรับการที่โยงทั้ง<span class="math inline">\([2,3]\)</span>และ<span class="math inline">\(6\)</span>(ผลคูณของพวกมัน)ไปยังสมาชิกเดียวกันของ<span class="math inline">\(m\)</span> หรือการแยกแยะ<span class="math inline">\([2,3]\)</span>และ<span class="math inline">\(5\)</span>(ผลบวกของพวกมัน)ในmownoidการบวกและอื่นๆ การแยกแยะที่แตกต่างกันให้เราmonoidที่แตกต่างกัน</p>
+<p>สิ่งนี้นำไปยังความเข้าใจที่น่าสนใจอีกกย่างหนึ่งคือmonoidอิสระแทนที่จะกระทำoperationของmonoid ได้ทำการรวมargumentsต่างๆที่ส่งไปยังมัน แทนที่จะทำหารคูณ<span class="math inline">\(2\)</span>และ<span class="math inline">\(3\)</span>มันทำหหารจำ<span class="math inline">\(2\)</span>และ<span class="math inline">\(3\)</span>ไปใยlist ความได้เปรียบของการทำแบบนี้คือการที่ว่าเราไม่จำเป็นต้องกำหนดoperationของmonoidที่เราจะใช้ เราสามารถทำการรวบรวมargumentต่างๆและในสุดท้ายทำการใช้งานoperatorไปยังผลลัพธ์ และมันเป็นที่ว่าเราสามารถเลือกoperatorอะไรที่เราทำการใช้งาน เราสามารถบวกตัวเลขหรือคูณมันหรือทำการบอกแบบmodulo 2และอื่นๆ monoidอิสระแยกการสร้างของการแสดงออกไปจากการคำนวณของมัน เราจะเห็นสิ่งนี้อีกครั้งในตอนที่เราพูดเกี่ยวกับalgebra</p>
+<p>วิธีคิดแบบนี้สามารถขยายต่อไปยังสิ่งอื่น เป็นการสร้างแบบอิสระที่ประณีตมากกว่า ตัวอย่างเช่นเราสามารถรวบรวมการexpression treesทั้งหมดก่อนที่จะคำนวณมัน จุดเด่นของวิธีนี้คือการที่ว่าเราสามารถเปลี่ยนแปลงtreeหเหล่านี้ในการที่ให้การคำนวณเร็วขึ้นหรือใช้memoryน้อยกว่า ตัวอย่างเช่นสิ่งนี้สามารถทำได้ในการเขียนการคำนวณของmatrixที่การคำนวณแบบeager(eager evaluation)นำไปสู่การโยกย้ายarrayชั่วคราวในการเก็บผลลัพธ์ระหว่างกลาง</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">20.2</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองพิจารณาmonoidอิสระที่สร้างจากsetที่มีสมาชิกเดีี่ยวในฐานะgeneratorของมัน ลองแสดงว่าได้มีการเทียบกันแบบหนึ่งต่อหนึ่งระหว่างmorphismจากmonoidอิสระนี้ไปยังmonoid<span class="math inline">\(m\)</span>อะไรก็ได้และfunctionจากsetที่มีสมาชิกเดีี่ยวไปยังsetภายใต้ของ<span class="math inline">\(m\)</span></li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>ดูบทที่13ที่เกี่ยวกับmonoidอิสระ<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="http://comonad.com/reader/2015/free-monoids-in-haskell/">http://comonad.com/reader/2015/free-monoids-in-haskell/</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/3.2/adjunctions.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/3.4/monads-programmers-definition.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
