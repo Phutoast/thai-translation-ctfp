@@ -1,0 +1,16 @@
+# Original Book's Colophon (Sketch)
+
+หนังสือเล่มนี้ถูกรวบรวมโดย[Igal Tabachnik](https://hmemcpy.com/)[^1] โดยการแปลงต้นฉบับเดิมของBartosz Milewskไปยังรูปแบบของ$\LaTeX{}$โดยการscrap postsในblogของWordPressโดยการใช้[Mercury Web Parser](https://mercury.postlight.com/web-parser)[^2]  แลทำการแปลงและแก้ไขด้วย[Beautiful Soup](https://www.crummy.com/software/BeautifulSoup)[^3]  และสุดท้ายทำการแปลงไปยัง$\LaTeX{}$ด้วย[Pandoc](https://pandoc.org)[^4] 
+
+type faceคือLinux Libertineสำหรับbody textและLinux Biolinumสำหรับheadingที่ทั้งสองออกแบบโดยPhilipp H. Poll  Typewriter faceคือInconsolataที่สร้างโดยRaph Levienและเสริมเพิ่มเติมโดยDimosthenis Kaponis และTakashi Tanigawaในการสร้างInconsolata lgc typefaceของหน้าปกคือAlegreyaที่ออกแบบโดย Juan Pablo del Peral
+
+หนังสือต้นฉบับlayout designและtypographyถูกทำโดยAndres Raba highlightingของSyntaxนั้นใช้styleของ"Github"สำหรับPygmentsโดย[Hugo Maia Vieira](https://github.com/hugomaiavieira/pygments-style-github)[^5] 
+
+
+[^1]: [https://hmemcpy.com/](https://hmemcpy.com/)
+[^2]: [https://mercury.postlight.com/web-parser/](https://mercury.postlight.com/web-parser)
+[^3]: [https://www.crummy.com/software/BeautifulSoup](v)
+[^4]: [https://pandoc.org](https://pandoc.org)
+[^5]: [https://github.com/hugomaiavieira/pygments-style-github](https://github.com/hugomaiavieira/pygments-style-github)
+
+

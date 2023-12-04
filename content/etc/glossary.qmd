@@ -1,0 +1,30 @@
+# คำเฉพาะและคำแปลของมัน
+
+| คำอังกฤษ  | คำแปลไทย  |
+|----------|-----------|
+| Composition | การประกอบกัน |
+| Category Theory  | ทฤษฎีcategory   |
+| Side Effects | ผลข้างเคียง |
+| return type | คืนค่าที่เป็นtype |
+| associativity | คุณสมบัติการเปลี่ยนหมู่ |
+| identity function | function identity |
+| universal | เป็นสากล |
+| function call | เรียกใช้function |
+| expression | สูตร |
+| concept | แนวคิด |
+| higher-order function  | functionลำดับสูง |
+| singleton set | setที่มีสมาชิกเพียงตัวเดียว |
+| Pattern matching | จับคู่รูปแบบ |
+| wildcard pattern | รูปแบบตัวแทน |
+| free category | category อิสระ |
+| generalization | การวางนัยทั่วไป |
+| embellished | ประดับ |
+| universal construction | การสร้างแบบสากล | 
+| Initial Object | วัตถุเริ่มต้น | 
+| uniqueness up to isomorphism | เอกลักษณ์จนถึงความisomorphism |
+| opposite category | categoryตรงข้าม |
+| factorize | แยกตัวประกอบ |
+| tagged untion | unionที่มีการระบุตัว |
+| finite set | setจำกัด |
+| embedding | การฝัง |
+| operation | วิธีการ |

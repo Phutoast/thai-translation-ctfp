@@ -1,0 +1,54 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "ทฤษฎีcategoryสำหรับโปรแกรมเมอร์"
+  author: "Phu Sakulwongtana"
+  date: "today"
+  chapters:
+    - index.qmd
+    - content/0.0/preface.qmd
+    - part: "Part 1"
+      chapters:
+        - content/1.1/category-the-essence-of-composition.qmd
+        - content/1.2/types-and-functions.qmd
+        # - content/1.3/categories-great-and-small.qmd
+        # - content/1.4/kleisli-categories.qmd
+        # - content/1.5/products-and-coproducts.qmd
+        # - content/1.6/simple-algebraic-data-types.qmd
+        # - content/1.7/functors.qmd
+        # - content/1.8/functoriality.qmd
+        # - content/1.9/function-types.qmd
+        # - content/1.10/natural-transformations.qmd
+    # - part: "Part 2"
+    #   chapters:
+    #     - content/2.1/declarative-programming.qmd
+    #     - content/2.2/limits-and-colimits.qmd
+    #     - content/2.3/free-monoids.qmd
+    #     - content/2.4/representable-functors.qmd
+    #     - content/2.5/the-yoneda-lemma.qmd
+    #     - content/2.6/yoneda-embedding.qmd
+    # - part: "Part 3"
+    #   chapters:
+    #     - content/3.1/its-all-about-morphisms.qmd
+    #     - content/3.2/adjunctions.qmd
+    #     - content/3.3/free-forgetful-adjunctions.qmd
+    #     - content/3.4/monads-programmers-definition.qmd
+    #     - content/3.5/monads-and-effects.qmd
+    #     - content/3.6/monads-categorically.qmd
+    - part: "Appendices"
+      chapters:
+        - content/etc/glossary.qmd
+        - content/etc/acknowledgments.qmd
+        - content/etc/colophon.qmd
+        - content/etc/copyleft.qmd
+
+format:
+  html:
+    theme: cosmo
+    code-block-border-left: true
+    highlight-style: github
+
+
+

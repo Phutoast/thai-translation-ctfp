@@ -1,0 +1,9 @@
+# Original Book's Copyleft Notice (Sketch)
+
+หนังสือเล่มนี้คือแบบ**Libre**และตามมาจากแนวคิดของ[Free Software](https://www.gnu.org/philosophy/free-sw.en.html)[^1]คือคุณสามารถใช้หนังสือเล่มนี้ในแบบใหนก็ได้ sourceนั้นมีอยู่ คุณสามารถแจกจ่ายหนังสือเล่มนี้ซ้ำและคุณสามารถแจกจ่ายversionของคุณเอง นั้นหมายความว่าคุณสามารถพิมพ์มัน ถ่ายเอกสารมัน e-mailมัน uploadขึ้นwebsites เปลี่ยนมัน แปลมัน ดัดแปลงมัน ลบส่วนต่างๆ และวาดบนมัน
+
+
+หนังสือเล่มนี้เป็นCopyleft ถ้าคุณเปลี่ยนหนังสือเล่มนี้และแจกจ่ายโดยversionของคุณเองคุณต้องสิ่งต่อความอิสรนี้ไปยังผู้ที่ได้รับ หนังสือเล่มนี้ใช้ครีเอทีฟคอมมอนส์Attribution-ShareAlike 4.0 International License([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/))
+
+[^1]: [https://www.gnu.org/philosophy/free-sw.en.html](https://www.gnu.org/philosophy/free-sw.en.html)
+
