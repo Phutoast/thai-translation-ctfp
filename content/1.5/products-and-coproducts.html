@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 6&nbsp; ProductและCoproduct (Draft)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/1.6/simple-algebraic-data-types.html" rel="next">
+<link href="../../content/1.4/kleisli-categories.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.5/products-and-coproducts.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#วตถเรมตน-initial-object" id="toc-วตถเรมตน-initial-object" class="nav-link active" data-scroll-target="#วตถเรมตน-initial-object"><span class="header-section-number">6.1</span> วัตถุเริ่มต้น (Initial Object)</a></li>
+  <li><a href="#วตถสดทาย-terminal-object" id="toc-วตถสดทาย-terminal-object" class="nav-link" data-scroll-target="#วตถสดทาย-terminal-object"><span class="header-section-number">6.2</span> วัตถุสุดท้าย (Terminal Object)</a></li>
+  <li><a href="#duality" id="toc-duality" class="nav-link" data-scroll-target="#duality"><span class="header-section-number">6.3</span> Duality</a></li>
+  <li><a href="#isomorphisms" id="toc-isomorphisms" class="nav-link" data-scroll-target="#isomorphisms"><span class="header-section-number">6.4</span> Isomorphisms</a></li>
+  <li><a href="#products" id="toc-products" class="nav-link" data-scroll-target="#products"><span class="header-section-number">6.5</span> Products</a></li>
+  <li><a href="#coproduct" id="toc-coproduct" class="nav-link" data-scroll-target="#coproduct"><span class="header-section-number">6.6</span> Coproduct</a></li>
+  <li><a href="#ความไมสมมาตรasymmetry" id="toc-ความไมสมมาตรasymmetry" class="nav-link" data-scroll-target="#ความไมสมมาตรasymmetry"><span class="header-section-number">6.7</span> ความไม่สมมาตร(Asymmetry)</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">6.8</span> โจทย์ท้าทาย</a></li>
+  <li><a href="#บรรณานกรม" id="toc-บรรณานกรม" class="nav-link" data-scroll-target="#บรรณานกรม"><span class="header-section-number">6.9</span> บรรณานุกรม</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>ในกรีซโบราณนักเขียนบทละครEuripidesเคยพูดไว้ว่า “มนุษย์ทุกๆคนนั้นเหมือนกันกับกลุ่มคนที่เขาอยากจะคบ” เราถูกนิยามโดยความสัมพันธ์ของเรา ไม่มีที่ใหนที่ถูกไปยิ่งกว่าในทฤษฎีcategory ถ้าเราต้องการที่จะแยกบางวัตถุในcategoryหนึ่ง เราสามารถที่จะทำแบบนั้นได้โดยการอธิบายรูปแบบของสัมพันธ์กับวัตถุต่างๆ (และกับตัวมัน) ความสัมพันธ์เหล่านี้ถูกกำหนดไว้โดยmorphismต่างๆ</p>
+<p>ได้มีการสร้างที่ทั่วไปในทฤษฎีcategoryที่เรียกว่าการสร้างแบบสากล (universal construction)สำหรับการนิยามวัตถุต่างๆในรูปแบบของความสัมพันธ์ของมัน หนึ่งในแบบของการทำแบบนี้คือการเลือกรูปแบบ รูปร่างเฉพาะที่ถูกสร้างจากวัตถุและmorphisms และตามหาการปรากฏตัวของรูปแบบนั้นทั้งหมดในcategoryนั้นๆ ถ้ามันเป็นรูปแบบที่ทั่วไปมากพอและcategoryมีขนาดที่ใหญ่ คุณก็มีโอกาสที่จะเจอพวกมันมากขึ้น เคล็ดลับก็คือการจัดตั้งอันดับในแบบต่างๆภายในสิ่งที่เราเจอและเลือกสิ่งที่สามารถถูกจะพิจารณาว่าเป็นเหมาะสมมากที่สุด</p>
+<p>กระบวนการแบบนี้มีความคล้ายเคียงกับการที่เราทำการค้นหาในเว็บ คำถามที่เราพิมพ์ก็เป็นเหมือนรูปแบบ คำถามที่มีความทั่วไปสูงก็จะให้เราคำตอบที่มากมาย(recallที่ใหญ่) บางตัวอาจจะตรงประเด็นบางตัวอาจจะไม่ เพื่อในการขจัดคำตอบที่ไม่ตรงประเด็นคุณต้องที่จะปรับแต่งคำถามของคุณ นี่จะเป็นการเพิ่มความแม่นยำ(precision) สุดท้ายแล้วเครื่องมือค้นหาจะจัดอันดับของคำตอบและหวังว่าผลลัพธ์หนึ่งเดียวที่คุณมีความสนใจจะอยู่ในจุดบนสุดของlist</p>
+<section id="วตถเรมตน-initial-object" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="วตถเรมตน-initial-object"><span class="header-section-number">6.1</span> วัตถุเริ่มต้น (Initial Object)</h2>
+<p>รูปร่างที่ง่ายที่สุดก็คือวัตถุเดี่ยว แน่นอนว่าได้มีตัวอย่างของรูปร่างนี้อยู่อย่างมากมายเทียบเท่าจำนวนของวัตถุในcategoryที่จะมีให้ ได้มีหลายอย่างสามารถที่จะถูกเลือกได้ เราต้องการที่จะจัดตั้งการจัดอันดับบางอย่างและลองที่จะหาวัตถุที่อยู่ข้างบนลำดับชั้นนี้ วิธีการที่เรามีเพียงอย่างเดียวก็คือmorphism ถ้าคุณคิดว่าmorphismเป็นลูกศร มันก็เป็นไปได้ที่จะมีจำนวนรวมของลูกศรจากจุดๆหนึ่งของcategoryไปยังอีกจุดหนึ่ง นั้นก็จริงอยู่ในcategoryแบบorderedอย่างpartial orders เราสามารถที่จะgeneralizeแนวคิดของการลำดับความสำคัญของวัตถุโดยการเสนอว่าวัตถุ<span class="math inline">\(a\)</span>นั้นมี“ความเริ่มต้น”มากกว่าวัตถุ<span class="math inline">\(b\)</span>ถ้ามันมีลูกศร(morphism)ที่มาจาก<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(b\)</span> เราก็อาจจะนิยามวัตถุเริ่มต้น<em>จริงๆ</em>ในฐานะสิ่งที่มีลูกศรไปยังทุกๆวัตถุ ชัดเจนว่ามันไม่มีการรับประกันว่าวัตถุแบบนี้มีอยู่และนั้นก็ไม่ใช่ปัญหา ปัญหาที่ใหญ่กว่านี้คือการที่อาจจะมีวัตถุเหล่านี้มากเกินไป คำตอบมีมากมายแต่ไม่มีความแม่นยำ วิธีการแก้คือการนำแนวคิดจากcategoryแบบorderedที่อนุญาตให้มีลูกศรได้มากสุดแค่หนึ่งตัวระหว่างสองวัตถุ นั้นก็คือมีวิธีเดียวในการที่จะเป็นวัตถุที่น้อยกว่าหรือเท่ากับกับวัตถุอื่น ที่จะนำไปสู่นิยามนี้ของวัตถุเริ่มต้น</p>
+<blockquote class="blockquote">
+<p><strong>วัตถุเริ่มต้นจริงๆ</strong> คือวัตถุที่มีmorphismเพียงหนึ่งเดียวไปยังทุกๆวัตถุในcategory</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/initial.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>แต่ว่า การทำแบบนี้ก็ไม่ได้รับประกันความเป็นเอกลักษณ์ของวัตถุเริ่มต้น (ถ้ามันมีอยู่) แต่มันรับประกันในสิ่งที่ดีรองลงมาก็คือความเป็นเอกลักษณ์<em>จนถึงความisomorphism</em>(uniqueness up to isomorphism) ความเป็นisomorphismนั้นมีความสำคัญในทฤษฎีcategoryดังนั้นผมจะพูดถึงเกี่ยวกับมันในอีกไม่นาน ในตอนนี้เรามาเห็นด้วยร่วมกันว่าความเป็นเอกลักษณ์จนถึงความisomorphismเหมาะสมกับการใช้คำว่า “จริงๆ” (the)ในนิยามของวัตถุเริ่มต้น</p>
+<p>นี่คือตัวอย่างบางอย่าง วัตถุเริ่มต้น(จริงๆ)ในsetที่มีลำดับบางส่วน (partially ordered set บ่อยครั้งที่ใช้ชื่อว่า <em>poset</em>)คือสมาชิกที่เล็กที่สุด ในposetบางตัวไม่มีวัตถุเริ่มต้นอย่างเช่นsetของจำนวนเต็ม(ทั้งบวกและลบ)ที่มีความสัมพันธ์เป็นความน้อยกว่าหรือเท่ากับเป็นmorphism</p>
+<p>ในcategoryของsetและfunction วัตถุเริ่มต้นคือsetว่าง จำได้ว่าsetว่างตรงกันกับtypeของHaskellอย่าง<code>Void</code> (ไม่มีtypeที่ตรงกันกับtypeนี้ในC++)และfunction polymorphicที่มีอยู่อันเดียวจาก<code>Void</code>ไปยังtypeอื่นๆถูกเรียกว่า<code>absurd</code></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">absurd ::</span> <span class="dt">Void</span> <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันคือครอบครัวของmorphismที่ทำให้<code>Void</code>เป็นวัตถุเริ่มต้นในcategoryของtype</p>
+</section>
+<section id="วตถสดทาย-terminal-object" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="วตถสดทาย-terminal-object"><span class="header-section-number">6.2</span> วัตถุสุดท้าย (Terminal Object)</h2>
+<p>เรามาตามต่อกับรูปแบบของวัตถุเดี่ยวแต่เราจะมาเปลี่ยนวิธีการในการจัดอันดับของวัตถุต่างๆ เราจะพูดได้ว่าวัตถุ<span class="math inline">\(a\)</span>นั้น”มีความเป็นสุดท้าย”มากว่าวัตถุ<span class="math inline">\(b\)</span>ถ้ามีmorphismจาก<span class="math inline">\(b\)</span>ไปยัง<span class="math inline">\(a\)</span> (สังเกตได้ว่ามีการเปลี่ยนทิศทาง) เราจะตามหาวัตถุที่มีความเป็นสุดท้ายมากกว่าวัตถุอื่นๆในcategory อีกครั้งหนึ่งเราจะย้ำความเป็นเอกลักษณ์</p>
+<blockquote class="blockquote">
+<p><strong>วัตถุสุดท้ายจริงๆ</strong> คือวัตถุที่มีmorphismเพียงหนึ่งเดียวจากทุกๆวัตถุในcategory</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/final.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>และอีกครั้งที่วัตถุสุดท้ายนั้นมีความเป็นเอกลักษณ์<em>จนถึงความisomorphism</em>ที่ผมจะแสดงให้เห็นในอีกไม่ช้า แต่ก่อนหน้านั้นเรามาดูในบางตัวอย่าง ในposetตัวหนึ่ง วัตถุสุดท้าย(ถ้ามันมีอยู่)คือวัตถุที่ใหญ่ที่สุด ในcategoryของsetวัตถุสุดท้ายคือsetที่มีสมาชิกเพียงตัวเดียว เราได้พูดเกี่ยวกับsetที่มีสมาชิกเพียงตัวเดียวแล้ว พวกมันตรงกันกับtypeอย่าง<code>void</code>ในC++และtype unit <code>()</code>ในHaskell มันคือtypeที่มีแต่ค่าๆเดียวที่ที่เขียนเป็นนัยในC++และอย่างเปิดเผยในHaskellที่มี<code>()</code>เป็นสัญลักษณ์ เราจะก็สถาปนาว่าได้มีfunction pureในแค่แบบเดียวจากtypeอะไรก็ได้ไปยังtype unit</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">unit ::</span> a <span class="ot">-&gt;</span> ()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>unit _ <span class="ot">=</span> ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ดังนั้นเงื่อนไขสำหรับการเป็นวัตถุสุดท้ายก็จะถูกบรรลุ</p>
+<p>สังเกตได้ว่าในตัวอย่างนี้เงื่อนไขที่ให้มีความเป็นเอกลักษณ์นั้นสำคัญมากเพราะว่าอาจจะมีsetอื่นๆ (ที่จริงๆแล้วก็รวมไปถึงsetทั้งหมดยกเว้นsetว่าง)ที่จะมีmorphismเข้ามาจากทุกๆset ตัวอย่างเช่นได้มีfunctionที่มีค่าboolean (predicate)ที่ถูกนิยามในtypeทุกๆtype</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">yes ::</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>yes _ <span class="ot">=</span> <span class="dt">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่<code>Bool</code>นั้นไม่ใช่วัตถุสุดท้าย ได้มีfunctionที่มีค่าBooleanอย่างน้อยหนึ่งfunctionจากทุกๆtype(ยกเว้น<code>Void</code>ที่ที่ทั้งสองfunctionที่เท่ากันกับ<code>absurd</code>):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">no ::</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>no _ <span class="ot">=</span> <span class="dt">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการย้ำความเป็นเอกลักษณ์ได้ให้ความแม่นยำกับเราในระดับที่เหมาะสมพอที่จะจำกัดนิยามของวัตถุสุดท้ายให้เป็นแค่typeเดียว</p>
+</section>
+<section id="duality" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="duality"><span class="header-section-number">6.3</span> Duality</h2>
+<p>คุณไม่สามารถที่จะเมินเฉยความสมมาตรระหว่างวิธีการที่เรานิยามวัตถุเริ่มต้นและวัตถุสุดท้าย ความแตกต่างอย่างเดียวระหว่างสองวัตถุก็คือทิศทางของmorphisms มันเป็นไปว่าในทุกๆcategory<span class="math inline">\(\textbf{C}\)</span>เราสามารถที่จะนิยามcategoryตรงข้าม (opposite category)<span class="math inline">\(\textbf{C}^\text{op}\)</span>โดยการย้อนกลับทิศทางของทุกๆลูกศร categoryตรงข้ามได้บรรลุทุกเงื่อนไขของcategory ตราบเท่าที่เราให้การนิยามใหม่ของการประกอบกันในขณะเดียวกัน ถ้าmorphismต้นฉบับคือ <span class="math inline">\(f::a\rightarrow b\)</span> และ <span class="math inline">\(g::b\rightarrow c\)</span> ที่ถูกประกอบกันไปยัง <span class="math inline">\(h::a\rightarrow c\)</span> ด้วย <span class="math inline">\(h=g\circ f\)</span> แล้วmorphismย้อนกลับคือ <span class="math inline">\(f^\text{op}::b\rightarrow a\)</span>และ<span class="math inline">\(g^\text{op}::c\rightarrow b\)</span>จะถูกประกอบกันเป็น<span class="math inline">\(h^\text{op}::c\rightarrow a\)</span>และ<span class="math inline">\(h^\text{op}=f^\text{op}\circ g^\text{op}\)</span>และการย้อนกลับของลูกศรidentityคือเป็นแบบเดิม</p>
+<p>Dualityเป็นคุณสมบัติของcategoryมีความสำคัญเพราะว่ามันเพิ่มผลผลิตให้กับนักคณิตศาสตร์ที่ทำงานกับทฤษฎีcategoryเป็นสองเท่า สำหรับทุกๆการสร้างที่คุณคิดออกมามันก็จะมีสิ่งที่เป็นตรงกันข้ามของมัน และในทุกทฤษฎีบทที่คุณพิสูจน์คุณก็ได้มาอีกหนึ่งแบบฟรีๆ การสร้างในcategoryตรงข้ามนั้นมักจะมีคำว่า “co” เป็นคำนำหน้าดังนั้นคุณจะมีproductและcoproduct monadsและcomonad coneและcocone limitและcolimitและอื่นๆ แต่จะไม่มีcocomonadนะ เพราะว่าการย้อนศรสองครั้งเราก็กลับมายังที่เดิม</p>
+<p>มันก็เป็นไปตามว่า วัตถุสุดท้ายคือวัตถุเริ่มต้นในcategoryตรงข้าม</p>
+</section>
+<section id="isomorphisms" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="isomorphisms"><span class="header-section-number">6.4</span> Isomorphisms</h2>
+<p>ในฐานะที่เป็นโปรแกรมเมอร์ เรารู้เป็นอย่างดีว่าการนิยามความเท่ากันเป็นสิ่งที่ไม่ตรงไปตรงมา อะไรคือการที่สองวัตถุที่การเท่ากัน แล้วพวกมันจำเป็นที่จะอยู่ในที่เดียวกันในmemory (ความเท่ากันในแบบpointer) ? หรือมันเพียงพอที่จะให้ค่าของทุกๆส่วนประกอบนั้นเหมือนกัน (เพื่อที่จะเรียกมันว่าเท่ากัน)? แล้วจำนวนเชิงซ้อนจะถูกเรียกว่าเท่ากันถ้าหนึ่งในนั้นถูกเขียนในรูปแบบของจำนวนจริงและจำนวนจินตภาพ และอีกตัวถูกเขียนในรูปแบบของmodulusและangle(มุม)? คุณอาจจะคิดว่านักคณิตศาสตร์ได้มีคำตอบถึงความหมายของความเท่ากันแต่พวกเขายังไม่มีคำตอบกับสิ่งเหล่านี้ พวกเขามีปัญหาเหมือนกันในการมีหลายคำนิยามที่แย้งกัน(competing)ของความเท่ากัน ได้มีความเท่ากันแบบpropositional ความเท่ากันแบบintensional ความเท่ากันแบบextensional และความเท่ากันในฐานะpathในทฤษฎีtypeแบบhomotopy และก็มีแนวคิดที่อ่อนกว่า(weaker notion)ของisomorphism และก็อ่อนยิ่งกว่าของความเท่าเทียมกัน(equivalence)</p>
+<p>แนวคิดคือว่าวัตถุที่isomorphicกันมีลักษณะที่เหมือนกัน(มีรูปร่างเหมือนกัน) มันหมายความว่าในทุกๆส่วนของวัตถุหนึ่งตรงกันกับบางส่วนของอีกวัตถุหนึ่งโดยการโยง(mapping)แบบหนึ่งต่อหนึ่ง เท่าที่อุปกรณ์ของเราจะสามารถบอกได้ ทั้งสองวัตถุคือสำเนาที่สมบูรณ์ในแบบของแต่ละอัน ในเชิงคณิตศาสตร์มันหมายความว่าได้มีการโยงกันจากวัตถุ<span class="math inline">\(a\)</span>ไปยังวัตถุ<span class="math inline">\(b\)</span> และได้มีการโยงกันจากวัตถุ<span class="math inline">\(b\)</span>ไปยังวัตถุ<span class="math inline">\(a\)</span> และพวกมันเป็นinverseของแต่ละอัน ในทฤษฎีcategoryเราจะใช้morphismต่างๆแทนการโยงกัน isomorphismก็คือmorphismที่สามารถinverseได้หรือคู่ของmorphismโดยที่ตัวๆหนึ่งเป็นinverseของอีกตัวหนึ่ง</p>
+<p>เราเข้าใจinverseในความหมายของการประกอบกันและidentityโดยที่<span class="math inline">\(g\)</span>คือinverseของmorphism<span class="math inline">\(f\)</span>ถ้าการประกอบกันของทั้งสองคือmorphism identityในที่นี้มีอยู่สองสมการเพราะว่ามันมีสองวิธีในการประกอบmorphismทั้งสอง</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">.</span> g <span class="ot">=</span> <span class="fu">id</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>g <span class="op">.</span> f <span class="ot">=</span> <span class="fu">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตอนที่ผมเขียนว่า วัตถุเริ่มต้น(สุดท้าย)นั้นความเป็นเอกลักษณ์<em>จนถึงความisomorphism</em> ผมหมายความว่า ถ้ามีวัตถุเริ่มต้น(สุดท้าย)สองชิ้นแล้วพวกมันก็จะisomorphic นั่นค่อนข้างง่ายที่จะเห็นได้ สมมติว่ามีวัตถุเริ่มต้นสองชิ้นคือ<span class="math inline">\(i_1\)</span>และ<span class="math inline">\(i_2\)</span> เนื่องด้วย<span class="math inline">\(i_1\)</span>เป็นวัตถุเริ่มต้นก็จะมีmorphismเพียงอันเดียว<span class="math inline">\(f\)</span>จาก<span class="math inline">\(i_1\)</span>ไปยัง<span class="math inline">\(i_2\)</span> ในแบบเดียวกันที่<span class="math inline">\(i_2\)</span>เป็นวัตถุเริ่มต้นก็จะมีmorphismเพียงอันเดียว<span class="math inline">\(g\)</span>จาก<span class="math inline">\(i_1\)</span>ไปยัง<span class="math inline">\(i_2\)</span> แล้วอะไรคือการประกอบกันของmorphismนี้ละ?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/uniqueness.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>การประกอบกันของ<span class="math inline">\(g\circ f\)</span>ต้องเป็นmorphismจาก<span class="math inline">\(i_1\)</span>ไปยัง<span class="math inline">\(i_1\)</span> แต่<span class="math inline">\(i_1\)</span>เป็นวัตถุเริ่มต้นก็หมายความว่าได้มีแค่morphismอันเดียวจาก<span class="math inline">\(i_1\)</span>ไปยัง<span class="math inline">\(i_1\)</span> เนื่องด้วยเราอยู่ในcategoryเรารู้ว่ามันมีmorphism identityจาก<span class="math inline">\(i_1\)</span>ไปยัง<span class="math inline">\(i_1\)</span>และเนื่องด้วยมันมีได้แค่หนึ่งตัว มันก็จะต้องเป็นmorphismนี้(ก็คือmorphism identity) ดังนั้น<span class="math inline">\(g\circ f\)</span>จึงต้องเท่ากับidentity ในทางเดียวกัน<span class="math inline">\(f\circ g\)</span>ต้องเท่ากับidentityเพราะว่ามันมีแค่morphismอันเดียวจาก<span class="math inline">\(i_2\)</span>กลับมายัง<span class="math inline">\(i_2\)</span> นี่พิสูจน์ได้ว่า<span class="math inline">\(f\)</span>และ<span class="math inline">\(g\)</span>ต้องเป็นinverseระหว่างกัน ดังนั้นในทุกๆวัตถุเริ่มต้นต้องisomorphicกัน</p>
+<p>สังเกตได้ว่าในการพิสูจน์นี้เราได้ใช้ความเป็นเอกลักษณ์ของmorphismจากวัตถุเริ่มต้นไปยังตนเอง ถ้าเราไม่มีสิ่งนี้เราจะไม่สามารถที่จะพิสูจน์ส่วนของความ”จนถึงความisomorphism”ได้ แต่ทำไมเราต้องการความเป็นเอกลักษณ์ของ<span class="math inline">\(f\)</span>และ<span class="math inline">\(g\)</span> นั่นก็เพราะว่ามันไม่ได้แค่การที่วัตถุเริ่มต้นจะเป็นเอกลักษณ์จนถึงความisomorphismแต่รวมถึงการที่มัน เป็นเอกลักษณ์จนถึงความisomorphismที่เป็นเอกลักษณ์ ในหลักการแล้วมันเป็นไปได้ที่จะมีมากว่าisomorphismอันหนึ่งระหว่างวัตถุสองอย่างๆแต่มันไม่เป็นอย่างนั้นในที่นี้ ความ”เป็นเอกลักษณ์จนถึงความisomorphismที่เป็นเอกลักษณ์“คือคุณสมบัติสำคัญของการสร้างแบบสากล</p>
+</section>
+<section id="products" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="products"><span class="header-section-number">6.5</span> Products</h2>
+<p>วัตถุที่สร้างแบบสากลอย่างต่อไปคือproduct เรารู้ว่าอะไรคือcartesian productระหว่างสองset นั้นก็คือsetของpairต่างๆ แต่อะไรคือรูปแบบที่เชื่อมโยงsetที่เป็นproductกับsetที่เป็นส่วนประกอบ ถ้าเราสามารถที่จะตามหาพวกมันได เราก็จะสามารถที่จะgeneralizeไปยังcategoryอื่นๆ</p>
+<p>สิ่งที่เราสามารถที่จะพูดได้ทั้งหมดคือว่าได้มีfunctionอยู่สองตัว ก็คือprojectionsจากproductไปยังแต่ละส่วนประกอบ ในHaskell functionทั้งสองจะถูกเรียกว่า<code>fst</code>และ<code>snd</code>และพวกมันเลือกส่วนประกอบแรกและส่วนประกอบสองของpairตามลำดับ</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fst</span><span class="ot"> ::</span> (a, b) <span class="ot">-&gt;</span> a</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fst</span> (x, y) <span class="ot">=</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">snd</span><span class="ot"> ::</span> (a, b) <span class="ot">-&gt;</span> b</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">snd</span> (x, y) <span class="ot">=</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้functionเหล่านี้ถูกนิยามโดยการใช้การจับคู่รูปแบบ(Pattern matching)ของargumentของพวกมัน รูปแบบที่คู่กับpairอย่างไดก็ได้แบบ<code>(x, y)</code>และมันดึงส่วนประกอบต่างๆไปยังตัวแปร<code>x</code>และ<code>y</code></p>
+<p>นิยามเหล่านี้สามารถที่จะถูกทำให้ง่ายขึ้นโดยการใช้ตัวแทน(wildcard)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fst</span> (x, _) <span class="ot">=</span> x</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">snd</span> (_, y) <span class="ot">=</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในC++เราอาจจะใช้functionที่เป็นtemplateตัวอย่างเช่น</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> A<span class="op">,</span> <span class="kw">class</span> B<span class="op">&gt;</span> A</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fst<span class="op">(</span>pair<span class="op">&lt;</span>A<span class="op">,</span> B<span class="op">&gt;</span> <span class="at">const</span> <span class="op">&amp;</span> p<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p<span class="op">.</span>first<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>การมีสิ่งนี้อาจจะดูเป็นสิ่งรู้ได้แบบจำกัด เรามาลองพยายามที่จะนิยามรูปแบบของวัตถุและmorphismในcategoryของsetที่จะนำเราไปสู่การสร้างของproductระหว่างsetทั้งสองอย่าง<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span> รูปแบบนี้ประกอบด้วยวัตถุ<span class="math inline">\(c\)</span>และmorphismสองตัวอย่าง<span class="math inline">\(p\)</span>และ<span class="math inline">\(q\)</span>ที่เชื่อมต่อมันกับ<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>ตามลำดับ</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">p ::</span> c <span class="ot">-&gt;</span> a</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">q ::</span> c <span class="ot">-&gt;</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/productpattern.jpg" height="150" class="figure-img"></p>
+</figure>
+</div>
+<p>ทุกๆวัตถุ<span class="math inline">\(c\)</span>ที่สามารถเข้ากับรูปแบบนี้ได้จะถูกพิจารณาให้เป็นวัตถุที่มีคุณสมบัติในการเป็นproduct ก็อาจจะมีวัตถุแบบนี้อยู่หลายตัว</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/productcandidates.jpg" height="150" class="figure-img"></p>
+</figure>
+</div>
+<p>ตัวอย่างเช่น เรามาลองที่จะเลือกส่วนประกอบสองอย่างเป็นtypeของHaskellทั้งสอง<code>Int</code>และ<code>Bool</code>และมาดูว่ามีวัตถุที่มีคุณสมบัติในการเป็นproductอะไรบ้าง</p>
+<p><code>Int</code>ก็เป็นวัตถุที่มีคุณสมบัติอย่างหนึ่ง <code>Int</code>สามารถที่จะถูกมองให้เป็นวัตถุที่มีคุณสมบัติสำหรับproductของ<code>Int</code>และ<code>Bool</code>ได้หรือเปล่า? ได้มันเป็นไปได้นี่คือprojectionของมัน</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">p ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>p x <span class="ot">=</span> x</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ot">q ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>q _ <span class="ot">=</span> <span class="dt">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นั้นค่อนข้างที่จะน่าเบื่อแต่ก็ตรงกับเกณฑ์ที่วางไว้</p>
+<p>นี่คืออีกตัวอย่างหนึ่ง<code>(Int, Int, Bool)</code> มันคือtupleที่มีสมาชิกอยู่สามตัวหรือเรียกว่าtriple และนี่คือmorphismทั้งสองที่จะทำให้มันเป็นวัตถุที่มีคุณสมบัติ (เราได้ใช้การจับคู่รูปแบบกับtriple)อย่าง</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">p ::</span> (<span class="dt">Int</span>, <span class="dt">Int</span>, <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>p (x, _, _) <span class="ot">=</span> x</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ot">q ::</span> (<span class="dt">Int</span>, <span class="dt">Int</span>, <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>q (_, _, b) <span class="ot">=</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณอาจจะสังเกตได้ว่าในขณะที่วัตถุที่มีคุณสมบัติตัวแรกนั้นเล็กเกินไปมันไดัแค่ครอบคลุมมิติของ<code>Int</code>ของproduct แต่ในวัตถุตัวที่สองนั้นก็ใหญ่เกินไป มันมีมิติของ<code>Int</code>ที่มากเกินกัน</p>
+<p>แต่เรายังไม่ได้สำรวจอีกส่วนหนึ่งของวัตถุที่ถูกสร้างแบบสากลก็คือการจัดอันดับ เราต้องการความสามารถในการเปรียบเทียบสองวัตถุที่มีรูปแบบของเรา เราต้องการที่จะเปรียบเทียบวัตถุที่มีคุณสมบัติอย่าง<span class="math inline">\(c\)</span>และprojectionทั้งสอง<span class="math inline">\(p\)</span>และ<span class="math inline">\(q\)</span>ของมันกับวัตถุที่มีคุณสมบัติอย่าง<span class="math inline">\(c'\)</span>และprojectionทั้งสอง<span class="math inline">\(p'\)</span>และ<span class="math inline">\(q'\)</span>ของมัน เราต้องการที่จะบอกได้ว่า<span class="math inline">\(c\)</span>นั้นดีกว่า<span class="math inline">\(c'\)</span> ถ้าได้มีmorphismจาก<span class="math inline">\(c'\)</span>ไปยัง<span class="math inline">\(c\)</span>แต่นี้มีความอ่อนเกินไป เราก็ต้องการที่จะให้projectionทั้งสอง”ดีกว่า”หรือ”มีความเป็นสากลมากกว่า” เมื่อเทียบกับprojectionของ<span class="math inline">\(c'\)</span> นั่นหมายความว่าprojection<span class="math inline">\(p'\)</span>และ<span class="math inline">\(q'\)</span>สามารถที่จะถูกสร้างใหม่จาก<span class="math inline">\(p\)</span>และ<span class="math inline">\(q\)</span>โดยการใช้<span class="math inline">\(m\)</span></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p' <span class="ot">=</span> p <span class="op">.</span> m</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>q' <span class="ot">=</span> q <span class="op">.</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/productranking.jpg" height="150" class="figure-img"></p>
+</figure>
+</div>
+<p>สมการเหล่านี้สามารถถูกมองในอีกแบบหนึ่งโดยการที่<em><span class="math inline">\(m\)</span>แยกตัวประกอบ</em>ของ<span class="math inline">\(p'\)</span>และ<span class="math inline">\(q'\)</span> ลองคิดว่าถ้าสมการเหล่านี้อยู่ในรูปของจำนวนธรรมชาติและจุดคือการคูณ เราเห็นว่า<span class="math inline">\(m\)</span>คือตัวประกอบร่วมที่มี<span class="math inline">\(p'\)</span>และ<span class="math inline">\(q'\)</span> ร่วมกันใช้</p>
+<p>เพื่อที่จะให้เห็นภาพ ให้ผมได้ลองที่จะแสดงว่าpairของ<code>(Int, Bool)</code>กับprojectionที่canonical(เป็นค่าเริ่มต้น/ตามธรรมชาติ)อย่าง<code>fst</code>และ<code>snd</code>นั้น”ดีกว่า”อย่างแท้จริงเมิ่อเทียบกับวัตถุที่มีคุณสมบัติทั้งสองที่ผมเสนอไปก่อนหน้านี้</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/not-a-product.jpg" height="150" class="figure-img"></p>
+</figure>
+</div>
+<p>mapping<code>m</code>สำหรับfunctionแรกคือ</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">m ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Int</span>, <span class="dt">Bool</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>m x <span class="ot">=</span> (x, <span class="dt">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ชัดเจนว่าprojectionอย่าง<code>p</code>และ<code>q</code>สามารถที่จะถูกสร้างใหม่ในแบบนี้</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p x <span class="ot">=</span> <span class="fu">fst</span> (m x) <span class="ot">=</span> x</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>q x <span class="ot">=</span> <span class="fu">snd</span> (m x) <span class="ot">=</span> <span class="dt">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>m</code>ของตัวอย่างที่สองนั้นก็สามารถที่จะถูกกำหนดอย่างเป็นเอกลักษณ์ว่า</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>m (x, _, b) <span class="ot">=</span> (x, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถที่จะแสดงว่า <code>(Int, Bool)</code> นั้นดีกว่าวัตถุที่มีคุณสมบัติทั้งสอง เรามาดูว่าทำไมในทางตรงกันจึงไม่จริง เราสามารที่จะหา<code>m'</code>ที่จะช่วยเราในการสร้าง<code>fst</code>และ<code>snd</code>ใหม่จาก<code>p</code>และ<code>q</code></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fst</span> <span class="ot">=</span> p <span class="op">.</span> m'</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">snd</span> <span class="ot">=</span> q <span class="op">.</span> m'</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตัวอย่างแรกของเรา<code>q</code>return<code>True</code>ตลอดและเรารู้ว่ามันมีpairที่ตัวประกอบที่สองคือ<code>False</code>เราจึงไม่สามารถที่จะสร้าง<code>snd</code>จาก<code>q</code>ใหม่</p>
+<p>ในตัวอย่างที่สองนั้นแตกต่างออกไป เรามีข้อมูลมากพอหลังจากการใช้<code>p</code>และ<code>q</code>แต่มันมีมากกว่าหนึ่งวิธีในการแยกตัวประกอบ<code>fst</code>และ<code>snd</code> เพราะว่าทั้ง<code>p</code>และ<code>q</code>ไม่สนใจตัวประกอบที่สองของtriple <code>m'</code>ของเราจึงสามารถที่จะใส่อะไรก็ได้ในนั้น เราจึงสามารถที่จะมี</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>m' (x, b) <span class="ot">=</span> (x, x, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หรือ</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>m' (x, b) <span class="ot">=</span> (x, <span class="dv">42</span>, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และอื่นๆ</p>
+<p>นำมันมารวมด้วยกัน ถ้าเรามีtype<code>c</code>ที่มีprojectionอยู่สองตัว มันก็จะมี<code>m</code>เพียงอย่างเดียวจาก<code>c</code>ไปยังcartesian product<code>(a, b)</code>ที่แยกตัวประกอบของทั้งสอง ในความเป็นจริงแล้วมันแค่รวม<code>p</code>และ<code>q</code>มาอยู่ในpair</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ot">m ::</span> c <span class="ot">-&gt;</span> (a, b)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>m x <span class="ot">=</span> (p x, q x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นั้นทำให้cartesian product<code>(a, b)</code>เป็นสิ่งที่ลงตัวที่สุดสำหรับเรา นั้นหมายความว่าวัตถุที่ถูกสร้างแบบสากลนี้สามารถสร้างได้ในcategoryของset มันเลือกproductของสองsetอะไรก็ได้</p>
+<p>ในตอนนี้เรามา(พยายามที่จะ)ลืมเกี่ยวกับsetและทำการนิยามproductของสองวัตถุในcategoryแบบไหนก็ได้ โดยการใช้การสร้างแบบสากล productแบบนี้ไม่จำเป็นที่จะต้องมีอยู่แต่ในตอนที่มันมีอยู่ มันก็จะมีความเป็นเอกลักษณ์จนถึงความisomorphism</p>
+<blockquote class="blockquote">
+<p><strong>Product</strong>ของสองวัตถุ<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>คือวัตถุ<span class="math inline">\(c\)</span>ที่มาคู่กับprojectionสองตัว ในการที่ว่าสำหรับทุกๆวัตถุ<span class="math inline">\(c'\)</span>ที่คู่กับprojectionสองตัว มันมีmorphism<span class="math inline">\(m\)</span>เอกลักษณ์จาก<span class="math inline">\(c'\)</span>ไปยัง<span class="math inline">\(c\)</span>ที่ทำการแยกตัวประกอบprojectionทั้งสอง</p>
+</blockquote>
+<p>ในfunctionลำดับสูงที่สร้างfunctionในการแยกตัวประกอบอย่าง<code>m</code>จากสิ่งที่มีคุณสมบัติทั้งสองในบางครั้งจะถูกเรียกว่าfactorizer ในกรณีของเรามันก็อาจจะเป็นfunctionดังนี้</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ot">factorizer ::</span> (c <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> (c <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (c <span class="ot">-&gt;</span> (a, b))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>factorizer p q <span class="ot">=</span> \x <span class="ot">-&gt;</span> (p x, q x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="coproduct" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="coproduct"><span class="header-section-number">6.6</span> Coproduct</h2>
+<p>เหมือนกันกับการสร้างแบบอื่นๆในทฤษฎีcategory productนั้นมีdualของมันที่จะถูกเรียกว่าcoproduct ในตอนที่เราย้อนทางลูกศรในรูปแบบของproductเราก็จะได้วัตถุ<span class="math inline">\(c\)</span>คู่กับinjectionsสองตัว<code>i</code>และ<code>j</code>ซึ่งเป็นmorphismจาก<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>ไป<span class="math inline">\(c\)</span></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ot">i ::</span> a <span class="ot">-&gt;</span> c</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ot">j ::</span> b <span class="ot">-&gt;</span> c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/coproductpattern.jpg" height="150" class="figure-img"></p>
+</figure>
+</div>
+<p>ในการจัดอันดับนั้นก็ทางกลับด้านก็คือ วัตถุ<span class="math inline">\(c\)</span>นั้น”ดีกว่า”วัตถุ<span class="math inline">\(c'\)</span>ที่มาคู่กับinjectionsสองตัว<span class="math inline">\(i'\)</span>และ<span class="math inline">\(j'\)</span>ถ้าได้มีmorphsim<span class="math inline">\(m\)</span>จาก<span class="math inline">\(c\)</span>ไปยัง<span class="math inline">\(c'\)</span>ที่แยกตัวประกอบของinjectionsทั้งสอง</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>i' <span class="ot">=</span> m <span class="op">.</span> i</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>j' <span class="ot">=</span> m <span class="op">.</span> j</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/coproductranking.jpg" height="150" class="figure-img"></p>
+</figure>
+</div>
+<p>วัตถุที่“ดีที่สุด”ที่ที่มีmorphismเพียงอย่างเดียวที่ต่อมันเข้ากับวัตถุรูปแบบเดียวกันจะถูกเรียกว่าcoproduct ถ้ามันมีตัวตนอยู่มันก็จะเป็นเอกลักษณ์<em>จนถึงความisomorphism</em></p>
+<blockquote class="blockquote">
+<p><em>Coproduct</em>ระหว่างวัตถุทั้งสองอย่าง<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>คือวัตถุ<span class="math inline">\(c\)</span>ที่มาคู่กับinjectionสองตัวที่ในทุกๆวัตถุอื่นๆ<span class="math inline">\(c'\)</span>ที่มาคู่กับinjectionสองตัว มันก็จะมีmorphism<span class="math inline">\(m\)</span>เอกลักษณ์จาก<span class="math inline">\(c\)</span>ไปยัง<span class="math inline">\(c'\)</span>ที่แยกตัวประกอบของinjectionsทั้งสอง</p>
+</blockquote>
+<p>ในcategoryของset coproductก็คือ<em>disjoint union</em>ระหว่างsetทั้งสอง สมาชิกของdisjoint unionระหว่าง<span class="math inline">\(a\)</span>กับ<span class="math inline">\(b\)</span>คือสมาชิกของ<span class="math inline">\(a\)</span>หรือสมาชิกของ<span class="math inline">\(b\)</span>ถ้าsetสองsetนี้มีสมาชิกเหมือนกัน disjoint unionของมันก็จะมีสำเนาของทั้งสองที่เป็นส่วนประกอบร่วม คุณสามารถที่จะคิดว่าสมาชิกของdisjoint unionเหล่านี้ได้ถูกทำเครื่องหมายโดยตัวระบุที่ชี้ไปยังต้นทางของมัน</p>
+<p>สำหรับโปรแกรมเมอร์มันง่ายกว่าที่จะเข้าใจcoproductในรูปแบบของtypeต่างๆในแบบว่า: มันคือunionที่มีการระบุตัว(tagged untion)ของtypeทั้งสอง C++นั้นรองรับunionแต่มันไม่มีการระบุตัว นั่นหมายความว่าในโปรแกรมของคุณ คุณจะต้องติดตามว่าสมาชิกตัวไหนของunionนั้นสมบูรณ์ ในการสร้างunionที่มีการระบุตัว คุณต้องนิยามตัวระบุซึ่งเป็นenumerationและรวมมันกับunion ตัวอย่างเช่น unionที่มีการระบุตัวระหว่าง<code>int</code>และ<code>char const *</code>ก็อาจจะถูกเขียนได้ว่า</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Contact <span class="op">{</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">enum</span> <span class="op">{</span> isPhone<span class="op">,</span> isEmail <span class="op">}</span> tag<span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">union</span> <span class="op">{</span> <span class="dt">int</span> phoneNum<span class="op">;</span> <span class="dt">char</span> <span class="at">const</span> <span class="op">*</span> emailAddr<span class="op">;</span> <span class="op">};</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>injectionทั้งสองสามารถถูกเขียนในฐานะconstructorsหรือในฐานะfunctionsตัวอย่างเช่นในที่นี้injectionตัวแรกในฐานะfunction<code>PhoneNum</code></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Contact PhoneNum<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    Contact c<span class="op">;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    c<span class="op">.</span>tag <span class="op">=</span> isPhone<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    c<span class="op">.</span>phoneNum <span class="op">=</span> n<span class="op">;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c<span class="op">;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันนำ(injects)จำนวนเต็มไปยังสู่<code>Contact</code></p>
+<p>unionที่มีการระบุตัวก็สามารถถูกเรียกว่า<em>variant</em>และก็ได้มีvariantที่มีความคล่องตัวอย่างมากถูกนำไปใส่ในlibrary boostอย่าง <code>boost::variant</code></p>
+<p>ในHaskellคุณสามารถที่จะนำdata typeต่างๆมารวมกันเพื่อที่จะเป็นunionที่มีการระบุตัวโดยการแยกdata constructorด้วยแถบแนวตั้ง ตัวอย่างของ<code>Contact</code>สามารถูกแปลไปเป็นการประกาศดังนี้</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Contact</span> <span class="ot">=</span> <span class="dt">PhoneNum</span> <span class="dt">Int</span> <span class="op">|</span> <span class="dt">EmailAddr</span> <span class="dt">String</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้ <code>PhoneNum</code>และ<code>EmailAddr</code>เป็นทั้งconstructor(injections)และในฐานะตัวระบุตัวสำหรับการจับคู่รูปแบบ(เดี่ยวจะกลับมาในจุดนี้) ต้วอย่างเช่นนี้คือวิธีการที่คุณจะสร้างcontactจากหมายเลขโทรศัพท์</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ot">helpdesk ::</span> <span class="dt">Contact</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>helpdesk <span class="ot">=</span> <span class="dt">PhoneNum</span> <span class="dv">2222222</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ไม่เหมือนกับการเขียนในแบบมาตราฐานของproductที่ถูกสร้างเข้าไปในHaskellในฐานะpairเริ่มต้น การเขียนแบบมาตราฐานของcoproductคือdata typeที่เรียกว่า<code>Either</code>ที่ถูกนิยามในPreludeมาตราฐานว่า</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Either</span> a b <span class="ot">=</span> <span class="dt">Left</span> a <span class="op">|</span> <span class="dt">Right</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันรับparameterที่เป็นtypeสองtypeอย่าง<code>a</code>และ<code>b</code>และมีconstructorสองตัวคือ<code>Left</code>ที่เอาค่าของtype<code>a</code>เข้ามาและ<code>Right</code>ที่เอาค่าของtype<code>b</code>เข้ามา</p>
+<p>เหมือนกันกับการที่เรานิยามการแยกตัวประกอบสำหรับproduct เราก็สามารถที่จะนิยามสิ่งนี้สำหรับcoproduct ถ้าเรามีtype<code>c</code>ที่มีคุณสมบัติและinjection<code>i</code>และ<code>j</code>ที่มีคุณสมบัติ การแยกตัวประกอบสำหรับ<code>Either</code>ก็ได้นำไปสู่functionในการแยกตัวประกอบอย่าง</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ot">factorizer ::</span> (a <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> <span class="dt">Either</span> a b <span class="ot">-&gt;</span> c</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>factorizer i j (<span class="dt">Left</span> a)  <span class="ot">=</span> i a</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>factorizer i j (<span class="dt">Right</span> b) <span class="ot">=</span> j b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="ความไมสมมาตรasymmetry" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="ความไมสมมาตรasymmetry"><span class="header-section-number">6.7</span> ความไม่สมมาตร(Asymmetry)</h2>
+<p>เราได้เห็นนิยามที่เป็นdualityทั้งสองชุดแล้ว นิยามของวัตถุสุดท้ายสามารถหามาจากนิยามของวัตถุเริ่มต้นโดยการย้อนกลับทิศทางของลูกศร ในแบบเดียวกันนิยามของcoproductสามารถถูกหามาจากนิยามของproduct แค่ในcategoryของsetวัตถุเริ่มต้นนั้นมีความแตกต่างอย่างมากจากวัตถุสุดท้ายและ coproductมีความแตกต่างอย่างมากจากproduct เราจะเห็นในหลังจากนี้ว่าproductทำตัวเหมือนการคูณ โดยที่วัตถุสุดท้ายเล่นเป็นบทของเลขหนึ่ง ในทางตรงกันข้ามcoproductทำตัวเหมือนการบวกโดยที่วัตถุเริ่มต้นเล่นเป็นเลขศูนย์ โดยเฉพาะสำหรับsetจำกัด ขนาดของproductคือการคูณกันระหว่างขนาดของแต่ละset และขนาดของcoproductคือการนำขนาดต่างๆมาบวกกัน</p>
+<p>นี่แสดงให้เห็นว่าcategoryของsetนั้นไม่ได้สมมาตรในทิศทางของการกลับของทิศทางของลูกศร</p>
+<p>สังเกตว่าในขณะที่setว่างมีmorphismตัวเดียวไปยังsetใดๆก็ตาม (function<code>absurd</code>)แต่มันไม่มีmorphismที่เข้ามา setที่มีสมาชิกเพียงตัวเดียวก็มีmorphismตัวเดียวจากมันไปยังsetใดๆก็ตามแต่มัน<em>ก็</em>มีmorphismออกไปยังทุกๆset (ยกเว้นอันที่ว่าง) เราได้เห็นสิ่งนี้มาก่อน morphismที่ออกไปเหล่านี้จากวัตถุสุดท้ายมีบทบาทที่สำคัญในการเลือกสมาชิกของsetอื่นๆ(เพราะว่าsetว่างไม่มีสมาชิกจึงไม่มีอะไรจะเลือก)</p>
+<p>มันคือความสัมพันธ์ของsetที่มีสมาชิกเพียงตัวเดียวต่อproductที่ทำให้มันแตกต่างจากcoproduct มาลองใช้setที่มีสมาชิกเพียงตัวเดียวที่มีtype unit<code>()</code>เป็นตัวแทนในฐานะวัตถุที่มีคุณสมบัติสำหรับรูปแบบของproductอีกตัวหนึ่ง(ที่ด้อยกว่ามาก) โดยที่มีprojectionสองตัวอย่าง<code>p</code>และ<code>q</code> functionจากsetที่มีสมาชิกเพียงตัวเดียวไปยังsetที่เป็นส่วนประกอบ ทั้งสองเลือกสมาชิกจริงๆ(ที่เป็นรูปธรรม)จากsetทั้งสอง เพราะว่าproductมีความสากลจึงมีmorphism(ที่เป็นเพียงอย่างเดียว)จากวัตถุที่มีคุณสมบัติของเรา (นั้นก็คือsetที่มีสมาชิกเพียงตัว)ไปยังproductนั้น morphismนี้เลือกสมาชิกจากsetที่เป็นproduct (นั้นก็คือเลือกpairจริงๆ) มันก็แยกตัวประกอบของprojectionทั้งสองก่อนหน้านี้</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">fst</span> <span class="op">.</span> m</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>q <span class="ot">=</span> <span class="fu">snd</span> <span class="op">.</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตอนที่กระทำกับค่าของsetที่มีสมาชิกเพียงตัวเดียว<code>()</code>ที่เป็นสมาชิกแค่หนึ่งตัวในset สมการทั้งสองก็จะออกมาเป็น</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>p () <span class="ot">=</span> <span class="fu">fst</span> (m ())</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>q () <span class="ot">=</span> <span class="fu">snd</span> (m ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เนื่องว่า <code>m ()</code> คือสมาชิกของproductที่ถูกเลือกโดย<code>m</code>สมการเหล่านี้บอกเราว่าสมาชิกที่ถูกเลือกโดย<code>p</code>จากsetตัวแรก <code>p ()</code>คือตัวประกอบแรกของpairที่ถูกเลือกโดย<code>m</code> ในทางเดียวกัน <code>q ()</code>นั้นก็เท่ากับตัวประกอบที่สอง สิ่งนี้ตรงกันกับความเข้าใจของเราว่าสมาชิกของproductคือpairของสมาชิกต่างๆสำหรับsetต่างๆที่เป็นตัวประกอบ</p>
+<p>ไม่มีการตีความในแบบง่ายๆของcoproduct เราอาจจะลองที่จะใช้setที่มีสมาชิกเพียงตัวเดียวในฐานะวัตถุที่มีคุณสมบัติสำหรับcoproductในความพยายามในการดึงสมาชิกจากมัน แต่เราต้องมีinjectionสองตัวเข้ามาหามันแทนที่จะเป็นprojectionออกจากมัน สิ่งเหล่านี้ไม่ได้บอกอะไรกับเราเกี่ยวกับที่มาของมัน (จริงๆแล้วเราเห็นว่าพวกมันไม่สนใจparameterที่เข้ามา) morphismเอกลักษณ์จากcoproductไปยังsetที่มีสมาชิกเพียงตัวเดียวของเราก็ไม่ได้บอกเราเช่นกัน categoryของsetc8jดูแตกต่างอย่างมากถ้ามองจากทิศทางของวัตถุเริ่มต้นเมื่อเทียบกับ การมองจากทิศทางของวัตถุสุดท้าย</p>
+<p>นี่ไม่ใช่คุณสมบัติที่อยู่ข้างในของsetมันคือคุณสมบัติของfunctionที่เราใช้ในฐานะmorphismใน<span class="math inline">\(\textbf{Set}\)</span> functionนั้นโดยทั่วไปนั้นไม่มีความสมมาตร ขออนุญาตให้ผมอธิบาย</p>
+<p>functionจำเป็นที่ต้องถูกนิยามสำหรับทุกๆสมาชิกในsetที่เป็นdomain(ในการเขียนโปรแกรมเราเรียกว่าfunction total) แต่มันไม่จำเป็นที่จะต้องครอบคลุมcodomainทั้งหมด เราได้เห็นตัวอย่างที่สุดขั้วของมันนั้นก็คือ functionจากsetที่มีสมาชิกเพียงตัวเดียว functionที่เลือกแต่สมาชิกเดียวในcodomain (จริงๆแล้วfunctionจากsetว่างจึงจะเป็นตัวอย่างสุดขั้วจริงๆ) ในตอนที่ขนาดของdomainมีขนาดที่เล็กมากๆเมื่อเทียบกับขนาดของcodomain เรามักจะที่จะคิดถึงfunctionแบบนี้ในฐานะการฝัง(embedding)ของdomainในcodomain ตัวอย่างเช่นเราสามารถที่จะคิดถึงfunctionจากsetที่มีสมาชิกเพียงตัวเดียวในฐานะการฝังสมาชิกหนึ่งเดียวของมันลงในcodomain ผมเรียกสิ่งเหล่านี้ว่าfunction <em>embedding</em>แต่นักคณิตศาสตร์ชอบมากกว่าที่จะให้ชื่อกับตัวตรงข้ามกับมัน ในการที่functionต่างๆที่เติมเต็มcodomainของมันอย่างเต็มจะที่ถูกเรียกว่า<em>surjective</em>หรือ<em>onto</em></p>
+<p>อีกจุดเริ่มต้นของความไม่สมมาตรคือการที่functionต่างๆได้รับอนุญาตที่จะโยงหลายๆสมาชิกของsetที่เป็นdomainไปยังหนึ่งสมาชิกของcodomain พวกมันสามารถรวมสมาชิกต่างๆได้ ตัวอย่างสุดขั้วแบบนี้คือfunctionที่โยงsetทั้งหมดไปยังsetที่มีสมาชิกเพียงตัวเดียว คุณได้เห็นfunction polymorphicอย่าง<code>unit</code>ที่ทำแบบนั้น การรวมกับสามารถเพิ่มขึ้นได้โดยการประกอบกันเท่านั้น การประกอบกันของfunctionที่ทำการรวมนั้นสามารถรวมได้มากกว่าfunctionเดี่ยวๆ นักคณิตศาสตร์ได้มีชื่อสำหรับfunctionที่ไม่ทำการรวมสมาชิก พวกมันมีชื่อว่า<em>injective</em> หรือ<em>one-to-one</em></p>
+<p>แน่นอนว่าได้มีfunctionที่ไม่ใช้ทั้งการฝังหรือทำการรวมสมาชิก พวกมันจะถูกเรียกว่า<em>bijections</em>และพวกมันมีความสมมาตรอย่างแท้จริงเพราะว่ามันสามารถที่จะมีinverseได้ ในcategoryของset isomorphismนั้นเป็นสิ่งเดียวกันกับbijection</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">6.8</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองแสดงว่าวัตถุสุดท้ายนั้นมีความเป็นเอกลักษณ์จนถึงความisomorphism</li>
+<li>อะไรคือproductของวัตถุในposet คำใบ้: ลองใช้การสร้างแบบสากล</li>
+<li>อะไรคือcoproductของวัตถุในposet</li>
+<li>ลองเขียนสิ่งที่เป็นเหมือน<code>Either</code>ในHaskellในฐานะtypeแบบgenericในภาษาโปรดของคุณ(ที่ไม่ใช้Haskell)</li>
+<li>ลองแสดงว่า<code>Either</code>นั้นเป็นcoproductที่ดีกว่า<code>int</code>ที่มีinjectionสองแบบ อย่างนี้</li>
+</ol>
+<div class="sourceCode" id="cb32"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> n<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> j<span class="op">(</span><span class="dt">bool</span> b<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> b <span class="op">?</span> <span class="dv">0</span><span class="op">:</span> <span class="dv">1</span><span class="op">;</span> <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คำใบ้: ลองนิยามfunctionแบบนี้</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> m<span class="op">(</span>Either <span class="at">const</span> <span class="op">&amp;</span> e<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่แยกตัวประกอบของ<code>i</code>และ<code>j</code> 6. ต่อเนื่องจากปัญหาก่อนหน้านี้ อะไรคือวิธีการที่คุณจะเสนอว่า<code>int</code>ที่คู่กับinjectionทั้งสอง<code>i</code>และ<code>j</code>ไม่สามารถที่จะ”ดีกว่า”<code>Either</code>ได้ 7. ต่อเนื่องจากปัญหาก่อนหน้านี้ แล้วinjectionเหล่านี้ละ?</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> n<span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n <span class="op">+</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> j<span class="op">(</span><span class="dt">bool</span> b<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> b <span class="op">?</span> <span class="dv">0</span><span class="op">:</span> <span class="dv">1</span><span class="op">;</span> <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="8" type="1">
+<li>ลองคิดขึ้นมาถึงวัตถุที่มีคุณสมบัติด้อยกว่าในการเป็นcoproductระหว่าง<code>int</code>และ<code>bool</code> ที่ไม่สามารถเป็นสิ่งที่ดีกว่า<code>Either</code>เพราะว่ามันอนุญาตให้มีหลายmorphismที่ยอมรับได้จากมันไปยัง<code>Either</code></li>
+</ol>
+</section>
+<section id="บรรณานกรม" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="บรรณานกรม"><span class="header-section-number">6.9</span> บรรณานุกรม</h2>
+<p><a href="https://www.youtube.com/watch?v=upCSDIO9pjc">วิดีโอproductและcoproduct</a>โดยCatsters<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="https://www.youtube.com/watch?v=upCSDIO9pjc">https://www.youtube.com/watch?v=upCSDIO9pjc</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/1.4/kleisli-categories.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/1.6/simple-algebraic-data-types.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

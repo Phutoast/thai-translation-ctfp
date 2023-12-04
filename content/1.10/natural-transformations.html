@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 11&nbsp; Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/etc/glossary.html" rel="next">
+<link href="../../content/1.9/function-types.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.10/natural-transformations.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#functionแบบpolymorphic" id="toc-functionแบบpolymorphic" class="nav-link active" data-scroll-target="#functionแบบpolymorphic"><span class="header-section-number">11.1</span> FunctionแบบPolymorphic</a></li>
+  <li><a href="#ขามพนความเปนธรรมชาต" id="toc-ขามพนความเปนธรรมชาต" class="nav-link" data-scroll-target="#ขามพนความเปนธรรมชาต"><span class="header-section-number">11.2</span> ข้ามพ้นความเป็นธรรมชาติ</a></li>
+  <li><a href="#categoryของfunctor" id="toc-categoryของfunctor" class="nav-link" data-scroll-target="#categoryของfunctor"><span class="header-section-number">11.3</span> CategoryของFunctor</a></li>
+  <li><a href="#category" id="toc-category" class="nav-link" data-scroll-target="#category"><span class="header-section-number">11.4</span> 2-Category</a></li>
+  <li><a href="#สรป" id="toc-สรป" class="nav-link" data-scroll-target="#สรป"><span class="header-section-number">11.5</span> สรุป</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">11.6</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>เราได้พูดเกี่ยวกับfunctorในฐานะการแปรงระหว่างcategoryต่างที่คงไว้ด้วยโครงสร้าง</p>
+<p>functorทำการ”ฝัง”categoryหนึ่งในอีกตัวหนึ่ง มันอาจจะรวบสิ่งต่างๆหลายๆอันไปเป็นสิ่งเดียว แต่มันไม่อคยที่จะทำลายการเชื่อมต่อกัน หหหนึ่งในวิธีในการคิดเกี่ยวกับมันคือการที่ว่า ในการมีfunctorเรากำลังขึ้นรูป(model)categoryหนึ่งข้างในอีกอันหนึ่ง categoryเริ่มต้นมีหน้าที่เป็นแม่แบบ(model)สำหรับบางโครงสร้างที่เป็นส่วนหนึ่งของcategoryเป้าหมาย</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/1_functors.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>ได้มีหลายวิธีของการฝังcategoryหนึ่งในอีกอันหนึ่ง ในบางครั้งพวกมันนั้นเท่ากับในบางครั้งพวกมันนั้นก็แตกต่าง เราอาจจะรวบcategoryเริ่มต้นไปเป็นวัตถุเดี่ยว อีกคนอาจจะโยงทุกๆวัตถุไปยังวัตถุที่แต่งกันและทุกๆmorphismไปยังmorphismที่ต่างกัน ในแม่แบบมี่เหมือนกันอาจจะถูกทำให้เป็นจริง(realized)ในหลายๆรูปแบบและวิธี การแปลงแบบธรรมชาติ(Natural transformation)ช่วยเราในการเปรียบเทียบการทำให้เป็นจริงเหล่านี้ พวกมันเป็นการโยงfunctor (การโยงที่พิเศษที่อนุรักษ์ความเป็นfunctorของมัน)</p>
+<p>ลองพิจารณาfunctorสองตัว<span class="math inline">\(F\)</span>และ<span class="math inline">\(G\)</span>ระหว่างcategory<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span>ถ้าคุณให้ความสำคัญกับแต่วัตถุหนึ่ง<span class="math inline">\(a\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> มันก็จะถูกโยงไปยังสองสัตถุอย่าง<span class="math inline">\(Fa\)</span>และ<span class="math inline">\(Ga\)</span> การโยงของfunctorควรที่จะโยง<span class="math inline">\(Fa\)</span>ไปยัง<span class="math inline">\(Ga\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/2_natcomp.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>สังเกตว่า<span class="math inline">\(Fa\)</span>และ<span class="math inline">\(Ga\)</span>คือวัตถุในcategory<span class="math inline">\(\textbf{D}\)</span>เดียวกัน การโยงระหว่างวัตถุในcategoryเดียวกันไม่ควรที่จะขัดกับ(คุณสมบัติของ)categoryนั้น เราไม่ต้องการที่จะสร้างการเชื่อมต่อเทียมระหว่างวัตถุ ดันนั้นมันเป็น<em>ธรรมชาติ</em>ที่จะใช้การเชื่อมต่อที่มีอยู่แล้วนั้นก็คือmorphism การแปลงแบบธรรมชาติคือการเลือกmorphismเหล่านี้ สำหรับทุกๆวัตถุ<span class="math inline">\(a\)</span>มันเลือกmorphismอันหนึ่งจาก<span class="math inline">\(Fa\)</span>ไปยัง<span class="math inline">\(Ga\)</span> ถ้าเราเรียกการแปลงแบบธรรมชาติว่า<span class="math inline">\(\alpha\)</span> morphismนี้จะถูกเรียกว่า<em>ส่วนประกอบ(component)</em>ของ<span class="math inline">\(\alpha\)</span>ที่<span class="math inline">\(a\)</span>หรือ<span class="math inline">\(\alpha_a\)</span></p>
+<p><span class="math display">\[
+\alpha_a :: Fa\rightarrow Ga
+\]</span></p>
+<p>จงจำไว้ว่า<span class="math inline">\(a\)</span>คือวัตถุใน<span class="math inline">\(\textbf{C}\)</span>ในขณะที่<span class="math inline">\(\alpha_a\)</span>คือmorphismใน<span class="math inline">\(\textbf{D}\)</span></p>
+<p>แน่นอนว่ามันเป็นแค่ส่วนหนึ่งของเรื่องทั้งนั้น เพราะว่าfunctorไม่แต่โยงวัตถุแต่พวกมันยังโยงmorphismด้วย มันกลับเป็นว่าการโยงของmorphismนั้นคงที่ ภายใต้การแปลงแบบธรรมชาติใดๆตามระหว่าง<span class="math inline">\(F\)</span>และ<span class="math inline">\(G\)</span> <span class="math inline">\(Ff\)</span>ต้องถูกแปลงไปเป็น<span class="math inline">\(Gf\)</span> มากกว่านั้นคือการโยงของmorphismโดยfunctorทั้งสองจำกัดตัวเลือกที่เรามีในการนิยามการแปลงแบบธรรมชาติที่เข้ากันได้กับมัน ลองพิจารณาmorphism<span class="math inline">\(f\)</span>ระหว่างสองวัตถุ<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> มันโยงmorphismทั้งสอง<span class="math inline">\(Ff\)</span>และ<span class="math inline">\(Gf\)</span>ใน<span class="math inline">\(\textbf{D}\)</span></p>
+<p>การแปลงแบบธรรมชาติ<span class="math inline">\(\alpha\)</span>ให้morphismเพิ่มขึ้นมาที่ทำให้diagramใน<span class="math inline">\(\textbf{D}\)</span>สมบูรณ์</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\alpha_a :: Fa\rightarrow Ga \\
+&amp;\alpha_b :: Fb\rightarrow Gb
+\end{aligned}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/3_naturality.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>ในที่นี้เรามีวิธีการสองแบบในการมาจาก<span class="math inline">\(Fa\)</span>ไปยัง<span class="math inline">\(Gb\)</span> ในการที่จะทำให้แน่ใจว่าพวกมันนั้นเท่ากัน เราต้องกำหนด<em>เงื่อนไขความเป็นธรรมชาติ</em>ที่เป็นจริงในทุกๆ<span class="math inline">\(f\)</span></p>
+<p><span class="math display">\[
+Gf\circ\alpha_a = \alpha_b\circ Ff
+\]</span></p>
+<p>เงื่อนไขความเป็นธรรมชาติความต้องการที่เข้มงวดตัวอย่างเช่นถ้าmorphism<span class="math inline">\(Ff\)</span>นั้นสามารถที่จะinvertได้ความเป็นธรรมชาติกำหนด<span class="math inline">\(\alpha_b\)</span>ในแบบของ<span class="math inline">\(\alpha_a\)</span> มัน<em>transport</em><span class="math inline">\(\alpha_a\)</span>เทียบกับ<span class="math inline">\(f\)</span></p>
+<p><span class="math display">\[
+\alpha_b = (Gf)\circ\alpha_a\circ(Ff)^{-1}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/4_transport.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>ถ้ามันมีมากกว่าmorphismที่สามารถinvertได้ระหว่างวัตถุทั้งสองtransportเหล่านี้ต้องตรงกัน แต่โดยทั่วไปmorphismนั้นไม่สามารถทีถูกinvertได้แต่คุณสามารถที่จะเห็นว่าการมีอยู่ของการแปลงแบบธรรมชาติระหว่างสองfunctorนั้นไกลไปกว่าที่จะรับประกัน ดังนั้นความหายากหรือความหลากหลายของfunctorที่มีความสัมพันธ์โดยการแปลงแบบธรรมชาติอาจจะบอกคุณได้มากเกี่ยวกับโครงสร้างของcategoryที่ๆพวกมันทำงานอยู่ เราจะเห็นตัวอย่างของสิ่งนี้ในการที่เราพูดเกี่ยวกับlimitและlemmaของYoneda</p>
+<p>ถ้าเรามองการแปลงแบบธรรมชาติในแบบของแต่ละตัวประกอบ เราอาจจะพูดได้ว่ามันโยงวัตถุไปยังmorphism เพราะว่าเงื่อนไขความเป็นธรรมชาติ เราสามารถที่จะพูดได้ว่ามันโยงmorphismไปยังสี่เหลี่ยมของการcommute ได้มีสี่เหลี่ยมของการcommuteที่เป็นธรรมชาติใน<span class="math inline">\(\textbf{D}\)</span>สำหรับทุกๆmorphismใน<span class="math inline">\(\textbf{C}\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/naturality.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>คุณสมบัตินี้ของการแปลงแบบธรรมชาตินั้นมีประโยชน์ในหลากหลายการสร้างแบบcategoryที่มักจะประกอบด้วยcommutative diagram ด้วยการเลือกที่รอบคอบของfunctor หลากหลายเงื่อนไขของความcommutativityเหล่านี้อาจจะถูกแปลงไปเป็นเงื่อนไขความเป็นธรรมชาติ เราจะเห็นตัวอย่างของสิ่งเหล่านี้ในตอนที่เราไปยังlimit colimitและadjunction</p>
+<p>สุดท้ายแล้วการแปลงแบบธรรมชาติอาจจะถูกใช้ในการนิยามisomorphismของfunctor การบอกว่าfunctorทั้งสองนั้นisomorphicแบบธรรมชาตินั้นแทบจะเหมือนการบอกว่ามันนั้นเท่ากัน <em>isomorphicแบบธรรมชาติ</em>นั้นถูกนิยามในฐานะการแปลงแบบธรรมชาติที่ส่วนประกอบทั้งหมดเป็นisomorphism (morphismที่invertได้)</p>
+<section id="functionแบบpolymorphic" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="functionแบบpolymorphic"><span class="header-section-number">11.1</span> FunctionแบบPolymorphic</h2>
+<p>เราได้พูดเกี่ยวกับหน้าที่ของfunctor(หรือโดยเฉพาะendofunctor)ในการเขียนโปรแกรม พวกมันคู่กับconstructorของtypeที่โยงtypeต่างๆไปยังtypeต่างๆ พวกมันก็ยังโยงfunctionต่างๆไปยังfunctionต่างๆและการโยงนี้ถูกเขียนโดยfunctionที่higher order<code>fmap</code>(หรือ<code>transform</code>,<code>then</code>และสิ่งที่คล่ายๆกันในC++)</p>
+<p>ในการสร้างการแปลงแบบธรรมชาติ เราเริ่มด้วยวัตถุในและนี่คือtype<code>a</code> functorหนึ่งตัว<code>F</code>ที่โยงมันไปยังtype<span class="math inline">\(Fa\)</span> functorอีกตัวหนึ่ง<code>G</code>ที่โยงไปยัง<span class="math inline">\(Ga\)</span>ส่วนประกอบของการแปลงแบบธรรมชาติ<code>alpha</code>ที่<code>a</code>คือfunctionจาก<span class="math inline">\(Fa\)</span>ไปยัง<span class="math inline">\(Ga\)</span> ในHaskellเทียม</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha_a ::</span> <span class="dt">F</span> a <span class="ot">-&gt;</span> <span class="dt">G</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>การแปลงแบบธรรมชาติคือfunctionแบบpolymorphicที่นิยามสำหรับทุกtype<code>a</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha ::</span> <span class="kw">forall</span> a <span class="op">.</span> <span class="dt">F</span> a <span class="ot">-&gt;</span> <span class="dt">G</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>forall a</code>นั้นที่ไม่บังคับในHaskell(และในความจริงแล้วมีความจำเป็นที่ต้องเปิดส่วนขยายของภาษานั้น<code>ExplicitForAll</code>) โดยทั่วๆไปแล้วคุณอาจจะต้องเขียนมันในรูปแแบบนี้</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha ::</span> <span class="dt">F</span> a <span class="ot">-&gt;</span> <span class="dt">G</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ต้องจำไว้ว่ามันคือชุดของfunctionที่parameterizedโดย<code>a</code> นี้คืออีกตัวอย่างหนึ่งของความกระชับของไวยากรณ์ของHaskell ในการสร้างที่คล้ายกันในC++ก็จะมีความเยิ่นเย้อมากกว่า</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> A<span class="op">&gt;</span> G<span class="op">&lt;</span>A<span class="op">&gt;</span> alpha<span class="op">(</span>F<span class="op">&lt;</span>A<span class="op">&gt;);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สิ่งที่แตกต่างอย่างลึกซึ้งระหว่างfunctionแบบpolymorphicของHaskellและfunctioแบบgenericของC++และมันถูกแสดงให้เห็นในแบบที่functionต่างๆเหล่านี้นั้นถูกเขียนและตรวจสอบของtype ในHaskell functionแบบpolymorphicต้องถูกนิยามเหมือนกันหมดสำหรับทุกtype สูตรๆหนึ่งต้องทำงานได้ในทุกๆtype สิ่งนี้สามารถถูกเรียกว่าความเป็นpolymorphicแบบparametric</p>
+<p>ในอีกด้านหนึ่งC++ที่รองรับโดยความเป็นpolymorphicเฉพาะกิจที่มีอยู่แล้วที่หมายความว่าtemplteไม่ต้องถูกนิยามแบบสมบูรณ์สำหรับทุกๆtype templateจะสามารถใช้ได้สำหรับtypeที่ให้มาหรือไม่นั้นจะถูกตัดสินใจในเวลาที่ถูกสร้าง ที่typeที่เป็นรูปธรรมนั้นถูกแทนที่สำหรับparameterแบบtype การตรวจสอบtypeนั้นถูกยืดเวลาออกไปที่มักจะนำไปสู่ข้อความerrorที่ไม่สามารถเข้าใจได้อย่างน่าเสียดาย</p>
+<p>ในC++ได้มีกลไกสำหรับfunctionในการoverloadingและการทำให้templateเป็นเฉพาะเจาะจงที่อนุญาติในมีนิยามที่แตกต่างกันของfunctionเดียวกันสำหรับtypeที่แตกต่างกัน ในHaskellความเป็นfunctionนี้นั้นให้โดยtype classsesและtype families</p>
+<p>ความเป็นpolymorphicแบบparametricของHaskellมีผลที่ตามมาที่คาดไม่ถึงนั้นค่อในทุกๆfunctionแบบpolymorphicของtypeอย่าง</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha ::</span> <span class="dt">F</span> a <span class="ot">-&gt;</span> <span class="dt">G</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่ที่<code>F</code>และ<code>G</code>นั้นคือfunctorได้บรรลุเงื่อนไขของความเป็นธรรมชาติ ในที่นี้มันคือในรูปแบบทางcategory(ที่<span class="math inline">\(f\)</span>คือfunction<span class="math inline">\(f::a\rightarrow b\)</span>)</p>
+<p><span class="math display">\[
+Gf\circ\alpha_a = \alpha_b\circ Ff
+\]</span></p>
+<p>ในHaskell การกระทำของfunctor<code>G</code>บนmorphism<code>f</code>นั้นถูกเขียนโดย<code>fmap</code>ผมจะเขียนมันในHaskell-เทียมที่มีtype annotationsอย่าง</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fmap_G f <span class="op">.</span> alpha_a <span class="ot">=</span> alpha_b <span class="op">.</span> fmap_F f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เพราะว่าการอนุมานของtype annotationsนั้นไม่จำเป็นและสมการเหล่านี้ถูกต้อง</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f <span class="op">.</span> alpha <span class="ot">=</span> alpha <span class="op">.</span> <span class="fu">fmap</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นี่ยังไม่ใช่Haskellจริงๆ(ความเท่ากันของfunctionไม่สามารถถูกเขียนในโค้ด)แต่มันคือความเท่ากันที่สามารถถูกใช้โดยโปรแกรมเมอร์ในการให้เหตุผลทางสมการ หรือใช้โดยcomplierในการเพิ่มประสิทธิภาพ</p>
+<p>เหตุผลที่ว่าทำไมเงื่อนไขของความเป็นธรรมชาติที่เป็นอัตโนมัติในHaskellนั้นต้องมากับ”การได้ทฤษฎีบทโดยไม่ต้องทำอะไร” ความเป็นpolymorphicแบบparametricที่ถูกใช้ในการนิยามการแปลงแบบธรรมชาติในHaskell ได้กำหนดให้มีขีดจำกัดที่แข็งแรงบนบนการเขียน(หนึ่งสูตรสำหรับtypeทุกประเภท) ความจำกัดเหล่านี้แปรไปยังทฤษฎีบทของความเท่ากันเกี่ยวกับfunctionแบบนี้ ในกรณีของfunctionที่แปลงfunctorต่างๆ ทฤษฎีบทที่ได้มาโดยไม่ต้องทำอะไรนั้นคือเงื่อนไขของความเป็นธรรมชาติ<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>หนึ่งในวิธีการคิดเกี่ยวกับfunctorในHaskellที่ผมกล่าวถึงก่อนหน้านี้ในการพิจารณาพวกมันเป็นcontainerแบบทั่วไป เราสามารถที่จะทำการเปรียบเทียบอย่างนี้ต่อและลองพิจารณาการแปลงแบบธรรมชาติที่จะเป็นวิธีการสำหหรับการบรรจุช้ำของสิ่งที่อยู่ข้างในของcontainerหนึ่งไปยังอีกcontainerหนึ่ง</p>
+<p>เงื่อนไขทางธรรมชาติกลายมาเป็นสมากรที่ว่ามันไม่จำเป็นสำคัญว่าเราจะแปรสิ่งที่อยู่ภายในก่อนหรือผ่านการใช้งานของ<code>fmap</code>และการบรรจุช้ำหลังจากนี้ หรือบรรจุช้ำก่อนและทำการเปลี่ยนแปลงสิ่งที่อยู่ข้างในcontainerใหม่ด้วย<code>fmap</code>ที่ถูดเขียนของมันเอง สองการกระทำแบบนี้ ในการบรรจุช้ำและการ<code>fmap</code>นั้นorthogonalกัน(ไม่มีความเกี่ยวข้องกัน) “หนึ่งในนั้นขยับใข่ อีกตัวทำการต้มมัน” (One moves the eggs, the other boils them)</p>
+<p>เรามาดูตัวอย่างต่างๆของการแปลงแบบธรรมชาติในHaskell สิ่งแรกคือระหว่างfunctorของlistและfunctor<code>Maybe</code> มันreturnกลับมาเป็นหัวของlistแต่แค่ว่าlistนั้นไม่ได้ว่าง</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">safeHead ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>safeHead [] <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>safeHead (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="dt">Just</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันคือfunctionที่polymorphicใน<code>a</code> มันใช้ได้สำหรับtypeใดๆก็ตามของ<code>a</code>ที่ไม่มีข้อจำกัด ดันนั้นมันคือตัวอย่างของpolymorphismแบบparametric ดันนั้นมันคือการแปลงแบบธรรมชาติระหว่างfunctorทั้งสอง แต่คือที่จะทำให้เราเชื่อมั่น เรามาพิสูจน์ความเป็นเงื่อนไขของความเป็นธรรมชาติ</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f <span class="op">.</span> safeHead <span class="ot">=</span> safeHead <span class="op">.</span> <span class="fu">fmap</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เรามีอยู่สองกรณีในการพิจารณาlistว่าง</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f (safeHead []) <span class="ot">=</span> <span class="fu">fmap</span> f <span class="dt">Nothing</span> <span class="ot">=</span> <span class="dt">Nothing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>safeHead (<span class="fu">fmap</span> f []) <span class="ot">=</span> safeHead [] <span class="ot">=</span> <span class="dt">Nothing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และlistที่ไม่ว่าง</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f (safeHead (x<span class="op">:</span>xs)) <span class="ot">=</span> <span class="fu">fmap</span> f (<span class="dt">Just</span> x) <span class="ot">=</span> <span class="dt">Just</span> (f x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>safeHead (<span class="fu">fmap</span> f (x<span class="op">:</span>xs)) <span class="ot">=</span> safeHead (f x <span class="op">:</span> <span class="fu">fmap</span> f xs) <span class="ot">=</span> <span class="dt">Just</span> (f x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ผมได้ใช้การเขียน<code>fmap</code>สำหรับlistต่างๆเหล่านี้</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f [] <span class="ot">=</span> []</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f (x<span class="op">:</span>xs) <span class="ot">=</span> f x <span class="op">:</span> <span class="fu">fmap</span> f xs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และสำหรับ<code>Maybe</code></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f <span class="dt">Nothing</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fmap</span> f (<span class="dt">Just</span> x) <span class="ot">=</span> <span class="dt">Just</span> (f x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>กรณีที่น่าสนใจคือในตอนที่หนึ่งในfunctorคือfunctor<code>Const</code>แบบตรงไปตรงมาการแปลงแบบธรรมชาติจากหรือมาจากfunctor<code>Const</code>ดูเหมือนแค่fnctionที่เป็นpolymorphicในtypeของการreturnหรือtypeของargumentของมัน</p>
+<p>ตัวอย่างเช่น<code>length</code>สามารถถูกคิดในฐานะแปลงแบบธรรมชาติสำหรับfunctorของlistคือ<code>Const Int</code>functorอย่างๆ</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span><span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Const</span> <span class="dt">Int</span> a</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span> [] <span class="ot">=</span> <span class="dt">Const</span> <span class="dv">0</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span> (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="dt">Const</span> (<span class="dv">1</span> <span class="op">+</span> unConst (<span class="fu">length</span> xs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้<code>unConst</code>ถูกใช้ในการดึงconstructorของ<code>Const</code></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ot">unConst ::</span> <span class="dt">Const</span> c a <span class="ot">-&gt;</span> c</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>unConst (<span class="dt">Const</span> x) <span class="ot">=</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แน่นอนว่าในทางปฏิบัติ<code>length</code>ถูกนิยามว่า</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span><span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่ช่อนได้อย่างมีประสิทธิภาพความจริงที่ว่ามันคือแปลงแบบธรรมชาติ</p>
+<p>การหาfunctionที่polymorphicแบบparametric<em>จาก</em>functor<code>Const</code>นั้นอาจจะยากกว่านิดหนึ่ง เนื่อว่ามันอาจจะจำเป็นต้องมีการสร้างของค่าจากไม่มีอะไรเลยสิ่งที่เราสามารถทำได้คือ</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ot">scam ::</span> <span class="dt">Const</span> <span class="dt">Int</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>scam (<span class="dt">Const</span> x) <span class="ot">=</span> <span class="dt">Nothing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>functorที่มีความทั่วไปอีกอย่างหนึ่งที่เราได้เห็นแล้วและที่จะมีบทบาทในlemmaของYonedaคือfunctor<code>Reader</code>ที่ผมจะเขียนนิยามของมันใหม่ในฐานะ<code>newtype</code>ว่า</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Reader</span> e a <span class="ot">=</span> <span class="dt">Reader</span> (e <span class="ot">-&gt;</span> a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันถูกparameterizedโดยสองtypeแต่มีความเป็นfunctor(แบบcovariant)แค่ในตัวที่สอง</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Reader</span> e) <span class="kw">where</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f (<span class="dt">Reader</span> g) <span class="ot">=</span> <span class="dt">Reader</span> (\x <span class="ot">-&gt;</span> f (g x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในทุกๆtype<code>e</code>คุณสามารถที่จะนิยามชุดของการแปลงแบบธรรมชาติจาก<code>Reader e</code>ไปยังfunction<code>f</code>อื่น เราจะเห็นหลังจากนี้ว่าสมาชิกของชุดนี้นั้น ตรงแบบหนึ่งต่อหนึ่งกับสมาชิกของ<code>f e</code>(lemmaของYoneda)</p>
+<p>ตัวอย่างเช่นลองพิจารณาunit typeค่อนข้างทั่วๆไป<code>()</code>กับสมาชิกเดี่ยว<code>()</code> functor<code>Reader ()</code> นั้นนำtype<code>a</code>ใดๆก็ตามและโยงมันไปยังtypeแบบfunction<code>() -&gt; a</code>สิ่งนี้คือแค่functionที่เลือกสมาชิกหนึ่งใน<code>a</code>มา แล้วมาลองพิจารณาการแปลงแบบธรรมชาติจากfunctorนี้ไปยัง<code>Maybe</code>functor</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha ::</span> <span class="dt">Reader</span> () a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ได้มีแค่สองตัวอย่าง<code>dumb</code>และ<code>obvious</code></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dumb (<span class="dt">Reader</span> _) <span class="ot">=</span> <span class="dt">Nothing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และ</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>obvious (<span class="dt">Reader</span> g) <span class="ot">=</span> <span class="dt">Just</span> (g ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(สิ่งที่คุณสามารถทำได้กับ<code>g</code>คือการใช้มันกับค่าunit<code>()</code>)</p>
+<p>และแน่นอนว่าในการคาดเดาของlemmaของYoneda สิ่งเหล่านี้คู่กับสมาชิกทั้งสองของtype<code>Maybe ()</code> ที่คือ<code>Nothing</code>และ<code>Just ()</code> เราจะกลับมาที่lemmaของYonedaหลังจากนี้ นี่เป็นแค่น้ำจิ้ม</p>
+</section>
+<section id="ขามพนความเปนธรรมชาต" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="ขามพนความเปนธรรมชาต"><span class="header-section-number">11.2</span> ข้ามพ้นความเป็นธรรมชาติ</h2>
+<p>Functionแบบpolymorphicและparametricallyระหว่างfunctorทั้งสอง(รวมไปถึงกรณีที่สุดโต่งของfunctor<code>Const</code>)นั้นจะเป็นการแปลงแบบธรรมชาติเสมอ เนื่องด้วยtypeแบบข้อมูลแบบพีชคณิตและมาตรฐานนั้นคือfunctor functionแบบpolymorphicระหว่างtypeแบบนี้คือการแปลงแบบธรรมชาติ</p>
+<p>เราก็มีtypeแบบfunctionที่อยู่กับเราและสิ่งเหล่านี้นั้นมีความเป็นfunctorในtypeของการreturnของมัน เราสามารถใช้มันในการสร้างfunctorต่างๆ(เหมือนกับfunctor<code>Reader</code>)และนิยามการแปลงแบบธรรมชาติที่เป็นfunctionแบบhigher-order</p>
+<p>แต่ว่าtypeแบบfunctionนั้นไม่เป็นcovariantในtypeของargument พวกมันเป็นแบบ<em>contravariant</em> แน่นอนว่าfunctorแบบcontravariantนั้นเท่ากันกับfunctorแบบcovariantจากcategoryตรงข้าม functionแบบpolymorphicระหว่างfunctorแบบcontravariantนั้นยังคือการแปลงแบบธรรมชาติในความหมายทางcategory ยกเว้นว่าพวกมันทำงานบนfunctorจากcategoryตรงข้ามไปยังtypeของHaskell</p>
+<p>คุณอาจจะจำได้ว่าตัวอย่างของfunctorแบบcontravariantที่เราได้ดูมาก่อนหน้านี้ว่า</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Op</span> r a <span class="ot">=</span> <span class="dt">Op</span> (a <span class="ot">-&gt;</span> r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>functorนี้นั้นเป็นแบบcontravariantใน<code>a</code></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Contravariant</span> (<span class="dt">Op</span> r) <span class="kw">where</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    contramap f (<span class="dt">Op</span> g) <span class="ot">=</span> <span class="dt">Op</span> (g <span class="op">.</span> f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถที่จะเขียนfunctionแบบpolymorphicจากอย่าง<code>Op Book</code> ไปยัง <code>Op String</code>ว่า</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>predToStr (<span class="dt">Op</span> f) <span class="ot">=</span> <span class="dt">Op</span> (\x <span class="ot">-&gt;</span> <span class="kw">if</span> f x <span class="kw">then</span> <span class="st">"T"</span> <span class="kw">else</span> <span class="st">"F"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่เนื่องด้วยfunctorทั้งสองนั้นไม่เป็นcovariantนี้ไม่ใช่การแปลงแบบธรรมชาติใน<span class="math inline">\(\textbf{Hask}\)</span>แต่เพราะว่าพวกมันนั้นเป็นcontravariantทั้งคู่ พวกมันบรรลุเงื่อนไขของความเป็นธรรมชาติแบบ”ตรงข้าม”</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>contramap f <span class="op">.</span> predToStr <span class="ot">=</span> predToStr <span class="op">.</span> contramap f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตว่าfunction<code>f</code>ต้องไปยังทิศทางตรงข้ามของสิ่งที่เราได้ใช้กับ<code>fmap</code>เพราะว่าsigntureของ<code>contramap</code></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ot">contramap ::</span> (b <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> (<span class="dt">Op</span> <span class="dt">Bool</span> a <span class="ot">-&gt;</span> <span class="dt">Op</span> <span class="dt">Bool</span> b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แล้วได้มีconstructorของtypeแบบไหนที่ไม่ใช่functorไม่ว่าจะเป็นcovariantหรือr contravariant? นี้คือตัวอย่างหนึ่ง</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สิ่งนี้ไม่ใช่functorเพราะว่าtype<code>a</code>เดียวกันถูกใช้ทั้งในตำแหน่งด้านลบ(contravariant)และด้านบวก(covariant)ดังนั้นfunctionที่มีsignatureแบบนี้</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(a <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> f a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่<code>f</code>คือfunctorใดๆก็ตามไม่สามารถที่จะเป็นการแปลงแบบธรรมชาติ น่าสนใจที่ว่าได้มีการgeneralize(generalization)ของการแปลงแบบธรรมชาติถูกเรียกว่าการแปลงแบบธรรมชาติคู่(dinatural transformations)ที่จะทำงานกับกรณีต่างๆแบบนี้ เราจะมาดูสิ่นแบบนี้ในตอนที่เราพูดเกี่่ยวกับends</p>
+</section>
+<section id="categoryของfunctor" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="categoryของfunctor"><span class="header-section-number">11.3</span> CategoryของFunctor</h2>
+<p>ในที่นี้เรามีการโยงระหว่างfunctorต่าง(นั้นก็คือการแปลงแบบธรรมชาติ)มันเป็นธรรมชาติในการถามคำถามว่าfuntorสามารถก่อให้เกิดcategoryได้หรือเปล่า และแน่นอนว่ามันทำได้ ได้มีcategoryของfunctorหนึ่งสำหรับแต่ละคู่ของcategories<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span> วัตถุในcategoryนี้คือfunctorจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{D}\)</span>และmorphismคือการแปลงแบบธรรมชาติ</p>
+<p>เราต้องที่จะนิยามการประกอบกันของการแปลงแบบธรรมชาติทั้งสองแต่นั้นมันค่อนข้างง่ายห ส่วนประกอบของการแปลงแบบธรรมชาติคือmorphismและเรารู้วิธีการประกอบmorphisms</p>
+<p>แน่นอนว่าเรามาคุยเกี่ยวกับการแปลงแบบธรรมชาติ<span class="math inline">\(\alpha\)</span>จากfunctor<span class="math inline">\(F\)</span>ไปยัง<span class="math inline">\(G\)</span> ส่วนประกอบของมันที่วัตถุ<span class="math inline">\(a\)</span>ในบางmorphism</p>
+<p><span class="math display">\[
+\alpha_a::Fa\rightarrow Ga
+\]</span></p>
+<p>เราต้องการที่จะประกอบ<span class="math inline">\(\alpha\)</span>ด้วย<span class="math inline">\(\beta\)</span>ที่คือการแปลงแบบธรรมชาติจากfunctor<span class="math inline">\(G\)</span>ไปยัง<span class="math inline">\(H\)</span>ส่วนประกอบของ<span class="math inline">\(\beta\)</span>ที่<span class="math inline">\(a\)</span>คือmorphism</p>
+<p><span class="math display">\[
+\beta_a :: Ga\rightarrow Ha
+\]</span></p>
+<p>Morphismเหล่านี้นั้นประกอบได้และการประกอบของมันคือmorphismอีกอันหนึ่ง</p>
+<p><span class="math display">\[
+\beta_a\circ\alpha_a :: Fa\rightarrow Ha
+\]</span></p>
+<p>เราจะใช้morphismนี้ในฐานะส่วนประกอบของการแปลงแบบธรรมชาติ<span class="math inline">\(\beta\cdot\alpha\)</span>คือการประกอบกันของการแปลงแบบธรรมชาติทั้งของ<span class="math inline">\(\beta\)</span>หลัง<span class="math inline">\(\alpha\)</span></p>
+<p><span class="math display">\[
+(\beta\cdot\alpha)_a = \beta_a\circ\alpha_a
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/5_vertical.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>การจ้อง(ที่นาน)ไปยังdiagramได้ทำให้เรามั่นใจว่าผลของการประกอบนี้คือการแปลงแบบธรรมชาติจาก<span class="math inline">\(F\)</span>ไปยัง<span class="math inline">\(H\)</span></p>
+<p><span class="math display">\[
+Hf\circ(\beta\cdot\alpha)_a = (\beta\cdot\alpha)_b\circ Ff
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/6_verticalnaturality.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>การประกอบกันของการแปลงแบบธรรมชาติต่างๆนั้นมีคุณสมบัติการเปลี่ยนหมู่เพราะว่าการประกอบกันของพวกมันที่ก็คือmorphismทั่วๆไปนั้นมีคุณสมบัติการเปลี่ยนหมู่ในส่วนของการประกอบกันของพวกมัน</p>
+<p>สุดท้ายแล้วสำหรับfunctor<span class="math inline">\(F\)</span>ได้มีการแปลงแบบธรรมชาติที่เป็นidentity<span class="math inline">\(1_F\)</span>ที่ส่วนประกอบของมันคือmorphismแบบidentity</p>
+<p><span class="math display">\[
+\operatorname{id}_{Fa}::Fa\rightarrow Fa
+\]</span></p>
+<p>แน่นอนว่าดังนั้นfunctorsที่สร้างเป็นcategory</p>
+<p>ในบางคำเกี่ยวกับสัญกรณ์ ตามมาจากSaunders Mac Laneผมได้ใช้จุดสำหรับประเภทของการประกอบของการแปลงแบบธรรมชาติที่ผมได้อธิบายไปก่อนหน้านี้ ปัญหาคือว่าได้มีสองวิธีในการประกอบชองการแปลงแบบธรรมชาติที่นี้เรียกว่าการประกอบกันในแนวตั้งเพราะว่าfunctorนั้นมักจัช้อนกันในdiagramที่ทำการอธิบายมัน การประกอบกันในแนวตั้งนั้นมีความสำคัญในการนิยามcategoryของfunctor ผมจะอธิบายการประกอบกันในแนวนอนในอีกไม่ช้า</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/6a_vertical.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>categoryของfunctorระหว่างcategory <span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span>นั้นถูกเขียนไว้ว่า<span class="math inline">\(\textbf{Fun}(\textbf{C}, \textbf{D})\)</span>หรือ<span class="math inline">\([\textbf{C},\textbf{D}]\)</span>หรือในบางครั้งในฐานะ<span class="math inline">\(\textbf{D}^\textbf{C}\)</span> ในการเขียนอย่างสุดท้ายบอกเราว่าcategoryของfunctorตัวมันเองอาจจะถูกมองเป็นวัตถุแบบfunction(ก็คือexponential)ในอีกcategoryหนึ่ง นี้เป็นจริงหรือเปล่า</p>
+<p>เรามาดูที่ลำดับชั้นของความabstractionที่เราได้สร้างมาจนถึงจุดนี้ เราเรื่มจากcategoryที่คือกลุ่มของวัตถุและmorphism categoryมันเอง(หรือถ้าให้พูดอย่างถูกต้อง categoryขนาดเล็กที่วัตถุก่อเป็นset)นั้นพวกมันเองเป็นวัตถุในcategoryที่สูงกว่า<span class="math inline">\(\textbf{Cat}\)</span> moprhismsในcategoryนั้นคือfunctor hom-setใน<span class="math inline">\(\textbf{Cat}\)</span>คือsetของfunctor ตัวอย่างเช่น<span class="math inline">\(\textbf{Cat}(\textbf{C}, \textbf{D})\)</span>คือsetของfunctorระหว่างcategoryสองตัวอย่าง<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/7_cathomset.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>cateogryของfunctor<span class="math inline">\([\textbf{C},\textbf{D}]\)</span>นั้นก็เป็นsetของfunctorระหว่างcategoryทั้งสอง(บวกกับการแปลงแบบธรรมชาติในฐานะmorphism) วัคถุต่างๆของมันนั้นเหมือนกับสมาชิกของ<span class="math inline">\(\textbf{Cat}(\textbf{C},\textbf{D})\)</span> มากไปกว่านี้นcategoryของfunctorในการที่เป็นcategoryต้องเป็นวัตถุของ<span class="math inline">\(\textbf{Cat}\)</span> (ดังนั้นมันเป็นว่าcategoryของfunctorระหว่างcategoryขนาดเล็กสองตัวก็มีขนาดเล็กเอง) เรามีความสัมพันธ์ระหว่างHom-setในcategoryและวัตถุในcategoryเดียวกัน สถานการณ์นี้นั้นเหมือนกับวัคถุexpoenentialที่เราได้เห็นได้เห็นในส่วนก่อนหน้า เรามาดูในวิธีการที่เราสร้างมันใน<span class="math inline">\(\textbf{Cat}\)</span></p>
+<p>ในที่คุณอาจจะจำได้ในการที่จะสร้างexponential เราต้องการที่จะนิยามproduct ใน<span class="math inline">\(\textbf{Cat}\)</span>สิ่งนี้กลายมาเป็นสิ่งที่ค่อนข้างง่ายเพราะว่าcategoryขนาดเล็กเป็น<em>set</em>ของวัตถุและเรารู้วิธีการในการนิยามproductแบบCartesianของset ดังนั้นวัตถุในcategoryแบบproduct<span class="math inline">\(\textbf{C}\times\textbf{D}\)</span>คือแค่คู่ของวัตถุ<span class="math inline">\((c,d)\)</span>ตัวหนึ่งมาจาก<span class="math inline">\(\textbf{C}\)</span>และอีกตัวมาจาก<span class="math inline">\(\textbf{D}\)</span> ในทางเดียวกันmorphismระหว่างสองคู่<span class="math inline">\((c,d)\)</span>และ<span class="math inline">\((c',d')\)</span>มันคือคู่ของmorphism<span class="math inline">\((f,g)\)</span>ที่<span class="math inline">\(f::c\rightarrow c'\)</span>และ<span class="math inline">\(g::d\rightarrow d'\)</span>คู่เหล่านี้ของmorphismประกอบกันในแต่ละส่วนประกอบ และมันก็จะมีคู่ที่เป็นidentityที่ก็คือคู่ของmorphismแบบidentity โดยสรุปแล้ว<span class="math inline">\(\textbf{Cat}\)</span>คือcategoryแบบCartesian closedอย่างเต็มที่ที่ที่ได้มีวัตถุexponential<span class="math inline">\(\textbf{D}^\textbf{C}\)</span>ในทุกๆคู่ของcategory และโดย”วัตถุ“ใน<span class="math inline">\(\textbf{Cat}\)</span>ผมหมายถึงcategoryดังนั้น<span class="math inline">\(\textbf{D}^\textbf{C}\)</span>คือcategoryที่ที่เราสามารถเห็นได้เป็นcategoryของfunctorระหว่าง<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span></p>
+</section>
+<section id="category" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="category"><span class="header-section-number">11.4</span> 2-Category</h2>
+<p>โดยที่ทำสิ่งนั้น(categoryของfunctorในฐานะexponential)เรามาดูอย่างใกล้ๆที่<span class="math inline">\(\textbf{Cat}\)</span> โดยนิยามแล้วHom-setใดๆก็ตามใน<span class="math inline">\(\textbf{Cat}\)</span>คือsetของfunctor แต่ในสิ่งที่เราได้เห็นก่อนหน้านี้functorระหว่างสองวัตถุมีโครงสร้างที่หรูหรากว่าแค่set พวมมันก่อให้เกิดcategoryที่คู่กับการแปลงแบบธรรมชาติที่กระทำกับในฐานะmorphism เนื่องด้วยว่าfunctorนั้นถูกพิจารณาเป็นmorphismใน<span class="math inline">\(\textbf{Cat}\)</span>การแปลงแบบธรรมชาติจึงเป็นmorphismระหว่างmorphism</p>
+<p>โครงสร้างที่หรูหรากว่านี้คือตัวอย่างของ2-categoryที่เป็นการgeneralizeของcategoryที่นอกเหนือจากวัตถุและmorphism(ที่อาจจะถูกเรียกว่า1-morphismในบริบทนี้) ได้มี2-morphismด้วยที่คือmorphismระหว่างmorphism</p>
+<p>ในกรณีนี้ของ<span class="math inline">\(\textbf{Cat}\)</span>ที่มองในฐานะ2-categoryเรามี</p>
+<ul>
+<li>วัตถุ: category(ขนาดเล็ก)</li>
+<li>1-morphism: functorระหว่างcategory</li>
+<li>2-morphism: การแปลงแบบธรรมชาติระหว่างfunctor</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/8_cat-2-cat.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>แทนที่Hom-setระหว่างcategoryทั้งสอง<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span>เรามีhom-categoryนั้นก็คือcategoryของfunctor<span class="math inline">\(\textbf{D}^\textbf{C}\)</span>เราได้มีการประกอบfunctorแบบทั่วไปคือfunctor<span class="math inline">\(F\)</span>จาก<span class="math inline">\(\textbf{D}^\textbf{C}\)</span>ประกอบกับfunctor<span class="math inline">\(G\)</span>จาก<span class="math inline">\(\textbf{E}^\textbf{D}\)</span>เพิ่อที่จะได้<span class="math inline">\(G\circ F\)</span>จาก<span class="math inline">\(\textbf{E}^\textbf{C}\)</span> แต่เราก็มีการประกอบกับข้างในของแต่ละHom-categoryคือการประกอบแนวตั้งของการแปลงแบบธรรมชาติหรือ2-morphismระหว่างfunctor</p>
+<p>ด้วยการที่มีสองประเภทของการประกอบกันใน2-categoryเราก็จะมีคำถาม แล้วพวกมันมีปฏิสัมพันธ์อย่างไร</p>
+<p>เรามาเลือกสองfunctorหรือ1-morphismใน<span class="math inline">\(\textbf{Cat}\)</span></p>
+<p><span class="math display">\[
+\begin{gather*}
+  F :: \textbf{C} \to \textbf{D} \\
+  G :: \textbf{D} \to \textbf{E}
+\end{gather*}
+\]</span></p>
+<p>และการประกอบของมัน</p>
+<p><span class="math display">\[
+G\circ F::\textbf{C}\rightarrow \textbf{E}
+\]</span></p>
+<p>สมมุติว่าเรามีการแปลงแบบธรรมชาติ<span class="math inline">\(\alpha\)</span>และ<span class="math inline">\(\beta\)</span>ที่กระทำ ตามลำดับบนfunctor<span class="math inline">\(F\)</span>และ<span class="math inline">\(G\)</span></p>
+<p><span class="math display">\[
+\begin{gather*}
+  \alpha :: F \to F' \\
+  \beta :: G \to G'
+\end{gather*}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/10_horizontal.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>สังเกตว่าเราไม่สามารถใช้การประกอบกันแบบแนวต้งของคู่ๆนี้เพราะว่าเป้าหมายของ<span class="math inline">\(\alpha\)</span>นั้นแตกต่างจากจุดเรื่อมต้นของ<span class="math inline">\(\beta\)</span> ในความจริงแล้วพวกกันคือสมาชิกของcategoryของfunctorที่แตกต่างกันอย่าง<span class="math inline">\(\textbf{D}^\textbf{C}\)</span>และ<span class="math inline">\(\textbf{E}^\textbf{D}\)</span> แต่เราสามารถที่จะใช้การประกอบกันของfunctor <span class="math inline">\(F'\)</span>และ<span class="math inline">\(G'\)</span>เพราะว่าเป้าหมายของ<span class="math inline">\(F'\)</span>นั้นคือที่เริ่มต้นของ<span class="math inline">\(G'\)</span> มันคือcategory<span class="math inline">\(\textbf{D}\)</span> อะไรคือความสัมพันธ์ระหว่างfunctor <span class="math inline">\(G'\circ F'\)</span>และ<span class="math inline">\(G\circ F\)</span></p>
+<p>การที่เรามี<span class="math inline">\(\alpha\)</span>และ<span class="math inline">\(\beta\)</span>อยู่พร้อม เราสามารถที่จะนิยามการแปลงแบบธรรมชาติจาก<span class="math inline">\(G'\circ F'\)</span>ไปยัง<span class="math inline">\(G\circ F\)</span>? ให้ผมได้ร่างการสร้างนี้</p>
+<p>เหมือนโดยทั่วไปเราเริ่มจากวัตถุ<span class="math inline">\(a\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> ที่imageของมันแยกออกไปเป็นสองวัตถุใน<span class="math inline">\(\textbf{D}\)</span>คือ<span class="math inline">\(Fa'\)</span>และ<span class="math inline">\(F'a\)</span> ก็มีmorphismที่เป็นส่วนประกอบของ<span class="math inline">\(\alpha\)</span>ในการเชื่อมระหว่างวัตถุทั้งสองอย่าง</p>
+<p><span class="math display">\[
+\alpha_a :: Fa\rightarrow F'a
+\]</span></p>
+<p>เราไปจาก<span class="math inline">\(\textbf{D}\)</span>ไปยัง<span class="math inline">\(\textbf{E}\)</span>วัตถุเหล่านี้แยกไปต่อไปเป็นสี่วัตถุอย่าง <span class="math inline">\(G (F a)\)</span>, <span class="math inline">\(G'(F a)\)</span>, <span class="math inline">\(G (F'a)\)</span>, <span class="math inline">\(G'(F'a)\)</span> เราก็มีmorphismสี่ตัวที่ก่อเป็นสี่เหลี่ยม สองmorphismจากทั้งหมดคือส่วนประกอบของการแปลงแบบธรรมชาติ<span class="math inline">\(\beta\)</span></p>
+<p><span class="math display">\[
+\begin{gather*}
+  \beta_{F a} :: G (F a) \to G'(F a) \\
+  \beta_{F'a} :: G (F'a) \to G'(F'a)
+\end{gather*}
+\]</span></p>
+<p>อีกสองตัวคือimageของ<span class="math inline">\(\alpha_a\)</span>ภายใต้functorทั้งสอง(functorจะทำการโยงmorphismต่างๆ)</p>
+<p><span class="math display">\[
+\begin{gather*}
+  G \alpha_a :: G (F a) \to G (F'a) \\
+  G'\alpha_a :: G'(F a) \to G'(F'a)
+\end{gather*}
+\]</span></p>
+<p>นั้นก็มีmorphismหลายตัว เป้าหมายของเราคือการหาmorphismที่ไปจาก<span class="math inline">\(G(Fa)\)</span>ไปยัง<span class="math inline">\(G'(F'a)\)</span>ส่วนประกอบที่มีคุณสมปัติสำหรับการแปลงแบบธรรมชาติที่เชื่อมสองfunctor<span class="math inline">\(G \circ F\)</span> ไปยัง<span class="math inline">\(G' \circ F'\)</span> ในความเป็นจริงแล้วได้มีไม่เฉพาะแค่หนึ่งแต่เป็นสองเส้นทางที่เราสามารถใช้จาก<span class="math inline">\(G(Fa)\)</span>ไปยัง<span class="math inline">\(G'(F'a)\)</span></p>
+<p><span class="math display">\[
+\begin{gather*}
+  G'\alpha_a \circ \beta_{F a} \\
+  \beta_{F'a} \circ G \alpha_a
+\end{gather*}
+\]</span></p>
+<p>โชกดีของเราว่าพวกมันเท่ากันเพราะว่าสี่เหลี่ยมที่เราได้สร้างกลับเป็นสี่เหลี่ยมที่เป็นธรรมชาติของ<span class="math inline">\(\beta\)</span></p>
+<p>เราได้นิยามส่วนประกอบของการแปลงแบบธรรมชาติจาก<span class="math inline">\(G \circ F\)</span> ไปยัง<span class="math inline">\(G' \circ F'\)</span> การพิสูจน์ของความเป็นธรรมชาติของการแปลงนี้นั้นค่อนข้างตรงไปตรงมา ถ้าคุณมีความอดทนมากพอ</p>
+<p>เราเรียกการแปลงแบบธรรมชาตินี้ว่าการประกอบกันแนวนอนของ<span class="math inline">\(\alpha\)</span>และ<span class="math inline">\(\beta\)</span></p>
+<p><span class="math display">\[
+\beta\circ\alpha :: G\circ F\rightarrow G'\circ F'
+\]</span></p>
+<p>อีกครั้งตามมาจากMac Laneผมได้ใช้วงกลมเล็กสำหรับการประกอบกันในแนวนอนถึงแม้คุณอาจจะเจอการใช้ดาวแทนที่</p>
+<p>ในที่นี้หลักการง่ายๆทางcategpryคือในทุกๆครั้งที่คุณมีการประกอบกันตุณควรที่จะตามหาcategory เราได้มีการประกอบกันในแนวตั้งของการแปลงแบบธรรมชาติและมันเป็นส่วนของcategoryของfunctor แล้วการกอบกันในแนวนอนละ? มันอยู่ในcategoryอะไร?</p>
+<p>ในการที่จะตามหานี้คือการมอง<span class="math inline">\(\textbf{Cat}\)</span>ในด้านข้าง มองที่การแปลงแบบธรรมชาติไม่ในฐานะลูกศรระหว่างfunctorแต่เป็นลูกศรระหว่างcategory การแปลงแบบธรรมชาติที่นีั่งระหว่างcategoryทั้งสอง ที่ที่ได้ถูกเชื่อมโดยfunctorที่มันทำการเปลี่ยนแปลง เราสามารถที่จะคิดถึงมันในฐานะการเชื่อมต่อกันของcategoryทั้งสอง</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/sideways.jpg" height="175" class="figure-img"></p>
+</figure>
+</div>
+<p>เรามาให้ความสนใจกับวัตถุทั้งสองของ<span class="math inline">\(\textbf{Cat}\)</span>นั้นก็คือcategory<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span> ได้มีsetของการแปลงแบบธรรมชาติที่ไประหว่างfunctorที่เชื่อมจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{D}\)</span> การแปลงแบบธรรมชาติเหล่านี้คือลูกศรใหม่จาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{D}\)</span> ในรูปแบบเดียวกันได้มีการแปลงแบบธรรมชาติระหว่างfunctorที่เชื่อมต่อ<span class="math inline">\(\textbf{D}\)</span>ไปยัง<span class="math inline">\(\textbf{E}\)</span>ที่เราสามารถมองมันในฐานะลูกศรใหม่จาก<span class="math inline">\(\textbf{D}\)</span>ไปยัง<span class="math inline">\(\textbf{E}\)</span> การประกอบแนวนอนกันคือการประกอบกันของลูกศรเหล่านี้</p>
+<p>เราก็มีลูกศรแบบidentityที่จาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span> มันคือการแปลงแบบธรรมชาติแบบidentityที่โยงfunctorแบบidentityบน<span class="math inline">\(\textbf{C}\)</span>ไปยังตัวมันเอง สังเกตว่าidentityสำหรับการประกอบแนวนอนก็เป็นidentityสำหรับการประกอบแนวตั้งไม่เป็นในอีกทางหนึ่ง</p>
+<p>สุดท้ายแล้วการประกอบกันทั้งสองอยู่ในกฎของการแลกเปลี่ยน</p>
+<p><span class="math display">\[
+(\beta'\cdot\alpha')\circ(\beta\cdot\alpha) = (\beta'\circ\beta)\cdot(\alpha'\circ\alpha)
+\]</span></p>
+<p>ผมจะอ้างคำของSaunders Mac Laneในที่นี้ว่า นักอ่านในที่นี้อาจจะชอบในการเขียนdiagramที่ชัดเจนในความจำเป็นในการพิสูจน์ความจริงข้อนี้</p>
+<p>ได้มีเครื่องหมายอีกตัวหนึ่งที่อาจจะมีประโยชน์ในอนาคต ในการตีความแบบด้านข้างของ<span class="math inline">\(\textbf{Cat}\)</span>ได้มีสองวิธีในการมาจากวัตถุไปยังวัตถุในการใช้functorหรือการใช้การแปลงแบบธรรมชาติ แต่เราสามารถที่จะตีความใหม่ชองลูกศรfunctorในฐานะการแปลงแบบธรรมชาติแบบพิเศษคือการแปลงแบบธรรมชาติที่เป็นidentityที่กระทำบนfunctorนี้ ดังนั้นคุณจะเห็นในบ่อยครั้งเครื่องหมายแบบนี้</p>
+<p><span class="math display">\[
+F\circ\alpha
+\]</span></p>
+<p>ที่<span class="math inline">\(F\)</span>คือfunctorจาก<span class="math inline">\(\textbf{D}\)</span>ไปยัง<span class="math inline">\(\textbf{E}\)</span>และ<span class="math inline">\(\lalpha\)</span>คือการแปลงแบบธรรมชาติระหว่างสองfunctorจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{D}\)</span> เนื่องว่าคุณไม่สามารถที่จะประกอบfunctorกับการแปลงแบบธรรมชาติ สิ่งนี้ถูกตีความในฐานะการประกอบแนวนอนของการแปลงแบบธรรมชาติแบบidentity<span class="math inline">\(1_F\)</span>หลัง<span class="math inline">\(\alpha\)</span></p>
+<p>ในทางเดียวกัน</p>
+<p><span class="math display">\[
+\alpha\circ F
+\]</span></p>
+<p>คือการประกอบแนวนอนของ<span class="math inline">\(\alpha\)</span>หลัง<span class="math inline">\(1_F\)</span></p>
+</section>
+<section id="สรป" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="สรป"><span class="header-section-number">11.5</span> สรุป</h2>
+<p>บทนี้คือจุดสิ้นสุดของส่วนแรกของหนังสือเล่มนี้ เราได้เรียนคำศัพท์พื้นฐานของทฤษฎีcategory คุณอาจจะคิดถึงวัตถุและcategoryในฐานะคำนาม และmorphism functorและการแปลงแบบธรรมชาติในฐานะคำกริยา morphismที่เชื่อมต่อวัตถุ functorเชื่อมต่อcategoryและการแปลงแบบธรรมชาติเชื่อมต่อfunctor</p>
+<p>แต่เราก็ได้เห็นแล้วว่าสิ่งที่ดูเหมือนการกระทำในระดับหนึ่งของการทำให้เป็นนามธรรม(abstraction)กลายมาเป็นวัตถุใรอีกระดับหนึ่ง setของmorphismกลายมาเป็นวัตถุประเภทfunction ในฐานะวัตถุ มันสามารถที่จะเป็นจุดเริ่มต้นหรือเป้าหมายของmorphismอีกอัน นั้นก็คือแนวคิดข้าหลังfunctionแบบhigher order</p>
+<p>functorนั้นโยงวัตถุไปยังวัตถุ ดังนั้นเราสามารถที่จะใช้มันในฐานะconstructorของtypeหรือtypeแบบparametric functorนั้นก็โยงmorphismต่างๆดังนั้นมันคือfunctionแบบhigher order(<code>fmap</code>) ได้มีfunctorเรียบง่ายบางตัวอย่าง<code>Const</code> productหรือcoproductที่สามารถถูกใช้ในการสร้างtypeข้อมูลแบบพีชคณิตที่หลากหลายมากมาย typeแบบfunctionนั้นก็มีความเป็นfunctorทั้งแบบcovariantและcontravariantและสามารถถูกใช้ในการขยายtypeข้อมูลแบบพีชคณิต</p>
+<p>functorอาจจะถูกมองในฐานะวัตถุในcategoryของfunctor ในแบบนั้นแล้วพวกมันกลายมาเป็นจุดเริ่มต้นและเป้าหมายของmorphismนั้นก็คือการแปลงแบบธรรมชาติ การแปลงแบบธรรมชาติคือประเภทพิเศษของfunctionแบบpolymorphic</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">11.6</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองนิยามการแปลงแบบธรรมชาติจากfunctor<code>Maybe</code>ไปยังfunctorของlistและพิสูจน์เงื่อนไขความเป็นธรรมชาติสำหรับมัน</li>
+<li>นิยามอยางน้อยแปลงแบบธรรมชาติที่ไม่เหมือนกันระหว่าง<code>Reader ()</code>และfunctorของlist แล้วได้มีlistmที่ไม่เหมือนกันของ<code>()</code>และสิ่งต่างๆนี้</li>
+<li>ต่อเนื่องจากข้อที่แล้วลองทำกับ<code>Reader Bool</code>และ<code>Maybe</code></li>
+<li>ลองแสดงว่าการประกอบแนวนอนของการแปลงแบบธรรมชาติได้ตามเงื่อนไขความเป็นธรรมชาติ(คำใบ้:ลองใช้ส่วนประกอบต่างๆ)มันคือฝึกฝนที่ดีของการไล่diagram(diagram chasing)</li>
+<li>ลองเขียนเรียงความขนาดสั้นเกี่ยวกับการที่คุณอาจจะสนุกกับการเขียนdiagramออกมาในความจำเป็นในการพิสูจน์กฏของการสลับ</li>
+<li>ลองสร้างกรณีทดสอบสำหรับเงื่อนไขความเป็นธรรมชาติระหว่างfunctor<code>Op</code>ต่างๆกัน นี้คือตัวเลือกหนึ่ง</li>
+</ol>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ot">op ::</span> <span class="dt">Op</span> <span class="dt">Bool</span> <span class="dt">Int</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>op <span class="ot">=</span> <span class="dt">Op</span> (\x <span class="ot">-&gt;</span> x <span class="op">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และ</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>f x <span class="ot">=</span> <span class="fu">read</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>คุณสามารถที่จะอ่านต่อเกี่ยวกับทฤษฎีบทที่ได้มาโดยไม่ต้องทำอะไรในblogของผม”ความเป็นparametric: เงินไม่สำหรับอะไรเลยและทฤษฎีบทที่ได้มาโดยไม่ต้องทำอะไร” (<a href="https://bartoszmilewski.com/2014/09/22/parametricity-money-for-nothing-and-theorems-for-free/">Parametricity: Money for Nothing and Theorems for Free</a>)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/1.9/function-types.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/etc/glossary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

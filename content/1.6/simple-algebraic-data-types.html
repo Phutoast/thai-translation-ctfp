@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 7&nbsp; Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/1.7/functors.html" rel="next">
+<link href="../../content/1.5/products-and-coproducts.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.6/simple-algebraic-data-types.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#typeแบบproducts" id="toc-typeแบบproducts" class="nav-link active" data-scroll-target="#typeแบบproducts"><span class="header-section-number">7.1</span> TypeแบบProducts</a></li>
+  <li><a href="#records" id="toc-records" class="nav-link" data-scroll-target="#records"><span class="header-section-number">7.2</span> Records</a></li>
+  <li><a href="#typeแบบsum" id="toc-typeแบบsum" class="nav-link" data-scroll-target="#typeแบบsum"><span class="header-section-number">7.3</span> TypeแบบSum</a></li>
+  <li><a href="#algebraของtypes" id="toc-algebraของtypes" class="nav-link" data-scroll-target="#algebraของtypes"><span class="header-section-number">7.4</span> AlgebraของTypes</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">7.5</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>เราได้เห็นสองวิธีพื้นฐานในการรวมtypeเข้าด้วยกันที่ก็คือโดยการใช้productและcoproduct มันกลับเป็นว่าdata structureหลายๆตัวที่ถูกใช้ในการเขียนโปรแกรมในทุกๆวันสามารถถูกสร้างขึ้นมาจากกลไกทั้งสองนี้ ความจริงข้อนี้มีผลที่ตามมาในทางการปฏิบัติที่สำคัญเป็นอย่างมาก หลายคุณสมบัติของdata structureสามารถประกอบกันได้ ตัวอย่างเช่นถ้าคุณรู้วิธีการที่จะเปรียบเทียบความเท่ากันของค่าของtypeพื้นฐานและคุณรู้วิธีการที่จะการgeneralizeการเปรียบเทียบเหล่านี้ไปยังtypeของproductและcoproduct คุณก็สามารถที่จะทำให้การสร้าง(derive)วิธีการในการเปรียบเทียบความเท่ากันสำหรับtypeผสมเป็นไปโดยอัตโนมัติได้ ในHaskellคุณสามารถที่จะสร้างการเท่ากัน การเปรียบเทียบ การแปลง ไปยังและจากstringและอื่นๆสำหรับtypeผสมอย่างมากมาย</p>
+<p>เรามาดูให้ละเอียดมากขึ้นกับproductและtypeประเภทsumในตอนที่มันปรากฏขึ้นมาในการเขียนโปรแกรม</p>
+<section id="typeแบบproducts" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="typeแบบproducts"><span class="header-section-number">7.1</span> TypeแบบProducts</h2>
+<p>ในการเขียนแบบมาตราฐานของproductระหว่างสองtypeในภาษาโปรแกรมมิ่งคือpair ในHaskell pairเป็นconstructorของtypeที่เป็นprimitive ในC++มันคือtemplateที่ถูกนิยามในlibaryมาตราฐานที่ค่อนข้างที่จะชับช้อนเมื่อเทียบกับสิ่งอื่น</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pair.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>จริงๆแล้วPairนั้นไม่สามาถสลับที่ได้ โดยตัวอย่างเช่น pairของ<code>(Int, Bool)</code>ไม่สามารถที่จะแทนที่pairของ<code>(Bool, Int)</code>ถึงแม้พวกมันจะถือข้อมูลชุดเดียวกันแต่พวกมันสามาถสลับที่ได้แค่จนถึงความisomorphism isomorphismถูกให้โดยfunction<code>swap</code>ที่ก็เป็นinverseของมันเอง</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">swap ::</span> (a, b) <span class="ot">-&gt;</span> (b, a)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>swap (x, y) <span class="ot">=</span> (y, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณสามารถที่จะคิดถึงกับpairสองตัวในแบบที่ทั้งสองอย่างโดยการใช้รูปแบบที่แตกต่างกันออกไปในการเก็บข้อมูลเดียวกัน ก็เหมือนกันกับbig endianและlittle endian</p>
+<p>คุณสามารถที่จะผสมtypeต่างๆกันเท่าไหร่ก็ได้เพื่อที่จะได้เป็นproductของpairต่างๆที่อยู่ข้างในpairอีกที (และไปเรื่อยๆ) แต่ก็มีวิธีที่ง่ายกว่าpairในpair(nested pair)นั้นเท่ากับtuple มันเป็นผลเนื่องมาจากความจริงที่ว่า หลากหลายวิธีในการนำpairเข้าไปในpairนั้นisomorphicกัน ถ้าคุณต้องการที่จะรวมtypeสามอย่างในproduct<code>a</code>,<code>b</code>และ<code>c</code> ในลำดับนี้คุณสามารถที่จะทำมันในสองรูปแบบ</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>((a, b), c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หรือ</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(a, (b, c))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>typeเหล่านี้นั้นแตกต่างกัน (คุณไม่สามารถที่จะนำเข้าสู่functionที่หวังแบบหนึ่ง) แต่สมาชิกของพวกมันนั้นมีความตรงกันในแบบหนึ่งต่อหนึ่ง ได้มีfunctionที่โยงตัวหนึ่งไปยังอีกตัว</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha ::</span> ((a, b), c) <span class="ot">-&gt;</span> (a, (b, c))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>alpha ((x, y), z) <span class="ot">=</span> (x, (y, z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และfunctionนี้สามารถถูกinverseได้</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha_inv ::</span> (a, (b, c)) <span class="ot">-&gt;</span> ((a, b), c)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>alpha_inv (x, (y, z)) <span class="ot">=</span> ((x, y), z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ดังนั้นมันคือisomorphism แบบนี้ก็คือวิธีที่แตกต่างกันในการบรรจุใหม่ข้อมูลที่เหมือนกัน</p>
+<p>คุณสามารถที่จะตีความการสร้างtypeแบบproductในฐานะoperator binaryลงในtypeต่างๆ จากมุมมองนี้isomorphismข้างบนดูเหมือนกฏการเปลี่ยนหมู่ที่เราเห็นในmonoid</p>
+<p><span class="math display">\[(a * b) * c = a * (b * c)\]</span></p>
+<p>ยกเว้นว่าในตัวอย่างของmonoid วิธีการประกอบกันของproductทั้งสองแบบนั้นเท่ากันในขณะที่ในที่นี่มันแค่เท่ากันจนถึงความisomorphism</p>
+<p>ถ้าเราสามารถที่จะอยู่กับisomorphismต่างๆได้และไม่ยืนยันในความเท่ากับแบบเคร่งครัด เราสามารถที่จะไปไกลออกไปมากกว่านี้และสามารถแสดงให้เห็นว่าtypeแบบunit<code>()</code>คือunitของproductในแบบเดียวกันกับวิธีการที่<span class="math inline">\(1\)</span>คือunitของการคูณ แน่นอนว่าการpairกันระหว่างค่าของtype<code>a</code>บางอย่างกับunitไม่ได้เพิ่มข้อมูลเข้ามา typeอย่างที่</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(a, ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นั้นisomorphicกับ<code>a</code>และนี่คือisomorphismระหว่างกัน</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">rho ::</span> (a, ()) <span class="ot">-&gt;</span> a</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>rho (x, ()) <span class="ot">=</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">rho_inv ::</span> a <span class="ot">-&gt;</span> (a, ())</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>rho_inv x <span class="ot">=</span> (x, ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ข้อสังเกตเหล่านี้สามารถถูกทำให้เป็นทางการโดยการบอกว่า<span class="math inline">\(\textbf{Set}\)</span>(categoryของset)นั้นเป็นcategoryแบบmonoidal มันคือcategroyที่ก็เป็นmonoidในความหมายเดียวกันกับการที่คุณสามารถหลายวัตถุต่างๆกัน (ในที่นี้คือการนำproduct cartesianมาใช้) ผมจะพูดเกี่ยวกับ<em>category monoidal</em>มากขึ้นและให้นิยามที่สมบูรณ์ในอนาคต</p>
+<p>ได้มีวิธีในการนิยามtypeแบบproductที่ทั่วไปมากกว่านี้ในHaskell โดยเฉพาะ(ในการที่เราจะได้เห็นเร็วๆนี้)ในตอนที่มีการรวมมันเข้ากับtypeประเภทsum มันได้ใช้constructorที่มีชื่อ(named constructors)ที่มีargumentหลายตัว ตัวอย่างเช่นpairที่สามารถที่จะถูกนิยามในอีกแบบหนึ่งว่า</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Pair</span> a b <span class="ot">=</span> <span class="dt">P</span> a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้<code>Pair a b</code>คือชื่อของtypeที่มีparameterเป็นtypeอีกสองประเภท<code>a</code>และ<code>b</code> และ<code>P</code>คือชื่อของconstructorของข้อมูล คุณนิยามtypeแบบpairโดยการนำสองtypeเข้าไปยัง<code>Pair</code>ที่เป็นconstructorของtype คุณสร้างค่าของpairโดยการนำค่าทั้งสองค่าในtypeที่ถูกต้องเข้าไปยังconstructor<code>P</code> ตัวอย่างเช่นเรามานิยามค่า<code>stmt</code>ในฐานะpairของ<code>String</code>และ<code>Bool</code>ว่า</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">stmt ::</span> <span class="dt">Pair</span> <span class="dt">String</span> <span class="dt">Bool</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>stmt <span class="ot">=</span> <span class="dt">P</span> <span class="st">"This statement is"</span> <span class="dt">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในบรรทัดแรกคือการประกาศtypeที่ใช้constructorของtype<code>Pair</code>กับ<code>String</code>และ<code>Bool</code>ที่แทนที่<code>a</code>และ<code>b</code>ในนิยาม genericของ<code>Pair</code> บรรทัดสองคือการนิยามค่าจริงๆโดยการนำstringจริงๆและBooleanจริงๆเข้าไปยังconstructorของข้อมูล<code>P</code> constructorของtypeจะถูกใช้ในการสร้างtypeต่างๆและconstructorข้อมูลจะถูกใช้ในการสร้างค่าต่างๆ</p>
+<p>เนื่องว่าname spaceสำหรับconstructorของtypeและข้อมูลนั้นแยกกันในHaskellคุณจะเห็นในบ่อยครั้งว่าชื่อเดียวกันจะถูกใช้ในแบบนี้</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Pair</span> a b <span class="ot">=</span> <span class="dt">Pair</span> a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และถ้าคุณสังเกตมันให้ลึกขึ้นคุณก็อาจจะมองtype pairแบบbuilt-inในฐานะอีกแบบหนึ่งของการประกาศในรูปแบบนี้ในที่ที่ชื่อ<code>Pair</code>ถูกแทนที่ด้วยopeartor binary<code>(,)</code> ที่จริงๆแล้วคุณสามารถที่จะใช้<code>(,)</code>เหมือนกันกับconstructorที่มีชื่อและสร้างpairผ่านสัญลักษณ์แบบprefixที่ว่า</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>stmt <span class="ot">=</span> (,) <span class="st">"This statement is"</span> <span class="dt">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในแบบคล้ายๆกันคุณก็สามารถที่จะใช้ <code>(,,)</code>ในการสร้างtupleและอื่นๆ</p>
+<p>แทนที่จะใช้pair genericหรือtupleต่างๆ คุณก็สามารถที่จะนิยามtypeแบบproductที่มีชื่อเฉพาะในแบบนี้</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Stmt</span> <span class="ot">=</span> <span class="dt">Stmt</span> <span class="dt">String</span> <span class="dt">Bool</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่แค่คือproductระหว่าง<code>String</code>กับ<code>Bool</code>แต่มีชื่อและconstructorเป็นของตนเอง ข้อดีของรูปแบบของการประกาศแบบนี้คือคุณสามารถที่จะนิยามหลายๆtypeที่มีข้อมูลเดียวกันแต่มีความหมายและการใช้งานที่แตกต่างออกไป และที่ไม่สามารถแทนที่ระหว่างพวกมันได้</p>
+<p>การเขียนโปรแกรมที่มีtupleและconstructorที่มีargumentหลายตัวก็สามารถที่จะก่อให้เกิดความยุ่งเหยิงและมีโอกาสที่จะเกิดปัญหา ในการที่เราจะติดตามว่าของแต่ละส่วนประกอบเป็นตัวแทนของอะไร มันมักจะดีกว่าที่จะให้ชื่อกับส่วนประกอบต่างๆ type productที่มีข้อมูลที่มีชื่อ(named field)ที่ถูกเรียกว่า<em>record</em>ในHaskellและ<code>struct</code>ใน<code>C</code></p>
+</section>
+<section id="records" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="records"><span class="header-section-number">7.2</span> Records</h2>
+<p>เรามาลองดูในตัวอย่างง่ายๆ เราต้องการที่จะอธิบายธาตุเคมีโดยการรวมสองstringเข้าด้วยกัน ที่ก็คือชื่อกับเครื่องหมายและจำนวนเต็มซึ่งก็คือเลขอะตอมไปยังdata structureเดียว เราสามารถที่จะใช้tuple<code>(String, String, Int)</code>และจได้ำว่าแต่ละส่วนประกอบเป็นตัวแทนของอะไร เราอาจจะดึงส่วนประกอบต่างๆโดยการการจับคู่รูปแบบโดยที่functionนี้ตรวจสอบว่าเครื่องหมายของธาตุนั้นเป็นprefixของชื่อของมัน (ในแบบที่<strong>He</strong>เป็นprefixของ<strong>Helium</strong>)หรือไม่</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">startsWithSymbol ::</span> (<span class="dt">String</span>, <span class="dt">String</span>, <span class="dt">Int</span>) <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>startsWithSymbol (name, symbol, _) <span class="ot">=</span> isPrefixOf symbol name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>โค้ดส่วนนี้นั้นมีความเป็นไปได้ที่มีปัญหาและยากที่จะอ่านและดูแลมัน มันนั้นง่ายกว่าที่จะนิยามเป็นrecord</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Element</span> <span class="ot">=</span> <span class="dt">Element</span> {<span class="ot"> name ::</span> <span class="dt">String</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                       ,<span class="ot"> symbol ::</span> <span class="dt">String</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                       ,<span class="ot"> atomicNumber ::</span> <span class="dt">Int</span> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในรูปแบบทั้งสองนั้นisomorphicกันโดยที่เห็นได้จากfunctionในการแปลงที่เป็นinverseระหว่างกัน</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">tupleToElem ::</span> (<span class="dt">String</span>, <span class="dt">String</span>, <span class="dt">Int</span>) <span class="ot">-&gt;</span> <span class="dt">Element</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tupleToElem (n, s, a) <span class="ot">=</span> <span class="dt">Element</span> { name <span class="ot">=</span> n </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                , symbol <span class="ot">=</span> s </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                                , atomicNumber <span class="ot">=</span> a }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ot">elemToTuple ::</span> <span class="dt">Element</span> <span class="ot">-&gt;</span> (<span class="dt">String</span>, <span class="dt">String</span>, <span class="dt">Int</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>elemToTuple e <span class="ot">=</span> (name e, symbol e, atomicNumber e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตได้ว่าชื่อของข้อมูล(field)ในrecordก็สามารถถูกใช้ในฐานะfunctionในการเข้าถึงข้อมูลเหล่านี้ ตัวอย่างเช่น<code>atomicNumber e</code>สามารถดึงข้อมูล<code>atomicNumber</code>จาก<code>e</code> เราได้ใช้<code>atomicNumber</code>ในฐานะfunctionของtype</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ot">atomicNumber ::</span> <span class="dt">Element</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คู่กับไวยากรณ์ของrecordสำหรับ<code>Element</code> function<code>startsWithSymbol</code>ของเราก็กลายมาเป็นสิ่งที่อ่านได้ง่ายขึ้น</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ot">startsWithSymbol ::</span> <span class="dt">Element</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>startsWithSymbol e <span class="ot">=</span> isPrefixOf (symbol e) (name e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราก็อาจจะใช้เคล็ดลับของHaskellโดยการเปลี่ยนfunctionของ<code>isPrefixOf</code>ไปยังoperator infixโดยการนำbackquotesมาครอบและทำให้มันอ่านคล้ายกับประโยค(ของมนุษย์)</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>startsWithSymbol e <span class="ot">=</span> symbol e <span class="ot">`isPrefixOf`</span> name e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>วงเล็บสามารถที่จะถูกยกเว้นในตัวอย่างนี้เพราะว่าoperator infixมีลำดับความสำคัญที่ต่ำกว่าการเรียกใช้function</p>
+</section>
+<section id="typeแบบsum" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="typeแบบsum"><span class="header-section-number">7.3</span> TypeแบบSum</h2>
+<p>เหมือนกับการที่productในcategoryของsetนั้นทำก่อให้เกิดtypes product coproductก็จะทำให้เกิดtypeแบบsum การเขียนที่เป็นมาตราฐานของtypeแบบsumในHaskellคือ</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Either</span> a b <span class="ot">=</span> <span class="dt">Left</span> a <span class="op">|</span> <span class="dt">Right</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และก็เหมือนกับpair <code>Either</code>นั้นสามารถที่จะสลับที่ได้ (ได้จนถึงความisomorphism)ที่สามารถนำ<code>Either</code>มาใส่ใน<code>Either</code>ได้ และลำดับการใส่ก็ไม่มีความสำคัญ (จนถึงความisomorphism) ดังนั้นในตัวอย่างเช่นเราสามารถที่จะนิยามsumที่เป็ยแบบtriple</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">OneOfThree</span> a b c <span class="ot">=</span> <span class="dt">Sinistral</span> a <span class="op">|</span> <span class="dt">Medial</span> b <span class="op">|</span> <span class="dt">Dextral</span> c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และอื่นๆ</p>
+<p>มันกลายมาเป็นว่า<span class="math inline">\(\textbf{Set}\)</span>นั้นก็เป็นcategoryแบบmonoidalที่มีสมมาตรของcoproduct บทบาทของoperation binaryที่ถูกใช้โดยsum disjointและบทบาทของสมาชิกunitถูกใช้โดยวัตถุเริ่มต้น ในภาษาของtypeเรามี<code>Either</code>ในฐานะoperator monoidalและ<code>Void</code>ที่ไม่มีอะไรอยู่เลยในฐานะสมาชิกnaturalของมัน คุณสามารถที่จะคิดถึง<code>Either</code>ในฐานะการบวกและ<code>Void</code>ในฐานะเลขศูนย์ แน่นอนว่าการบวก<code>Void</code>ไปยังtypeแบบsumไม่ได้เปลี่ยนแปลงข้อมูลของมันโดยตัวอย่างเช่น</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Either</span> a <span class="dt">Void</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นั้นisomorphicกับ<code>a</code> นั่นก็เพราะว่าไม่มีวิธีการที่จะสร้างรูปแบบ<code>Right</code>ของtypeนี้ (ไม่มีค่าอยู่ในtypeของ<code>Void</code>)สิ่งที่อยู่ใน<code>Either a Void</code>นั้นสร้างมาโดยใช้constructor<code>Left</code>และพวกมันเก็บค่าของtype<code>a</code>เอาไว้ ดังนั้นในทางสัญลักษณ์แล้วเราก็จะมี <span class="math inline">\(a+0=a\)</span></p>
+<p>typeแบบsumนั้นถูกใช้ค่อนข้างที่จะทั่วไปในHaskellแต่สิ่งที่เหมือนกันในC++อย่างunionหรือvariantsนั้นพบได้น้อยกว่า และเหตุผลสำหรับสิ่งนี้คือ</p>
+<p>ในสิ่งแรก typeแบบsumที่ง่ายที่สุดคือแค่enumerationและถูกเขียนโดยการใช้<code>enum</code>ในC++ที่เหมือนกับtypeแบบsumของHaskell</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Color</span> <span class="ot">=</span> <span class="dt">Red</span> <span class="op">|</span> <span class="dt">Green</span> <span class="op">|</span> <span class="dt">Blue</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หรือในC++</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> <span class="op">{</span> Red<span class="op">,</span> Green<span class="op">,</span> Blue <span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และtypeแบบsumที่ง่ายกว่านี้คือ</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Bool</span> <span class="ot">=</span> <span class="dt">True</span> <span class="op">|</span> <span class="dt">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นั่นก็คือ<code>bool</code>ที่เป็นprimitiveในC++</p>
+<p>typeแบบsumที่เรียบง่ายที่เก็บข้อมูลของการมีและไม่มีอยู่ของค่า นั้นถูกเขียนได้ในหลายหลายรูปแบบในC++โดยการใช้เคล็ดลับพิเศษและค่าที่เป็น”ไปไม่ได้“อย่างstringว่าง จำนวนลบ null pointersและอื่นๆ การที่มีตัวเลือกแบบนี้(ถ้าต้องการแล้ว)สามารถถูกเขียนในHaskellโดยการใช้type<code>Maybe</code></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Nothing</span> <span class="op">|</span> <span class="dt">Just</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>typeแบบ<code>Maybe</code>คือsumระหว่างtypeสองตัว คุณสามารถที่จะเห็นสิ่งนี้wfhถ้าคุณแยกconstructorทั้งสองไปเป็นtypeเดี่ยวๆ ตัวแรกอาจจะดูเหมือนดังนี้</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">NothingType</span> <span class="ot">=</span> <span class="dt">Nothing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันคือenumerationที่มีค่าค่าเดียวอย่าง<code>Nothing</code>ในอีกความหมายหนึ่งมันคือsetที่มีสมาชิกเพียงตัวเดียวที่เท่ากันกับtypeแบบunit<code>()</code> ส่วนตัวที่สอง</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">JustType</span> a <span class="ot">=</span> <span class="dt">Just</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คือการใส่type<code>a</code> เราอาจจะที่เก็บข้อมูลของ<code>Maybe</code>อย่าง</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Either</span> () a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในtypeแบบsumที่ชับช้อนกว่านี้มักจะถูกทำแบบปลอมโดยการใช้pointerของC++ pointerสามารถที่จะเป็นได้ทั้งnullหรือที่จะชี้ไปยังtypeบางประเภท ตัวอย่างเช่นtypeแบบlistในHaskellสามารถที่จะถูกนิยามในแบบtypeแบบsum(ที่recursive)ว่า</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">List</span> a <span class="ot">=</span> <span class="dt">Nil</span> <span class="op">|</span> <span class="dt">Cons</span> a (<span class="dt">List</span> a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สามารถที่จะถูกแปลไปเป็นC++โดนการใช้เคล็ดลับของnull pointerในการเขียนlistว่าง</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> A<span class="op">&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> List <span class="op">{</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    Node<span class="op">&lt;</span>A<span class="op">&gt;</span> <span class="op">*</span> _head<span class="op">;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    List<span class="op">()</span> <span class="op">:</span> _head<span class="op">(</span><span class="kw">nullptr</span><span class="op">)</span> <span class="op">{}</span> <span class="co">// Nil</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    List<span class="op">(</span>A a<span class="op">,</span> List<span class="op">&lt;</span>A<span class="op">&gt;</span> l<span class="op">)</span>       <span class="co">// Cons</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">:</span> _head<span class="op">(</span><span class="kw">new</span> Node<span class="op">&lt;</span>A<span class="op">&gt;(</span>a<span class="op">,</span> l<span class="op">))</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{}</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตได้ว่าconstructorสองตัวของHaskellอย่าง<code>Nil</code>และ<code>Cons</code>สามารถที่จะถูกแปลไปยังcostructor<code>List</code>ที่ถูกoverloadedคู่กับargumentที่คล้ายๆกัน(ไม่มีค่าอยู่สำหรับ<code>Nil</code>และค่าและlistสำหรับ<code>Cons</code>)classของ<code>List</code>ไม่จำเป็นต้องมีชื่อเรียกเพื่อที่จะแยกระหว่างสองส่วนประกอบของtypeแบบsum มันได้ใช้ค่า<code>nullptr</code>ที่พิเศษสำหรับ<code>_head</code>ในการเก็บข้อมูลแบบ<code>Nil</code>แทนที่</p>
+<p>แต่ความแตกต่างที่สำคัญระหว่างtypeของHaskellและC++คือการที่data structuresของHaskellนั้นไม่สามารถแก้ไขค่าได้(immutable) ถ้าคุณสร้างวัตถุโดยการใช้constructorเฉพาะ วัตถุนี้จะจำconstructorที่ถูกใช้และargumenที่นำเข้ามาไปโดยตลอด ดังนั้นวัตถุแบบ<code>Maybe</code>ที่ถูกสร้างในฐานะ<code>Just "energy"</code>จะไม่เปลี่ยนไปเป็น<code>Nothing</code>เลย ในทางคล้ายๆกันที่listว่างจะว่างไปตลอดและlistที่มีสมาชิกสามตัวก็จะมีสมาชิกสามตัวเดิมไปตลอด</p>
+<p>มันคือความที่ไม่สามารถแก้ไขค่าได้ที่ทำให้การสร้างย้อนกลับได้ ถ้ามีวัตถุ คุณสามารถที่จะแยกส่วนประกอบมันลงมาจงถึงส่วนต่างๆที่ถูกใช้ในการสร้างมัน การแยกชิ้นส่วนถูกทำผ่านการจับคู่รูปแบบและมันได้ใช้ซ้ำconstructorในฐานะรูปแบบargumentของconstructor(ถ้ามีอยู่)ก็จะถูกแทนที่ด้วยตัวแปร (หรือรูปแบบอื่นๆ)</p>
+<p>ประเภทข้อมูลของ<code>List</code>มีconstrunctorอยู่สองแบบ ดังนั้นการแยกชิ้นส่วนของ<code>List</code>แบบใหนก็ตามจะใช้สองรูปแบบที่ตรงกันกับconstructทั้งสอง ตัวหนึ่งคู่กับlist<code>Nil</code>และตัวอื่นๆคือlistที่สร้างจาก<code>Cons</code> ตัวอย่างเช่นนี่คือนิยามของfunctionบน<code>List</code>แบบง่ายๆ</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ot">maybeTail ::</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">List</span> a)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>maybeTail <span class="dt">Nil</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>maybeTail (<span class="dt">Cons</span> _ t) <span class="ot">=</span> <span class="dt">Just</span> t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในส่วนแรกของนิยาม<code>maybeTail</code>ได้ใช้constructor<code>Nil</code>ในฐานะรูปแบบและคือค่า<code>Nothing</code> ในส่วนที่สองใช้constructor<code>Cons</code>ในฐานะรูปแบบ มันแทนที่argumentของconstructorแรกด้วยตัวแทนเพราะว่าเราไม่ได้สนใจมัน argumentที่สองที่ไปยัง<code>Cons</code>นั้นอยู่ภายใต้ตัวแปร<code>t</code> (ผมจะเรียกพวกมันว่าตัวแปลว่าถึงแม้ถ้าให้พูดตามหลักการแล้วพวกมันไม่เคยเปลี่ยนแปลงค่า หลังจากการอยู่ภายใต้expressionแล้ว ตัวแปรจะไม่เปลี่ยนโดยตลอด) ค่าของการคืนคือ<code>Just t</code> ในตอนนี้ขึ้นอยู่กับวิธีการที่<code>List</code>ของคุณที่ถูกสร้างมา มันจะคู่กับเงื่อนไขใดสักข้อ ถ้ามันถูกสร้างโดยการใช้<code>Cons</code> argumentทั้งสองที่ถูกนำมา ก็จะถูกดึงออกมา (และตัวแรกจะถูกทิ้ง)</p>
+<p>ในtypeแบบsumที่มีความซับซ้อนจะถูกเขียนในC++โดยการใช้ลำดับชั้นของclass polymorphic ชุดของclassต่างๆที่มีบรรพบุรุษร่วมอาจจะถูกเข้าใจในฐานะtypeที่หลากหลาย โดยที่มี<code>vtable</code>ทำตัวเหมือนตัวระบุที่ถูกซ่อน สิ่งที่ในHaskellสามารถทำได้โดยจับคู่รูปแบบบนconstructorและการเรียกโค้ดเฉพาะทางในC++นั้นมาคู่กับการทำปล่อยการเรียกไปยังfunctionแบบvirtualที่ขึ้นอยู่กับpointerแบบ<code>vtable</code></p>
+<p>เราจะเห็นไม่ค่อยบ่อยที่<code>union</code>จะถูกใช้ในฐานะtypeแบบsumในC++เพราะมีข้อจำกัดในสิ่งที่สามารถเข้าไปยังunionได้ที่มากไป คุณไม่สามารถที่จะนำ<code>std::string</code>เข้าไปในunionเพราะว่ามันมีconstructorในการทำสำเนา (copy constructor)</p>
+</section>
+<section id="algebraของtypes" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="algebraของtypes"><span class="header-section-number">7.4</span> AlgebraของTypes</h2>
+<p>ในการแยกทั้งสองtypeแบบproductและsumสามารถถูกใช้ในการนิยามdata structureหลากหลายที่มีประโยชน์ แต่จุดแข็งที่แท้จริงมาจากการนำทั้งสองมารวมกัน ในอีกครั้งเรากำลังจะนำพลังของการประกอบมาใช้</p>
+<p>เราจะสรุปสิ่งที่เราได้ค้นพบจนถึงตอนนี้ เราได้เห็นโครงสร้าง monoidalที่สลับที่ได้ ที่ทั้งสองเป็นพื้นฐานของระบบtype เรามีtypeแบบsumกับ<code>Void</code>ในฐานะสมาชิกnatural และtypeแบบproductที่มีunit type<code>()</code>ในฐานะสมาชิกnatural เราต้องการที่จะคิดถึงทั้งสองในฐานะคล้ายกับการบวกและคูณ ในการเปรียบเทียบนี้<code>Void</code>อาจจะคู่กับเลขศูนย์และunit<code>()</code>ไปยังอีกเลขหนึ่ง</p>
+<p>เราจะมาดูว่าเราจะนำเปรียบเทียบนี้ไปได้ใกลที่สุดได้อย่างไร ตัวอย่างเช่นการคูณโดยเลขศูนย์ก็จะได้เลขศูนย์หรือไม่ ในอีกความหมายหนึ่ง typeแบบproductที่มีส่วนประกอบตัวหนึ่งเป็น<code>Void</code>นั้นisomorphicกับ<code>Void</code>หรือเปล่า ตัวอย่างเช่นมันเป็นไปได้หรือเปล่าที่จะสร้างpairของ<code>Int</code>และ<code>Void</code></p>
+<p>ในการสร้างpair คุณจะต้องมีค่าสองค่า ถึงแม้คุณสามารถที่จะคิดถึงจำนวนเต็มอย่างไรก็ได้ แต่ไม่มีค่าที่อยู่ในtype<code>Void</code> ดังนั้นสำหรับtype<code>a</code>ใดๆก็ได้ typeแบบ<code>(a, Void)</code>นั้นไม่มีอะไรค่าอยู่และดังนั้นจึงเท่ากับ<code>Void</code>ในอีกความหมายหนึ่ง<span class="math inline">\(a\times0=0\)</span></p>
+<p>ในอีกสิ่งหนึ่งที่โยงการบวกและคูณคือคุณสมบัติการแจกแจงอย่าง</p>
+<p><span class="math display">\[
+a\times(b+c) = a\times b+a\times c
+\]</span></p>
+<p>แล้วสิ่งนี้จะสามารถที่จะเป็นไปได้ในtypeแบบsumและproductหรือเปล่า ใช่มันเป็นไปได้จนถึงความisomorphismเหมือนทุกๆครั้ง ในด้านช้ายนั้นคู่กับtypeดังนี้</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(a, <span class="dt">Either</span> b c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และในด้านขวานี้นคู่กับtypeดังนี้</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Either</span> (a, b) (a, c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นี่คือfunctionที่เปลี่ยนไปในทางหนึ่ง</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ot">prodToSum ::</span> (a, <span class="dt">Either</span> b c) <span class="ot">-&gt;</span> <span class="dt">Either</span> (a, b) (a, c)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>prodToSum (x, e) <span class="ot">=</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> e <span class="kw">of</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">Left</span>  y <span class="ot">-&gt;</span> <span class="dt">Left</span>  (x, y)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">Right</span> z <span class="ot">-&gt;</span> <span class="dt">Right</span> (x, z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และนี่คือfunctionอีกตัวหนึ่งที่เปลี่ยนไปในทางหนึ่ง</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ot">sumToProd ::</span> <span class="dt">Either</span> (a, b) (a, c) <span class="ot">-&gt;</span> (a, <span class="dt">Either</span> b c)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>sumToProd e <span class="ot">=</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> e <span class="kw">of</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">Left</span>  (x, y) <span class="ot">-&gt;</span> (x, <span class="dt">Left</span>  y)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">Right</span> (x, z) <span class="ot">-&gt;</span> (x, <span class="dt">Right</span> z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>statement<code>case of</code>ถูกใช้สำหรับการจับคู่รูปแบบข้างในfunction รูปแบบแต่ละรูปแบบก็ถูกตามด้วยลูกศรและexpressionในการประเมินค่าในตอนที่รูปแบบถูกจับคู่ ตัวอย่างเข่นถ้าคุณเรียก<code>prodToSum</code>กับค่าๆนี้</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ot">prod1 ::</span> (<span class="dt">Int</span>, <span class="dt">Either</span> <span class="dt">String</span> <span class="dt">Float</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>prod1 <span class="ot">=</span> (<span class="dv">2</span>, <span class="dt">Left</span> <span class="st">"Hi!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>e</code>ใน<code>case e</code>นั้นจะเท่ากับ<code>Left "Hi!"</code> เราจะจับคู่รูปแบบ<code>Left y</code>โดยการแทนที่ <code>Hi!</code>โดย<code>y</code> เนื่องด้วย<code>x</code>ได้ถูกจับคู่ไปยัง<code>2</code>แล้ว ผลของส่วน<code>case of</code>และfunctionทั้งหมดก็จะเป็น<code>Left (2, "Hi!")</code>ในแบบที่คาดไว้</p>
+<p>ผมจะไม่พิสูจน์ว่าทั้งสองfunctionนั้นเป็นinverseของกันและกันถ้าคุณคิดเกี่ยวกับมัน มันจำเป็นต้องเป็น มันก็คือแค่การบรรจุใหม่อย่างตรงไปตรงมาของเนื้อหาในdata structureทั้งสอง มันคือข้อมูลเดียวกันแค่มีรูปแบบที่ต่างกัน</p>
+<p>นักคณิตศาสตร์มีชื่อให้กับmonoidที่มีความสัมพันธ์กันนี้ มันถูกเรียกว่า<em>semiring</em> มันไม่ใช่<em>ring</em>เพราะว่าเราไม่สามารถนิยามการลบกันของtype นั้นก็คือเหตุผลว่าทำไมsemiringจึงในบางครั้งถูกเรียกว่า<em>rig</em> ซึ่งเป็นการเล่นคำว่า “ringที่ไม่มีตัวn” (ด้านลบ, negative) แต่ยกเว้นสิ่งนี้เราสามารถที่จะได้ประสบการมากมายจากการแปลงstatementที่เกี่ยวกับจำนวนธรรมชาติที่เป็นrigไปยังstatementที่เกี่ยวกับtype นี่คือตารางในการแปลที่มีสิ่งต่างๆที่เราให้ความสนใจ</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Numbers</th>
+<th>Types</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(0\)</span></td>
+<td><code>Void</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(1\)</span></td>
+<td><code>()</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(a+b\)</span></td>
+<td><code>Either a b = Left a | Right b</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(a\times b\)</span></td>
+<td><code>(a, b)</code> or <code>Pair a b = Pair a b</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2=1+1\)</span></td>
+<td><code>data Bool = True | False</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(1+a\)</span></td>
+<td><code>data Maybe = Nothing | Just a</code></td>
+</tr>
+</tbody>
+</table>
+<p>typeแบบlistนั้นมีความน่าสนใจเป็นอย่างมากเพราะว่ามันถูกนิยามในฐานะคำตอบของสมการ typeที่เรากำลังนิยามโผล่ขึ้นมาในทั้งสองด้านของสมการ</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">List</span> a <span class="ot">=</span> <span class="dt">Nil</span> <span class="op">|</span> <span class="dt">Cons</span> a (<span class="dt">List</span> a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ถ้าเราทำการแทนที่สมการแบบทั่วไปและทำการแทน<code>List a</code>ด้วย<code>x</code>เราก็จะมีสมการนี้เราก็จะมีสมการแบบนี้</p>
+<pre><code>x = 1 + a*x</code></pre>
+<p>เราไม่สามารถที่จะหาค่าได้ในวิธีการทางพีชคณิตแบบดั่งเดิมเพราะว่าเราไม่สามารถลบหรือหารtypeต่างๆได้ แต่เราสามารถลองที่จะแทนที่ไปได้เรื่อยๆที่ที่เราแทน<code>x</code>ในด้านขวาด้วย<code>(1+a*x)</code> โดนการใช้คุณสมบัติการแจกแจงก็จะกลายมาเป็นค่าต่างๆในแบบนี้</p>
+<pre><code>x=1+a*x
+x = 1 + a*(1 + a*x) = 1 + a + a*a*x
+x = 1 + a + a*a*(1 + a*x) = 1 + a + a*a + a*a*a*x
+...
+x = 1 + a + a*a + a*a*a + a*a*a*a...</code></pre>
+<p>เราก็จะจบลงที่sumของproduct(ที่เป็นtuple)ที่สามารถถูกนิยามในแบบที่ว่า listนั้นว่างหรือมีสมาชิกเดี่ยว<code>a</code>หรือเป็นpair<code>a*a</code>หรือtriple<code>a*a*a</code>ไปเรื่อยๆ นั้นก็คือสิ่งที่listเป็น เป็นstringของ<code>a</code>ต่างๆ</p>
+<p>แต่listก็มีอะไรมากกว่านั้นและเราจะกลับมายังdata structureแบบrecursiveหลังจากที่เราเรียนเกี่ยวกับfunctorและfixed point</p>
+<p>การแก้สมการด้วยตัวแปรที่เป็นเครื่องหมาย ที่ก็คือalgebra มันคือสิ่งที่ให้typeมีชื่อว่าtypeข้อมูลแบบalgebraic</p>
+<p>สุดท้ายแล้วเราควรที่จะพูดถึงการตีความที่สำคัญเป็นอย่างมากของalgebraของtypeต่างๆ สังเกตว่าproductของสองtype<code>a</code>และ<code>b</code>นั้นต้องมีค่าของtype<code>a</code><em>และ</em>ค่าของtype<code>b</code> นั่นหมายความว่าtypeทั้งสองต้องอยู่ในtypeแบบproductนั้น sumระหว่างtypeทั้งสองในอีกทางหนึ่งประกอบด้วย ค่าของtype<code>a</code><em>หรือ</em>ค่าของtype<code>b</code> ดังนั้นมันเพียงพอที่จะให้อย่างใดอย่างหนึ่งอยู่ในtypeแบบsumนั้น <em>และ</em>และ<em>หรือ</em>ในทางตรรกศาสตร์(Logic)ก็เป็น<em>semiring</em>และมันสามารถที่จะถูกโยงไปสู่ทฤษฎีtypeว่า</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Logic</th>
+<th>Types</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>false</em></td>
+<td><code>Void</code></td>
+</tr>
+<tr class="even">
+<td><em>true</em></td>
+<td><code>()</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(a\|b\)</span></td>
+<td><code>Either a b = Left a \| Right b</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(a\&amp;\&amp; b\)</span></td>
+<td><code>(a, b)</code></td>
+</tr>
+</tbody>
+</table>
+<p>การเปรียบเทียบนี้นั้นลงลึกไปได้กว่านี้ นี่คือพื้นฐานของisomorphismของCurry-Howardระหว่างlogicและทฤษฎีtype เราจะกลับมาในตอนที่เราพูดเกี่ยวกับtypeแบบfunction</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">7.5</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li><p>ลองแสดงดูว่ามันมีisomorphismระหว่าง<code>Maybe a</code>และ<code>Either () a</code></p></li>
+<li><p>นี่คือtypeแบบsumที่ถูกนิยามในHaskell</p></li>
+</ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Shape</span> <span class="ot">=</span> <span class="dt">Circle</span> <span class="dt">Float</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>           <span class="op">|</span> <span class="dt">Rect</span> <span class="dt">Float</span> <span class="dt">Float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้เราต้องการที่จะนิยามfunctionอย่าง<code>area</code>ที่กระทำบน<code>Shape</code> เราทำโดยการใช้การจับคู่รูปแบบต่อconstructorทั้งสอง</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ot">area ::</span> <span class="dt">Shape</span> <span class="ot">-&gt;</span> <span class="dt">Float</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>area (<span class="dt">Circle</span> r) <span class="ot">=</span> <span class="fu">pi</span> <span class="op">*</span> r <span class="op">*</span> r</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>area (<span class="dt">Rect</span> d h) <span class="ot">=</span> d <span class="op">*</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ลองเขียน<code>Shape</code>ในC++หรือJavaดูในฐานะinterfaceและสร้างclassสองclassอย่าง<code>Circle</code>และ<code>Rect</code> และเขียน<code>area</code>ในรูปของfunctionแบบvirtual</p>
+<ol start="3" type="1">
+<li>ติดตามมาจากข้อสอง เราสามารถที่จะเพิ่มfunctionใหม่อย่าง<code>circ</code>ที่คำนวณเส้นรอบวงของ<code>Shape</code>เราสามารถที่จะทำมันได้โดยที่ไม่ต้องแตะนิยามของ<code>Shape</code></li>
+</ol>
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ot">circ ::</span> <span class="dt">Shape</span> <span class="ot">-&gt;</span> <span class="dt">Float</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>circ (<span class="dt">Circle</span> r) <span class="ot">=</span> <span class="fl">2.0</span> <span class="op">*</span> <span class="fu">pi</span> <span class="op">*</span> r</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>circ (<span class="dt">Rect</span> d h) <span class="ot">=</span> <span class="fl">2.0</span> <span class="op">*</span> (d <span class="op">+</span> h)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ลองเพิ่ม<code>circ</code>ไปยังโค้ดของC++หรือJavaแล้วมีส่วนไหนของโค้ดดั้งเดิมที่เราต้องแตะ</p>
+<ol start="4" type="1">
+<li><p>ติดตามมาจากข้อสาม ลองเพิ่ม<code>Sqaure</code>ที่เป็นรูปร่างใหม่เข้ามาใน<code>Shape</code>และทำการแก้จุดต่างๆที่จำเป็น มีส่วนไหนที่คุณต้องแตะในHaskellเมื่อเทียบกับC++หรือJava(ถึงแม้คุณจะไม่เป็นคนที่เขียนHaskellการแก้ไขนั้นค่อนข้างตรงไปตรงมา)</p></li>
+<li><p>ลองดูว่า<span class="math inline">\(a+a=2\times a\)</span>นั้นจริงในtypeต่างๆ(จนถึงความisomorphism) จำไว้ว่า<span class="math inline">\(2\)</span>นั้นคู่กับ<code>Bool</code>โดยตามมาจากตารางการแปลของเรา</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/1.5/products-and-coproducts.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/1.7/functors.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 5&nbsp; CategoryแบบKleisli (Draft)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/1.5/products-and-coproducts.html" rel="next">
+<link href="../../content/1.3/categories-great-and-small.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.4/kleisli-categories.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#categoryนกเขยน" id="toc-categoryนกเขยน" class="nav-link active" data-scroll-target="#categoryนกเขยน"><span class="header-section-number">5.1</span> Categoryนักเขียน</a></li>
+  <li><a href="#writerในhaskell" id="toc-writerในhaskell" class="nav-link" data-scroll-target="#writerในhaskell"><span class="header-section-number">5.2</span> WriterในHaskell</a></li>
+  <li><a href="#categoryแบบkleisli" id="toc-categoryแบบkleisli" class="nav-link" data-scroll-target="#categoryแบบkleisli"><span class="header-section-number">5.3</span> CategoryแบบKleisli</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">5.4</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>คุณได้เห็นแล้วในการmode typeต่างๆและfunction pureในฐานะcategory ผมอยากที่จะเอ่ยถึงการมีวิธีในการmodelผลข้างเคียงหรือfunctionที่ไม่pureในทฤษฎีcategory เรามาดูหนึ่งในตัวอย่างแบบนี้ functionที่เก็บ(log)หรือติดตามการดำเนินการของมัน เป็นบางอย่างที่ว่า(ในภาษาแบบimperative)อาจจะเป็นไปได้อย่างมากที่จะถูกเขียนโดยการแปลเปลี่ยนสถานะที่อยู่ในระดับสูงสุด(global) ในแบบที่ว่า</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>string logger<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> negate<span class="op">(</span><span class="dt">bool</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    logger <span class="op">+=</span> <span class="st">"Not so! "</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">!</span>b<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณรู้ว่านี่ไม่ใช้functionที่pureเพราะว่าในรูปแบบที่มีการจดจำผลลัพธ์ของมัน(ลองดูได้ในโจทย์ท้าทายของบทที่สาม)ก็จะไม่สามารถที่จะสร้างข้อมูลที่ถูกเก็บไว้(log)ได้ functionนี้มีผลข้างเคียง</p>
+<p>ในการเขียโปรแกรมสมัยใหม่ เราพยายามที่จะหลีกหนีจากการใช้สถานะที่เปลี่ยนแปลงได้ในระดับสูงสุด (global mutable state)ให้มากที่สุดเท่าที่เป็นไปได้ ถ้าเป็นแค่เพราะว่าปัญหาที่จะตามมาของconcurrency และคุณจะไม่นำโค้ดแบบนี้เข้าไปในlibaryได้เลย</p>
+<p>โชคดีของเราที่มันเป็นไปได้ที่จะทำให้functionนี้เป็นpure คุณแค่ต้องนำlogเข้ามาอย่างเปิดเผยทั้งการเข้ามาและออกไป เรามาทำอย่างนี้โดยการที่เพิ่มargumentที่เป็นstringและมัดoutputทั่วๆไปให้เข้ากับstringที่เก็บlogที่ถูกแก้ไขแล้ว</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pair<span class="op">&lt;</span><span class="dt">bool</span><span class="op">,</span> string<span class="op">&gt;</span> negate<span class="op">(</span><span class="dt">bool</span> b<span class="op">,</span> string logger<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(!</span>b<span class="op">,</span> logger <span class="op">+</span> <span class="st">"Not so! "</span><span class="op">);</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>functionนี้pure มันไม่มีผลข้างเคียง มันreturnคู่เดียวกันในทุกๆครั้งมันถูกเรียกโดยargumentที่เหมือนกันและมันสามารถที่จะถูกจำผลลัพธ์ได้ถ้ามีความจำเป็น แต่ในลักษณะของlogที่เป็นการสะสมไปเรื่อยๆ คุณจะต้องจำประวัติศาสตร์ทั้งหมดที่นำไปสู่การเรียกครั้งนี้ ก็จะมีรายการบันทึกที่แยกออกจากกันสำหรับ</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>negate<span class="op">(</span><span class="kw">true</span><span class="op">,</span> <span class="st">"It was the best of times. "</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และ</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>negate<span class="op">(</span><span class="kw">true</span><span class="op">,</span> <span class="st">"It was the worst of times. "</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และต่อๆไป</p>
+<p>มันเป็นinterfaceที่ไม่ค่อยดีสำหรับfunctionในlibary ผู้ที่เรียก(functionนี้)สามารถที่จะละเลยstringในtypeของสิ่งที่ถูกคืนมานั้นมันไม่ใช่ภาระที่ใหญ่ แต่มันถูกบังคับให้นำstringเข้ามาในฐานะinputที่อาจจะทำให้เกิดความไม่สะดวก</p>
+<p>แต่มีวิธีแบบไหนหรือเปล่าที่สามารถทำแบบเดียวกันแต่ไม่ก้าวก่ายจนเกินไป? วิธีแบบไหนหรือเปล่าที่จะแยกความปัญหานี้ออกไป? ในตัวอย่างที่ง่ายแบบนี้ จุดประสงค์หลักของfunction<code>negate</code>คือการที่จะเปลี่ยนBooleanอย่างหนึ่งไปยังอีกแบบหนึ่ง การlogเป็นสิ่งรอง ในแบบนี้ข้อความที่ถูกเก็บที่ขึ้นอยู่กับfunctionนั้นๆ แต่งานในการรวบรวมข้อความต่างๆไปยังสู่logที่ต่อๆกันเป็นความปัญหาที่แยกออกไป เรายังที่จะต้องให้functionผลิตstringแต่เราต้องการที่จะแก้ปัญหานี้ออกจากการสร้างlog นี่ก็คือทางออกที่ประนีประนอม</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pair<span class="op">&lt;</span><span class="dt">bool</span><span class="op">,</span> string<span class="op">&gt;</span> negate<span class="op">(</span><span class="dt">bool</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(!</span>b<span class="op">,</span> <span class="st">"Not so! "</span><span class="op">);</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แนวคิดคือว่าlogจะถูกรวบรวมระหว่างการเรียกของfunction</p>
+<p>เพื่อที่จะดูว่าการทำแบบนี้เป็นอย่างไร เรามาลองที่จะเปลี่ยนไปดูตัวอย่างที่เสมือนจริงมากว่า เรามีfunctionหนึ่งอยู่ที่นำstringไปยังstringที่เปลี่ยนตัวพิมพ์เล็กไปยังตัวพิมพ์ใหญ่</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>string toUpper<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    string result<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">(*</span>toupperp<span class="op">)(</span><span class="dt">int</span><span class="op">)</span> <span class="op">=</span> <span class="op">&amp;</span>toupper<span class="op">;</span> <span class="co">// toupper is overloaded</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">(</span>begin<span class="op">(</span>s<span class="op">),</span> end<span class="op">(</span>s<span class="op">),</span> back_inserter<span class="op">(</span>result<span class="op">),</span> toupperp<span class="op">);</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และอีกตัวหนึ่งที่แยกstringให้เป็นvectorของstringต่างๆ โดยการแยกมันผ่านช่องระหว่างคำ</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> toWords<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> words<span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>งานจริงๆจะถูกทำในfunctionช่วยเหลือ(auxiliary)อย่าง <code>words</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> words<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> result<span class="op">{</span><span class="st">""</span><span class="op">};</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> i <span class="op">=</span> begin<span class="op">(</span>s<span class="op">);</span> i <span class="op">!=</span> end<span class="op">(</span>s<span class="op">);</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>isspace<span class="op">(*</span>i<span class="op">))</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            result<span class="op">.</span>push_back<span class="op">(</span><span class="st">""</span><span class="op">);</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            result<span class="op">.</span>back<span class="op">()</span> <span class="op">+=</span> <span class="op">*</span>i<span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราต้องการที่จะแก้ไขfunction<code>toUpper</code>และ<code>toWords</code>เพื่อที่ว่าพวกมันจะมีข้อความที่เป็นstringขี่อยู่บนหลังของค่าที่ถูกคืนแบบทั่วๆไป</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/piggyback.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เราจะ”ประดับ”ค่าที่ถูกคืนมาจากfunctionเหล่านี้ เรามาทำมันในวิธีการทั่วไปโดยการนิยามtemplateที่มีชื่อว่า<code>Writer</code>ที่encapsulates pairหนึ่งๆที่ส่วนแรกคือค่าของtypeอะไรก็ได้อย่าง<code>A</code>และส่วนที่สองคือstring</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> A<span class="op">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> Writer <span class="op">=</span> pair<span class="op">&lt;</span>A<span class="op">,</span> string<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้functionที่ถูกประดับแล้วก็จะเป็น</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Writer<span class="op">&lt;</span>string<span class="op">&gt;</span> toUpper<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    string result<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">(*</span>toupperp<span class="op">)(</span><span class="dt">int</span><span class="op">)</span> <span class="op">=</span> <span class="op">&amp;</span>toupper<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">(</span>begin<span class="op">(</span>s<span class="op">),</span> end<span class="op">(</span>s<span class="op">),</span> back_inserter<span class="op">(</span>result<span class="op">),</span> toupperp<span class="op">);</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(</span>result<span class="op">,</span> <span class="st">"toUpper "</span><span class="op">);</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>Writer<span class="op">&lt;</span>vector<span class="op">&lt;</span>string<span class="op">&gt;&gt;</span> toWords<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(</span>words<span class="op">(</span>s<span class="op">),</span> <span class="st">"toWords "</span><span class="op">);</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราต้องการที่จะประกอบfunctionทั้งสองให้เป็นfunctionที่มีการประดับในอีกแบบหนึ่งที่เป็นการทำให้ทุกตัวอักษรเป็นตัวพิมพ์ใหญ่และแยกแต่ละคำออกมา ในขณะเดียวกันก็สร้างlogของการกระทำเล่านี้ นี่คือวิธีการในการทำมัน</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Writer<span class="op">&lt;</span>vector<span class="op">&lt;</span>string<span class="op">&gt;&gt;</span> process<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> p1 <span class="op">=</span> toUpper<span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> p2 <span class="op">=</span> toWords<span class="op">(</span>p1<span class="op">.</span>first<span class="op">);</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(</span>p2<span class="op">.</span>first<span class="op">,</span> p1<span class="op">.</span>second <span class="op">+</span> p2<span class="op">.</span>second<span class="op">);</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราได้ทำในสิ่งที่เราต้องการ คือการทำให้การรวบรวมlogต่างๆไม่ใช่สิ่งที่แต่ละfunctionเดี่ยวๆต้องสนใจอีกต่อไป พวกมันสร้างข้อความของตนเองที่ก็จะถูกนำมาต่อกันข้างนอกเพื่อที่จะได้logที่ใหญ่กว่า</p>
+<p>ในตอนนี้มาลองจินตนาการว่าทั้งโปรแกรมถูกเขียนในรูปแบบนี้ มันจะเป็นเหมือนฝันร้ายของcodeที่ซ้ำชากและโค้ดที่เต็มไปด้วยข้อผิดพลาด แต่เราคือโปรแกรมเมอร์ เรารู้วิธีการที่จะจัดการกับcodeที่มีความซ้ำชาก โดยการabstract(ทำให้เป็นนามธรรม)มัน! แต่นี่เป็นการทำabstractionที่ทั่วไปสำหรับคุณ เราต้องabstractการประกอบกันของfunctionมันเอง แต่การประกอบกันคือแก่นแท้ของทฤษฎีcategory ดังนั้นก่อนการเขียนโค้ดไปมากกว่านี้ เรามาวิเคราะห์ปัญหานี้จากมุมมองทางcategory</p>
+<section id="categoryนกเขยน" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="categoryนกเขยน"><span class="header-section-number">5.1</span> Categoryนักเขียน</h2>
+<p>ความคิดของการประดับtypeที่ถูกคืนของมาของหลากหลายfunctionเพื่อที่จะเพิ่มฟังก์ชันการทำงาน(นำมาขี่หลัง)กลายมาเป็นเป็นสิ่งที่มีประโยชน์อย่างมาก เราจะเห็นตัวอย่างในการทำแบบนี้อีกหลายครั้ง จุดเริ่มต้นคือcategoryของtypeที่ทั่วไปๆและfunctionของเรา เราจะยังคงtypeต่างๆให้เป็นobjectแต่จะนิยามmorphismของเราใหม่เพื่อที่จะให้เป็นfunctionที่ถูกประดับ</p>
+<p>ตัวอย่างเช่น มาลองดูว่าถ้าเราต้องการที่จะประดับfunction<code>isEven</code>ที่นำ<code>int</code>ไปยังสู่<code>bool</code> เราจะเปลี่ยนมันให้เป็น<code>morphism</code>ที่มีfunctionที่ผ่านการประดับแล้วเป็นตัวแทน จุดที่สำคัญคือว่าmorphismนี้ยังที่จะถูกมองให้เป็นลูกศรระหว่างวัตถุ <code>int</code>และ<code>bool</code>ถึงแม้functionที่ผ่านการประดับจะคืนค่ามาเป็นpair</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pair<span class="op">&lt;</span><span class="dt">bool</span><span class="op">,</span> string<span class="op">&gt;</span> isEven<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(</span>n <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">,</span> <span class="st">"isEven "</span><span class="op">);</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>โดยกฏของcategory เราควรที่จะสามารถที่จะประกอบmorphismด้วยmorphismอีกตัวหนึ่งที่มาจากวัตถุ<code>bool</code>ไปยังอย่างอื่นอย่างอะไรก็ได้ โดยเฉพาะการที่เราควรที่จะสามารถที่จะประกอบกับfunctionก่อนหน้านี้ของเราอย่าง<code>negate</code>ว่า</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pair<span class="op">&lt;</span><span class="dt">bool</span><span class="op">,</span> string<span class="op">&gt;</span> negate<span class="op">(</span><span class="dt">bool</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(!</span>b<span class="op">,</span> <span class="st">"Not so! "</span><span class="op">);</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ชัดเจนว่าเราไม่สามารถที่จะประกอบmorphismสองอย่างนี้ในแบบเดียวกันกับการประกอบfunctionทั่วไปเพราะว่าสิ่งที่เข้ามาและสิ่งที่ออกมานั้นไม่ตรงกัน การประกอบกันของทั้งสองfunctionควรที่จะดูเหมือนแบบนี้</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pair<span class="op">&lt;</span><span class="dt">bool</span><span class="op">,</span> string<span class="op">&gt;</span> isOdd<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    pair<span class="op">&lt;</span><span class="dt">bool</span><span class="op">,</span> string<span class="op">&gt;</span> p1 <span class="op">=</span> isEven<span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    pair<span class="op">&lt;</span><span class="dt">bool</span><span class="op">,</span> string<span class="op">&gt;</span> p2 <span class="op">=</span> negate<span class="op">(</span>p1<span class="op">.</span>first<span class="op">);</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(</span>p2<span class="op">.</span>first<span class="op">,</span> p1<span class="op">.</span>second <span class="op">+</span> p2<span class="op">.</span>second<span class="op">);</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ดังนั้นในที่นี้สูตรสำหรับการประกอบกันของmorphismทั้งสองอันในcategoryใหม่นี้ที่เรากำลังสร้าง</p>
+<ul>
+<li>ใช้งานfunctionที่ผ่านการประดับที่ตรงกันกับmorphismแรก</li>
+<li>นำส่วนประกอบแรกของpairที่เป็นผลลัพธ์และนำมันเข้ามาไปยังfunctionที่ผ่านการประดับที่ตรงกันกับmorphismที่สอง</li>
+<li>นำส่วนประกอบที่สอง(ที่เป็นstring)ของผลลัพธ์แรกและส่วนประกอบที่สอง(ที่เป็นstring)ของผลลัพธ์ที่สองมาต่อกัน</li>
+<li>คืนpairใหม่ที่เป็นการรวมกันของส่วนประกอบแรกของผลลัพธ์สุดท้ายกับstringที่ถูกต่อกันแล้ว</li>
+</ul>
+<p>ถ้าเราต้องการที่จะabstractการประกอบกันในฐานะfunctionfunctionลำดับสูงในC++ เราจำเป็นที่จะต้องใช้templateที่ถูกparamterizedโดยtypeสามอย่างที่ตรงกันกับวัตถุทั้งสามในcategoryของเรา มันควรที่จะนำfunctionที่ผ่านการประดับทั้งสองตัวที่สามารถประกอบกันได้ตามกฎของเรา และคืนfunctionที่สามที่ผ่านการประดับ</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> A<span class="op">,</span> <span class="kw">class</span> B<span class="op">,</span> <span class="kw">class</span> C<span class="op">&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>function<span class="op">&lt;</span>Writer<span class="op">&lt;</span>C<span class="op">&gt;(</span>A<span class="op">)&gt;</span> compose<span class="op">(</span>function<span class="op">&lt;</span>Writer<span class="op">&lt;</span>B<span class="op">&gt;(</span>A<span class="op">)&gt;</span> m1<span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                               function<span class="op">&lt;</span>Writer<span class="op">&lt;</span>C<span class="op">&gt;(</span>B<span class="op">)&gt;</span> m2<span class="op">)</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">[</span>m1<span class="op">,</span> m2<span class="op">](</span>A x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">auto</span> p1 <span class="op">=</span> m1<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">auto</span> p2 <span class="op">=</span> m2<span class="op">(</span>p1<span class="op">.</span>first<span class="op">);</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> make_pair<span class="op">(</span>p2<span class="op">.</span>first<span class="op">,</span> p1<span class="op">.</span>second <span class="op">+</span> p2<span class="op">.</span>second<span class="op">);</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตอนนี้เราสามารถที่จะกลับมายังตัวอย่างก่อนหน้านี้และเขียนการประกอบกันของ<code>toUpper</code>และ<code>toWords</code>โดยการใช้templateใหม่นี้</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Writer<span class="op">&lt;</span>vector<span class="op">&lt;</span>string<span class="op">&gt;&gt;</span> process<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> compose<span class="op">&lt;</span>string<span class="op">,</span> string<span class="op">,</span> vector<span class="op">&lt;</span>string<span class="op">&gt;&gt;(</span>toUpper<span class="op">,</span> toWords<span class="op">)(</span>s<span class="op">);</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้ได้มีความรุงรังมากมายกับการนำtypeต่างๆเข้ามายังtemplate<code>compose</code> สิ่งนี้สามารถที่จะหลีกหนีได้ถ้าต่อเมื่อคุณมีcompilerที่รองรับC++14 (C++14-compliant compiler) ที่รองรับfunctioแบบlambdaในแบบgeneralizedคู่กับการคาดเดาของtype (type deduction) (ผมให้creditสำหรับโค้ดชิ้นนี้กับEric Niebler)</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">auto</span> <span class="at">const</span> compose <span class="op">=</span> <span class="op">[](</span><span class="kw">auto</span> m1<span class="op">,</span> <span class="kw">auto</span> m2<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">[</span>m1<span class="op">,</span> m2<span class="op">](</span><span class="kw">auto</span> x<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">auto</span> p1 <span class="op">=</span> m1<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">auto</span> p2 <span class="op">=</span> m2<span class="op">(</span>p1<span class="op">.</span>first<span class="op">);</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> make_pair<span class="op">(</span>p2<span class="op">.</span>first<span class="op">,</span> p1<span class="op">.</span>second <span class="op">+</span> p2<span class="op">.</span>second<span class="op">);</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการนิยามใหม่นี้ การเขียน<code>process</code>ก็จะถูกทำให้ง่ายขึ้นโดย</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Writer<span class="op">&lt;</span>vector<span class="op">&lt;</span>string<span class="op">&gt;&gt;</span> process<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> compose<span class="op">(</span>toUpper<span class="op">,</span> toWords<span class="op">)(</span>s<span class="op">);</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่เรายังไม่เสร็จ เราได้ทำการนิยามการประกอบกันในcategoryใหม่ของเราแต่morphism identityคืออะไร? function identityเหล่านี้ไม่ใช่function identity ทั่วไปของเราแน่นอน พวกมันต้องเป็นmorphismจากtype<code>A</code>ไปยังtype<code>A</code>นั้นหมายความว่าพวกมันคือfunctionที่ผ่านการประดับในรูปแบบของ</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Writer<span class="op">&lt;</span>A<span class="op">&gt;</span> identity<span class="op">(</span>A<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>พวกมันต้องทำตัวเหมือนunitในความหมายของการประกอบกัน ถ้าคุณดูในคำนิยามของการประกอบกัน คุณจะเห็นว่าmorphism identityควรที่จะส่งargumentของมันโดยที่ไม่มีการเปลี่ยนแปลงและส่งstringว่างไปยังlog</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> A<span class="op">&gt;</span> Writer<span class="op">&lt;</span>A<span class="op">&gt;</span> identity<span class="op">(</span>A x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> make_pair<span class="op">(</span>x<span class="op">,</span> <span class="st">""</span><span class="op">);</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณสามารถที่จะลองดูด้วยตัวเองว่าcategoryที่คุณแค่นิยามนั้นเป็นcategoryที่ถูกต้อง โดยเฉพาะการประกอบกันที่มีคุณสมบัติของการเปลี่ยนหมู่อย่างชัดเจน ถ้าคุณติดตามส่วนประกอบแรกของแต่ละpair มันก็เป็นแค่การประกอบกันของfunctionทั่วๆไปก็เท่านั้น ที่ก็มีคุณสมบัติของการเปลี่ยนหมู่ ตัวประกอบที่สองที่ถูกนำมาต่อกันและการต่อกันนั้นก็มีคุณสมบัติของการเปลี่ยนหมู่</p>
+<p>ผู้อ่านที่มีไหวพริบอาจจะสังเกตได้ว่ามันอาจจะง่ายมากที่จะgeneralizeการสร้างแบบนี้ไปยังmonoidอะไรก็ได้ไม่ใช่แค่monoidของstring เราก็อาจจะใช้<code>mappend</code>ข้างใน<code>compose</code>และ<code>mempty</code>ใน<code>identity</code> (แทนที่ของ<code>+</code>และ<code>""</code>) ไม่เหตุผลในการจำกัดตัวเองในไว้ที่การlogต่างๆที่เป็นstring นักเขียนlibraryที่ดีควรที่จะสามารถแยกแยะข้อจำกัดที่ขั้นต่ำที่สุดที่จะทำให้libaryนั้นทำงานได้ ในที่นี้สิ่งที่จำเป็นต่อlibaryของการloggingก็คือว่าlogต้องมีคุณสมบัติทางmonoid</p>
+</section>
+<section id="writerในhaskell" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="writerในhaskell"><span class="header-section-number">5.2</span> WriterในHaskell</h2>
+<p>ในการทำแบบเดียวกันในHaskellก็อาจจะมีความรวบรัดมากกว่าและเราก็จะได้รับความช่วยเหลือจากcomplierมากขึ้น เรามาเริ่มจากการนิยามtype<code>Writer</code>ว่า</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Writer</span> a <span class="ot">=</span> (a, <span class="dt">String</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตอนนี้ผมก็แค่นิยามชื่อแฝง(alias)ของtypeซึ่งมีความเท่ากันกับ<code>typedef</code>(หรือ<code>using</code>)ในC++ type<code>Write</code>ถูกparameterizedโดยตัวแปรtype<code>a</code>และเท่ากันกับpairของ<code>a</code>และ<code>String</code> ไวยากรณ์ของpairนั้นมีความเรียบง่ายคือเป็นแค่สองitemในวงเล็บที่ถูกแยกโดยลูกน้ำ</p>
+<p>morphismของเราคือfunctionจากtypeอะไรก็ได้ไปยังtype<code>Writer</code>บางอย่าง</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">-&gt;</span> <span class="dt">Writer</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราจะประกาศการประกอบกันในฐานะoperator infixที่ดูตลกและในบางครั้งถูกเรียกว่า”ปลา”</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ot">(&gt;=&gt;) ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Writer</span> b) <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> <span class="dt">Writer</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Writer</span> c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันคือfunctionที่มีargumentสองอันโดยในแต่ละfunctionก็เป็นตัวของตนเองและคืนfunctionกลับมา arugmentแรกก็มีtypeเป็น<code>(a -&gt; Writer b)</code> ตัวที่สองเป็น <code>(b -&gt; Writer c)</code> และผลลัพธ์คือ <code>(a -&gt; Writer c)</code></p>
+<p>นี่คือนิยามของของoperator infix ที่argumentทั้งสอง<code>m1</code>และ<code>m2</code>ที่โผล่มาในทั้งสองข้างของเครื่องหมายที่ดูน่าสงสัย (fishy)</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="op">&gt;=&gt;</span> m2 <span class="ot">=</span> \x <span class="ot">-&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> (y, s1) <span class="ot">=</span> m1 x</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        (z, s2) <span class="ot">=</span> m2 y</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> (z, s1 <span class="op">++</span> s2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ผลคือfunctionแบบlambdaที่มีargumentเดี่ยวอย่าง<code>x</code> lambdaนี้ถูกเขียนด้วยbackslash(คิดสะว่าคืออักษรกรีก<span class="math inline">\(\lambda\)</span> ที่ถูกตัดขา)</p>
+<p>expressionของ<code>let</code>อนุญาตให้คุณประกาศตัวแปรช่วย ผลของการเรียกไปยัง<code>m1</code>นี้คือpairของตัวแปร<code>(y, s1)</code> ที่ถูกจับคู่รูปแบบแล้ว และผลขอการเรียกไปยัง<code>m2</code>คู่กับargument<code>y</code>จากรูปแบบแรกก็ถูกจับคู่กับตัวของ<code>(z, s2)</code></p>
+<p>มันเป็นเรื่องทั่วไปในHaskellที่จะทำการจับคู่รูปแบบแทนที่จะใช้accessors(ตัวเข้าถึง)ในแบบที่เราทำในC++ แต่นอกเหนือไปจากนี้ก็มีความตรงกัน(correspondence)ในการเขียนของทั้งคู่ที่แบบที่ค่อนข้างตรงไปตรงมา</p>
+<p>ค่าทั้งหมดของexpression<code>let</code>นั้นถูกระบุไว้ในส่วน(clause)ของ<code>in</code>ในที่นี้มันคือpairที่ส่วนประกอบแรกคือ<code>z</code>และส่วนประกอบที่สองคือการต่อกันของstringสองอย่าง<code>s1++s2</code></p>
+<p>เราก็จะนิยามmorphism identityสำหรับcategoryของเราแต่ด้วยเหตุผลที่จะชัดเจนมากขึ้นหลังจากนี้เราจะเรียกมันว่า<code>return</code></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">Writer</span> a</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span> x <span class="ot">=</span> (x, <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เพื่อให้มีความสมบูรณ์เราก็จะมีfunctionที่ผ่านการประดับอย่าง<code>upCase</code>และ<code>toWords</code>ในรูปแบบของHaskell</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ot">upCase ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Writer</span> <span class="dt">String</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>upCase s <span class="ot">=</span> (<span class="fu">map</span> <span class="fu">toUpper</span> s, <span class="st">"upCase "</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="ot">toWords ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Writer</span> [<span class="dt">String</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>toWords s <span class="ot">=</span> (<span class="fu">words</span> s, <span class="st">"toWords "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>function<code>map</code>นั้นตรงกันกับ<code>transform</code>ของC++ ที่มันนำfunctionกับตัวอักษรอย่าง<code>toUpper</code>ไปใช้ในstring<code>s</code> functionช่วยเหลืออย่าง<code>word</code>ก็ถูกนิยามในlibrary Preludeมาตรฐาน</p>
+<p>สุดท้ายแล้วการประกอบกันของfunctionทั้งสองสามารถทำได้ด้วยความช่วยเหลือจากoperatorปลา</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ot">process ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Writer</span> [<span class="dt">String</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>process <span class="ot">=</span> upCase <span class="op">&gt;=&gt;</span> toWords</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="categoryแบบkleisli" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="categoryแบบkleisli"><span class="header-section-number">5.3</span> CategoryแบบKleisli</h2>
+<p>คุณอาจจะเดาได้ว่าผมไม่ได้ประดิษฐ์categoryนี้ในปัจจุบันทันด่วน categoryนี้คือตัวอย่างของสิ่งที่เรียกว่าCategory Kleisli ซึ่งก็คือcategoryที่มีฐานเป็นmonad เรายังไม่พร้อมที่จะพูดเกี่ยวกับmonadแต่ผมอยากที่จะให้คุณลองเห็นในสิ่งที่มันสามารถทำได้ ในวัตถุประสงค์ที่เล็กน้อยของเรา Category Kleisliมีtypeของภาษาโปรแกรมที่เป็นพื้นหลังในฐานะวัตถุ morphismจากtype<code>A</code>ไปยังtype<code>B</code>คือfunctionที่ไปจาก<code>A</code>สู่typeที่สร้างมาจาก<code>B</code>โดนผ่านทำการประดับในรูปแบบใดรูปแบบหนึ่ง categoryแบบKleisliแต่ละตัวก็นิยามวิธีการประกอบของmorphismแบบนี้ในแบบของมันเองรวมไปถึงmorphism identityที่ขึ้นอยู่กับการประกอบนั้น (หลังจากนี้เราจะเห็นว่าคำอย่าง”การประดับ”ที่ไม่ค่อยที่จะตรงนักสอดคล้องกันกับแนวคิดของendofunctorในcategoryหนึ่ง)</p>
+<p>Monadผมใช้โดยเฉพาะในฐานะฐานของcategoryในpostนี้ถูกเรียกว่าmonad writer และมันถูกใช้ในการloggingหรือติดตาม(tracing)การดำเนินการของfunction มันก็เป็นตัวอย่างของกลไกที่กว้าง(general)มากกว่านี้สำหรับการฝัง(embedding)ผลลัพธ์ต่างๆ(effect)ในการคำนวนแบบpure คุณได้เห็นแล้วว่าก่อนหน้านี้ว่าเราสามารถที่จะmodel typeต่างๆในภาษาของโปรแกรมและfunctionข้างในcategoryของset(โดที่เราไม่สนใจbottomเหมือนเคย) ในที่นี้เราได้ขยายmodelนี้ไปยังcategoryอื่นที่แตกต่างกันเล็กน้อย categoryที่morphismมีfunctionที่ถูกประดับแล้วเป็นตัวแทน และการประกอบกันนั้นทำได้มากกว่าแค่ส่งoutputของfunctionหนึ่งๆไปยังinputของอีกfunction มันกลับเป็นว่านี่คือระดับของความอิสระอย่างแน่นอนที่ทำให้มันเป็นไปได้ในการที่จะให้ความหมายเชิงสัญลักษณ์ (denotational semantics)อย่างง่ายๆกับโปรแกรมต่างๆที่อยู่ในภาษาแบบimperativeที่ก็ในแบบดั้งเดิมถูกเขียนโดยการใช้ผลข้างเคียง</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">5.4</span> โจทย์ท้าทาย</h2>
+<p>functionที่ไม่ได้ถูกนิยามสำหรับทุกๆค่าที่เป็นไปได้ของargumentของมันจะถูกเรียกว่าfunctionบางส่วน (partial function) มันไม่ใช่functionในทางคณิตศาสตร์จริงๆดังนั้นมันจึงๆไม่เข้ากับแม่พิมพ์ทางcategoryแบบมาตรฐาน แต่มันสามารถมีfunctionที่return typeที่ถูกตกแต่งแล้วอย่าง<code>optional</code>เป็นตัวแทนได้เช่น</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> A<span class="op">&gt;</span> <span class="kw">class</span> optional <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> _isValid<span class="op">;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    A _value<span class="op">;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    optional<span class="op">()</span>    <span class="op">:</span> _isValid<span class="op">(</span><span class="kw">false</span><span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    optional<span class="op">(</span>A v<span class="op">)</span> <span class="op">:</span> _isValid<span class="op">(</span><span class="kw">true</span><span class="op">),</span> _value<span class="op">(</span>v<span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> isValid<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="cf">return</span> _isValid<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    A value<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="cf">return</span> _value<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ตัวอย่างเช่นนี่คือการเขียนfunctionที่ถูกตกแต่งแล้วอย่าง<code>safe_root</code></p>
+<p>นี่คือโจทย์ท้าทาย</p>
+<ol type="1">
+<li>ลองสร้างcategoryแบบKleisliสำหรับfunctionบางส่วน(ลองนิยามการประกอบกันและidentity)</li>
+<li>ลองเขียนfunctionที่ถูกตกแต่งแล้วอย่าง<code>safe_reciprocal</code>ที่returnตัวผกผันการคูณ(reciprocal)ของargumentของมันถ้ามันแตกต่างจากศูนย์</li>
+<li>ลองประกอบfunctionต่างๆอย่าง<code>safe_root</code>และ<code>safe_reciprocal</code>เพื่อเขียน<code>safe_root_reciprocal</code>ที่คำนวน<code>sqrt(1/x)</code>ในที่ที่เป็นไปได้</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/1.3/categories-great-and-small.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/1.5/products-and-coproducts.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

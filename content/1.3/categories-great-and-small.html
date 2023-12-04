@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 4&nbsp; Categoryทั้งเล็กและใหญ่ (Draft)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/1.4/kleisli-categories.html" rel="next">
+<link href="../../content/1.2/types-and-functions.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.3/categories-great-and-small.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ไมมวตถอย" id="toc-ไมมวตถอย" class="nav-link active" data-scroll-target="#ไมมวตถอย"><span class="header-section-number">4.1</span> ไม่มีวัตถุอยู่</a></li>
+  <li><a href="#graphอยางงาย" id="toc-graphอยางงาย" class="nav-link" data-scroll-target="#graphอยางงาย"><span class="header-section-number">4.2</span> Graphอย่างง่าย</a></li>
+  <li><a href="#orders-ลำดบ" id="toc-orders-ลำดบ" class="nav-link" data-scroll-target="#orders-ลำดบ"><span class="header-section-number">4.3</span> Orders (ลำดับ)</a></li>
+  <li><a href="#monoid-ในฐานะ-set" id="toc-monoid-ในฐานะ-set" class="nav-link" data-scroll-target="#monoid-ในฐานะ-set"><span class="header-section-number">4.4</span> Monoid ในฐานะ Set</a></li>
+  <li><a href="#monoidในฐานะcategory" id="toc-monoidในฐานะcategory" class="nav-link" data-scroll-target="#monoidในฐานะcategory"><span class="header-section-number">4.5</span> MonoidในฐานะCategory</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">4.6</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>คุณสามารถที่จะมีความชื่นชม(appreciation)กับcategoryต่างๆโดยการศึกษาตัวอย่างที่หลากหลายต่างๆของมัน categoryมาในทุกรูปแบบและขนาดและมักจะโผล่ขึ้นมาในที่ที่ไม่คาดถึง เราจะมาเริ่มจากบางอย่างที่เรียบง่ายมากๆ</p>
+<section id="ไมมวตถอย" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="ไมมวตถอย"><span class="header-section-number">4.1</span> ไม่มีวัตถุอยู่</h2>
+<p>categoryที่ตรงตัวที่สุดคือตัวที่ไม่มีวัตถุอยู่เลยและดังนั้นจึงไม่มีmorphismอยู่เลย มันเป็นcategoryที่น่าเสร้าในตัวมันเองแต่มันอาจจะมีความสำคัญในบริบทของcategoryอิ่นๆ ตัวอย่างเช่น ในcategoryของทุกๆcategory(แน่นอนว่ามันมีอยู่) ถ้าคุณคิดว่าsetว่างนั้นสมเหตุสมผล แล้วทำไมไม่categoryว่างจึงไม่ละ</p>
+</section>
+<section id="graphอยางงาย" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="graphอยางงาย"><span class="header-section-number">4.2</span> Graphอย่างง่าย</h2>
+<p>คุณสามารถที่จะสร้างcategoryโดยการแค่ต่อวัตถุต่างเข้าด้วยกันโดยลูกศร คุณสามารถที่จะจินตนาการโดยเริ่มด้วยgraphที่ระบุทิศทาง (directed graph) และทำมันให้เป็นcategoryโดยนำลูกศรมาเพิ่ม อย่างแรกทำการเพิ่มลูกศร identity แล้วก็ในทุกๆลูกศรสองตัวที่ปลายของตัวหนึ่งเข้ากับจุดเริ่มต้นของอีกอัน (หรือในอีกคำหนึ่งลูกศรสองอันที่<em>สามารถประกอบกันได้(composable)</em>) ทำการเพิ่มลูกศรเข้ามาในฐานะการประกอบกันของพวกมัน ในทุกๆครั้งที่คุณเพิ่มลูกศรใหม่เข้ามาคุณก็จะต้องพิจารณาการประกอบของมันกับลูกศรอื่นๆด้วย (ยกเว้นสำหรับลูกศร identity) และกับตัวมันเอง คุณจะมักที่จะมีจำนวนลูกศรเป็นอไม่จำกัดแต่นั่นก็ไม่เป็นไร</p>
+<p>ในอีกวิธีในการมองของกระบวนการนี้คือคุณกำลังสร้างcategoryที่มีวัตถุเป็นทุกๆจุดในgraphและ<em>ลำดับต่อๆกัน(chain)</em>ของเส้นเชื่อที่สามารถประกอบกันได้ของgraphเป็นmorphisms (คุณสามารถที่จะคิดว่าmorphsim identityในฐานะลำดับต่อๆกันที่มีความยาวเป็นศูนย์)</p>
+<p>categoryแบบนี้จะถูกเรียกว่า<em>category อิสระ</em> (free) ที่ถูกสร้างมาจากgraphที่ให้มา นี่คือตัวอย่างของการสร้างแบบอิสระ (free construction) ที่เป็นกระบวนการในการทำให้โครงสร้างที่มีอยู่แล้วสมบูรณ์ขึ้นโดยการขยายมันด้วยจำนวนชิ้นที่น้อยที่สุดเพื่อที่จะให้เป็นไปตามกฎของมัน (ในที่นี้คือฎของcategory) เราจะเห็นตัวอย่างนี้มากขึ้นในอนาคต</p>
+</section>
+<section id="orders-ลำดบ" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="orders-ลำดบ"><span class="header-section-number">4.3</span> Orders (ลำดับ)</h2>
+<p>และในตอนนี้ไว้สำหรับอะไรบางอย่างที่แตกต่างออกไปอย่างสิ้นเชิง categoryที่morphismคือความสัมพันธ์ระหว่างobjectในที่นี้คือความสัมพันธ์ของการเป็นสิ่งที่น้อยกว่าหรือเท่ากับ เรามาลองตรวจสอบดูว่ามันคือcategoryจริงๆหรือไม่ เรามีmorphism identityหรือเปล่า? ทุกๆวัตถุนั้นน้อยกว่าหรือเท่ากับตัวเอง (จริง) เรามีการประกอบกันหรือเปล่า? ถ้า <span class="math inline">\(a\le b\)</span>และ<span class="math inline">\(b\le c\)</span>ดังนั้น<span class="math inline">\(a\le c\)</span> (จริง) แล้วการประกอบกันที่เปลี่ยนหมู่ได้หรือเปล่า (ได้) setที่มีความสัมพันธ์แบบนี้จะถูกเรียกว่า <em>preorder</em> แล้วก็preorderก็เป็นcategory</p>
+<p>คุณสามารถที่จะมีความสัมพันธ์ที่เคร่งครัดมากกว่าที่ไปตามเงื่อนไขที่มากขึ้น นั่นก็คือถ้า <span class="math inline">\(a\le b\)</span>และ<span class="math inline">\(b\le a\)</span>แล้ว<span class="math inline">\(a\)</span>ต้องเหมือนกับ<span class="math inline">\(b\)</span> สิ่งที่เป็นไปตามเงื่อนไขที่มากขึ้นจะถูกเรียกว่า <em>partial order</em></p>
+<p>สุดท้ายแล้วคุณสามารถที่จะกำหนดเงื่อนไขที่ว่าในวัตถุสองอย่างอย่างไรก็ได้ต้องอยู่ในความสัมพันธ์ระหว่างกัไม่ว่าทางใดก็ตาม นั้นก็นำไปสู่<em>linear order</em>หรือ<em>total order</em></p>
+<p>เรามาบรรยายลักษณะของsetที่เป็นลำดับในฐานะcategory ที่preorderคือcategoryที่มีmorphismไม่มากกว่าหนึ่งที่มาจากวัตถุ<span class="math inline">\(a\)</span>ตัวไหนก็ได้ไปยังวัตถุ<span class="math inline">\(b\)</span>ตัวไหนก็ได้ อีกชื่อหนึ่งสำหรับcategoryแบบนี้คือ “บาง” (thin) preorderนั้นคือcategoryที่บาง</p>
+<p>setของmorphismจากวัตถุ<span class="math inline">\(a\)</span>ไปยังวัตถุ<span class="math inline">\(b\)</span>ในcategory<span class="math inline">\(\textbf{C}\)</span>จะถูกเรียกว่า<em>hom-set</em>และจะถูกเขียนว่า<span class="math inline">\(\textbf{C}(a,b)\)</span> (หรือในบางครั้ง<span class="math inline">\(\mathbf{Hom}_{\textbf{C}}(a, b)\)</span>) ดังนั้นทุกๆhom-setในpreorderก็จะเป็นแค่setว่างหรือsetที่มีสมาชิกเพียงตัวเดียว นี่ก็รวมถึงhom-set<span class="math inline">\(\textbf{C}(a,a)\)</span> ที่เป็นsetจาก<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(a\)</span>ที่จำเป็นที่จะเป็นsetที่มีสมาชิกเพียงตัวเดียวที่มีแต่identity อยู่ในpreorderใดๆก็ตาม แต่คุณอาจจะมีวงจร(cycle)ในpreorder แต่วงจรจะไม่มีอยู่ในpartial order</p>
+<p>มันเป็นสิ่งสำคัญที่จะเห็นpreorder partial orderและtotal orderเพราะว่าalgorthmในการเรียงลำดับอย่าง quicksort, bubble sort, merge sort และอื่นๆ สามารถที่จะทำงานได้อย่างถูกต้องแค่ในtotal order และpartial orderสามารถที่จะถูกเรียงลำดับผ่านการเรียงลำดับแบบtopological</p>
+</section>
+<section id="monoid-ในฐานะ-set" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="monoid-ในฐานะ-set"><span class="header-section-number">4.4</span> Monoid ในฐานะ Set</h2>
+<p>Monoidเป็นconceptที่ง่ายมากๆแต่เป็นสิ่งที่ทรงพลังอย่างไม่น่าเชื่อ มันคือแนวคิดภายใต้เลขคณิตพื้นฐาน ทั้งการบวกและคูณนำไปสู่monoid monoidนั้นอยู่ในทุกที่ของการเขียนโปรแกรม มันโผล่ขึ้นมาในฐานะstring, list, data structuresที่ผับได้ (foldable data structures), futuresในการเขียนโปรแกรมแบบconcurrent, event ในการเขียนโปรแกรมแบบfunctionalที่ตอบสนองได้(functional reactive programming)และอื่นๆ</p>
+<p>ตามประเพณีแล้ว monoidถูกนิยามในฐานะsetที่มีการคำนวณ(operation)แบบbinary (ก็คือนำค่าสองค่ามาคำนวณรวมกัน) สิ่งที่จำเป็นจากการคำนวณนี้คือว่ามันต้องมีคุณสมบัติของการเปลี่ยนหมู่ (associativity) และมีสมาชิกที่พิเศษที่ทำตัวเหมือนunitของารคำนวณนั้นๆ</p>
+<p>ตัวอย่างเช่น จำนวนธรรมชาติที่มีเลขศูนย์เป็นmonoidภายใต้การบวกกัน คุณสมบัติการเปลี่ยนหมู่คือการที่ว่า</p>
+<p><span class="math display">\[
+(a + b) + c = a + (b + c)
+\]</span></p>
+<p>(ในอีกความหมายหนึ่งก็คือเราสามารถที่จะละวงเล็บในการบวกกันได้)</p>
+<p>สมาชิกที่เป็นnaturalคือเลขศูนย์ก็เพราว่า</p>
+<p><span class="math display">\[
+0+a=a
+\]</span></p>
+<p>และ</p>
+<p><span class="math display">\[
+a+0=a
+\]</span></p>
+<p>สมการที่สองนั้นซ้ำซ้อนก็เพราะว่าการบวกกันนั้นมีคุณสมบัติการสลับที่ (associative, <span class="math inline">\(a+b=b+a\)</span>) แต่คุณสมบัติการสลับที่ไม่ได้อยู่ในนิยามของmonoid ยกตัวอย่างเช่นการเชื่อมต่อกันของstringนั้นไม่มีคุณสมบัติการสลับที่แต่ก็เป็นmonoid สมาชิnaturalของการเชื่อมต่อกันของstringก็คือstringว่างที่สามารถที่จะผูกติดกับstringข้างไหนก็ได้ในแบบที่ไม่เปลี่ยนแปลงstringมันเอง</p>
+<p>ในHaskellเราสามารถที่จะนิยามclassของtypeสำหรับmonoidsได้ เป็นtypeที่มีสมาชิกnaturalที่เรียกว่า<code>mempty</code> และ การคำนวณแบบbinaryที่เรียกว่า<code>mappend</code></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Monoid</span> m <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  mempty ::</span> m</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  mappend ::</span> m <span class="ot">-&gt;</span> m <span class="ot">-&gt;</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในsignatureของtypeสำหรับfunctionที่มีargumentสองอย่าง <code>m-&gt;m-&gt;m</code> อาจจะดูแปลกในตอนแรก แต่มันจะสามารถเข้าใจได้หลังจากการพูดเกี่ยวกับการcurry คุณอาจจะตีความsignatureที่มีลูกศรหลายอันในสองแบบง่ายๆ ในฐานะfunctionที่มีหลายargumentsโดยที่มีtypeด้านขวาสุดเป็นtypeที่จะโดนคืน หรือในฐานะfunctionที่มีargumentอย่างหนึ่ง (ในด้านช้ายสุด)และคืนfunctionออกมา ในการตีความอย่างหลังอาจจะถูกทำให้ชัดเจนมากขึ้นโดยการเพิ่มวงเล็บเข้ามา (ที่ก็อาจจะซ้ำซากเพราะลูกศรนั้นมีคุณสมบัติการเปลี่ยนหมู่ด้านขวา) ในแบบว่าที่ว่า <code>m-&gt;(m-&gt;m)</code> เราจะกลับมาในการตีความแบบนี้ในอีกไม่ช้า</p>
+<p>อาจจะสังเกตว่าในHaskellไม่มีวิธีการที่จะแสดงคุณสมบัติทางmonoidของ<code>mempty</code> และ <code>mappend</code> (ก็คือความจริงที่ว่า<code>mempty</code>นั้นเป็นnaturalและ<code>mappend</code>นั้นมีคุณสมบัติการเปลี่ยนหมู่) มันคือหน้าที่ของโปรแกรมเมอร์ที่จะทำให้มั่นใจได้ว่าเงื่อนไขเหล่านี้เป็นจริง</p>
+<p>classในHaskellไม่ได้มีความต้องการผู้เขียนสูงเมื่อเทียบกับclassต่างๆในC++ ในตอนที่คุณนิยามtypeชนิดใหม่คุณไม่จำเป็นต้องที่จะระบุclassนั้นอย่างชัดเจน คุณมีอิสระในการที่จะไม่เขียนก่อนล่วงหน้า (procrastinate) และสามารถประกาศtypeนี้ให้เป็นinstanceของclassบางclassในเวลาถัดๆไป ในฐานะตัวอย่าง เรามาประกาศ<code>String</code>ให้เป็นmonoidโดยการที่เขียน<code>mempty</code>และ<code>mappend</code>(ที่ในความจริงแล้ว มีเขียนให้คุณอยู่แล้วในPreludeมาตรฐาน)เป็นดังต่อไปนี้</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Monoid</span> <span class="dt">String</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mempty</span> <span class="ot">=</span> <span class="st">""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mappend</span> <span class="ot">=</span> (<span class="op">++</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้เราได้นำการคำนวณการต่อกันของlist <code>(++)</code>มาใช้ช้ำได้เพราะว่า<code>String</code>ก็คือแค่listของตัวอักษรต่างๆ</p>
+<p>ของอนุญาติให้ผมได้ทำการอธิบายต่อไวยากรณ์ของHaskellว่า ในการคำนวณแบบinfixสามารที่จะถูกเปลี่ยนให้เป็นfunctionที่มีสองargumentโดยการครอบมันด้วยวงเล็บ ถ้ามีstringสองตัวคุณสามารถที่จะต่อมันเข้ามาด้วยกันโดยการแทรก <code>++</code> ระหว่างพวกมัน</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="st">"Hello "</span> <span class="op">++</span> <span class="st">"world!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หรือโดยการนำสองargumentsเข้ามาให้กลับการวงเล็บ <code>(++)</code>อย่าง</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="op">++</span>) <span class="st">"Hello "</span> <span class="st">"world!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตได้ว่าarugmentของfunctionไม่ได้แยกจากกันโดยลูกน้ำหรือถูกครอบโดยวงเล็บ (นี่อาจจะเป็นสิ่งที่ยากที่สุดในการทำความเคยชินในตอนเรียนภาษาHaskell)</p>
+<p>แต่ก็คุ้มที่จะเน้นว่าHaskellอนุญาตให้คุณแสดงความเท่ากันของfunctionในแบบนี้</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mappend</span> <span class="ot">=</span> (<span class="op">++</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ตามแนวคิดแล้วนี่แตกต่างเมื่อเทียบกับการแสดงถึงความเท่ากันของค่าต่างๆที่ถูกผลิตโดยfunctionในตัวอย่างที่ว่า</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mappend</span> s1 s2 <span class="ot">=</span> (<span class="op">++</span>) s1 s2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>อย่างตัวแรกสามารถที่จะถูกแปลให้เป็นความเท่ากันของmorphismในcategory <span class="math inline">\(\textbf{Hask}\)</span> (หรือ<span class="math inline">\(\textbf{Set}\)</span>ถ้าเราจะไม่สนใจbottomที่ก็คือชื่อสำหรับการคำนวณที่ไม่มีที่สิ้นสุด) สมการแบบนี้ไม่ได้แค่มีความรวบรัดที่ไม่เยินเย้อแต่ก็สามารถถูกทำการgeneralize(generalized)ในบ่อยครั้งกับcategoryอื่นๆได้ด้วย ในสิ่งอย่างหลังจะถูกเรียกว่าความเท่ากันแบบส่วนขยาย (extensional equality) ที่สื่อความจริงที่ว่า สำหรับทุกstringแบบไหนก็ได้ ผลลัพธ์ของ <code>mappend</code> และ <code>(++)</code>จะเหมือนกัน เนื่องด้วยว่าค่าต่างๆของargumentในบางครั้งจะถูกเรียกว่า<em>points</em> (จุด) (ในแบบที่ว่าค่าของ<span class="math inline">\(f\)</span>ในจุดของ<span class="math inline">\(x\)</span>) นี่เรียกว่าความเท่ากันในแต่ละจุด (point-wise equality) ความเท่ากันของfunctionโดยที่ไม่ได้ระบุถึงargumentจะถูกเรียกว่า point-free (อนึ่งสมการที่เป็นpoint-freeมักจะมีการประกอบกันของfunctionที่ถูกเขียนด้วยสัญลักษณ์ของจุด(point)ดังนั้นนี่อาจจะเป็นสิ่งที่สับสนสำหรับผู้เริ่มต้น)</p>
+<p>สิ่งที่ใกล้ที่สุดของการประกาศmonoidในC++อาจจะต้องใช้ feature conceptมาตราฐานของC++20อย่าง</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> T<span class="op">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> mempty<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> T<span class="op">&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>T mappend<span class="op">(</span>T<span class="op">,</span> T<span class="op">)</span> <span class="op">=</span> <span class="kw">delete</span><span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> M<span class="op">&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">concept</span> Monoid <span class="op">=</span> <span class="kw">requires</span> <span class="op">(</span>M m<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> mempty<span class="op">&lt;</span>M<span class="op">&gt;::</span>value<span class="op">()</span> <span class="op">}</span> <span class="op">-&gt;</span> <span class="bu">std::</span>same_as<span class="op">&lt;</span>M<span class="op">&gt;;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> mappend<span class="op">(</span>m<span class="op">,</span> m<span class="op">)</span> <span class="op">}</span> <span class="op">-&gt;</span> <span class="bu">std::</span>same_as<span class="op">&lt;</span>M<span class="op">&gt;;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นิยามแรกคือโครงสร้างที่ควรที่จะยึดสมาชิกnaturalไว้ในทุกๆกรณี</p>
+<p><code>delete</code>ที่เป็นkeywordหมายความว่ามันไม่มีค่าเริ่มต้นถูกนิยามไว้ โดยที่มันจะถูกระบุเป็นรายกรณีไป โดยคล้ายๆกันแล้ว ก็ไม่มีค่าเริ่มต้นสำหรับ <code>mappend</code></p>
+<p><code>concept</code>ของ<code>Monoid</code> ทดสอบว่าได้มีคำนิยามที่ถูกต้องของ<code>memepty</code> และ <code>mappend</code>หรือไม่ สำหรับtype<code>M</code>ที่ถูกให้มา</p>
+<p>การสร้าง(instantiation)ของconceptของ<code>Monoid</code>สามารถที่จะมาคู่กับการเขียนการspecializationsและoverloadsที่ถูกต้อง</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>template<span class="op">&lt;&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>struct <span class="fu">mempty</span><span class="op">&lt;</span><span class="ot">std::</span>string<span class="op">&gt;</span> {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    static<span class="ot"> std::</span>string value() { <span class="fu">return</span> <span class="st">""</span>; }</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>};</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>template<span class="op">&lt;&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ot">std::</span>string <span class="fu">mappend</span>(<span class="ot">std::</span>string s1,<span class="ot"> std::</span>string s2) {</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> s1 <span class="op">+</span> s2;</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="monoidในฐานะcategory" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="monoidในฐานะcategory"><span class="header-section-number">4.5</span> MonoidในฐานะCategory</h2>
+<p>นั้นคือนิยามที่“คุ้นเคย”ของmonoidในความหมายของสมาชิกของset แต่คุณรู้ก็รู้อยู่แล้วว่าในทฤษฎีcategory เราพยายามที่จะหลีกหนีจากsetและสมาชิกของมันแล้วมาพูดเกี่ยวกับวัตถุและmorphismแทน ดังนั้นเรามาเปลี่ยนมุมมองเล็กน้อยและคิดถึงการใช้งานของoperator binaryในฐานะ”การเคลื่อน”หรือ”การขยับ”ของต่างๆรอบๆset</p>
+<p>ตัวอย่างเช่นมันมีการคำนวณของการบวกด้วยเลขห้าสำหรับทุกๆจำนวนธรรมชาติ มักก็จะจับคู่<span class="math inline">\(0\)</span>ไปยัง<span class="math inline">\(5\)</span> <span class="math inline">\(1\)</span>ไปยัง<span class="math inline">\(6\)</span> <span class="math inline">\(2\)</span>ไปยัง<span class="math inline">\(7\)</span>และอื่นๆ นั่นคือfunctionที่ถูกนิยามในsetของจำนวนธรรมชาติ นั่นก็ดี เรามีfunctionและset โดยทั่วไปแล้วสำหรับทุกๆตัวเลข<span class="math inline">\(n\)</span>มักจะมีfunctionของการบวก<span class="math inline">\(n\)</span>เข้าไป (หรือก็คือตัวบวก(adder)ของ<span class="math inline">\(n\)</span>)</p>
+<p>แล้วตัวบวกของ<span class="math inline">\(n\)</span>จะประกอบกันอย่างไร? การประกอบกันของfunctionที่บวก<span class="math inline">\(5\)</span>กับfunctionที่บวก<span class="math inline">\(7\)</span>คือfunctionที่บวก<span class="math inline">\(12\)</span> ดังนั้นการประกอบกันของตัวบวกสามารถทำให้เท่ากันได้กับกฏของการบวกกัน นั่นก็ดีเหมือนกัน เราสามารถที่จะแทนที่การบวกกันโดยการใช้การประกอบกันของfunction</p>
+<p>แต่เดี๋ยวก่อนมันมีมากกว่านั้น ได้มีตัวบวกสำหรับสมาชิกnaturalอย่างเลขศูนย์ การบวกด้วยศูนย์ไม่ได้เคลื่อนอะไรเลยดังนั้นมันคือfunction identityในsetของจำนวนธรรมชาติ</p>
+<p>แทนที่จะให้กฏทั่วๆไปของการบวกกันกับคุณ ผมสามารถที่จะให้คุณ กฏของการประกอบกันของตัวบวกได้เช่นกันโดยที่ไม่สูญเสียข้อมูลอะไรทั้งสิ้น สังเกตว่าการประกอบกันของตัวบวกนั้นมีคุณสมบัติการเปลี่ยนหมู่ เพราะว่าการประกอบกันของfunctionนั้นมีคุณสมบัติการเปลี่ยนหมู่และเรามีตัวบวกศูนย์ที่ตรงกันกับfunction identity</p>
+<p>ผู้อ่านที่มีไหวพริบอาจจะเล็งเห็นว่าการจับคู่กันระหว่างจำนวนเต็มกับตัวบวกตามมาจากการเขียนแบบที่สองของsignatureของtypeของ<code>mappend</code>ว่า <code>m-&gt;(m-&gt;m)</code> มันบอกว่า<code>mappend</code> จับคู่กันของสมาชิกของsetในแบบmonoidกและfunctionที่กระทำบนsetนั้น</p>
+<p>ในตอนนี้ผมต้องการให้คุณที่จะลืมว่าคุณกำลังทำงานกับsetของจำนวนธรรมชาติและคิดเกี่ยวกับมันในฐานะวัตถุเดี่ยว เป็นชิ้นที่มีmorphismหลายอัน (ซึ่งก็คือตัวบวก) monoidคือcategoryที่มีวัตถุชิ้นเดียว ความจริงที่ว่าmonoidมาจากภาษาGreekว่า<em>mono</em> ที่หมายความว่าการเป็นเดี่ยว ในทุกๆmonoidสามารถที่จะถูกอธิบายในฐานะcategoryที่มีวัตถุชิ้นเดียวที่มีsetของmorphismที่อยู่ภายใต้กฏของการประกอบกัน</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/monoid.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>การต่อกันของstringก็เป็นกรณีที่น่าสนใจเพราะว่าเรามีทางเลือกของการนิยามตัวต่อกันทางในทางด้านขวา(right appenders)และตัวต่อกันทางด้านช้าย(left appendersหรือสามารถที่ถูกเรียกว่า <em>prepender</em>ถ้าคุณต้องการ) ตารางของการประกอบกันของทั้งสองรูปแบบก็เป็นเหมือนเงากระจกสะท้อนระหว่างกัน คุณสามารถที่จะโน้มน้าวใจตัวเองว่าการต่อกันของ”bar”กับ”foo”นั้นตรงกันกับการต่อกันข้างหน้า (prepending)ของ “foo”หลังการต่อกันข้างหน้าของ “bar”</p>
+<p>คุณอาจจะถามว่าคำถามว่าในทุกๆmonoidที่เป็นcategory (categoryที่มีวัตถุเพียงอย่างเดียว)นิยามmonoidที่เป็นsetกับoperatorที่เป็นbinaryอย่างเป็นเอกลักษณ์ได้หรือเปล่า มันเป็นการที่ว่าเราสามารถที่จะสกัดsetออกจากcategoryที่มีวัตถุเพียงอย่างเดียว setตัวนี้คือsetของmorphism (ในตัวอย่างของเราก็คือตัวบวก) ในอีกคำหนึ่งเรามีhom-set <span class="math inline">\(\textbf{M}(m,m)\)</span> ของวัตถุเดี่ยว<span class="math inline">\(m\)</span>ในcategory<span class="math inline">\(\textbf{M}\)</span> เราสามารถที่จะนิยามoperationที่เป็นbinaryอย่างง่ายดายในsetนี้นั่นก็คือ productแบบmonoidalระหว่างสองสมาชิกในsetคือสมาชิกที่ตรงกันกับ morphismที่เป็นตัวประกอบของสองmorphismที่ตรงกันกับสองสมาชิกก่อนหน้านี้นั้น ถ้าคุณให้สมาชิกสองตัวของ<span class="math inline">\(\textbf{M}(m,m)\)</span>ที่ตรงกันกับ <span class="math inline">\(f\)</span>และ<span class="math inline">\(g\)</span> productของทั้งสองจะตรงกันกับการประกอบกันของ<span class="math inline">\(f\circ g\)</span> การประกอบกันจะมีอยู่ตลอด เพราะว่าสิ่งเริ่มต้นและปลายทางของmorphismเหล่านี้ก็คือวัตถุเดียวกัน และการมีกฎของการเปลี่ยนหมู่ก็อยู่ในกฎของcategory morphism identityก็คือสมาชิกnaturalของproductนี้ ดังนั้นเราสามารถที่จะ กู้setที่เป็นmonoidจากcategoryที่เป็นmonoidได้ตลอด สำหรับทุกๆความตั้งใจและวัตถุประสงค์ สองสิ่งนี้เป็นสิ่งเดียวกัน</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/monoidhomset.jpg" height="200" class="figure-img"></p>
+<figcaption class="figure-caption">hom-setของmonoidถูกมองในฐานะmorphismsและจุดในset</figcaption>
+</figure>
+</div>
+<p>แต่ก็มีจุดเล็กน้อยที่นักคณิตศาสตร์อยากจะแย้งนั้นก็คือmorphismอาจจะไม่ก่อให้เกิดset ในโลกของcategoryได้มีสิ่งของที่ใหญ่กว่าset categoryที่morphismระหว่างสองวัตถุใดๆก็ได้ก่อให้เกิดsetจะถูกเรียกว่าlocally small ตามที่สัญญาไว้แล้วผมจะเพิกเฉยต่อรายละเอียดปลีกย่อยนี้ แต่ผมคิดว่าผมต้องกล่าวถึงเพื่อที่ให้ได้รู้</p>
+<p>มีปรากฏการณ์ที่น่าสนใจหลายอย่างในทฤษฎีcategoryที่มีรากฐานในความจริงที่ว่าสมาชิกของhom-setสามารถที่จะถูกมองในฐานะทั้งmorphismที่ตามกฏของการประกอบกันและในฐานะจุดในset ในที่นี้การประกอบกันของmorphismใน<span class="math inline">\(\textbf{M}\)</span>ถูกแปลไปสู่productแบบmonoidalในsetของ<span class="math inline">\(\textbf{M}(m,m)\)</span></p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">4.6</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองสร้างcategoryที่อิสระจาก
+<ol type="a">
+<li>graphที่มีจุดเดียวและไม่มีตัวเชื่อม</li>
+<li>graphที่มีจุดเดียวและตัวเชื่อมอันเดี่ยวที่มีการระบุทิศทาง (ใบ้ว่า ตัวเชื่อมอันนี้สามารถที่จะถูกประกอบกับตัวมันเอง)</li>
+<li>graphที่มีจุดสองตัวและลูกศรเดี่ยวระหว่างมัน</li>
+<li>graphที่มีจุดเดี่ยวและลูกศร26อันที่มีเครื่องหมายเป็นตัวอักษรของa,b,c,…,z</li>
+</ol></li>
+<li>แล้วประเภทของorderต่างๆแบบนี้คืออะไรบ้าง
+<ol type="a">
+<li>setของsetที่มีความสัมพันธ์แบบการอยู่ข้างในแบบที่ว่า <span class="math inline">\(A\)</span>อยู่ใน<span class="math inline">\(B\)</span>ถ้าทุกๆสมาชิกของ<span class="math inline">\(A\)</span>นั้นเป็นสมาชิกของ<span class="math inline">\(B\)</span></li>
+<li>typeของC++ที่มาคู่กับความสัมพันธ์ของtypeย่อย <code>T1</code>คือtypeย่อยของ<code>T2</code>ถ้าpointerไปยัง<code>T1</code>สามารถที่จะผ่านเข้าไปยังfunctionที่คาดหวังกับpointerของ<code>T2</code>โดยที่ไม่ได้นำไปสู่ปัญหาในการcompilation</li>
+</ol></li>
+<li>ลองคิดว่า<code>Bool</code>เป็นsetที่มีค่าสองค่า<code>True</code>และ<code>False</code> ลองแสดงว่ามันก่อให้เกิดmonoidสองตัว(ในทางทฤษฎีset)ที่คู่กับการคำนวณของ <code>&amp;&amp;</code> (and/และ) และ <code>||</code> (or/หรือ)</li>
+<li>ลองเขียนmonoid<code>Bool</code>ด้วยการคำนวณแบบandในฐานะcategory ลองเขียนmorphismทั้งหมดและกฏของการประกอบกันด้วย</li>
+<li>ลองเขียนการบวกกันแบบmodular <span class="math inline">\(3\)</span> (addition modulo 3)ในฐานะcategoryแบบmonoid</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/1.2/types-and-functions.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/1.4/kleisli-categories.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
