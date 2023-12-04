@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 17&nbsp; การEmbeddingของYoneda (Sketch)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/etc/glossary.html" rel="next">
+<link href="../../content/2.5/the-yoneda-lemma.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html">Part 2</a></li><li class="breadcrumb-item"><a href="../../content/2.6/yoneda-embedding.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#การembedding" id="toc-การembedding" class="nav-link active" data-scroll-target="#การembedding"><span class="header-section-number">17.1</span> การEmbedding</a></li>
+  <li><a href="#การใชงานในhaskell" id="toc-การใชงานในhaskell" class="nav-link" data-scroll-target="#การใชงานในhaskell"><span class="header-section-number">17.2</span> การใช้งานในHaskell</a></li>
+  <li><a href="#ตวอยางสำหรบpreorder" id="toc-ตวอยางสำหรบpreorder" class="nav-link" data-scroll-target="#ตวอยางสำหรบpreorder"><span class="header-section-number">17.3</span> ตัวอย่างสำหรับPreorder</a></li>
+  <li><a href="#ความเปนธรรมชาต" id="toc-ความเปนธรรมชาต" class="nav-link" data-scroll-target="#ความเปนธรรมชาต"><span class="header-section-number">17.4</span> ความเป็นธรรมชาติ</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">17.5</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>เราได้เห็นก่อนหน้านี้ว่าในตอนที่เราได้ให้วัตถุ<span class="math inline">\(a\)</span>ในcategory<span class="math inline">\(\textbf{C}\)</span>คงที่ การโยง<span class="math inline">\(\textbf{C}(a,-)\)</span>คือfunctor(แบบcovariant)จาก<span class="math inline">\(\textbf{C}\)</span>ไปpy’<span class="math inline">\(\textbf{Set}\)</span>อย่าง</p>
+<p><span class="math display">\[
+x\rightarrow\textbf{C}(a, x)
+\]</span></p>
+<p>(Codomainคือ<span class="math inline">\(\textbf{Set}\)</span>เพราะว่าhom-set<span class="math inline">\(\textbf{C}(a, x)\)</span>นั้นคือ<em>set</em>) เราเรียกการโยงแบบนี้ว่าhom-functor (เราได้นิยามในก่อนหน้านี้ของการกระทำของมันบนmorphismด้วย)</p>
+<p>ในตอนนี้เรามาให้<span class="math inline">\(a\)</span>เปลี่ยนแปลงไปมาได้ในการโยงนี้ เราได้มีการโยงแบบใหม่ที่ระบุhom-<em>functor</em>ของ<span class="math inline">\(\textbf{C}(a,-)\)</span>ไปยังทุกๆ<span class="math inline">\(a\)</span></p>
+<p><span class="math display">\[
+a\rightarrow\textbf{C}(a, -)
+\]</span></p>
+<p>มันคือการโยงของวัตถุจากcategory<span class="math inline">\(\textbf{C}\)</span>ไปยังfunctorต่างๆที่คือ<em>objects</em>ต่างๆในcategoryของfunctor(ลองดูบทเกี่ยวกับcategoryของfunctorในการแปลงแบบธรรมชาติ) เรามาใช้สัญลักษณ์<span class="math inline">\([\textbf{C},\textbf{Set}]\)</span>สำหรับcategoryจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span> คุณอาจจะก็จำได้ว่าhom-functorคือfunctorที่มีตัวแทนได้แบบรูปแบบแรกเริ่ม</p>
+<p>ในทุกๆครั้งเราได้มีการโยงของวัตถุระหว่างสองcategoryมันเป็นธรรมชาติที่จะถามว่าการโยงแบบนี้นั้นเป็นfunctorหรือเปล่า ในอีกคำหนึ่งเราสามารถยกmorphismจากcategoryหนึ่งไปยังmorphismในอีกcategoryหนึ่ง morphismใน<span class="math inline">\(\textbf{C}\)</span>คือแค่สมาชิกของ<span class="math inline">\(\textbf{C}(a,b)\)</span>แต่morphismในcategoryของfunctor<span class="math inline">\([\textbf{C},\textbf{Set}]\)</span>คือการแปลงแบบธรรมชาติ ดั้งนั้นเรากำลังหาการโยงของmorphismไปยังการแปลงแบบธรรมชาติ</p>
+<p>เรามาดูกันว่าถ้าเราสามารถหา การแปลงแบบธรรมชาติที่ตรงไปกับmorphism<span class="math inline">\(f::a\rightarrow b\)</span> ในตอนแรกเรามาดูว่าสิ่งที่<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>นั้นถูกโยงไปคืออะไร พวมมันถูกโยงไปยังfunctorทั้งสองอย่าง<span class="math inline">\(\textbf{C}(a, -)\)</span>และ<span class="math inline">\(\textbf{C}(b, -)\)</span>เราต้องการให้การแปลงแบบธรรมชาติระหว่างสองfunctor</p>
+<p>และนี่คือเคล็ดลับคือเราจะใช้lemmaของYoneda</p>
+<p><span class="math display">\[
+[\textbf{C},\textbf{Set}]\big( \textbf{C}(a, -), F \big)\cong Fa
+\]</span></p>
+<p>และแทนที่<span class="math inline">\(F\)</span>ทั่วๆไปกับhom-functor<span class="math inline">\(\textbf{C}(b, -)\)</span>เราได้ว่า</p>
+<p><span class="math display">\[
+[\textbf{C},\textbf{Set}]\big( \textbf{C}(a, -), \textbf{C}(b, -) \big)\cong \textbf{C}(b, a)
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/yoneda-embedding.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>นั้นคือการแปลงแบบธรรมชาติระหว่างhom-functorทั้งสองที่เรากำลังหาแต่ก็มีการแปลงเล็กน้อยคือเราทีการโยงระหว่างการแปลงแบบธรรมชาติและmorphism (ที่คือสมาชิกของ<span class="math inline">\(\textbf{C}(b, a)\)</span>)ที่อยู่ในทิศทางที่“ผิด” แต่มันไม่เป็นไร มันหมายความว่าfunctorที่เรากำลังดูอยู่เป็นแบบcontravariantเท่านั้น</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/yoneda-embedding-2.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>จริงๆแล้ว เราได้มีมากกว่าสิ่งที่เราได้ตกลงไว้ การโยงจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\([\textbf{C},\textbf{Set}]\)</span>นั้นไม่ได้เป็นแค่functorแบบcontravariant(มันคือfunctorที่<em>fully faithful</em>) ความfullและความfaithfulนั้นคือคุณสมบัติของfunctorที่บรรยายวิธีการที่มันโยงhom-setต่างๆ</p>
+<p>Functorแบบ<em>faithful</em>คือ<em>injective</em>บนhom-setที่หมายความว่ามันโยงmorphismที่จำเพาะไปยังmorphismที่จำเพาะ ในอีกความหมายหนึ่งพวมมันไม่สามารถรวมกันได้</p>
+<p>Functorแบบ<em>full</em>คือ<em>surjective</em>บนhom-setที่หมายความว่ามันโยงhom-setหนึ่งไปยัง(<em>onto</em>)hom-setอีกตัวหนึ่งทำการครอบคลุมทั้งหมดของตัวหลัง</p>
+<p>functorแบบfully faithfulคือ<em>bijection</em>บนhom-set(คือการจับคู่กับแบบหนึ่งต่อหนึ่งของทุกๆสมาชิกชองทั้งสองset ในทุกๆคู่ของวัตถุ<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>ในcategory<span class="math inline">\(\textbf{C}\)</span>เรื่มต้นได้มีbijectionระหว่าง<span class="math inline">\(\textbf{C}(a,b)\)</span>และ<span class="math inline">\(\textbf{D}(Fa,Fb)\)</span>ที่<span class="math inline">\(\textbf{D}\)</span>คือcategoryเป้าหมายของ<span class="math inline">\(F\)</span>(ในกรณีของเราคือcategoryของfunctor<span class="math inline">\([\textbf{C},\textbf{Set}]\)</span>)) สังเกตว่านี้หมายความว่า<span class="math inline">\(F\)</span>คือbijectionบน<em>objects</em> ได้อาจจะมีวัตถุใน<span class="math inline">\(\textbf{D}\)</span>ที่ไม่อยู่ในimageของ<span class="math inline">\(F\)</span>และเราไม่สามารถบอกอะไรเลยเกี่ยวกับhom-setสำหรับวัตถุเหล่านี้</p>
+<section id="การembedding" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="การembedding"><span class="header-section-number">17.1</span> การEmbedding</h2>
+<p>Functorแบบ(contravariant)เราได้แค่อธิบายfunctorที่โยงวัตถุต่างๆใน<span class="math inline">\(\textbf{C}\)</span>ไปบังfunctorใน<span class="math inline">\([\textbf{C},\textbf{Set}]\)</span>ว่า</p>
+<p><span class="math display">\[
+a\rightarrow\textbf{C}(a,-)
+\]</span></p>
+<p>นิยามEmbeddingของYoneda มัน<em>embeds</em>category<span class="math inline">\(\textbf{C}\)</span> (ถ้าพูดให้ถูกต้องคือcategoryของ<span class="math inline">\(\textbf{C}^\text{op}\)</span>เพราะว่าความเป็นcontravariance) ข้างในcategoryของfunctor<span class="math inline">\([\textbf{C},\textbf{Set}]\)</span> มันไม่แค่โยงวัตถุใน<span class="math inline">\(\textbf{C}\)</span>ไปยังfunctorแต่ก็คงไว้ในทุกๆการเชื่อมต่อระหว่างมันอย่างตรงไปตรงมา</p>
+<p>สิ่งนี้นั้นมีประโยชน์อย่างมากเพราะนักคณิตศาสตร์ที่รู้มากมายเกี่ยวกับcategoryของfunctorsโดยเฉพาะfunctorที่codomainคือ<span class="math inline">\(\textbf{Set}\)</span> เราสามารถได้มาที่ความเข้าใจเกี่ยวกับcategory<span class="math inline">\(\textbf{C}\)</span>ใดๆก็ตามโดยการembedมันในcategoryของfunctor</p>
+<p>แน่นอนว่าได้มีรูปแบบของdualของการembedของYonedaในบางครั้งถูกเรียกว่าการembedแบบco-Yoneda สังเกตว่าเราอาจจะเริ่มโดยการคงไว้ของวัตถุเป้าหมาย(แทนที่จะเป็นวัตถุเริ่มแรก)สำหรับแต่ละhom-set<span class="math inline">\(\textbf{C}(-,a)\)</span> ที่อาจจะให้เราhom-functorแบบcontravariant functorแบบcontravariantจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span>นั้นคือpresheavesที่เราคุ้นเคย(ลองดู ตัวอย่างเช่นlimitและcolimits) embedแบบco-Yonedaนิยามembedของcategory<span class="math inline">\(\textbf{C}\)</span>ในcategoryของpresheaves การกระทำของมันบนmorphismนั้นคือ</p>
+<p><span class="math display">\[
+[\textbf{C},\textbf{Set}]\big( \textbf{C}(-,a), \textbf{C}(-,b) \big)\cong \textbf{C}(a,b)
+\]</span></p>
+<p>อีกครั้งนักคณิตศาสตร์รู้มามายเกี่ยวกับcategoryของpresheavesดังนั้นสามารถที่จะembedในcategoryใดๆก็ตามในมันเป็นสิ่งที่ดี</p>
+</section>
+<section id="การใชงานในhaskell" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="การใชงานในhaskell"><span class="header-section-number">17.2</span> การใช้งานในHaskell</h2>
+<p>ในHaskell การembedของYonedaสามารถถูกให้มีตัวแทนโดยisomorphismระหว่างการแปลงแบบธรรมชาติในระหว่างfunctorแบบreaderในด้านหนึ่งและfunction(ไปยังในทิศทางตรงกันข้าม)ในอีกด้านหนึ่งเรามี</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">forall</span> x<span class="op">.</span> (a <span class="ot">-&gt;</span> x) <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> x) ≅ b <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(จงจำได้ว่าfunctorแบบreaderนั้นเท่ากันกับ<code>((-&gt;) a)</code>)</p>
+<p>ในด้านช้ายมือของสมการนี้คือfunctionแบบpolymorphicที่ว่าการที่มีfunctionจาก<code>a</code>ไปยัง<code>x</code>และค่าของtype<code>b</code>สามารถสร้างค่าของtype<code>a</code>(ผมได้ที่การuncurrying(คือการลบวงเล็บรอบๆ)ของfunction<code>b -&gt; x</code>) แนวทางเดียวที่สามารถทำได้สำหรับทุกๆ<code>x</code>ถ้าfunctionของเรารู้วิธีในการแปลง<code>b</code>ไปยัง<code>a</code> มันสามารถในการมีการเข้าถึงอย่างลับๆไปยังfunction<code>b -&gt; a</code></p>
+<p>การมีตัวแปลงแบบนี้<code>btoa</code>เราสามารถนิยามด้านช้ายมือเรียกมันว่า<code>fromY</code>ในฐานะ</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">fromY ::</span> (a <span class="ot">-&gt;</span> x) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> x</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fromY f b <span class="ot">=</span> f (btoa b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในทางกลับกัน การที่มีfunction<code>fromY</code>เราสามารถกู้ตัวแปลงโดยการเรียก<code>fromY</code>กับidentity</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fromY<span class="ot"> id ::</span> b <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สิ่งนี้ก่อให้เกิดbijectionระหว่างfunctionของtype<code>fromY</code>และ<code>btoa</code></p>
+<p>ในการมองแบบทางเลือกในisomorphismนี้คือว่ามันคือการencodingแบบCPSของfunctionจาก<code>b</code>ไปยัง<code>a</code> argumentอย่าง<code>a -&gt; x</code>คือการต่อเหนื่อง(continuation)หรือตัวดูแล(handler) ผลที่ได้มาคือfunctionจาก<code>b</code>ไปยัง<code>x</code>ที่ในตอนที่ถูกเรียกกับค่าแบบtype<code>b</code>จะทำการใช้งานการต่อเหนื่องที่ถูกประกอบก่อนหน้ากับfunctionที่ถูกencode</p>
+<p>การembeddingของYonedaนั้นก็อธิบาย บางรูปแบบแสดงแทนทางเลือกของdata structureในHaskell โยเฉพาะเช่น มันให้รูปแบบแสดงแทนที่มีประโยชน์อย่างมาก<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>ของlensesจากlibary<code>Control.Lens</code></p>
+</section>
+<section id="ตวอยางสำหรบpreorder" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="ตวอยางสำหรบpreorder"><span class="header-section-number">17.3</span> ตัวอย่างสำหรับPreorder</h2>
+<p>ตัวอย่างนี้ถูกเสนอโดยRobert Harper มันคือการใช้งานของembeddingแบบYonedaไปยังcategoryที่ถูกนิยามโดยpreorder preorderคือsetกับความสัมพันธ์แบบลำดับระหว่างสมาชิดของมันที่โดนที่เขียนแบบดั้งเดิมว่า<span class="math inline">\(\le\)</span>(น้อยกว่าหรือเท่ากับ) “pre”ในpreorderมีไว้เพราะว่าเราต้องการแค่ความสัมพันธ์ที่เป็นtransitiveและreflexiveแต่ไม่จำเป็นต้องantisymmetric(ดังนั้นมันเป็นไปได้ที่จะมีวงจร)</p>
+<p>setกับความสัมพันธ์ของpreorderก่อให้เกิดcategory วัตถุคือสมาชิกของsetนี้ morphismจากวัตถุ<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(b\)</span>ไม่มีอยู่ถ้าวัตถุไม่สามารถที่จะถูกเทียบได้หรือถ้ามันไม่จริงว่า<span class="math inline">\(a\le b\)</span> หรือมันมีอยู่ถ้า<span class="math inline">\(a\le b\)</span>และมันชี้จาก<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(b\)</span> จะไม่มีมากกว่าหนึ่งmorphismจากวัตถุหนึ่งไปยังอีกวัตถุหนึ่ง ดังนั้นhom-setใดๆก็ตามในcategoryอย่างนี้นั้นคือsetว่างหรือsetที่มีสมาชิกเดียว categoryอย่างนี้ถูกเรียกว่า<em>บาง(thin)</em></p>
+<p>มันง่ายมากที่จะให้ตัวคุณมั่นใจว่าการสร้างแบบนี้นั้นเป็นcategory ลูกศรสามารถประกอบกันได้เพราะว่าถ้า<span class="math inline">\(a\le b\)</span>และ<span class="math inline">\(b\le c\)</span>ดังนั้น<span class="math inline">\(a\le c\)</span> และการประกอบกันนั้นมีคุณสมบัติการเปลี่ยนหมู่ เราก็มีลูกศรแบบidentityเพราะว่าทุกๆสมาชิกนั้น(น้อยกว่าหรือ)เท่ากับตัวมันเอง (reflexivityของความสัมพันธ์ที่เป็นพื้นฐาน)</p>
+<p>เราสามารถใช้งานการembedแบบco-Yonedaไปยังcategoryแบบpreorder โดยเฉพาะเช่นเรานั้นสงใจในการกระทำของมันบนmorphism</p>
+<p><span class="math display">\[
+[\textbf{C}, \textbf{Set}](\textbf{C}(-, a), \textbf{C}(-, b)) \cong \textbf{C}(a, b)
+\]</span></p>
+<p>hom-ssetของด้านขวามือนั้นไม่ว่างก็ต่อเมื่อ<span class="math inline">\(a\le b\)</span>ที่ในกรณีนี้คือsetที่มีสมาชิกเดียว เพราะฉะนั้นถ้า<span class="math inline">\(a\le b\)</span> ก็จะมีการแปลงแบบธรรมชาติเดี่ยวในด้านช้าย มิฉะนั้นแล้วก็จะไม่มีการแปลงแบบธรรมชาติเลย</p>
+<p>ดังนั้นอะไรคือการแปลงแบบธรรมชาติระหว่างhom-functorในpreorder? มันควรที่จะเป็นชุดของfunctionระหว่างset<span class="math inline">\(\textbf{C}(-, a)\)</span>และ<span class="math inline">\(\textbf{C}(-, b)\)</span> ในpreorder ในแต่ละตัวของsetเหล่านี้สามารถว่างหรือมีสมาชิกเดียว เรามาดูว่าfunctionแบบใหนที่เราสามารถใช้ได้</p>
+<p>ได้มีfunctionจากsetว่างไปยังตนเอง(identityที่กระทำบนsetว่าง) functor<code>absurd</code>จากsetว่างไปยังsetที่มีสมาชิกเดียว (มันไม่ได้ทำอะไรเลยเพราะว่ามันต้องการแค่ที่จะถูกนิยามสำหรับสมาชิกของsetว่างที่ก็ไม่มีอะไร) และfunctionจากsetที่มีสมาชิกเดียวไปยังตนเอง (identityที่กระทำบนsetที่มีสมาชิกเดียว) การผลมกันที่ถูกห้ามเพียงอย่างเดียวคือการโยงระหว่างsetที่มีสมาชิกเดียวไปบยังsetว่าง (อะไรคือค่าของfunctionนี้ในตอนที่กระทำกับสมาชิกเดี่ยวนั้น?)</p>
+<p>ดังนั้นการแปลงแบบธรรมชาติจะไม่เคยที่จะเชื่อhom-setที่มีสมาชิกเดียวไปยังhom-setว่าง หรือในอีกความหมายหนึ่งถ้า<span class="math inline">\(x\le a\)</span>(setที่มีสมาชิกเดียวของ<span class="math inline">\(\textbf{C}(x,a)\)</span>)แล้วก็<span class="math inline">\(\textbf{C}(x,b)\)</span>ไม่สามารถที่จะว่างได้ <span class="math inline">\(\textbf{C}(x,b)\)</span>ที่ไม่ว่างหมายตวามว่า<span class="math inline">\(x\)</span>นั้นน้อยกว่าหรือเท่ากับ<span class="math inline">\(b\)</span>ดังนั้นการที่ตัวตนของการแปลงแบบธรรมชาติที่เราสนใจต้องการว่า ในทุกๆ<span class="math inline">\(x\)</span>ถ้า<span class="math inline">\(x\le b\)</span>แล้ว<span class="math inline">\(x\le b\)</span> หรือ:</p>
+<p><span class="math display">\[
+\text{for all } x, x \leqslant a \Rightarrow x \leqslant b
+\]</span></p>
+<p>ในอีกด้านหนึ่งco-Yonedaบอกเราว่าการมีอยู่ของการแปลงแบบธรรมชาตินั้นเท่ากับ<span class="math inline">\(\textbf{C}(a,b)\)</span>นั้นไม่ว่างหรือ<span class="math inline">\(a\le b\)</span> โดยรวมทั้งสองเราได้ว่า</p>
+<p><span class="math display">\[
+a \leqslant b \text{ if and only if for all } x, x \leqslant a \Rightarrow x \leqslant b
+\]</span></p>
+<p>เราก็อาจจะได้มาที่ผลลัพธ์โดยตรง โดตแนวคิดว่าถ้า<span class="math inline">\(a\le b\)</span>แล้วทุกๆสมาชิกที่น้อยกว่า<span class="math inline">\(a\)</span>ก็ต้องน้อยกว่า<span class="math inline">\(b\)</span> ในทางกลับกันในตอนที่คุณแทนที่<span class="math inline">\(a\)</span>สำหรับ<span class="math inline">\(x\)</span>ในด้านขวามือ มันก็ตามมาว่า<span class="math inline">\(a\le b\)</span> แต่คุณต้องยอมรับว่าการได้มาที่ผลลัพธ์นี้ผ่านการembedแบบYonedaนั้นน่าตื่นเต้นมากกว่า</p>
+</section>
+<section id="ความเปนธรรมชาต" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="ความเปนธรรมชาต"><span class="header-section-number">17.4</span> ความเป็นธรรมชาติ</h2>
+<p>LemmaของYonedaก่อให้เกิดisomorphismระหว่างsetของการแปลงแบบธรรมชาติและวัตถุใน<span class="math inline">\(\textbf{Set}\)</span> การแปลงแบบธรรมชาติคือmorphismในcategoryของfunctor<span class="math inline">\([\textbf{C}, \textbf{Set}]\)</span> setของการแปลงแบบธรรมชาติระหว่างfunctorใดๆก็ตามคือhom-setในcategoryนั้น LemmaของYonedaคือisomorphism</p>
+<p>isomorphismนี้นั้นเป็นธรรมชาติในทั้ง<span class="math inline">\(F\)</span>และ<span class="math inline">\(a\)</span> ในอีกความหมายหนึ่งมันเป็นธรรมชาติใน<span class="math inline">\((F, a)\)</span>ที่คือคู่ที่นำมาจากcategoryแบบproductอย่าง<span class="math inline">\([\textbf{C}, \textbf{Set}]\times\textbf{C}\)</span> สังเกตว่าเรากำลังกระทำต่อ<span class="math inline">\(F\)</span>ในฐานะ<em>วัตถุ</em>ในcategoryของfunctor</p>
+<p>เรามาคิดชั่วครู่ว่านี้หมายความว่าอะไร isomorphismแบบธรรมชาตินั้นคือ<em>การแปลงแบบธรรมชาติ</em>ที่สามารถinvertได้ระหว่างสองfunctor และแน่นอนว่าในด้านขวามือของisomorphismของเราคือfunctor มันคือfunctorจาก<span class="math inline">\([\textbf{C}, \textbf{Set}]\times\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span> มันคือการกระทำของมันบนคู่<span class="math inline">\((F, a)\)</span>คือset(ผลของการประเมินfunctor<span class="math inline">\(F\)</span>ที่วัตถุ<span class="math inline">\(a\)</span>) สิ่งนี้ถูกเรียกว่าfunctorการประเมิน(evaluation functor)</p>
+<p>ในด้านช้ายมือก็คือfunctorที่นำ<span class="math inline">\((F, a)\)</span>ไปยังsetของการแปลงแบบธรรมชาติ<span class="math inline">\([\textbf{C}, \textbf{Set}](\textbf{C}(-, a), F)\)</span></p>
+<p>ในการแสดงว่าสิ่งเหล่านี้นั้นคือfunctorจริงๆ เราควรที่จะนิยามการกระทำของมันบนmorphism แต่อะไรคือmorphismระหว่างคู่<span class="math inline">\((F,a)\)</span>และ<span class="math inline">\((G,b)\)</span>? มันคือคู่ของmorphism<span class="math inline">\((\Phi, f)\)</span> ตัวแรกคือmorphismระหว่างfunctor(การแปลงแบบธรรมชาติ)และตัวที่สองคือmorphismทั่วๆไปใน<span class="math inline">\(\textbf{C}\)</span></p>
+<p>functorการประเมินนำคู่<span class="math inline">\((\Phi, f)\)</span>นี้และโยงมันไปยังfunctorระหว่างsetทั้งสอง <span class="math inline">\(Fa\)</span>และ<span class="math inline">\(Gb\)</span> เราสามารถที่จะสร้างfunctionแบบนี้อย่างง่ายจากส่วนประกอบของ<span class="math inline">\(\Phi\)</span>ที่<span class="math inline">\(a\)</span>(ที่โยง<span class="math inline">\(Fa\)</span>ไปยัง<span class="math inline">\(Ga\)</span>)และmorphism<span class="math inline">\(f\)</span>ที่ถูดliftโดย<span class="math inline">\(G\)</span></p>
+<p><span class="math display">\[
+(Gf)\circ\Phi_a
+\]</span></p>
+<p>สังเกตว่าเพราะว่าความเป็นธรรมชาติของ<span class="math inline">\(\Phi\)</span> มันนั้นเหมือนกับ</p>
+<p><span class="math display">\[
+\Phi_b\circ(Ff)
+\]</span></p>
+<p>ผมจะไม่พิสูจน์ความเป็ยธรรมชาติของทั้งisomorphism (เพราะว่าคุณได้แสดงว่าอะไรคือfunctor การพิสูจน์จึงค่อนข้างตรงไปตรงมา) มันตามมาจากความจริงที่ว่าisomorphismของเรานั้นก่อมาจากfunctorและการแปลงแบบธรรมชาติ จึงไม่มีทางที่จะผิดพลาดได้</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">17.5</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองเขียนการembedแบบco-YonedaในHaskell</li>
+<li>ลองแสดงว่าbijectionที่เราได้แสดงระหว่าง<code>fromY</code>แลพ<code>btoa</code>นั้นคือisomorphism(สองการโยงที่เป็นinverseระหว่างกัน)</li>
+<li>สองตามหาการembedแบบYonedaสำหรับmonoid functorอะไรที่ตรงกันกับวัตถุเดี่ยวของmonoid? การแปลงแบบธรรมชาติอะไรที่ตรงกับmorphismของmonoid?</li>
+<li>อะไรคือการใช้งานของการembedของYonedaแบบ<em>covariant</em>บนpreorder?(คำถามที่เสนอมาโดยGershom Bazerman)</li>
+<li>การembedของYonedaสามารถถูกใช้ในการembed categoryของfunctorอะไรก็ได้<span class="math inline">\([\textbf{C}, \textbf{D}]\)</span>ใน categoryของfunctor<span class="math inline">\([[\textbf{C}, \textbf{D}],\textbf{Set}]\)</span> ลองหามันบนmorphism(ที่ในกรณีนี้คือการแปลงแบบธรรมชาติ)</li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="https://bartoszmilewski.com/2015/07/13/from-lenses-to-yoneda-embedding/">https://bartoszmilewski.com/2015/07/13/from-lenses-to-yoneda-embedding/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/2.5/the-yoneda-lemma.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/etc/glossary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

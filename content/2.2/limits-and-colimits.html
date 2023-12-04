@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 13&nbsp; LimitและColimit (Sketch)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/2.3/free-monoids.html" rel="next">
+<link href="../../content/2.1/declarative-programming.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html">Part 2</a></li><li class="breadcrumb-item"><a href="../../content/2.2/limits-and-colimits.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#limitในฐานะisomorphismธรรมชาต" id="toc-limitในฐานะisomorphismธรรมชาต" class="nav-link active" data-scroll-target="#limitในฐานะisomorphismธรรมชาต"><span class="header-section-number">13.1</span> Limitในฐานะisomorphismธรรมชาติ</a></li>
+  <li><a href="#ตวอยางของlimit" id="toc-ตวอยางของlimit" class="nav-link" data-scroll-target="#ตวอยางของlimit"><span class="header-section-number">13.2</span> ตัวอย่างของLimit</a></li>
+  <li><a href="#colimits" id="toc-colimits" class="nav-link" data-scroll-target="#colimits"><span class="header-section-number">13.3</span> Colimits</a></li>
+  <li><a href="#ความตอเนอง" id="toc-ความตอเนอง" class="nav-link" data-scroll-target="#ความตอเนอง"><span class="header-section-number">13.4</span> ความต่อเนื่อง</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">13.5</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>มันเหมือนกับว่าในทฤษฎีcategoryทุกอย่างนั้นเกี่ยวข้องกับทุกๆอย่างและทุกๆอย่างสามารถที่จะถูกมองจากหลายๆมุม ยกตัวอย่างเช่นการสร้างแบบสากลของproduct ในตอนนี้เรารู้มากขึ้นเกี่ยวกับfunctorและการแปลงแบบธรรมชาติ เราสามารถที่จะทำให้ง่ายขึ้นและถ้าเป็นไปได้generalizeได้หรือไม่? เรามาลองดูกัน</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/productpattern.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>การสร้างของproductเริ่มด้วยการเลือกวัตถุสองวัตถุ<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>ที่productของพวกมันเป็นสิ่งที่เราต้องการสร้าง แค่มันหมายความว่าอะไรในการ<em>เลือกวัตถุต่างๆ</em>? เราสามารถที่จะใช้คำใหม่ในการกระทำนี้ในแบบที่มีความเป็นcategoryมากกว่านี้? สองวัตถุสร้างให้เกิดรูปแบบ เป็นรูปแบบที่เรียบง่าย เราสามารถทำให้รูปแบบนี้เป็นนามธรรมไปยังcategory เป็นcategoryที่เรียบง่ายแต่ก็ยังเป็นcategory มันคือcategoryที่เราจะเรียกว่า<span class="math inline">\(\textbf{2}\)</span> มันมีแค่สองวัตถุ<span class="math inline">\(1\)</span>และ<span class="math inline">\(2\)</span>และไม่มีmorphismนอกเหนือไปจากidentityที่มีอยู่แล้ว ในตอนนี้เราสามารถที่จะเปลี่ยนคำของการเลือกของสองวัตถุใน<span class="math inline">\(\textbf{C}\)</span>ในฐานะการนิยามfunctor<span class="math inline">\(D\)</span>จาก<span class="math inline">\(\textbf{2}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span> functorนั้นโยงวัตถุไปยังวัตถุ ดังนั้นimageของมันจรึงเป็นแค่สองวัตถุ(หรือใันอาจจะเป็นหนึ่ง ถ้าfunctorรวบวัตถุเข้าด้วยกัน ที่ก็ไม่มีปัญหา)มันก็โยงmorphismต่างๆที่ในที่นี้มันแค่โยงmorphismแบบidentityไปยังmorphismแบบidentity</p>
+<p>สิ่งที่ยอดเยี่ยมเกี่ยวกับแนวทางนี้คือว่ามันสร้างแนวคิดทางcategoryที่หลบเลี่ยงคำอธิบายที่คลุมเครืออย่าง”การเลือกวัตถุ“ที่นำโดยตรงมาจากคำศัพท์ของคนเก็บของป่าล่าสัตว์ที่เป็นบรรพบุรุษของเรา และโดยบังเอิญมันก็สามารถgeneralizeได้ไม่ยากเพราะว่าไม่มีอะไรเลยที่จะหยุดเราจากการใช้categoryที่มีความชับช้อนมากว่า<span class="math inline">\(\textbf{2}\)</span>ในการนิยามรูปแบบของเรา</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/two.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>แต่เรามาต่อกัน ในขั้นตอนต่อไปในคำนิยามของproductคือการเลือกของวัตถุ<span class="math inline">\(c\)</span>ที่มีคุณสมบัติ ในที่นี้เราสามารถแปลงคำของการเลือกในรูปแบบของfunctorที่ามจากcategoryที่มีวัตถุเดียว และแน่นอนว่าถ้าเราจะใช้Kan extensionsที่ก็จะเป็นสิ่งที่ถูกต้องที่จะทำ แต่เนื่องว่าเรายังไม่พร้อมสำหรับKan extensionsแต่ก็มีอีกเคล็ดลับที่เราสามารถใช้ได้นั้นก็คือconstant functor<span class="math inline">\(\Delta\)</span>จากcategory<span class="math inline">\(\textbf{2}\)</span>เหมือนเดิมไปยัง<span class="math inline">\(\textbf{C}\)</span> ในการเลือกของ<span class="math inline">\(c\)</span>ใน<span class="math inline">\(\textbf{C}\)</span>สามารถถูกทำได้โดย<span class="math inline">\(\Delta_c\)</span> จำได้ว่า<span class="math inline">\(\Delta_c\)</span>โยงทุกๆวัตถุไปยัง<span class="math inline">\(c\)</span>และทุกๆmorphismไปยัง<span class="math inline">\(\operatorname{id}_c\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/twodelta.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในตอนนี้เรามีfunctorสองตัว<span class="math inline">\(\Delta_c\)</span>และ<span class="math inline">\(D\)</span>ที่ไปมาระหว่าง<span class="math inline">\(\textbf{2}\)</span>และ<span class="math inline">\(\textbf{C}\)</span>ดังนั้นมันสิ่งทั่วไปที่จะถามเกี่ยวกับการแปลงแบบธรรมชาติระหว่างมัน เนื่องด้วยได้มีแค่สองวัตถุใน<span class="math inline">\(\textbf{2}\)</span> การแปลงแบบธรรมชาติจึงมีสองตัวประกอบ วัตถุ<span class="math inline">\(1\)</span>ใน<span class="math inline">\(\textbf{2}\)</span>คือการโยงจาก<span class="math inline">\(c\)</span>โดย<span class="math inline">\(\Delta_c\)</span>และ<span class="math inline">\(a\)</span>โดย<span class="math inline">\(D\)</span> ดังนั้นส่วนประกอบของการแปลงแบบธรรมชาติระหว่าง<span class="math inline">\(\Delta_c\)</span>และ<span class="math inline">\(D\)</span>ที่<span class="math inline">\(1\)</span>คือmorphismจาก<span class="math inline">\(c\)</span>ไปยัง<span class="math inline">\(a\)</span> เราสามารถที่จะเรียกมันว่า<span class="math inline">\(p\)</span> ในทางเดียวกันส่วนประกอบที่สองคือmorphsism<span class="math inline">\(q\)</span>จาก<span class="math inline">\(c\)</span>ไปยัง<span class="math inline">\(b\)</span> (คือimageของวัตถุ<span class="math inline">\(2\)</span> ใน<span class="math inline">\(\textbf{2}\)</span>ภายใต้<span class="math inline">\(D\)</span>) แต่สิ่งเหล่านี้นั้นเหมือนอย่างแน่นอนกับprojectionทั้งสองที่เราใช้ในนิยามดั้งเดิมของproduct ดังนั้นแทนที่จะพูดเกี่ยวกับการเลือกวัตถุและการproject เราสามารถแค่พูดเกี่ยวกับการเลือกfunctorและการแปลงแบบธรรมชาติ มันก็เป็นการที่ว่าในกรณีที่เรียบง่าย เงื่อนไขของความเป็นธรรมชาติสำหรับการแปลงของเรานั้นถูกบรรลุแล้วอย่างง่ายดายเพราะว่าได้ไม่มีmorphism(นอกเหนือไปจากidentity)ใน<span class="math inline">\(\textbf{2}\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/productcone.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในการวางนัยของการสร้างนี้ของcategoryนอกเหนือจาก<span class="math inline">\(\textbf{C}\)</span> (ที่ที่ตัวอย่างเช่นมีmorphismที่ไม่ตรงไปตรงมา)จะมีการบังคับใช้เงื่อนไขแบบธรรมชาติบนการแปลงระหว่าง<span class="math inline">\(\Delta_c\)</span>และ<span class="math inline">\(D\)</span> เราเรียกการเปลียนแปลงแบบนี้ว่า<em>cone</em>เพราะว่าimageของ<span class="math inline">\(\Delta\)</span>คือยอดของกรวยหรือpyramidที่ด้านข้าง(ของรูป)นั้นสร้างโดยส่วนประกอบของการแปลงแบบธรรมชาติ imageของ<span class="math inline">\(D\)</span>สร้างออกมาเป็นฐานของcone</p>
+<p>โดยทั่วๆไป ในการสร้างcone เราเริ่มด้วยcategory<span class="math inline">\(\textbf{I}\)</span>ที่ได้นิยามรูปแบบ มันคือcategoryที่จำกัดแต่มีขนาดเล็ก เราได้เลือกfunctor<span class="math inline">\(D\)</span>จาก<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{D}\)</span>และเรียกมัน(หรือimageของมัน)ว่า<em>diagram</em> เราเลือกบาง<span class="math inline">\(c\)</span>ใน<span class="math inline">\(\textbf{C}\)</span>ในฐานะยอดของconeของเรา เราใช้มันในการนิยามfunctorแบบconstant<span class="math inline">\(\Delta_c\)</span>จาก<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span> การแปลงแบบธรรมชาติจาก<span class="math inline">\(\Delta_c\)</span>ไปยัง<span class="math inline">\(D\)</span>ที่คือconeของเรา สำหรับ<span class="math inline">\(\textbf{I}\)</span>ที่จำกัด มันคือแค่กลุ่มของmorphismที่เชื่อม<span class="math inline">\(c\)</span>ไปยังdiagramนั้นคือimageของ<span class="math inline">\(\textbf{I}\)</span>ภายใต้<span class="math inline">\(D\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/cone.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ความเป็นธรรมชาติกำหนดให้มีว่าทุกๆสามเหลี่ยม(ที่เป็นผนังของปิรามิด)ในdiagramนั้นcommute แน่นอนว่าmorphism<span class="math inline">\(f\)</span>ใดๆก็ตามใน<span class="math inline">\(\textbf{I}\)</span> functor<span class="math inline">\(D\)</span>โยงมันไปยังmorphism<span class="math inline">\(Df\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> morphismที่ก่อเป็นฐานของสามเหลี่ยมบางตัว functorที่เป็นconstant<span class="math inline">\(\Delta_c\)</span>โยง<span class="math inline">\(f\)</span>ไปยังmorphismแบบdentityบน<span class="math inline">\(c\)</span> <span class="math inline">\(\Delta\)</span>รวบจุดสุดท้ายทั้งสองของmorphismไปยังวัตถุหหนึ่ง และสี่เหลี่ยมของความเป็นธรรมชาติกลายเป็นสามเหลี่ยมที่commute ในสองแขนของสามเหลี่ยมนั้นคือส่วนประกอบของการแปลงแบบธรรมชาติ</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/conenaturality.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>นั้นคือcone สิ่งที่เราสนใจคือconeที่เป็น<em>สากล</em>เหมือนกับการที่เราเลือกวัตถุที่เป็นสากรสำหรับนิยามของproduct</p>
+<p>ได้มีหลายวิธีในการทำแบบนี้ ตัวอย่างเช่นเราอาจจะนิยามcategoryของconeตามมาจากfunctor<span class="math inline">\(D\)</span>ที่ให้มา วัตถุในcategoryนั้นคือconeต่างๆ แต่ไม่ใช่ทุกๆวัตถุ<span class="math inline">\(c\)</span>ใน<span class="math inline">\(\textbf{C}\)</span>ที่จะสามารถเป็นยอดของconeได้เพราะว่าได้อาจจะไม่มีการแปลงแบบธรรมชาติระหว่าง<span class="math inline">\(\Delta_c\)</span>และ<span class="math inline">\(D\)</span></p>
+<p>ในการทำให้มันเป็นcategory เราก็ต้องการนิยามmorphismระหว่างcone นั้นอาจจะถูกกำหนดโดยmorphismระหว่างจุดยอดของมัน แต่ไม่ใช่แค่ทุกๆmorphismจะทำได้ จงจำว่า ในการสร้างของเราต่อproductเราบังคับใช้เงื่อนไขที่morphismระหว่างวัตถุที่มีคุณสมบัติ(อย่างยอด)ต้องเป็นตัวประกอบร่วมกันสำหรับprojectionตัวอย่างเช่น</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p' <span class="ot">=</span> p <span class="op">.</span> m</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>q' <span class="ot">=</span> q <span class="op">.</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/productranking.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในกรณีทั่วไปเงื่อนไขนี้แปลไปเป็นเงื่อนไขที่สามเหลี่ยมเหล่านี้ที่ด้านข้างหนึ่งคือการ แยกตัวแปรmorphismต่างๆต้องcommute</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/conecommutativity.jpg" height="200" class="figure-img"></p>
+<figcaption class="figure-caption">สามเหลี่ยมcommuteที่เชื่อมต่อconeสองอันที่แยกตัวแปรmorphism<span class="math inline">\(h\)</span>(ในที่นี้coneด้านข้างคือconeสากรที่มี<span class="math inline">\(\lim D\)</span>ในฐานะยอกของมัน)</figcaption>
+</figure>
+</div>
+<p>เราจะนำmorphismที่แยกตัวประกอบในฐานะmorphismในcategoryของconeของเรา มันง่ายที่จะตรวจสอบว่าmorphismเหล่านี้นั้นสามารถประกอบกันได้และการที่morphismแบบidentityคือmorphismที่แยกตัวประกอบเช่นเดียวกัน coneนั้นจึงก่อให้เกิดcategory</p>
+<p>ในที่นี้เราสามารถนิยามconeสากลในฐานะ<em>วัตถุสุดท้าย</em>ในcategoryของcone นิยามของวัตถุสุดท้ายบอกว่าได้มีmorphismเอกลักษณ์(และอันเดียว)จากวัตถุใดๆก็ตามไปยังวัตถุนี้ ในกรณีของเรามันหมายความว่าได้มีmorphismแยกตัวประกอบที่เป็นเอกลักษณ์(และอันเดียว)จากยอดของconeใดๆก็ตามไปยังยอดของconeสากล เราเรียกconeสากลนี้ว่า<em>limit</em>ของdiagram<span class="math inline">\(D\)</span> อย่าง<span class="math inline">\(\lim D\)</span> (โดยทั่วไปเราจะเห็นในบ่อยครั้งลูกศรจากขวาไปช้ายที่ชี้ไปยัง<span class="math inline">\(I\)</span>ข้างล่างสัญลักษณ์,<span class="math inline">\(\lim\)</span>) โดยทั่วไปแล้วในแบบสั้นๆ เราเรียกยอกของconeนี้ว่าlimit(หรือวัตถุlimit)</p>
+<p>แนวคิดนี้คือการที่ว่าlimitมีคุณสมบัติของทั้งdiagramในวัตถุๆเดียวอยู่ในตัว ตัวอย่างเช่นlimitของdiagramที่มีสองวัตถุของเราคือproductของวัตถุทั้งสอง product(คู่กับprojectionทั้งสอง)เก็บข้อมูลทั้งสองวัตถุไว้ และการที่เป็นสากลหมายความว่ามันไม่มีของที่ไม่ความสำคัญ</p>
+<section id="limitในฐานะisomorphismธรรมชาต" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="limitในฐานะisomorphismธรรมชาต"><span class="header-section-number">13.1</span> Limitในฐานะisomorphismธรรมชาติ</h2>
+<p>ได้มีบางอย่างที่ไม่ค่อยพอใจเกี่ยวกับนิยามนี้ของlimit ผมหมายความว่ามันใช้ได้แต่เรายังต้องมีเงื่อนไขcommutativeนี้สำหรับสามเหลี่ยมเหล่านี้ที่เชื่อมสองconeใดๆก็ตาม มันอาจจะทีความสวยงามมากกว่าถ้าเราอาจจะแทนที่มันด้วยบางเงื่อนไขisomorphismธรรมชาติ แต่แล้วอย่างไร</p>
+<p>เราไม่ได้ทำงานกับconeตัวเดียวอีกแล้วแต่กับทั้งชุด(ในความเป็นจริงแล้วคือcategory)ของcone ถ้าlimitนั้นมีตัวตนอยู่(และถ้าทำให้ชัดเจนมากขึ้นไม่มีการรับประกันนี้) หนึ่งในconeของconeทั้งหมดคือconeสากล ในconeอื่นๆที่เหลือ เรามีmorphismแยกตัวประกอบที่เป็นเอกลักษณ์(และอันเดียว)ที่โยงยอดของมันที่เราจะเรียกว่า<span class="math inline">\(c\)</span>ไปยังยอดของconeสากลที่เราจะเรียกมันว่า<span class="math inline">\(\lim D\)</span> (ในความเป็นจริงแล้ว เราสามารถข้ามคำว่า”อื่นๆ”เพราะว่าmorphismแบบidentityโยงconeสากลไปยังตนเองและมันแยกตัวประกอบฉ่านตนเองอย่างง่ายๆ) ให้ผมได้ทำซ้ำในส่วนของที่สำคัญคือถ้ามีconeใดๆก็ตาม ได้มีmorphismที่เป็นเอกลักษณ์(และอันเดียว)ในแบบที่เป็นพิเศษ เรามีการโยงของconeไปยังmorphismพิเศษและมันคือการโยงแบบหนึ่งต่อหนึ่ง</p>
+<p>morphismพิเศษนี้คือสมาชิกของhom-set<span class="math inline">\(\textbf{C}(c,\lim D)\)</span> สมาชิกอื่นๆของhom-setนี้นั้นไม่ค่อยโชคดีนั้ก ในความหมายที่ว่าพวกมันไม่ได้แยกตัวประกอบของการโยงของconeทั้งสอง สิ่งที่เราสามารถที่จะเลือกในแต่ละ<span class="math inline">\(c\)</span> morphismนึ่งจากset<span class="math inline">\(\textbf{C}(c,\lim D)\)</span> (นั้นก็คือmorphismที่บรรลุบางเงื่อนไขของความเป็นcommutative) แล้วนั้นดูเหมือนการนิยามการแปลงแบบธรรมชาติหรือเปล่า มันใช่อย่างแน่นอน!</p>
+<p>แต่อะไรคือfunctorที่มีความสัมพันธ์โดยการแปลงนี้</p>
+<p>functorหนึ่งคือการโยงจาก<span class="math inline">\(c\)</span>ไปยังset<span class="math inline">\(\textbf{C}(c, \lim D)\)</span> มันคือfunctorจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span>ที่มันโยงวัตถุไปยังset ในความเป็นจริงแแล้วมันคือfunctorแบบcontravariant ที่นี้คือวิธีการเรานิยามการกระทำของมันบนmorphissm เรามาลองดูmorphism<span class="math inline">\(f\)</span>จาก<span class="math inline">\(c'\)</span>ไปยัง<span class="math inline">\(c\)</span>ว่า</p>
+<p><span class="math display">\[
+f::c'\rightarrow c
+\]</span></p>
+<p>functorของเราโยง<span class="math inline">\(c'\)</span>ไปยังset<span class="math inline">\(\textbf{C}(c', \lim D)\)</span> ในการนิยามการกระทำนี้ของfunctorนี้บน<span class="math inline">\(f\)</span> (ในอีกความหมายหนึ่งคือการlift<span class="math inline">\(f\)</span>) เราต้องนิยามการโยงในแบบที่ตรงกันระหว่าง<span class="math inline">\(\textbf{C}(c, \lim D)\)</span>และ<span class="math inline">\(\textbf{C}(c', \lim D)\)</span> ดังนั้นเรามาเลือกหนึ่งสมาชิก<span class="math inline">\(u\)</span>ของ<span class="math inline">\(\textbf{C}(c, \lim D)\)</span>และดูว่าถ้าเราสามารถที่จะโยงมันไปบางสมาชิกของ<span class="math inline">\(\textbf{C}(c', \lim D)\)</span> สมาชิกของhom-setคือmorphismดังนั้นเรามี</p>
+<p><span class="math display">\[
+u::c\rightarrow \lim D
+\]</span></p>
+<p>เราสามารถทำการประกอบก่อน<span class="math inline">\(u\)</span>ด้วย<span class="math inline">\(f\)</span>เพื่อที่จะได้</p>
+<p><span class="math display">\[
+u.f::c'\rightarrow \lim D
+\]</span></p>
+<p>และมันคือสมาชิกของ<span class="math inline">\(\textbf{C}(c', \lim D)\)</span> ดังนั้นแน่นอนว่าเราสามารถสร้างการโยงของmorphismว่า</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">contramap ::</span> (c' <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (c <span class="ot">-&gt;</span> <span class="dt">LimD</span>) <span class="ot">-&gt;</span> (c' <span class="ot">-&gt;</span> <span class="dt">LimD</span>) </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>contramap f u <span class="ot">=</span> u <span class="op">.</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตว่าการกลับกันในลำดับของ<span class="math inline">\(c\)</span>และ<span class="math inline">\(c'\)</span>คือลักษณะเฉพาะของfunctorแบบ<em>contravariant</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/homsetmapping.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในการนิยามการแปลงแบบธรรมชาติ เราต้องมีfunctorอีกตัวหหนึ่งที่ก็คือการโยงจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span> แต่ในตอนนี้เราจะพิจารณาsetของcone coneก็คือแค่การแปลงแบบธรรมชาติ ดังนั้นเรากำลังมองไปยังsetของการแปลงแบบธรรมชาติ<span class="math inline">\(\operatorname{Nat}(\Delta_c,D)\)</span> การโยงระหว่าง <span class="math inline">\(\textbf{C}\)</span>ไปยังsetเฉพาะของการแปลงแบบธรรมชาติคือfunctor(แบบcontravariant) เราสามารถที่จะแสดงสิ่งนี้อย่างไร อีกครั้งเรามานิยามการกระทำของมันบนmorphism</p>
+<p><span class="math display">\[
+f::c'\rightarrow c
+\]</span></p>
+<p>การliftของ<span class="math inline">\(f\)</span>ควรที่จะเป็นการโยงของการแปลงแบบธรรมชาติระหว่างfunctorทั้งสองที่ไปจาก<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span></p>
+<p><span class="math display">\[
+\operatorname{Nat}(\Delta_c, D) \to \operatorname{Nat}(\Delta_{c'}, D)
+\]</span></p>
+<p>แล้วเราสามารถที่จะโยงการแปลงแบบธรรมชาติได้อย่างไร? ทุกๆการแปลงแบบธรรมชาติคือการเลือกของmorphismต่างๆ(ส่วนประกอบของมัน)หนึ่งmorphismสำหรับสมาชิกของ<span class="math inline">\(\textbf{I}\)</span> ส่วนประกอบของบาง<span class="math inline">\(\alpha\)</span>(ที่เป็นสมาชิกของ<span class="math inline">\(\operatorname{Nat}(\Delta_{c}, D)\)</span>)ที่<span class="math inline">\(a\)</span>(ที่คือสมาชิกของ<span class="math inline">\(\textbf{I}\)</span>)คือmorphism</p>
+<p><span class="math display">\[
+\alpha_a :: \Delta_c a \to D a
+\]</span></p>
+<p>หรือในการใช้นิยามของconstant functor<span class="math inline">\(\Delta\)</span></p>
+<p><span class="math display">\[
+\alpha_a :: c \to D a
+\]</span></p>
+<p>ถ้าเรามี<span class="math inline">\(f\)</span>และ<span class="math inline">\(\alpha\)</span> เราต้องสร้าง<span class="math inline">\(\beta\)</span>ที่คือสมาชิกของ<span class="math inline">\(\operatorname{Nat}(\Delta_{c'},D)\)</span>ส่วนประกอบของมันที่<span class="math inline">\(a\)</span>ควรที่จะเป็นmorphismอย่าง</p>
+<p><span class="math display">\[
+\beta_a :: c' \to D a
+\]</span></p>
+<p>เราสามารถที่จะได้<span class="math inline">\((\beta_a)\)</span>อย่างหลังจาก<span class="math inline">\((\alpha_a)\)</span>ก่อนหน้าโดยการประกอบมันก่อนโดย<span class="math inline">\(f\)</span>ที่</p>
+<p><span class="math display">\[
+\beta_a = \alpha_a . f
+\]</span></p>
+<p>มันค่อนข้างง่ายกว่าในการแสดงว่าส่วนประกอบแบบนี้นั้นรวมกันเป็นการแปลงแบบธรรมชาติ</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/natmapping.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในการให้morphismของเรา<span class="math inline">\(f\)</span> เราต้องสร้างการโยงระหว่างสองการแปลงแบบธรรมชาติในด้านของประกอบ การโยงนี้นิยาม<code>contramap</code>สำหรับfunctorว่า</p>
+<p><span class="math display">\[
+c\rightarrow\operatorname{Nat}(\Delta_c,D)
+\]</span></p>
+<p>สิ่งที่เราได้ทำคือการแสดงคุณว่าเรามีfunctorสองตัว(แบบcontravariant)จาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span>และผมยังไม่ได้ตั้งข้อสมมติฐานอะไร(ดังนั้นfunctorเหล่านี้มีตัวตนอยู่ตลอก)</p>
+<p>โดยบังเอิญ functorแรกของfunctorเหล่านี้มีบทบาทที่สำคัญในทฤษฎีcategoryและเราจะเห็นมันอีกครังในตอนที่เราพูดเกี่ยวกับlemmaของYoneda ได้มีชื่อสำหรับfunctorแบบcontravariantจากcategory<span class="math inline">\(\textbf{C}\)</span>อะไรก็ตามไปยัง<span class="math inline">\(\textbf{Set}\)</span>ที่พวกมันถูกเรียกว่า”presheaves” สิ่งนี้ถูกเรียกว่า<em>presheafที่representableได้</em>และfunctorตัวที่สองนั้นคือpresheaf</p>
+<p>ในตอนนี้เรามีfunctorทั้งสอง เราสามารถที่จะพูดเกี่ยวกับการแปลงแบบธรรมชาติระหว่างมัน ดังนั้นเพื่อไม่ให้เป็นการเสียเวลานี้คือบทสรุปคือfunctor<span class="math inline">\(D\)</span>จาก<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span>มีlimit<span class="math inline">\(\lim D\)</span>ก็ต่อเมื่อได้มีisomorphismที่เป็นธรรมชาติระหว่างfunctorทั้งสองที่ผมได้แค่นิยาม</p>
+<p><span class="math display">\[
+\textbf{C}(c, \lim D)\cong\operatorname{Nat}(\Delta_c, D)
+\]</span></p>
+<p>ให้ผมได้เตือนความจำคุณว่าอะไรคือisomorphismที่เป็นธรรมชาติ มันคือการแปลงแบบธรรมชาติที่ทุกๆสวนประกอบคือisomorphismที่คือการบอกว่าคือmorphismที่สามารถinvertได้</p>
+<p>ผมจะไม่พิจารณาการพิสูจน์ในส่วนๆนี้ กระบวนการนี้นั้นค่อนข้างตรงไปตรงมาถ้าไม่ก็น่าเบื่อ ในการทำงานกับการแปลงแบบธรรมชาติ คุณมักจะสนใจไปยังส่วนประกอบที่ก็คือmorphism ในกรณีนี้ เนื่องด้วยเป้าหมายของfunctorทั้งสองคือ<span class="math inline">\(\textbf{Set}\)</span> ส่วนประกอบisomorphismที่เป็นธรรมชาติจะเป็นfunction สิ่งเหล่านี้คือfunctionแบบhigher-order เพราะว่าพวกมันไปจากhom-setไปยังsetของการแปลงแบบธรรมชาติ ในอีกครั้งคุณสามารถที่จะวิเคราะห์functionโดยการพิจารณาสิ่งที่มันทำกับargumentของมันที่ในที่นี้argumentต้องเป็นmorphism(ที่คือสมาชิกของ<span class="math inline">\(\textbf{C}(c,\lim D)\)</span>)และผลลัพธ์จะเป็นการแปลงแบบธรรมชาติ(ที่คือสมาชิกของ<span class="math inline">\(\operatorname{Nat}(\Delta_c, D)\)</span>)หรือสิ่งที่เราเรียกว่าcone การแปลงแบบธรรมชาตินี้ในทางกลับกันมีส่วนประกอบของมันเองที่ก็เป็นmorphism ดังนั้นมันคือmorphismทั้งๆหมดและถ้าคุณสามารถที่จะติดตามของมันทั้งหมด คุณสามารถพิสูจน์ข้องๆนี้</p>
+<p>ผลลัพธ์ที่สำคัญคือการที่ว่าเงื่อนไขที่เป็นธรรมชาติสำหรับisomorphismนี้คือเงื่อนไขความเป็นcommuteสำหรับการโยงระหว่างcone</p>
+<p>ในการแง้มดูสิ่งที่น่าสนใจที่กำลังมา ให้ผมได้กล่าวถึงว่าset<span class="math inline">\(\operatorname{Nat}(\Delta_c, D)\)</span>สามารถถูกคิดได้ในฐานะhom-setในcategoryของfunctor ดังนั้นisomorphismแบบธรรมชาติของเราได้โยงhom-setทั้งสองเข้าด้วยกัน ที่ชี้ไปที่ความสัมพันธ์ที่มีความทั่วไปมากกว่านี้ที่เรียกว่าadjunction</p>
+</section>
+<section id="ตวอยางของlimit" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="ตวอยางของlimit"><span class="header-section-number">13.2</span> ตัวอย่างของLimit</h2>
+<p>เราได้เห็นแล้วว่าproductแบบcategoryคือlimitของdiagramที่สร้างโดยcategoryที่เรียบง่ายที่เรียกว่า<span class="math inline">\(\textbf{2}\)</span></p>
+<p>ได้มีตัวอย่างที่ง่ายกว่านี้สำหรับlimitนั้นคือวัตถุสุดท้าย ในความคิดแรกอาจจะถูกคิดถึงcategoryที่มีวัตถุเดี่ยวในการนำไปสู่วัตถุสุดท้ายแต่ความเป็นจริงแล้วนั้นยิ่งกว่านี้คือการที่ว่าวัตถุสุดท้ายคือlimitที่สร้างโดยcategoryว่าง functorจากcategoryว่างไม่ได้เลือกวัตถุใดๆเลยดังนั้นconeหดตัวไปเป็นยอด coneที่เป็นสากลคือยอดเดี่ยวที่มีmorphismที่เป็นเอกลักษณ์(และอันเดียว)ที่มาจากมันไปยังอีกยอดหนึ่ง เราจะจำแนกมันได้ในฐานะนิยามของวัตถุสุดท้าย</p>
+<p>limitตัวต่อไปที่น่าสนใจถูกเรียกว่า<em>equalaizer</em>มันคือlimitที่สร้างโดยcategoryที่มีสองสมาชิกกับmorphismที่ขนานกันที่ไปมาระหว่างมัน (และโดยทั่วไปก็จะมีmorphismแบบidentity) categoryนี้เลือกdiagramใน<span class="math inline">\(\textbf{C}\)</span>ที่ประกอบด้วยสองวัตถุ<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>และmorphismสองตัว</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> a <span class="ot">-&gt;</span> b </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">g ::</span> a <span class="ot">-&gt;</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการสร้างconeข้างบนdiagramนี้ เราต้องเพื่มยอด<span class="math inline">\(c\)</span>ของมันและprojectionทั้งสอง</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">p ::</span> c <span class="ot">-&gt;</span> a </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ot">q ::</span> c <span class="ot">-&gt;</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/equalizercone.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เราได้มีสามเหลี่ยมที่ต้องcommute</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">=</span> f <span class="op">.</span> p </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>q <span class="ot">=</span> g <span class="op">.</span> p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สิ่งนี้บอกเราว่า<span class="math inline">\(q\)</span>นั้นถูกกำหนดให้เป็นเอกลักษณ์(และอันเดียว)โดยหนึ่งในสมการเหล่านี้อย่าง<code>q=f.p</code>และเราสามารถละเว้นมันจากรูปๆนี้ ดังนั้นเราจะเหลือแค่เงื่อนไขๆเดียว</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">.</span> p <span class="ot">=</span> g <span class="op">.</span> p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>วิธีการคิดเกี่ยวกับสิ่งนี้คือการที่ว่าถ้าเราจำกัดความสนใจของเราไปยัง<span class="math inline">\(\textbf{Set}\)</span> imageของfunction<span class="math inline">\(p\)</span>เลือกsetย่อยของ<span class="math inline">\(a\)</span> ในตอนที่จำกัดไปยังsetย่อยนี้ function<span class="math inline">\(f\)</span> และ<span class="math inline">\(g\)</span>นั้นเท่ากัน</p>
+<p>ตัวอย่างเช่นในการนำ<span class="math inline">\(a\)</span>ไปเป็นระนาบสองมิติที่ถูกparameterizedโดยพิกัด<span class="math inline">\(x\)</span>และ<span class="math inline">\(y\)</span> ลองนำ<span class="math inline">\(b\)</span>ไปเป็นเส้นจำนวนจริงและนำfunctionเหล่านี้</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>f (x, y) <span class="ot">=</span> <span class="dv">2</span> <span class="op">*</span> y <span class="op">+</span> x</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>g (x, y) <span class="ot">=</span> y <span class="op">-</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>equalizerจากfunctionทั้งสองคือsetของจำนวนจริง(จุดยอด<span class="math inline">\(c\)</span>)และfunction</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p t <span class="ot">=</span> (t, (<span class="op">-</span><span class="dv">2</span>) <span class="op">*</span> t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตว่า<span class="math inline">\((p \ t)\)</span>นิยามเส้นตรงในระนาบสองมิติ ตามเส้นๆนี้ทั้งสองfunctionนั้นเท่ากัน</p>
+<p>แน่นอนว่า ได้มีอีกset<span class="math inline">\(c'\)</span>และfunction<span class="math inline">\(p'\)</span>ที่อาจจะนำไปสู่ความเท่ากัน</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">.</span> p' <span class="ot">=</span> g <span class="op">.</span> p'</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่พวมมันทั้งหมดนั้นแยกตัวประกอบออกมาอย่างเป็นเอกลักษณ์(และอันเดียว)ผ่าน<span class="math inline">\(p\)</span> ตัวอย่างเช่นเราสามารถนำsetที่มีสมาชิกเดี่ยว<span class="math inline">\(()\)</span>ในฐานะ<span class="math inline">\(c'\)</span>และfunction</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p'() <span class="ot">=</span> (<span class="dv">0</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในconeที่ดีเพราะว่า<span class="math inline">\(f(0,0)=g(0,0)\)</span>แต่มันไม่ได้เป็นสากลเพราะว่าการแยกตัวประกอบที่เป็นเอกลักษณ์(และอันเดียว)ผ่าน<span class="math inline">\(h\)</span></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p' <span class="ot">=</span> p <span class="op">.</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>กับ</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>h () <span class="ot">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/equilizerlimit.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>equalizerจึงสามารถถูกใช้ในการแก้สมาการของประเภท<span class="math inline">\(f \ x = g \ x\)</span> แต่มันมีความทั่วไปมากกว่านี้เพราะว่ามันถูกนิยามในเชิงของวัตถุและmorphismแทนที่จะเป็นในแบบของพีชคณิต</p>
+<p>และในแนวคิดที่ทั่วไปมากกว่าของการแก้สมาการถูกแฝงไว้ในlimitอีกตัวนั้นคือpullback ในที่นี้เรายังมีmorphismสองตัวที่เราต้องการที่จะทำให้เท่ากัน แต่ในตอนนี้domainของพวกมันนั้นแตกต่างกัน เราเริ่มด้วยcategoryที่มีสามวัตถุที่เป็นรูปของ <span class="math inline">\(1\rightarrow 2\leftarrow 3\)</span> diagramที่คู่กับcategoryนี้ประกอบด้วยสามวัตถุอย่าง<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>และ<span class="math inline">\(c\)</span>และmorphismสองตัว</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ot">g ::</span> c <span class="ot">-&gt;</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>diagramอย่างนี้มันจะถูกเรียกว่า<em>cospan</em></p>
+<p>coneที่สร้างบนdiagramนี้ประกอบด้วยยอด<span class="math inline">\(d\)</span>และmorphismสามตัว</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">p ::</span> d <span class="ot">-&gt;</span> a</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ot">q ::</span> d <span class="ot">-&gt;</span> c</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="ot">r ::</span> d <span class="ot">-&gt;</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pullbackcone.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เงื่อนไขความเป็นcommutativeบอกเราว่า<span class="math inline">\(r\)</span>นั้นถูกกำหนดโดยทั้งหมดโดยmorphismอื่นๆและสามารถถูกละเว้นจากรูปๆนี้ ดังนั้นเราเหลือแค่เงื่อนไขดังนี้ว่า</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">.</span> q <span class="ot">=</span> f <span class="op">.</span> p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>pullbackคือconeสากลของรูปทรงนี้</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pullbacklimit.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในอีกครั้ง ถ้าคุณบีบความสนใจไปยังset คุณสามารถคิดของวัตถุ<span class="math inline">\(d\)</span>ในการที่ประกอบด้วยคู่ของสมาชิกจาก<span class="math inline">\(a\)</span>และ<span class="math inline">\(c\)</span>ที่<span class="math inline">\(f\)</span>กระทำบนส่วนประกอบแรกนั้นเท่ากับที่<span class="math inline">\(g\)</span>กระทำบนส่วนประกอบที่สอง ถ้าสิ่งนี้ยังกว้างเกินไป ลองพิจารณากรณีที่พิเศษที่ที่<span class="math inline">\(g\)</span>คือfunctionที่มีค่าเดียว(constant function)อย่าง <span class="math inline">\(g\_=1.23\)</span> (สมมติว่า<span class="math inline">\(b\)</span>คือsetของจำนวนจริง) ดังนั้นคุณกำลังแก้สมการนี้จริงๆ</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>f x <span class="ot">=</span> <span class="fl">1.23</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในกรณีนี้ในการเลือก<span class="math inline">\(c\)</span>นั้นไม่มีความสำคัญ (ตราบเท่าทีมันไม่ใช่setว่าง)ดังนั้นเราสามารถให้มันเป็นsetที่มีสมาชิกเดี่ยว ตัวอย่างเช่นset<span class="math inline">\(a\)</span>อาจจะเป็นsetของvectorสามมิติและ<span class="math inline">\(f\)</span>คือvectorที่มีความยาว<span class="math inline">\(1.23\)</span> (คำตอบของสมการ<span class="math inline">\(\sqrt{(x^2+y^2+z^2)}=1.23\)</span>)และ<span class="math inline">\(()\)</span>คือสมาชิกเปล่าๆของsetที่มีสมาชิกเดี่ยว</p>
+<p>แต่pullbackนั้นมีการใช้งานที่กว้างกว่านี้รวมไปถึงการเขียนโปรแกรม ตัวอย่างเช่นลองพิจารณาclassต่างๆของC++ในฐานะcategoryที่morphismคือลูกศรที่เชื่อมsubclassไปยังsuperclassess เราจะพิจารณาinheritanceเป็นคุณสมบัติที่transitiveดังนั้นถ้า<code>C</code>inheritsจาก<code>B</code>และ<code>B</code>inheritsจาก<code>A</code>ดังนั้นเราจะบอกว่า<code>C</code>inheritsจาก<code>A</code>(อย่างไรก็ตามคุณสามารถที่จะส่งpointerจาก<code>C</code>ในที่ๆpointerที่ชี้ไปยัง<code>A</code>นั้นคาดไว้แล้ว) รวมไปถึงเราจะสันนิษฐานว่า<code>C</code>นั้นinheritsมาจาก<code>C</code>ดังนั้นเรามีลูกศรidentityของทุกๆclass ในการทำclassย่อยนั้นตรงกับการทำtypeย่อย C++นั้นยังรับรองinheritanceหลายๆตัวดังนั้นคุณสามารถสร้างdiagramของinheritanceรูปเพชรที่สองclassesฺ<code>B</code>และ<code>C</code>ที่inheritingจาก<code>A</code>และclassที่สี่<code>D</code>รวมinheretingจาก<code>B</code>และ<code>C</code> โดยทั่วๆไปแล้ว<code>D</code>ต้องมีสองสำเนาของ<code>A</code>ที่ไม่ค่อยเป็นที่ต้องการ แต่คุณสามารถใช้inheritanceแบบvirtualที่จะมีแค่สำเนาเดียวของ<code>A</code>ใน<code>D</code></p>
+<p>มันหมายความว่าอะไรที่มี<code>D</code>เป็นpullbackของdiagramนี้? มันคงหมายความว่าในclassใดๆก็ตามอย่าง<code>E</code>ที่inheritsหลายตัวจาก<code>B</code>และ<code>C</code>นั้นก็เป็นclassย่อยของ<code>D</code> สิ่งนี้นั้นไม่สามารถแสดงได้ในC++ ที่การทำtypeย่อยนั้นมีแต่ชื่อ (complier C++จะไม่อนุมานความสัมพันธ์ของclassแบบนี้ที่มันต้องการ”duck typing”) แต่เราอาจจะไปข้างนอกของความสัมพันธ์แบบtypeย่อยและถามแทนที่ว่าการเปลี่ยนจาก<code>E</code>ไปยัง<code>D</code>นั้นsafeหรือเปล่า การเปลี่ยนจะsafeถ้า<code>D</code>คือการรวมกันในจำนวนที่น้อยที่สุดของ<code>B</code>และ<code>C</code>ที่ไม่มีข้อมูลเพิ่มและไม่มีการoverridingของmethod และแน่นอนว่าจะไม่มีpullbackถ้าไม่มีความขัดแย้งระหว่างบางmethodของ<code>B</code>และ<code>C</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/classes.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ได้มีการใช้งานของpullbackที่ชับช้อนด้วยในtype inference ได้มีในหลายครั้งความต้องการที่จะรวม<em>type</em>ของexpressionทั้งสอง ตัวอย่างเช่นสมมติว่าcomplierต้องการที่จะอนุมานtypeของfunctionว่า</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>twice f x <span class="ot">=</span> f (f x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันจะกำหนดtypeเบื้องต้นของทุกๆvariableและexpressionย่อยโดยเฉพาะมันจะกำหนดว่า</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f       ::</span> t0</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ot">x       ::</span> t1</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>f<span class="ot"> x     ::</span> t2</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>f (f x)<span class="ot"> ::</span> t3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>จากสิ่งนี้มันจะอนุมานได้ว่า</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ot">twice ::</span> t0 <span class="ot">-&gt;</span> t1 <span class="ot">-&gt;</span> t3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันก็จะก่อให้เกิดกลุ่มของข้อจำกัดที่เกิดมาจากกฏของการใช้งานของfunction</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">=</span> t1 <span class="ot">-&gt;</span> t2 <span class="co">-- because f is applied to x </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">=</span> t2 <span class="ot">-&gt;</span> t3 <span class="co">-- because f is applied to (f x)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ข้อจำกัดเหล่านี้ต้องรวมกันโดยการหาsetของtype(หรือตัวแปรtype)ที่ในตอนที่แทนที่สำหรับtypeที่ไม่รู้ในexpessionทั้งสองจะสร้างtypeในแบบเดียวกัน การแทนที่ในแบบหนึ่งคือ</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">=</span> t2 <span class="ot">=</span> t3 <span class="ot">=</span> <span class="dt">Int</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ot">twice ::</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่ชัดเจนว่ามันนั้นไม่ไช่สิ่งที่ทั่วไปมากที่สุด ในการแทนที่ที่ทั่วไปนั้นได้มาจากการใช้pullback ผมจะไม่ไปยังในรายละเอียดเไราะว่ามันนั้นเลยเกินขอบเขตของหนังสือเล่มนี้ แต่คุณสามารถที่จะเชื่อมั่นตัวเองว่าผลลัพธ์ควรที่จะเป็น</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ot">twice ::</span> (t <span class="ot">-&gt;</span> t) <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่<code>t</code>คือตัวแปรtypeที่free</p>
+</section>
+<section id="colimits" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="colimits"><span class="header-section-number">13.3</span> Colimits</h2>
+<p>เหมือนจะทุกการสร้างในทฤษฎีcategory limitก็มีรูปdualในcategoryตรงข้าม ถ้าคุณทำการกลับทิศทางของลูกศรทั้งหมดในcone คุณก็จะได้co-coneและตัวที่เป็นสากลของสิ่งเหล่านี้ถูกเรียกว่าcolimit สังเกตได้ว่ากาารกลับทิศทางนั้นก็มีผลต่อmorphismที่แยกตัวประกอบที่ในตอนนี้ใหลจากco-coneสากลไปยังco-coneอื่นๆ</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/colimit.jpg" height="200" class="figure-img"></p>
+<figcaption class="figure-caption">Coconeกับmorphismแยกตัวประกอบ<span class="math inline">\(h\)</span>ที่ทำการเชื่อมต่อยอดทั้งสอง</figcaption>
+</figure>
+</div>
+<p>ตัวอย่างที่เป็นทั่วไปของcolimitคือcoproductที่คู่กับdiagramที่ถูกสร้างโดย<span class="math inline">\(\textbf{2}\)</span>diagramที่เราได้ใช้ในนิยามของproduct</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/coproductranking.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ทั้งproductและcoproductเป็นตัวตนของแก่นแท้ของคู่ของวัตถุในแต่ละตัวก็มีทางที่แตกต่างกัน</p>
+<p>เหมือนกับวัตถุสุดท้ายคือlimitดังนั้นวัตถุเริ่มตันคือcolimitที่คู่กับdiagramที่นำมาจากcategoryว่าง</p>
+<p>dualของpullbackถูกเรียกว่า<em>pushout</em>มันนั้นมาจากdiagramที่เรียกว่าspanที่ถูกสร้างโดยcategory<span class="math inline">\(1\leftarrow2\rightarrow3\)</span></p>
+</section>
+<section id="ความตอเนอง" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="ความตอเนอง"><span class="header-section-number">13.4</span> ความต่อเนื่อง</h2>
+<p>ผมพูดก่อนหน้านี้ที่ว่าfunctorนั้นใกล้กับแนวคิดของการโยงที่มีความต่อเนื่ิองของcategoryในความหมายที่ว่าพวกมันไม่เคยทำลายการเชื่อมต่อที่(morphism)มีอยู่แล้ว นิยามจริงๆของ<em>functionต่อเนื่อง</em><span class="math inline">\(F\)</span>จากcategory<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{C}'\)</span>ที่รวมความต้องการที่ว่าfunctorที่ดำรงไว้ที่limit ในทุกdiagram<span class="math inline">\(D\)</span>ใน<span class="math inline">\(\textbf{C}\)</span>สามารถที่จะโยงไปยังdiagram<span class="math inline">\(F\circ D\)</span>ใน<span class="math inline">\(\textbf{C}'\)</span>โดยการแค่ประกอบสองfunctorเข้าด้วยกัน เงื่อนไขของความต่อเนื่องสำหรับ<span class="math inline">\(F\)</span>บอกว่า ถ้าdiagram<span class="math inline">\(D\)</span>มีlimit<span class="math inline">\(\lim D\)</span>ดังนั้นdiagram<span class="math inline">\(F\circ D\)</span>ก็มีlimitด้วยและมันนั้นเท่ากันกับ<span class="math inline">\(F(\lim D)\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/continuity.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>สังเกตว่าimageของconeนั้นต้องเป็นconeเพราะว่าfunctorโยงmorphismไปยังmorphismและการประกอบไปยังการประกอบ สามเหลี่ยมcommutingถูกโยงไปยังสามเหลี่ยมcommutingโดยตลอด(functorดำรงไว้ในการประกอบกัน) สิ่งนี้นั้นเป็นจริงสำหรับmorphismที่แยกตัวประกอบนั้นก็คือimageของmorphismที่แยกตัวประกอบนั้นก็จะเป็นmorphismที่แยกตัวประกอบ ดังนั้นทุกๆfunctorนั้น<em>เกือบที่จะ</em>ต่อเนื่อง สิ่งที่สามารถผิดพลาดได้คือเงื่อนไขที่เป็นเอกลักษณ์(และอันเดียว) morphismที่แยกตัวประกอบใน<span class="math inline">\(\textbf{C}'\)</span>อาจจะไม่เป็นเอกลักษณ์(และอันเดียว) ก็อาจจะมีอีก”coneที่ดีว่า”ใน<span class="math inline">\(\textbf{C}'\)</span>ที่อาจจะไม่มีอยู่ใน<span class="math inline">\(\textbf{C}\)</span></p>
+<p>hom-functorคือตัวอย่างของfunctorต่อเนื่อง จงจำแล้วว่าhom-functor<span class="math inline">\(\textbf{C}(a,b)\)</span>คือcontravariantในตัวแปลแรกและคือcovariantในตัวแปลที่สอง ในอีกความหมายหนึ่งมันคือfunctor</p>
+<p><span class="math display">\[
+\textbf{C}^\text{op}\times\textbf{C}\rightarrow\textbf{Set}
+\]</span></p>
+<p>ในตอนที่argumentที่สองนั้นถูกกำหนดแล้ว functorของhom-set(ที่อาจจะเป็นpresheafที่สามารถrepresentableได้)ที่โยงcolimitใน<span class="math inline">\(\textbf{C}\)</span>ไปยังlimitใน<span class="math inline">\(\textbf{Set}\)</span>และในตอนที่argumentตัวแรกนั้นถูกกำหนดแล้ว มันโยงlimitไปยังlimit</p>
+<p>ในHaskell hom-functorคือการโยงของสองtypeใดๆก็ตามไปยังtypeแบบfunctionดังนั้นมันแค่คือ typeแบบfunctionที่paramterizedแล้ว ในตอนที่เรากำหนดparameterที่สอง เราว่าเป็น<code>String</code>คือเราได้functorแบบcontravariant</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">ToString</span> a <span class="ot">=</span> <span class="dt">ToString</span> (a <span class="ot">-&gt;</span> <span class="dt">String</span>) </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Contravariant</span> <span class="dt">ToString</span> <span class="kw">where</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    contramap f (<span class="dt">ToString</span> g) <span class="ot">=</span> <span class="dt">ToString</span> (g <span class="op">.</span> f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ความต่อเนื่องหมายความว่าในตอนที่<code>ToString</code>นั้นถูกใช้ไปยังcolimit ตัวอย่างเช่นcoproduct<code>Either b c</code>มันจะสร้างlimit ในกรณีนี้productของtypeแบบfunctionทั้งสองคือ</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">ToString</span> (<span class="dt">Either</span> b c) <span class="op">~</span> (b <span class="ot">-&gt;</span> <span class="dt">String</span>, c <span class="ot">-&gt;</span> <span class="dt">String</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แน่นอนว่าในfunctionใดๆก็ตามของ<code>Either b c</code>นั้นถูกเขียนในฐานะstatement caseคู่กับกรณีทั้งสองถูกใช้โดยคู่ของfunction</p>
+<p>เหมือนกัน ในตอนที่เรากำหนดargumentแรกของhom-set เราก็จะได้reader functorที่คุ้นเคย ตัวอย่างเช่นความต่อเนื่องหมายความว่าทุกๆfunctorที่return productนั้นเท่ากันกับproductของfunction โดยเฉพาะ</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">-&gt;</span> (a, b) <span class="op">~</span> (r <span class="ot">-&gt;</span> a, r <span class="ot">-&gt;</span> b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ผมรู้ว่าคุณกำลังคิดอะไรอยู่: คุณไม่ต้องการทฤษฎีcategoryในการหาสิ่งพวกนี้ และคุณก็ไม่ผิด! แต่ผมยังเห็นว่ามันประหลาดใจมากว่าผลเหล่านี้สามารถเกิดมาจากหลักการแรกที่ไม่ต้องกลับไปใช้bitหรือbytes สถาปัตยกรรมของหน่วยประมวลผล(processor architectures) เทคโนโลยีของcomplierหรือแม้กระทั่งcalculusของlambda</p>
+<p>ถ้าคุณอยากรู้ว่าชื่อของ”limit”และ”ความต่อเนื่อง”มาจากใหน พวกมันคือการgeneralizeของแนวคิดที่ตรงกันกับcalculus ในcalculus limitและความต่อเนื่องถูกนิยามในรูปแบบของneighborhoodเปิด setเปิดที่นิยามtopologyนั้นก่อให้เกิดcategory(หรือposet)</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">13.5</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองหาวิธีที่คุณจะอธิบายpushoutในcategoryของclassในC++</li>
+<li>ลองแสดงว่าlimitของfunctorแบบidentity<span class="math inline">\(\textbf{Id}::\textbf{C}\rightarrow\textbf{C}\)</span>คือวัตถุเริ่มต้น</li>
+<li>setย่อยของsetที่ให้มาก่อให้เกิดcategory morphismในcategoryนั้นถูกนิยามในการเป็นลูกศรที่เชื่อมระหว่างสองset ถ้าตัวแรกคือsubsetของตัวที่สอง อะไรคือpullbackของsetทั้งสองในcategoryนี้? อะไรคือpushout? อะไรคือวัตถุเริ่มต้นและวัตถุสุดท้าย?</li>
+<li>คุณสามารถที่จะเดาว่าอะไรคือcoequalizer?</li>
+<li>ลองแสดงว่าในcategoryกับวัตถุสุดท้าย pullbackต่อวัตถุสุดท้ายคือproduct</li>
+<li>ในทางเดียวกันแสดงว่าpushoutจากวัตถุเริ่มต้น(ถ้ามันมีอยู่)คือcoproduct</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/2.1/declarative-programming.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/2.3/free-monoids.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
