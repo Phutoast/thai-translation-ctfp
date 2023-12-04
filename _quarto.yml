@@ -21,14 +21,14 @@ book:
         - content/1.8/functoriality.qmd
         - content/1.9/function-types.qmd
         - content/1.10/natural-transformations.qmd
-    # - part: "Part 2"
-    #   chapters:
-    #     - content/2.1/declarative-programming.qmd
-    #     - content/2.2/limits-and-colimits.qmd
-    #     - content/2.3/free-monoids.qmd
-    #     - content/2.4/representable-functors.qmd
-    #     - content/2.5/the-yoneda-lemma.qmd
-    #     - content/2.6/yoneda-embedding.qmd
+    - part: "Part 2"
+      chapters:
+        - content/2.1/declarative-programming.qmd
+        - content/2.2/limits-and-colimits.qmd
+        - content/2.3/free-monoids.qmd
+        - content/2.4/representable-functors.qmd
+        - content/2.5/the-yoneda-lemma.qmd
+        - content/2.6/yoneda-embedding.qmd
     # - part: "Part 3"
     #   chapters:
     #     - content/3.1/its-all-about-morphisms.qmd
