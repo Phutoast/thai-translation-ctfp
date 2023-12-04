@@ -1,0 +1,519 @@
+# Functors (Sketch)
+
+ในความเสี่ยงที่ผมจะฟังดูเหมือนแผ่นเสียงตกร่อง ผมจะพูดเกี่ยวกับfunctor functionคือideaที่เรียบง่ายแต่มีความสามารถมาก ทฤษฎีcategoryนั้นเต็มไปด้วยideaที่เรียบง่ายแต่มีความสามารถมาก functionคือการโยงระหว่างcategoryต่างๆ ถ้ามีcategoryอยู่สองอย่าง$\textbf{C}$และ$\textbf{D}$ functor$F$จะโยงวัตถุใน$\textbf{C}$ไปยังวัตถุใน$\textbf{D}$ มันคือfunctionของวัตถุ ถ้า$a$คือวัตถุใน$\textbf{C}$เราก็จะเขียนimageของมันใน$\textbf{D}$ว่า$Fa$ (ไม่มีวงเล็บ) แต่categoryนั้นไม่ได้เป็นแค่วัตถุ มันคือวัตถุและmorphismที่ทำการต่อวัตถุเข้ากัน functionนั้นโยงmorphismต่างๆกัน มันคือfunctionของmorphismแต่มันไม่ได้แต่โยงเพียงอย่างเดียวมันเก็บรักษาการเชื่อมต่อ(ระหว่างกัน)ดังนั้นถ้าmorphism$f$ใน$\textbf{C}$ต่อวัตถุ$a$กับวัตถุ$b$ว่า
+
+$$
+f::a\rightarrow b
+$$
+
+imageของ$f$ใน$\textbf{D}$ก็คือ$Ff$เราจะสามารถต่อimageของ$a$ไปยังimageของ$b$
+
+$$
+Ff::Fa\rightarrow Fb
+$$
+
+(นื่คือส่วนผสมระหว่างสัญกรณ์ทางคณิตศาสตร์และHaskellที่หวังว่าจะเข้าใจได้ง่ายในตอนนี้ ผมจะไม่ใช้วงเล็บในการใช้functorต่อobjectหรือmorphism)
+
+![](images/functor.jpg){fig-align="center" height=200}
+
+
+ในที่คุณเห็นfuntorมันเก็บรักษาโครงสร้างของcategoryไว้ด้วย สิ่งที่ต่อกันในcategoryหนึ่งก็จะถูกต่อกันในอีกcategoryหนึ่ง แต่มันก็มีบางอย่างที่มากกว่าในโครงสร้างของcategory ก็ได้มีการประกอบกันของmorphism ถ้า$h$คือการประกอบกันระหว่าง$f$และ$g$
+
+$$
+h=g.f
+$$
+
+เราต้องการimageของมันภายไต้$F$ที่จะเป็นการประกอบกันของimageต่างๆของ$f$และ$g$
+
+$$
+Fh = Fg.Ff
+$$
+
+สุดท้ายแล้วเราต้องการให้identity morphismใน$\textbf{C}$ถูกโยงไปยังidentity morphismใน$\textbf{D}$
+
+$$
+F\operatorname{id}_a = \operatorname{id}_{Fa}
+$$
+
+![](images/functorcompos.jpg){fig-align="center" height=200}
+
+ในที่นี้ $\operatorname{id}_a$คือidentityที่วัตถุ$a$และ$\operatorname{id}_a$คือidentityที่$Fa$
+
+![](images/functorid.jpg){fig-align="center" height=200}
+
+สังเกตว่าเงื่อนไขเหล่านี้ทำให้functorเป็นสิ่งที่เข้มงวดกว่าfunctionทั่วๆไป functorต้องเก็บรักษาโครงสร้างของcategory ถ้าคุณจิตนาการcategoryในฐานะกลุ่มของวัตถุที่ถูกผูดไว้ด้วยกันโดยเครือข่ายของmorphism functorนั้นไม่รับอนุญาติที่จะทำให้เกิดการฉีกขาดในโครงสร้างนี้ มันอาจจะนำวัตถุมารวมกัน มันอาจจะต่อmorphismหลายๆอันเช้าเป็นหนึ่งแต่มันจะไม่แยกออกจากกัน ข้อจำกัดที่ทำให้ไม่มีการฉีกขาดนั้นเหมือนกับเงื่อนไขของความต่อเนื่อง (continuity)ที่คุณอาจจะรู้มาจากcalculus ในความหมายแบบนี้ functorนั้นมีความต่อเนื่อง (ถึงแม้มันได้มีความต่อเนื่องที่เข้มงวดมากกว่าสำหรับfunctor) เหมือนกับfunction functorอาจจะทำทั้งการควบรวม(collapsing)และฝังตัว(embedding) ด้านของการembedนั้นมีความสำคัญกว่าในตอนที่categoryเริ่มต้นนั้นเล็กกว่ามากเมื่อเทียบกับcategoryเป้าหมาย
+
+
+ในด้านที่สุดโต่ง จุดเริ่มต้นสามารถเป็นcategoryที่มีวัตถุเดี่ยว(singleton category)ซึ่งเป็นcategoryที่มีหนึ่งวัตถุและmorphismอันหนึ่ง(นั้นก็คือidentity) functorจากcategoryที่มีวัตถุเดี่ยวไปยังcategoryอื่นๆนั้นง่ายๆคือการเลือกวัตถุในcategory นี่มีความคล้ายคลึงกันเป็นอย่างมากกับคุณสมบัติของmorphismsจากsetที่มีสมาชิกเดี่ยวที่ทำการเลือกสมาชิกในsetเป้าหมาย functorที่ทำการควบรวมที่มากที่สุด(maximally collapsing)นั้นถูกเรียกว่าfunctorคงที่(constant functor)$\Delta_c$ มันโยงวัตถุทุกๆชิ้นในcategoryเริ่มต้นไปยังวัตถุที่ถูกเลือก$c$ในcategoryเป้าหมาย มันก็โยงทุกๆmorphismในcategoryเริ่มต้นไปยังmorphismที่เป็นidentity$\operatorname{id}_c$ด้วยเช่นด้วยกัน มันกระทำเหมือนหลุมดำที่อัดทุกๆอย่างให้แน่นจนเป็นเอกพจน์ เราจะเห็นfunctorนี้มากขึ้นในตอนที่เราพูดคุยเกี่ยวกับlimitและcolimit
+
+## Functorในการเขียนโปรแกรม
+
+เราลองลงมาและพูดคุยเกี่ยวกับการเขียนโปรแกรม เรามีcategoryของเราที่เป็นtypesและfunctions เราสามารถที่จะพูดเกี่ยวกับfunctorที่โยงcategoryนี้ไปยังตัวเอง(functorแบบนี้จะถูกเรียกวว่าendofunctor) แล้วอะไรคือendofunctorในcategoryของtypes อย่างแรกคือมันโยงtypeไปยังtype เราได้เห็นในตัวอย่างของการโยงแบบนี้แล้วโดยที่อาจจะไม่รู้ตัวว่าพวกมันคืออย่างนี้ ผมกำลังพูดถึงเกี่ยวกับนิยามของtypeที่ถูกparamterizedโดยtypeอื่นๆ เรามาลองดูตัวอย่างบางตัว
+
+### Functor Maybe
+
+นิยามของ`Maybe`นั้นคือการโยงจากtype`a`ไปยังtype`Maybe a`
+
+```Haskell
+data Maybe a = Nothing | Just a
+```
+
+นี่คือความละเอียดอ่อนที่สำคัญ `Maybe`ในตัวมันเองไม่ใช่typeมันคือ*constructorของtype* คุณต้องให้มันargumentแบบtypeอย่าง`Int`และ`Bool`เพื่อในการที่จะเปลี่ยนมันให้เป็นtype `Maybe`ที่ไม่มีargumentแสดงเป็นfunctionบนtype แต่เราสามารถที่จะเปลี่ยน`Maybe`ไปยังfunctorได้หรือเปล่า (ตั้งแต่ตอนนี้ในตอนที่ผมพูดถึงfunctorในบริบทของการเขียนโปรแกรม ผมจะหมายถึงendofunctorsแทบทุกครั้ง) functionนั้นไม่ได้แค่เป็นการโยงระหว่างobject(ในที่นี้คือtype)แต่ก็ทำการโยงระหว่างmorphism(ในที่นี้คือfunctions) สำหรับfunctionใดๆก็ตามจาก`a`ไปยัง`b`
+
+```Haskell
+f :: a -> b
+```
+
+เราอยากที่จะสร้างfunctionจาก`Maybe a`ไปยัง`Maybe b` ในการนิยามfunctionแบบนี้เราจะต้องคิดถึงสองกรณีที่มาคู่กับconstructorทั้งสองของ`Maybe` ในกรณีของ`Nothing`นั้นง่ายดาย เราจะแค่return`Nothing`กลับมา และถ้าargumentคือ`Just`เราจะใช้function`f`ไปยังสมาชิกนั้น ดังนั้นimageของ`f`ภายใต้`Maybe`คือfunction
+
+```Haskell
+f' :: Maybe a -> Maybe b
+f' Nothing = Nothing
+f' (Just x) = Just (f x)
+```
+
+(อนึ่งในHaskellคุณสามารถที่จะใช้apostrophesในชื่อของตัวแปรนั้นมีประโยชน์ในกรณีนี้) ในHaskellเราสามารถเขียนด้านการโยงกันของmorphismของfunctorในฐานะfunctionที่เป็นhigher orderที่เรียกว่า`fmap` ในกรณีนี้ของ`Maybe`มันก็มีsignatureดังต่อไปนี้
+
+```Haskell
+fmap :: (a -> b) -> (Maybe a -> Maybe b)
+```
+
+![](images/functormaybe.jpg){fig-align="center" height=200}
+
+เรามักจะพูดว่า`fmap`*lift*(ยก)function ในfunctionที่ถูกยกทำบนค่าของ`Maybe` ในที่ทั่วไปเพราะว่าการ`currying` signatureอาจจะถูกตีความในสองรูปแบบ ในฐานะfunctionที่มีargumentหนึ่งเดียว นั่นตัวมันเองคือfunctionของ`(a -> b)` ที่return functionเป็น`(Maybe a -> Maybe b)`หรือในฐานะfunctionของargumentสองอย่างและreturn`Maybe b`ว่า
+
+```Haskell
+fmap :: (a -> b) -> Maybe a -> Maybe b
+```
+
+ในการใช้สิ่งที่คุยกันก่อนหน้านี้ นี่คือการที่เราเขียน`fmap`สำหรับ`Maybe`
+
+```Haskell
+fmap _ Nothing = Nothing
+fmap f (Just x) = Just (f x)
+```
+
+ในการที่จะแสดงว่าconstructorของtype`Maybe`คู่กับfunction`fmap`ในรูปแบบของfunctor เราต้องพิสูจน์ว่า`fmap`เก็บรักษาidentityและการประกอบ สิ่งเหล่านี้ถูกเรียกว่า"กฎของfunctor"แต่พวกมันก็แค่รับประกันการรักษาโครงสร้างของcategory
+
+### การให้เหตุผลทางสมการ (Equational Reasoning)
+
+ในการพิสูจน์กฎของfunctor ผมจะใช้*การให้เหตุผลทางสมการ*ที่ก็คือtechniqueในการพิสูจน์ในHaskell มันใช้ข้อได้เปรียบของความจริงที่ว่าfunctionของHaskellนั้นถูกนิยามในฐานะความเท่ากัน(equalities) ด้านช้ายมือเท่ากับด้านขวามือ คุณสามารถที่จะแทนที่ตัวหนึ่งด้วยอีกตัวหนึ่งได้ตลอก เพื่อที่จะเป็นการเปลี่ยนชื่อตัวแปลใหม่เพื่อที่จะหลีกเลี่ยงชื่อช้าในบางครั้ง คิดถึงแบบนี้ในฐานะการr inliningกับfunctionsหรือในอีกทางหนึ่งเป็นการrefactorของexpressionให้เป็นfunction เรามาลองนำidentity functionมาใช้ในฐานะตัวอย่าง
+
+```Haskell
+id x = x
+```
+
+ต้วอย่างเช่น ถ้าคุณเห็น`id y`ในexpressionบางตัวคุณสามารถที่จะแทนที่มันด้วย`y`(การinlining) นอกเหนือไปจากนี้ถ้าคุณเห็น`id`ถูกใช้กับexpressionอย่าง`id (y + 2)`คุณสามารถที่จะแทนที่มันด้วยexpressionมันเองอย่าง`(y + 2)`และการแทนที่แบบนี้สามารถทำได้ในทั้งสองวิธี คุณสามารถแทนที่expressionไดๆก็ตามอย่าง`e`ด้วย`id e` (การrefactoring) ถ้าfunctionถูกนิยามโดนการจับคู่รูปแบบคุณสามารถที่จะใข้expressionย่อยอย่างอิสระ ตัวอย่างเช่นถ้าเรามี ในนิยามข้างบนของ`fmap`คุณสามารถที่จะแทนที่`fmap f Nothing`ด้วย`Nothing`หรือในทางกลับกัน เรามาดูในวิธีการที่สิ่งนี้จะถูกใช้ในทางปฏิบัติ เรามาเริ่มด้วยการรักษาidentityไว้
+
+```Haskell
+fmap id = id
+```
+
+ได้มีกรณีสองกรณีในการพิจารณา `Nothing`และ`Just`นี่คือกรณีแรก(ผมกำลังใช้pseudo-codeของHaskellในการเปลี่ยนด้านช้ายไปยังด้านขวา)
+
+```Haskell
+  fmap id Nothing
+= { definition of fmap }
+  Nothing
+= { definition of id }
+  id Nothing
+```
+
+สังเกตได้ว่าในขั้นตอนสุดท้ายผมใช้นิยามของ`id`ในทางย้อนกลับ ผมแทนที่expressionของ`Nothing`ด้วย`id Nothing`ในทางปฏิบัติแล้วคุณจะทำการพิสูจน์ในแบบนี้โดยการ"เผาเทียนทั้งสองข้าง" ("burning the candle at both ends")จนคุณไปถึงยังexpressionที่เหมือนกันในระหว่างทาง ในที่นี้คือ`Nothing`ในกรณีที่สองนั้นก็ง่ายเช่นกัน
+
+```Haskell
+  fmap id (Just x)
+= { definition of fmap }
+  Just (id x)
+= { definition of id }
+  Just x
+= { definition of id }
+  id (Just x)
+```
+
+ในตอนนี้เรามาแสดงให้เห็นว่า`fmap`รักษาการประกอบกันไว้
+
+```Haskell
+fmap (g . f) = fmap g . fmap f
+```
+
+เริ่มแรกในกรณีของ`Nothing`
+
+```Haskell
+  fmap (g . f) Nothing
+= { definition of fmap }
+  Nothing
+= { definition of fmap }
+  fmap g Nothing
+= { definition of fmap }
+  fmap g (fmap f Nothing)
+```
+
+และก็กรณีของ`Just`
+
+```Haskell
+  fmap (g . f) (Just x)
+= { definition of fmap }
+  Just ((g . f) x)
+= { definition of composition }
+  Just (g (f x))
+= { definition of fmap }
+  fmap g (Just (f x))
+= { definition of fmap }
+  fmap g (fmap f (Just x))
+= { definition of composition }
+  (fmap g . fmap f) (Just x)
+```
+
+มันสำคัญที่จะเน้นว่าการให้เหตุผลทางสมการไม่สามารถทำได้ในรูปแบบ"function"แบบC++ที่มีผลข้างเคียง(side effects)ลองดูโค้ดดังต่อไปนี้
+
+```C++
+int square(int x) {
+    return x * x;
+}
+
+int counter() {
+    static int c = 0;
+    return c++;
+}
+
+double y = square(counter());
+```
+
+โดยการใช้การให้เหตุผลทางสมการคุณอาจจะสามารถที่จะinline`square`ที่ได้
+
+```C++
+double y = counter() * counter();
+```
+
+มันนั้นไม่ใช่การเปลี่ยนแปลงที่ถูกต้องอย่างแน่นอนและมันจะไม่ผลิตผลลัพธ์ที่เหมือนกัน ถึงอย่างนี้นcompilerของC++จะพยายามที่จะใช้การให้เหตุผลทางสมการถ้าคุณเขียน`square`ในฐานะmacroด้วยผลลัพธ์ที่เป็นหายนะ
+
+### Optional
+
+Functornนั้นง่ายที่จะแสดงออกมาในHaskellแต่พวกมันสามารถที่จะถูกนิยามในทุกๆภาษาที่รองรับการเขียนโปรแกรมแบบgenericและfunctionที่เป็นhigher orderเรามาลองพิจารณา`Maybe`ในรูปแบบของC++อย่างtypeแบบtemplate`optional` นี่คือการเขียนแบบคร่าวๆ (ในการเขียนจริงๆนั้นชับช้อนกว่านี้มาก ต้องทำงานกับหลายวิธีในการที่argumentสามารถถูกนำเข้ามาคู่กับ copy semanticsและคู่กับการจัดการทรัพยากรที่เป็นปัญหาที่เป็นลักษณะของC++)
+
+```C++
+template<class T>
+class optional { 
+    bool _isValid; // the tag
+    T _v;
+public:
+    optional()    : _isValid(false) {}        // Nothing
+    optional(T x) : _isValid(true) , _v(x) {} // Just
+    bool isValid() const { return _isValid; }
+    T val() const { return _v; } };
+```
+
+templateนี้ได้ให้คำนิยามส่วนหนึ่งของfunctorคือการโยงระหว่างtypeต่างๆมันโยงtype`T`ไปยังtypeใหม่`optional<T>`เรามาลองนิยามพฤติกรรมของมันบนfunction
+
+```C++
+template<class A, class B>
+std::function<optional<B>(optional<A>)>
+fmap(std::function<B(A)> f) { 
+    return [f](optional<A> opt) { 
+        if (!opt.isValid()) 
+            return optional<B>{};
+        else 
+            return optional<B>{ f(opt.val()) };
+    };
+}
+```
+
+มันคือfunctionแบบhigher orderที่นำfunctionเข้ามาเป็นargumentและreturn functionออกมานี่คือการเปขียนแบบที่ไม่ได้ถูกcurryของมัน
+
+```C++
+template<class A, class B>
+optional<B> fmap(std::function<B(A)> f, optional<A> opt) { 
+    if (!opt.isValid())
+        return optional<B>{};
+    else 
+        return optional<B>{ f(opt.val()) };
+}
+```
+
+ได้มีตัวเลือกในการทำให้`fmap`ที่เป็นmethodแบบtemplateของ`optional` ความลำบากใจของตัวเลือกเหล่านี้ทำให้การabstratingของpatternแบบfunctorในC++มีปัญหา functorควรที่จะเป็นinterfaceต้องinheritมันหรือเปล่า (น่าเสียดายที่คุณไม่สามารถมีfunctionที่เป็นvirtualและtemplate) มันควรที่เป็นfunctionแบบtemplateที่freeแบบcurryแล้วหรือไม่มีการcurry complierของC++สามารถที่จะอนุมาน(infer)typeต่างๆที่หายไปได้หรือเปล่าหรือ พวกมันควรที่จะถูกระบุไว้อย่างชัดเจน ลองพิจารณาสถานการณ์ที่function`f`ที่เข้ามา นำ`int`ไปยัง`bool` แล้วcomplierควรที่จะหาtypeของ`g`อย่างไร
+
+```C++
+auto g = fmap(f);
+```
+
+โดยเฉพาะเช่นถ้าในอนาคตได้มีfunctorหลายตัวที่overload`fmap` (เราก็จะเห็นfunctorมากขึ้นในอีกไม่ช้า)
+
+### Typeclasses
+
+แล้วHaskellจัดการกับการabstracting functorได้อย่างไร มันใช้กลไกของtypeclass typeclassนิยามกลุ่มของtypeต่างที่มีinterfaceที่เหมือนกัน ตัวอย่างเช่นclassของวัตถุที่สามารถเทียบความเท่ากันได้ก็จะถูกนิยามไว้ว่าอย่านี้
+
+```Haskell
+class Eq a where
+    (==) :: a -> a -> Bool
+```
+
+นิยามนี้เขียนว่าtype`a`ที่เป็นของclass`Eq`ถ้ามันสามารใช้operator`(==)`ได้ที่ที่นำarguementสองตัวของtype`a`และreturn`Bool`กลับมา ถ้าคุณอยากที่จะบอกHaskellว่าtypeบ่างtypeเฉพาะคือ`Eq`คุณต้องการที่จะประกาศมันเป็น*instance*ของclassนี้และจัดเตรียมการเขียนของ`(==)` ตัวอย่างเช่นถ้ามีนิยามของ`Point`ที่เป็นสองมิติ (คือtypeแบบproductของ`Float`)
+
+```Haskell
+data Point = Pt Float Float
+```
+
+คุณก็สามารถที่จะนิยามความเท่ากันของpointต่างๆ
+
+```Haskell
+instance Eq Point where
+    (Pt x y) == (Pt x' y') = x == x' && y == y'
+```
+
+ในที่นี้ผมใช้operator`(==)` (ก็คือตัวที่ผมกำลังนิยาม)ในตำแหน่งของinfixระหว่างสองรูปแบบ`(Pt x y)`และ`(Pt x' y')` ส่วนตัวของfunctionตามหลังเครื่องหมายเท่ากับที่มีตัวเดียว หลังจากที่`Point`ถูกประกาศเป็นinstanceของ`Eq`คุณสามารถที่จะเปรียบเทียบpointsต่างๆสำหรับความเท่ากัน สังเกตว่า ไม่เหมือนกับC++หรือJavaคุณไม่ต้องทำการระบุclassของ`Eq`(หรือinterface)ในตอนที่นิยาม`Point` คุณสามารถที่จะทำมันในcodeของผู้ใช้หลังจากนี้ Typclassนั้นก็เป็นแค่กลไกเดียวในการoverload function(และoperator) เราต้องการสิ่งนี้สำหรับการoverload`fmap`สำหรับfunctorต่างๆกัน แต่ก็มีความยุ่งยากอยู่ functorที่ไม่ได้ถูกนิยามในฐานะtypeแต่ในฐานะการโยงระหว่างtype(constructorของtype) เราต้องการtypeclassที่ไม่ใช่กลุ่มของtypeในที่เหมือนกับกรณีของ`Eq`แต่เป็นกลุ่มของconstructorของtype โชคดีที่ว่าtypeclassของHaskellนั้นสามารถทำงานกับconstructorของtypeได้ดีเหมือนกับทำงานกับtypeดังนั้นนี่คือนิยามของclass`Functor`
+
+```Haskell
+class Functor f where
+    fmap :: (a -> b) -> f a -> f b
+```
+
+มันกำหนดว่า`f`คือ`Functor`ถ้ามันมีfunction`fmap`คู่กับsignatureของtypeที่ระบุไว้แล้ว ตัวพิมพ์เล็ก`f`คือตัวแปลแบบtypeเหมือนกับตัวแปลแบบtype`a`และ`b` แต่complierนั้นสามารถที่จะอนุมานว่ามันแสดงเป็นconstructorของtypeแทนที่จะเป็นtypeโดยการที่มันดูการใช้งานของมันนั่นก็คือการกระทำบนtypeอื่นๆอย่าง`f a`และ`f b` ดังนั้นในการประกาศinstanceของ`Functor`คุณต้องให้constructorของtypeกับมันในเหมือนกับในกรณีของ`Maybe`
+
+```Haskell
+instance Functor Maybe where
+    fmap _ Nothing = Nothing
+    fmap f (Just x) = Just (f x)
+```
+
+อนึ่งclass`Functor`รวมไปถึงนิยามของinstanceต่างๆสำหรับtypeแบบข้อมูลที่เรียบง่ายต่างๆรวบไปถึง`Maybe`นั้นก็เป็นส่วนหนึ่งฃองlibrary Preludeมาตรฐาน
+
+### FunctorในC++
+
+เราสามารถที่จะลองวิธีคล้ายๆกันในC++ได้หรือเปล่า? constructorของtypeนั้นมีลักษณะเช่นเดียวกันกับclassแบบtemplateเหมือน`optional`ดังนั้นโดยการเปรียบเทียบแล้วเราคงที่จะทำการparameterized`fmap`คู่กับ*template template parameter`F`*นี่คือไวยากรณ์ของมัน
+
+```C++
+template<template<class> F, class A, class B>
+F<B> fmap(std::function<B(A)>, F<A>);
+```
+
+เราอยากที่จะสามารถที่จะทำให้templateนี้มีความเฉพาะเจาะจงสำหรับfunctorต่างๆกัน น่าเสียดายที่มันมีการป้องกันไม่ให้มีการทำการเฉพาะเจาะจงในบางส่วน(partial specialization)ของfunctionแบบtemplateในC++ คุณไม่สามารถเขียนดังนี้
+
+```C++
+template<class A, class B>
+optional<B> fmap<optional>(std::function<B(A)> f, optional<A> opt)
+```
+
+ดังนั้นคุณต้องกลับไปยังการoverload functionที่จะทำให้เรากลับมายังนิยามดั้งเดิมของ`fmap`ที่ไม่ได้ถูกcurry
+
+```C++
+template<class A, class B>
+optional<B> fmap(std::function<B(A)> f, optional<A> opt) { 
+    if (!opt.isValid()) 
+        return optional<B>{}; 
+    else
+        return optional<B>{ f(opt.val()) };
+}
+```
+
+นิยามนี้สามารถใช้ได้แต่ก็เพราะว่าargumentที่สองของ`fmap`นั้นเลือกสิ่งที่overload มันละเลยนิยามที่ทั่วๆไปของ`fmap`ไปทั้งหมด
+
+### FunctorของList
+
+ในการที่จะได้ความเข้าใจต่อหน้าที่ของfunctorในการเขียนโปรแกรม เราอาจจะต้องลองดูตัวอย่างที่มากกว่านี้ ในtypeใดๆก็ตามที่ถูกparamterizedโดยอีกtypeหนึ่งมีคุณสมบัติที่จะเป็นfunctor containerแบบทั่วไป (generic container)ที่ถูกparamterizedโดยtypeของสมาชิกที่มันเก็บอยู่ ดังนั้นเรามาดูcontainerที่เรียบง่ายอย่างมากนั้นก็คือlist
+
+```Haskell
+data List a = Nil | Cons a (List a)
+```
+
+เรามีconstructorของtype`List`ที่ก็เป็นการโยงจากtypeใดๆก็ตาม`a`ไปยังtypeของ`List a`ในการแสดงว่า`List`คือfunctorเราต้องนิยามการliftของfunctionนั่นก็คือ ถ้าเรามีfunction`a -> b`จงนิยามfunction`List a -> List b`
+
+```Haskell
+fmap :: (a -> b) -> (List a -> List b)
+```
+
+functionที่กระทำบน`List a`ต้องถูกพิจารณาในสองกรณีที่ตรงกับcostructorทั้งสองของlist ในกรณีของ`Nil`นั้นตรงไปตรงมาแค่return`Nil`กลับมา มันไม่มีอะไรมากที่คุณทำได้กับlistว่าง ในกรณีของ`Cons`นั้นอาจจะยุ่งยากนิดหนึ่งเพราะมันเกี่ยวข้องกับการrecursion ดังนั้นเรามาถอยไปก้าวหนึ่งในตอนนี้และพิจารณาในสิ่งที่เราจะทำ เรามีlistของ`a` function`f`ที่เปลี่ยน`a`ไปยัง`b`และเราต้องการที่จะผลิตlistของ`b` สิ่งที่ชัดเจนที่สุดคือการใช้`f`ในการเปลี่ยนสมาชิกของlistจาก`a`ไปยัง`b` เราจะทำแบบนี้ในทางปฏิบัติอย่างไรถ้าเรามีlist(ที่ไม่ว่าง)ที่ถูกนิยามในแบบ`Cons`ของหัว(head)และหาง(tail)? เราใช้`f`ไปยังส่วนหัวและใช้`f`ที่ถูกlift(ถูก`fmap`)ไปยังส่วงหาง นี่คือนิยามที่recursiveเพราะว่าเรานิยาม`f`ที่ถูกliftในรูปแบบของ`f`ที่ถูกlift
+
+```Haskell
+fmap f (Cons x t) = Cons (f x) (fmap f t)
+```
+
+สังเกตว่าในด้านขวามือ`fmap f`นั้นถูกใช้ในlistที่มีสั้นกว่าlistที่เรากำลังนิยามมัน มันถูกใช้กับส่วนหาง เราใช้ช้ำ(recurse)กับlistที่สั้นลงไป ดังนั้นเราจะต้องทำไปจนถึงlistว่างอย่างแน่นอนหรือ`Nil` แต่ในการที่เราได้ตัดสินใจแล้วก่อนหน้านี้ว่า `fmap f`ที่กระทำบน`Nil`จะคืน`Nil`กลับมา ดังนั้นเป็นการยุติการrecursion ในการที่จะได้ผลลัพธ์สุดท้าย เราต้องรวมส่วนหัวใหม่`(f x)`คู่กับส่วนหางใหม่`(fmap f t)`โดยการใช้constructor`Cons` นำสิ่งเหล่าทั้งหมดนี้มารวมเข้าด้วยกัน นี่คือการประกาศinstanceสำหรับfunctorของlist
+
+```Haskell
+instance Functor List where
+    fmap _ Nil = Nil
+    fmap f (Cons x t) = Cons (f x) (fmap f t)
+```
+
+ถ้าคุณสะดวกกับC++มากกว่าลองพิจารณากรณีของ`std::vector`ที่สามารถที่จะคิดเป็นcontainerของC++ที่ทั่วไปที่สุด การเขียน`fmap`สำหรับ`std::vector`คือการencapsulationแบบไม่มากของ`std::transform`
+
+```C++
+template<class A, class B>
+std::vector<B> fmap(std::function<B(A)> f, std::vector<A> v) {
+    std::vector<B> w;
+    std::transform( std::begin(v)
+                  , std::end(v)
+                  , std::back_inserter(w)
+                  , f); 
+    return w;
+}
+```
+
+ตัวอย่างเช่นเราสามารถที่ใช้มันในการทำการกำลังสองของลำดับของตัวเลข
+
+```C++
+std::vector<int> v{ 1, 2, 3, 4 };
+auto w = fmap([](int i) { return i*i; }, v);
+std::copy( std::begin(w)
+         , std::end(w)
+         , std::ostream_iterator(std::cout, ", "));
+```
+
+ในcontainerหลายๆตัวของC++เป็นfunctorในการเขียนiteratorที่สามารถที่จะถูกนำไปยัง`std::transform`ที่เป็นญาติที่ดั้งเดิมกว่าของ`fmap` น่าเสียดายที่ความเรียบง่ายของfunctorนั้นหายไปในความรุงรังของiteratorsและtemporaries(ลองดูในการเขียน`fmap`ข้างบน)ผมดีใจที่จะพูดว่าlibary rangeของC++ที่ถูกเสนอจะทำให้ธรรมชาติของการเป็นfunctionalของrangeชัดเจนมากขึ้น
+
+### Functorนักอ่าน (Reader Functor)
+
+ถึงตอนนี้คุณอาจที่จะได้พัฒนาความเข้าใจบางอย่าง(ตัวอย่างเช่นfunctionคือcontainerในรูปแบบหนึ่ง)ให้ผมได้แสดงกับคุณถึงตัวอย่างที่ในตอนแรกอาจจะดูแตกต่างอย่างมาก ลองพิจารณาการโยงของtype`a`ไปยังtypeของfunctionที่return`a`กลับมา เรายังไม่ได้พูดเกี่ยวกับtypeของfunctionที่เป็นรายละเอียด (ในการพิจารณาแบบcategoricalกำลังมา) แต่เราได้ทีความเข้าใจบางอย่างของสิ่งเหล่านี้ในฐานะโปรแกรมเมอร์ ในHaskell typeแบบfunctionนั้นถูกสร้างโดยการใช้constructorของtypeแบบลูกศร`(->)`ที่นำtypeสองประเภทคือtypeของargumentและtypeของผลลัพธ์ คุณได้เห็นมันแล้วในรูปแบบของinfix`a -> b`แต่มันสามารถที่จะถูกใช้ในแบบดียวกันในรูปแบบของprefixในตอนที่ครอบโดยวงเล็บ
+
+```Haskell
+(->) a b
+```
+
+เหมือนกับfunctionทั่วๆไปfunctionแบบtypeที่มีargumentมากกว่าหนึ่งสามารถที่จะถูกใช้ในบางส่วน ดังนั้นเราได้ให้แค่argumentแบบtypeกับลูกศร มันก็กำลังคาดหวังอีกตัวหนึ่งอยู่เหมือนเดิม นั้นก็เพราะว่า
+
+```Haskell
+(->) a
+```
+
+คือconstructorของtype มันต้องการtype`b`เพิ่มเพื่อที่จะผลิดtype`a -> b`ที่สมบูรณ์ ในตอนที่มันเป็นอยู่ มันนิยามกลุ่มทั้งหมดของconstructorแบบtypeที่parameterizedโดย`a` เรามาลองดูว่าถ้ามันก็เป็นกลุ่มของfuntorเช่นเดียวกัน ในการทำงานกับparameterแบบtypeสองอย่างอาจจะทำให้สับสนเล็กน้อย ดังนั้นเรามาทำการเปลี่ยนชื่อบางอย่าง เราจะเรียกtypeของargument`r`และtypeของreturn`a`และโยงมันไปยังtype` r -> a` ในการแสดงว่ามันคือfunctorเราต้องการที่จะlift function`a -> b`ไปยังfunctionที่นำ` r -> a`เข้ามาและreturn` r -> b`ออกไป สิ่งเล่านี้คือtypeที่ถูกสร้างโดยการใข้constructorของtype`(->) r`ที่กระทำบน`a`และ`b`ตามลำดับ ที่คือsignatureของtypeของ`fmap`ที่เข้ากับกรณีนี้
+
+```Haskell
+fmap :: (a -> b) -> (r -> a) -> (r -> b)
+```
+
+เราต้องแก้ปัญหาดังต่อไปนี้: ถ้าเรามีfunction`f :: a -> b`และfunction`f :: r -> b`จงสร้างfunction` r -> b` ได้มีวิธีเดียวในการที่เราจะสามารถประกอบfunctionทั้งสองและผลลัพธ์คือสิ่งที่เราต้องการอย่างแน่นอน ดังนั้นนี่คือการเขียน`fmap`ของเรา
+
+```Haskell
+instance Functor ((->) r) where
+    fmap f g = f . g
+```
+
+มันใช้ได้! ถ้าคุณชอบที่จะมีรูปแบบที่กระชับ นิยามนี้สามรถที่จะถูกลดโดยการที่เราสังเกตได้ว่า การประกอบกันสามารถถูกเขียนใหม่ในรูปแบบของprefix
+
+```Haskell
+fmap f g = (.) f g
+```
+
+และarguemntต่างๆสามารถที่จะละเว้นเพื่อที่จะได้มาซึ่งความเท่ากับแบบตรงๆของทั้งสองfunction
+
+```Haskell
+fmap = (.)
+```
+
+การรวามกันของconstructorของtype`(->) r`กัยการเขียน`fmap`ข้างบนถูกเรียกว่าfunctorนักอ่าน
+
+## FunctorsในฐานะContainers
+
+เราได้เห็นแล้วในบาองตัวอย่างของfunctorในภาษาโปรแกรมที่นิยามcontainerที่มีจุดประสงค์ทั่วไปหรืแอย่างน้อยเป็นวัตถุต่างๆที่เก็บข้อมูลบางอย่างของtypeที่พวกมันparameterizedข้างบนtypeพวกนี้ functorนักอ่านอาจจะดูเหมือนสิ่งที่แปลกแยกออกไปเพราะว่าเราไม่ได้คิดถึงfunctionในฐานะข้อมูลแต่เราได้เห็นแล้วว่าfunctionที่pureสามารถถูกจำได้และการกระทำของfunctionสามารถที่จะแปลงให้เป็นตารางค้นหา ตารางเป็นข้อมูล ในทางกลับกันก็เพราะว่าความlazyของHaskell containerแบบดั้งเดิมอย่างlistอาจจะถูกเขียนในฐานะfunction ตัวอย่างเช่นรองพิจารณาlistที่ไม่มีที่สิ้นสุดของจำนวนธรรมชาติที่สามารถถูกนิยามได้แบบกระชับว่า
+
+```Haskell
+nats :: [Integer]
+nats = [1..]
+```
+
+ในบรรทัดแรกที่เป็นคู่ของวงเล็บเหลี่ยม(square brackets)คือconstructของtypeที่ถูกbuilt-inแล้วของHaskellสำหรับlist ในบรรทัดที่สองวงเล็บเหลี่ยมถูกใช้ในการสร้างliteralของlist ชัดเจนว่าlistที่ไม่มีที่สิ้นสุดไม่สามารถที่จะถูกเก็บไว้ได้ในหน่วยความจำ complierทำการเขียนมันในฐานะfunctionที่สร้าง`Integer`ในตอนที่ต้องใช้(on demand) Haskellนั้นได้ละลายอย่างความแตกต่างระหว่างข้อมูลกับโค้ดอย่างชัดเจน(effectively) listสามารถถูกพิจารณาเป็นfunctionและfunctionสามารถที่ขะถูกพิจารณาเป็นตารางที่โยงargumentไปยังผลลัพธ์ อย่างหลังสามารถที่จะใช้ในทางปฏิบัติถ้าdomainของfunctionนี้นั้นมีจำกัด(finite)และไม่ใหญ่จนเกินไป แต่มาอาจจะไม่ใช้ได้้ในทางปฏิบัติกับการเขียน`strlen`ในฐานะตารางค้นหาเพราะว่าได้มีจำนวนstringที่แตกต่างกันไม่มีที่สิ้นสุด ในฐานะนัดเขียนโปรแกรม เราไม่ชอบความไม่มีที่สิ้นสุดแต่ในทฤษฎีcategoryคุณได้เรียนรู้ในการกินความไม่มีที่สิ้นสุดเป็ยอาหารเช้า ไม่ว่าจะเป็นsetของstringทั้งหมดหรือกลุ่มของstateที่เป็นไปได้ทั้งหมดในUniverse, อดีต,
+ปัจจุบันและอนาคต เราสามารถทำงานกับมันได้ ดังนั้นผมอยากที่จะคิดถึงวัตถุfunctor(วัตถุของtypeที่ถูกสร้างโดยendofunctor)ในฐานะที่กักเก็บค่าหรืิอค่าต่างๆของtypeข้างบนที่ที่มันparameterizedไว้ ถึงแม้ถ้าค่าต่างๆเหล่านี้นั้นไม่มีอยู่ในรูปแบบทางวัตถุในที่นี้ หนึ่งในตัวอย่างของfunctorคือ`std::future`ของC++ที่อาจจะในบางเวลาเก็บค่าไว้อยู่ แต่มันไม่รับประกันว่ามีจะมีอยู่และถ้าคุณอยากที่จะเข้าถึงมัน คุณอาจจะถูกปิดกั้นโดยให้รออีกthreadทำการดำเนินการให้เสร็จก่อน อีกตัวอย่างคือวัคถุ`IO`ของHaskellที่อาจจะเก็บinputของผู้ใช้หรือรูปแบบอนาคตของUniverseที่"Hello World!"ถูกฉายบนหน้าจอ ถ้าตามการตีความแบบนี้วัตถุfunctorคือบางอย่างที่อาจจะเก็ยค่าหรือค่าต่างๆของtypeที่มันparameterizedอยู่ หรือมันอาจจะเก็บสูตรในสร้างค่าเหล่านี้ เราไม่ได้สนใจเลยเกี่ยวกับความสามารถในการเข้าถึงค่าพวกนี้ มันนั้นไม่จำเป็นและนอกเหนือขอบเขตของfunctor ถ้าค่าต่างๆสามารถถูกเข้าถึงได้แล้วสิ่งที่เราสนใจเกี่ยวกับคือการที่ว่าการจัดการกับค่าต่างๆสามารถถูกประกอบได้อย่างถูกต้องและการจัดการต่างๆนั้นก็มีfunctionที่เป็นidentityที่ไม่ได้เปลี่ยนอะไรเลย เพื่อที่จะแสดงให้คุณเห็นว่าเราไม่สนใจเกียวกับการเข้าถึงค่าในวัคถุfunctorมากเท่าไหน นี่คือconstructorของtypeที่ไม่สนใจargument`a`ของมันแบบทั้งหมด
+
+```Haskell
+data Const c a = Const c
+```
+
+constructorของtype`Const`นั้นนำtypeสองอย่าง`c`และ`a`เหมือนกับการที่เราทำในconstructแบบลูกศร เราจะใช้มันในบางส่วนเพื่อที่จะสร้างfunctor constructorของdata(หรือที่เรียกว่า`Const`)นำค่าๆหนึ่งของtype`c` มันเป็นอิสระกับ`a` typeของ`fmap`ในconstructorของtypeนี้คือ
+
+```Haskell
+fmap :: (a -> b) -> Const c a -> Const c b
+```
+
+เพราะว่าfunctorไม่สนใจargumentที่เป็นtype การเขียนของ`fmap`จึง เป็นอิสระในการไม่สนใจargumentของfunction functionนี้ไม่มีอะไรที่จะกระทำลงไป
+
+```Haskell
+instance Functor (Const c) where
+    fmap _ (Const v) = Const v
+```
+
+นี่อาจจะขัดเจนกว่าในC++(ผมไม่คิดว่าจะพูดคำนี้ออกมา)ที่ที่ได้มีการแยกกันระหว่างargumentแบบtypeที่ชัดเจน (ที่ในเวลาcompile)และค่าต่างๆที่ในต่อนเวลาใช้งาน
+
+```C++
+template<class C, class A>
+struct Const { 
+    Const(C v) : _v(v) {}
+    C _v;
+};
+```
+
+การเขียน`fmap`ในC++นั้นไม่สนใจargumentที่เป็นfunctionและก็ทำการre-cast argumentของ`Const`จริงๆโดยที่ไม่ได้เปลี่ยนค่าของมัน
+
+```C++
+template<class C, class A, class B>
+Const<C, B> fmap(std::function<B(A)> f, Const<C, A> c) {
+    return Const<C, B>{c._v};
+}
+```
+
+ถึงอย่างไรก็ตามกับความแปลกของมัน functor`Const`นั้นเล่นในบทบาทที่สำคัญในการสร้างหลายๆอย่าง ในทฤษฎีcategoryมันคือกรณีพิเศษของfunctor$\Delta$ที่ผมเอ่ยถึงก่อนหน้านี้ เป็นกรณีของหลุมดำในendofunctor
+
+## การประกอบกันของFunctor
+
+มันไม่ยากที่จะโน้มน้าวตัวเองว่าfunctorระหว่างcategoryนั้นประกอบเหมือนfunctionระว่างsetปนะกอบกัน การประกอบกันของfunctorสองตัวในตอนที่กระทำบนวัตถุนั้นก็แค่การประกอบกันของการโยงวัตถุตามลำดับของพวกมันและคล้ายๆกันในตอนที่มันกระทำบนmorphism หลังจากการผ่านfunctorทั้งสองmorphismที่เป็นidentityก็กลายมาเป็นmorphismที่เป็นidentityในที่สุดและการประกอบกันของmorphismก็จบด้วยการประกอบกันของmorphism มันไม่มีอะไรมากจริงๆ โดนเฉพาะมันง่ายที่จะประกอบendofuncttor จำfunction`maybeTail`ได้หรือเปล่า ผมจะเขียนมันใหม่โดยการใข้ listที่เขียนอยู่แล้วในbuilt inของHaskell
+
+```Haskell
+maybeTail :: [a] -> Maybe [a]
+maybeTail [] = Nothing
+maybeTail (x:xs) = Just xs
+```
+
+(constructorของlistว่างที่เราใช้ในการเรียก`Nil`นั้นถูกแทนที่ด้วยวงเล็บเหลี่ยมที่ว่าง`[]` constructorของ`Con`ที่ถูกแทนที่ด้วยoperatorแบบinfix`:`) ผลของ`maybeTail`คือtypeที่เป็นการประกอบกันของfunctorสองตัว`Maybe`และ`[]`ที่กระทำบน`a` functorแต่ละตัวนั้นมีรูปแบบ`fmap`เป็นของตนเอง แต่ถ้าเราต้องการที่จะใช้บางfunction`f`ไปยังของที่อยู่ภายในของสิ่งที่ถูกประกอบlist`Maybe`ละ? เราต้องทะลุผ่านสองชั้นของfunctors เราสามารถที่จะใช้`fmap`ในการทะลุผ่าน`Maybe`ที่เป็นชั้นนอก แต่เราไม่สามารถแค่ส่ง`f`ข้างใน`Maybe`เพราะว่า`f`ทำงามไม่ได้ในlist เราต้องส่ง`(fmap f)`เพื่อที่จะให้ทำงานได้ในlistชั้นใน ตัวอย่างเข่น เรามาลองดูวิธีการที่เราจะที่การยกกำลังสองของสมาชิกในlistของ`Maybe`ของจำนวนเต็ม
+
+```Haskell
+square x = x * x
+
+mis :: Maybe [Int]
+mis = Just [1, 2, 3]
+
+mis2 = fmap (fmap square) mis
+```
+
+complierหลังจากการวิเคราะห์typeต่างๆจะสามารถหาได้ว่าสำหรับ`fmap`ชั้นบนมันควรที่ใช้การเขียนจากinstanceของ`Maybe`และในส่วนของชั้นล่างก็เป็นเขียนfunctorของlist มันอาจจะไม่ชัดเจนในทันที่ที่โค้ดข้างบนสามารถถูกเขียนใหม่ว่า
+
+```Haskell
+mis2 = (fmap . fmap) square mis
+```
+
+แต่จำได้ว่า`fmap`อาจจะถูกพิจารณาfunctionที่มีแค่argumentหนึ่งตัว
+
+```Haskell
+fmap :: (a -> b) -> (f a -> f b)
+```
+
+ในกรณีของเรา`fmap`ที่สองใน`(fmap . fmap)`นั้นนำสิ่งนี้ในฐานะargumentของมัน
+
+```Haskell
+square :: Int -> Int
+```
+
+และreturn functionที่มีtypeดังต่อไปนี้
+
+```Haskell
+[Int] -> [Int]
+```
+
+ใน`fmap`แรกจะนำfunctionนี้เข้ามาและreturn functionกลับ
+
+```Haskell
+Maybe [Int] -> Maybe [Int]
+```
+
+สุดท้ายนี้functionนั้นถูกใช้กับ`mis` ดังนั้นการประกอบกันของfunctorทั้งสองคือfunctorที่`fmap`คือการประกอบกันของหลายๆ`fmap` กลับไปยังทฤษฎีcategory มันชัดเจนมากที่การประกอบกันของfunctorนั้นเปลี่ยนหมู่ได้ (การโยงระหว่างวัตถุนั้นมีคุณสมบัติการเปลี่ยนหมู่และการโยงกันระหว่างmorphismนั้นก็มีคุณสมบัติการเปลี่ยนหมู่) และได้มีfunctorที่หเป็นidentityที่ชัดเจนในทุกๆcategoryมันโยงทุกๆวัตถุไปยังตัวเองและทุกๆmorphismปยังตัวเอง ดังนั้นfunctorsก็มีคุณสมบัติของmorphismในบางcategory แต่categoryนั้ควรเป็นอะไร? มันก็คงเป็นcategoryที่วัตถุเป็นcategoryต่างๆและmorphismคือfunctorต่างๆ มันคือcategoryของcategory แต่categoryของcategoryทั้งหมดอาจจะรวมถึงตนเองและเราก็อาจจะได้paradoxในแบบเดียวกันที่ทำให้setของsetทั้งหมดเป็นไปไม่ได้ แต่ได้มีcategoryของcategoryเล็กที่ถูกเรียกว่า$\textbf{Cat}$(ที่ตัวมันเองนั้นใหญ่ดังนั้นจึงไม่สามารถเป็นสมาชิกของตนเอง) categoryเล็กคือcategoryที่วัตถุต่างก็ให้เกิดเป็นsetที่ตรงกันข้ามกับบางอย่างที่ใหญ่กว่าset ในทฤษฎีcategoryแม้กระทั้งsetอนันต์ที่นับไม่ได้นั้นถูกมองว่า"เล็ก" ผมคิดว่าผมจะเอ่ยถึงสิ่งเหล่านี้เพราะว่าผมเห็นว่ามันค่อนข้างอัศจรรย์ที่เราสามารถที่จะมองเห็นโครงสร้างเดียวกันที่ทำซ้ำตัวมันเองในหลายขั้นของการabstractionเราจะเห็นหลังจากนี้ว่าfunctorก็ก่อให้เกิดcategoryเหมือนกัน
+
+## โจทย์ท้าทาย
+
+1. เราสามารถที่จะเปลี่ยนconstructorของtype`Maybe`ไปยังfunctorโดยการนิยาม
+```Haskell
+fmap _ _ = Nothing
+```
+ที่ไม่สนใจargumentทั้งสองของมัน (คำใบ้:ลองดูกฏของfunctor)
+
+2. ลองพิสูจน์กฏของfunctorสำหรับfunctorนักอ่าน (คำใบ้:ค่อนข้างง่าย)
+3. ลองเขียนfunctorนักอ่านในภาษาโปรดลำดับสองของคุณ(แน่นอนว่าลำดับแรกคือHaskell)
+4. ลองพิสูจน์กฏของfunctorสำหรับfunctorของlist สมมติว่ากฏต่างๆนั้นถูกต้องสำหรับส่วนหางของlistที่คุณใช้มันกับ (ในอีความหมายหนึ่งคือใช้indunction)

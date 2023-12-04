@@ -1,0 +1,476 @@
+# ความเป็นFunctor (Sketch)
+
+ในตอนนี้คุณได้รู้ว่าfunctorคืออะไรและได้เห็นตัวอย่างต่างๆของมัน เรามาดูวิธีในการสร้างfunctorที่ใหญ่กว่าจากตัวเล็กๆ มันนั้นน่าสงใจโดยเฉพาะเช่นการที่จะเห็นconstructorของtype(ที่คือการโยงระหว่างวัตถุในcategory)สามารถถูกเพิ่มเติมไปเป็นfunctor(ที่รวมไปภึงการโยงระหว่างmorphism)
+
+## Bifunctors
+
+เนื่องด้วยว่าfunctionคือmorphismใน$\textbf{Cat}$(categoryของcategory)ความเข้าใจหลายๆอย่างที่เกียวกับmorphism (และfunctionโดยเฉพาะ)ก็สามารถถูกใช้ได้กับfunctionเช่นเดียวกัน ตัวอย่างเช่นเหมือนกันกับการที่คุณมีfunctionที่มีสองargument คุณสามารถที่จะมีfunctorที่มีสองargumentหรือ*bifunctor* ถ้าพูดถึงการกระทำบนวัตถุ bifunctorนั้นโยงทุกๆคู่ของวัตถุอันหนึ่งจากcategory$\textbf{C}$และวัตถุจากcategory$\textbf{D}$ไปยังวัตถุในcategory$\textbf{E}$ สังเกตได้ว่าสิ่งนีก็แค่พูดว่ามันคือการโยงจากการคูณแบบ*Cartesian*ของcategory $\textbf{C}\times\textbf{D}$ไปยัง$\textbf{E}$
+
+![](images/bifunctor.jpg){fig-align="center" height=200}
+
+สิ่งนี้ค่อนข้างตรงไปตรงมาแต่ความเป็นfunctorหมายความว่าbifunctorต้องทำการโยงmorphismเช่นเดียวกัน แต่ในตอนนี้มันต้องโยงคู่ของmorphismที่ตัวหนึ่งมาจาก$\textbf{C}$และตัวหนึ่งมาจาก$\textbf{D}$ไปยังmorphismใน$\textbf{E}$
+
+อีกครั้งว่าคู่ของmorphismคือแค่morphismเดี่ยวในproduct category $\textbf{C}\times\textbf{D}$ไปยัง$\textbf{E}$ เรานิยามmorphismในคูณแบบCartesianของcategoryต่างๆในฐานะคู่ของmorphismที่เริ่มจากคู่แรกของวัตถุไปยังอีกคู่หนึ่งของวัตถุ คู่morphismเหล่านี้สามารถถูกประกอบในวิธีที่ตรงไปตรงมา
+
+$$
+(f, g) \circ (f', g') = (f \circ f', g \circ g')
+$$
+
+การประกอบแบบนี้นั้นมีคุณสมบัติการเปลี่ยนหมู่และมันมีidentity(คู่ของidentity morphismอย่าง $(\operatorname{id}, \operatorname{id})$)ดังนั้นคูณแบบCartesianของcategoryก็เป็นcategory
+
+วิธีที่ง่ายกว่าในการคิดเกี่ยวกับbifunctorก็คงจะเป็นการพิจารณามันในแต่ละargumentแยกออกไป ดังนั้นแทนที่จะแปลกฏทางfunctor (การรักษาสมบัติการเปลี่ยนหมู่และidentity) จากfunctorไปยังbifunctor มันคงมาพอที่จะทดสอบมันโดยการแยกออกเป็นที่ละargument แต่โดยทั่วไปแล้ว ความเป็นfunctorแบบแยกไม่สามารถที่จะพิสูจน์ความเป็นfunctorแบบรวม categoryที่ความเป็นfunctorแบบรวมล้มเหลวจะถูกเรียกว่า*premonoidal*
+
+เรามานิยามbifunctorในHaskellในกรณีนี้ทั้งสามcategoryนั้นเหมือนกันนั้นก็คือcategoryของtypeในHaskell bifuntorคือconstructorของtypeที่นำสองargumentของtypeเข้ามา นี่คือนิยามของ`Bifunctor`typeclassที่เอามาโดยตรงจากlibary`Control.Bifunctor`
+
+```Haskell
+class Bifunctor f where 
+    bimap :: (a -> c) -> (b -> d) -> f a b -> f c d
+    bimap g h = first g . second h
+    first :: (a -> c) -> f a b -> f c b
+    first g = bimap g id
+    second :: (b -> d) -> f a b -> f a d
+    second = bimap id
+```
+
+![bimap](images/bimap.jpg){fig-align="center" height=200}
+
+ต้วแปรของtype`f`แทนbifunctionนั้น คุณสามารถที่จะเห็นได้ว่าในtype signatureทั้งหมดถูกนำไปใช้ต่อargumentของtypeทั้งสอง ในtype signatureแรกนิยาม`bimap`ที่คือการโยงสองfunctionในเวลาเดียวกัน ผลที่ตามาคือfunctionที่ถูกlift`f a -> f c d`ที่ทำบนtypeที่ถูกสร้างโดยconstructorของtypeของbifunction ได้มีการเขียนของ`bimap`ในรูปแบบของ`first`และ`second` (เป็นดั่งที่กล่าวก่อนหน้านี้ว่ามันไม่ได้ใช้ได้ตลอกเพราะว่าการโยงทั้งสองอาจจะไม่สามารถสลับที่ได้นั่นก็คือ`first g . second h`อาจจะไม่เหมือนกับ`second h . first g`)
+
+ในtype signatureทั้งสองที่เหลือ`first`และ`second`คือ`fmaps`ทั้งสองที่เป็นตัวแทนของความเป็นfunctorของ`f`ในargumentตัวแรกและตัวที่สองตามลำดับ 
+
+::: {#fig-elephants layout-ncol=2}
+
+![first](images/first.jpg){#fig-bimap-first height=200}
+
+![second](images/second.jpg){#fig-hanno height=200}
+
+การโยงทั้งสอง
+:::
+
+นิยามของtype classให้การเขียนที่ให้มาอยู่แล้วของทั้งสองในรูปแบบของ`bimap`
+
+ในตอนประกาศinstanceของ`Bifunctor`คุณมีทางเลือกของการเขียน`bimap`และยอบรับกับการเขียนที่ให้มาอยู่แล้วของสำหรับ`first`และ`second`หรือการเขียนทั้ง`first`และ`second`และยอมรับบการเขียนที่ให้มาอยู่แล้วของสำหรับ`bimap` (แน่นอนว่าคุณอาจจะเขียนทั้งสามตัวหมดแต่มันก็ขึ้งอยู่กับคุณที่จะทำให้แน่ใจว่าพวกมันมี่ความเกี่ยวข้องในแบบที่ว่า)
+
+## BifunctorแบบProductและCoproduct
+
+ตัวอย่างที่ดีที่สุดของbifunctorคือproductแบบcategorical (productของสองวัตถุที่ถูกนิยามโดยการสร้างแบบสากล) ถ้าproductนั้นมีอยู่สำหรับทุกๆคู่ของวัตถุ การโยงจากวัตถุเหล่านี้ไปยังproductนั้นก็มีความเป็นbifuncto มันเป็นจริงโดยทั่วไปและในโดยเฉพาะHaskell ในที่นี้instance`Bifunctor`สำหรับconstructorแบบpair ที่เป็นtypeแบบproductที่เรียบง่ายที่สุด
+
+```Haskell
+instance Bifunctor (,) where 
+    bimap f g (x, y) = (f x, g y)
+```
+
+มันไม่มีตัวเลือกอื่นๆ`bimap`นั้นแค่นำfunctionแรกไปใช้กับส่วนแรกและfunctionที่สองไปใช้กับส่วนที่สอง โค้ดของสิ่งนี้เขียนตัวมันเองอยู่แล้วถ้าให้typesต่างๆกับมัน
+
+```Haskell
+bimap :: (a -> c) -> (b -> d) -> (a, b) -> (c, d)
+```
+
+การกระทำของbifunctorในที่นี้คือการทำpairของtypeตัวอย่างเช่น
+
+```Haskell
+(,) a b = (a, b)
+```
+
+โดยduality coproductถ้ามันสามารถถูกนิยามสำหรับทุกๆคู่ของวัตถุในcategoryก็คือbifucntorเช่นกัน ในHaskellนี้ถูกแสดงโดยconstructorของtype`Either`ซึ่งก็เป็นinstanceของ`Bifunctor`
+
+```Haskell
+instance Bifunctor Either where
+    bimap f _ (Left x) = Left (f x)
+    bimap _ g (Right y) = Right (g y)
+```
+
+โค้ดของสิ่งนี้ก็เขียนตัวมันเองเช่นกัน
+
+ในตอนนี้เรายังจำตอนที่เราพูดเกี่ยวกับcategoryที่เป็นmonoidal? categoryที่เป็นmonoidalนิยามoperatorที่เป็นbinaryในการกระทำกับวัตถุคู่กับวัตถุที่เป็นunit ผมได้เอ่ยถึงว่า$\textbf{Set}$นั้นเป็นcategoryที่เป็นmonoidalเมื่อมีการคูณแบบCartesianคู่กับsetที่มีสมาชิกเดี่ยวเป็นในฐานะunit สิ่งที่ผมไม่ได้กล่าวถึงคือว่าหนึ่งในเงื่อนไขสำหรับที่ว่าoperatorที่เป็นbinaryเป็นbifunctor นี่คือเงื่อนไขที่สำคัญเราต้องการproductแบบmonoidalให้เข้ากันได้กับโครงสร้างของcategoryที่ที่ถูกนิยามโดยmorphism เรานั้นเข้าใกล้ถึงนิยามเต็มของcategoryที่เป็นmonoidalไปอีกขั้น (เรายังต้องเราเกี่ยวกับnaturality(ความเป็นธรรมชาติ)ก่อนที่จะไปถึงจุดนั้น)
+
+## typeข้อมูลแบบพีชคณิตที่มีความเป็นfunctor (Functorial Algebraic Data Types)
+
+เราได้เห็นตัวอย่างหลายๆตัวของtypeข้อมูลที่ถูกparameterizedที่กลายมาเป็นfunctor เราสามารถที่จะนิยาม`fmap`สำหรับมัน typeข้อมูลที่มีความชับช้อนนั้นถูกสร้างจากtypeข้อมูลที่ง่ายกว่า โดยเฉพาะtypeข้อมูลแบบพีชคณิต(algebraic data types (ADTs))ที่ถูกสร้างโดยการใช้sumและproduct เราได้เห็นมาแล้วว่าsumและproductนั้นมีความเป็นfunctor เราก็รู้ว่าfunctorสามารถประกอบกันได้ ดังนั้นถ้าเราสามารถที่จะแสดงได้ว่าส่วนประกอบของADTsนั้นมีความเป็นfunctor เราก็จะรู้ได้ว่าADTที่ถูกparameterizedนั้นก็มีความเป็นfunctorเช่นกัน
+
+ดังนั้นอะไรคือส่วนประกอบของADTsที่ถูกparameterized? อย่างแรกได้มีส่วนที่ไม่ขึ้นกับparameterที่เป็นtypeของfunctorอย่าง `Nothing`ใน`Maybe`หรือ`Nil`ใน`List` พวกมันมีความเท่ากันกับfunctor`Const` จำได้ว่าfunctor`Const`นั้นไม่สนใจparameterที่เป็นtype (จริงๆแล้วparameterที่เป็นtype*ที่สอง*ที่คือเป็นสิ่งที่เราสนใจ และตัวแรกก็ถูกเก็บไว้ให้คงที่)
+
+ดังนั้นมันก็จะมีส่วนที่แค่ครอบ(encapsulate)parameterที่เป็นtypeในมันเองเหมือนกับ`Just`ใน`Maybe` มันนั้นเท่ากันกับfunctorที่เป็นidentity ผมได้กล่าวถึงfunctorที่เป็นidentityไปก่อนหน้านี้ในฐานะmorphismที่เป็นidentityใน$\textbf{Cat}$แต่ไม่ได้ให้นิยามของมันในHaskell นี่คือนิยามของมัน
+
+```Haskell
+data Identity a = Identity a
+```
+
+```Haskell
+instance Functor Identity where
+    fmap f (Identity x) = Identity (f x)
+```
+
+คุณสามารถที่จะคิดถึง`Identity`ในฐานะcontainerที่เรียบง่ายที่สุดที่จะเก็บแค่ค่าๆ(ที่ไม่สามารถเปลี่ยนได้)ของtype`a`
+
+ทุกๆอย่างที่่เหลือในdata structureแบบพีชคณิตนั้นสร้างมาจากพื้นฐานทั้งสองโดนการใช้productกับsum 
+
+ด้วยความรู้ใหม่นี้เรามามองในมุมมองใหม่ของconstructorของtype`Maybe`
+
+```Haskell
+data Maybe a = Nothing | Just a
+```
+
+มันคือsumของtypeสองแบบและเราได้รู้ว่าsumนั้นมีความเป็นfunctorในส่วนแรก`Nothing`สามารถที่จะถูกแาดงในรูปแบบของ`Const ()`ที่กระทำบน`a`(parameterแบบtypeแรกของ`Const`ที่ถูกกำหนดให้เป็นunit หลังจากนี้เราจะเห็นการใช้`Const`ที่น่าสนใจ) ในส่วนที่สองก็คือแค่ชื่อที่ต่างไปของidentity functor เราอาจจะนิยาม`Maybe`จนถึงความisomorphismว่า
+
+```Haskell
+type Maybe a = Either (Const () a) (Identity a)
+```
+
+ดังนั้น`Maybe`คือการประกอบกันของbifunctor`Either`คู่กับสองfunctorอย่าง`Const ()`และ`Identity` (`Const`นั้นจริงๆแล้วเป็นbifunctorแต่ในที่นี้เราได้ใช้มันในบางส่วนตลอดเวลา) 
+
+เราได้เห็นแล้วว่าfunctorที่ประกอบกันคือfunctor เราสามารถที่จะโน้มน้าวเราเองง่ายๆว่าbifunctorก็เป็นเช่นเดียวกัน ทั้งหมดที่เราต้องมีคือการหาวิธีในการที่bifunctorที่ถูกกระกอบคู่กับfunctorสองตัวจะทำงานบนmorphismได้อย่างไร ถ้ามีmorphismอยู่สองตัวเราแค่liftตัวหนึ่งด้วยfunctorตัวหนึ่งและliftอีกตัวด้วยfunctorอีกตัวหนึ่ง เราจึงliftคู่ของmorphismที่ถูกliftที่เป็นผลมาจากสิ่งก่อนหน้านี้ด้วยbifunctor 
+
+ดราสามารถที่จะแสดงการประกอบกันในHaskell เรามานิยามtypeของdataที่ถูกparameterizedโดยbifunctor`bf`(มันคือตัวแปรแบบtypeที่ก็คือconstructorของtypeที่นำสองtypeมาในฐานะargument) functorทั้งสองอย่าง`fu`และ`gu`(constructorของtypeที่นำตัวแปรแบบtypeมาแต่ระอย่าง)และtypeทั่วๆไป`a`และ`b` เราใช้`fu`ไปกับ`a`และ`gu`ไปกับ`b`แล้วก็ใช้`bf`กับผลลัพธ์ที่เป็นทั้งสองtype
+
+```Haskell
+newtype BiComp bf fu gu a b = BiComp (bf (fu a) (gu b))
+```
+
+นั่้นคือการประกอบกันของวัตถุหรือtype สังเกตว่าวิธีในHaskell เราใช้constructorของtypeกับtypeต่างๆ เหมือนกับการที่เราใช้functionไปกับargumentต่างๆ เป็นไวยากรณ์ที่เหมือนกัน
+
+ถ้าคุณสับสนเล็กน้อยลองใข้`BiComp`ไปยัง`Either`,`Const ()`,`Identity`,`a`และ`b`ในลำดับนี้ คุณจะได้อีกรูปที่พื้นฐานแบบหนึ่งของ`Maybe b`กลับมา(`a`ก็ถูกเมินเฉย)
+
+typeข้อมูลอันใหม่`BiComp`คือbifunctorบน`a`และ`b`แต่แค่`bf`นั้นคือ`Bifunctor`เองและ`fu`และ`gu`คือ`Functor` complierต้องรู้ว่าได้มีนิยามของ`bimap`อยู่สำหรับ`bf`และนิยามของ`fmap`ใน`fu`และ`gu` ในHaskellนี่สามารถถูกแสดงในฐานะเงื่อนไขเบื้องต้นในการประกาศของinstanceนั้นก็คือกลุ่มของความต้องการของclass (class constraints)ตามด้วยลูกศรคู่
+
+```Haskell
+instance (Bifunctor bf, Functor fu, Functor gu) =>
+  Bifunctor (BiComp bf fu gu) where
+    bimap f1 f2 (BiComp x) = BiComp (bimap (fmap f1) (fmap f2) x)
+```
+
+ในการเขียนของ`bimap`สำหรับ`BiComp`ที่ถูดให้มาในรูปแบบของ`bimap`สำหรับ`bf`และ`fmaps`ทั้งสองสำหรับ`fu`และ`gu` complierนั้นอนุมานโดยอัตโนมัติสำหรับtypesทั้งหมดและเลือกfunctionที่ถูกoverloadได้อย่างถูกต้องในทุกๆตอนที่`BiComp`ถูกใช้
+
+`x`ในนิยามของ`bimap`นั้นมีtypeเป็นแบบนี้
+
+```Haskell
+bf (fu a) (gu b)
+```
+
+ที่ที่ข้อนข้างมีขนาดใหญ่ `bimap`รอบนอกทะลุผ่านชั้นของ`bf`และ`fmap`ทั้งสองถูดขุดภายใต้`fu`และ`gu`ตามลำดับ ถ้าtypeของ`f1`และ`f2`คือ
+
+```Haskell
+f1 :: a -> a'
+f2 :: b -> b'
+```
+
+แล้วผลลัพธ์สุดท้ายของtype `bf (fu a') (gu b')`คือ
+
+```Haskell
+bimap :: (fu a -> fu a') -> (gu b -> gu b')
+  -> bf (fu a) (gu b) -> bf (fu a') (gu b')
+```
+
+ถ้าคุณชอบปัญหาจิ๊กซอว์ การโยกย้ายtypeแบบนี้สามารถให้ความบันเทิงกับคุณเป็นชั่วโมงเลย
+
+ดันนั้นมันกลับเป็นว่าเราไม่ต้องที่จะพิสูจน์ว่า`Maybe`เป็นfunctor ความจริงนี้ตามมาจากวิธีการที่มันถูกสร้างในฐานะsumของพื้นฐานที่มีความเป็นfunctor
+
+ผู้อ่านที่ช่างสังเกตอยากจะถามคำถามว่า ถ้าการได้รับมาของinstaceของ`Functor`สำหรับtypeข้อมูลแบบพีชคณิตนั้นมีความเป็นกลไกอย่างมาก แล้าเราสามารถทำให้การทำแบบนี้เป็นอัตโนมัติและกระทำโดยcomplterได้หรือเปล่า แน่นอนว่ามันสามารถทำได้และมันทำอยู่ คุณต้องเปิดใช้งานextensionของHaskellบางตัวโดยการนำบรรทัดนี้เข้ามาข้างบนของไฟล์ของโค้ด(source file)
+
+```Haskell
+{-# LANGUAGE DeriveFunctor #-}
+```
+
+แล้วก็เพิ่ม`deriving Functor`ไปยังdata structureของคุณ
+
+```Haskell
+data Maybe a = Nothing | Just a deriving Functor
+```
+
+แล้ว`fmap`ที่สอดคล้องกันก็จะถูกเขียนให้คุณ
+
+ความเป็นระเบียบของdata strctureแบบพีชคณิตทำให้มันเป็นไปได้ที่จะสร้างinstanceที่ไม่ใช่แค่สำหรับ`Functor`แต่type classต่างๆอีกหลายตัวรวมไปถึง`Eq`type classที่ผมพูดถึงก่อนหน้านี้ มันได้มีทางเลือกในการสอนcomplierในการสร้างinstancesสำหรับtype classsของคุณแต่นั้นค่อนข้างขั้นสูงไปหน่อย แนวคิดถึงแม้จะเหมือนกันคือคุณให้พฤติกรรมสำหรับส่วนประกอบพื้นฐานและการsumและproductและให้complierคิดในส่วนที่เหลือ
+
+## FunctorในC++
+
+ถ้าคุณเป็นคนที่เขียนC++แน่นอนว่าคุณนั้นอยู่ตัวคนเดียวเท่าที่การเขียนfuntorจะเป็น แต่คุณควรที่สามารถที่จะมองเห็นtypeบางตัวของdata structureแบบพีชคณิตในC++ถ้าdata structureแบบนั้นถูกสร้างไปเป็นtemplateทั่วไป (generic template)คุณควรที่จะสามารถเขียน`fmap`สำหรับมัน
+
+เรามาดูที่data structureแบบtreeที่เราต้องการที่จะนิยามมันในHaskellในฐานะtypeแบบsumและrecursive 
+
+```Haskell
+data Tree a = Leaf a | Node (Tree a) (Tree a)
+    deriving Functor
+```
+
+เหมือนกัยการที่ผมเอ่ยถึงก่อนหน้านี้ วิธีหนึ่งในการเขียนtypeแบบsumในC++คือผ่านลำดับชั้นของclass มันอาจจะเป็นธรรมชาติในภาษาแบบobject-orientedในการเขียน`fmap`ในฐานะfunctionแบบvirtualของclassพื้นฐานอย่าง`Functor`และก็overrideมันในsubclassทั้งหมด น่าเสียดายว่าสิ่งนี้เป็นไปไม่ได้เพราะ`fmap`คือtemplate ที่parameterizedไม่ได้แค่โดยtypeของวัตถุที่มันกระทำต่อ (pointerของ`this`)แต่ก็รวมไปถึงtypeที่returnมาของfunctionที่ถูกนำมาใช้กับมัน functionแบบvirtualไม่สามารถที่จะทำให้เป็นtemplateในC++ เราจะเขียน`fmap`ในฐานะfunction freeทั่วไป(generic free function)และเราจะแทนที่การจับคู่รูปแบบด้วย`dynamic_cast`
+
+classฐานต้องนิยามfunctionแบบvirtualหนี่งตัวเป็นอย่างน้อยเพื่อที่จะสนับสนุนการcastingแบบdynamicsดังนั้นเราจะทำdestructorเป็นvirtual (ที่ก็เป็นแนวคิดที่ดีในทุกๆกรณี)
+
+```C++
+template<class T>
+struct Tree { 
+    virtual ~Tree() {}
+};
+```
+
+`Left`ก็เป็นแค่functor`Identity`แบบแอบๆ
+
+```C++
+template<class T>
+struct Leaf : public Tree<T> {
+    T _label;
+    Leaf(T l) : _label(l) {}
+};
+```
+
+`Node`เป็นtypeแบบproduct
+
+```C++
+template<class T>
+struct Node : public Tree<T> {
+    Tree<T> * _left;
+    Tree<T> * _right;
+    Node(Tree<T> * l, Tree<T> * r) : _left(l), _right(r) {}
+};
+```
+
+ในการเขียน`fmap`เราได้ใช้การdispatchingแบบdynamicบนtypeของ`Tree`ให้เป็นประโยชน ในกรณีของ`Leaf`ใช้รูปแบบ`Identity`ของ`fmap`และในกรณีของ`ืนกำ`ก็ถูปฏิบัติเหมือนbifunctorที่ถูกประกอบคู่กับ`Tree`functorสองตัว ในฐานะคนที่เขียนC++คุณอาจจะไม่คุ้นเคยกับการวิเคราะห์โค้ดในแบบนี้แต่มันเป็นการฝึกที่ดีในการคิดแบบcategorical
+
+```C++
+template<class A, class B>
+Tree<B> * fmap(std::function<B(A)> f, Tree<A> * t) {
+    Leaf<A> * pl = dynamic_cast <Leaf<A>*>(t);
+    if (pl)
+        return new Leaf<B>(f (pl->_label));
+    Node<A> * pn = dynamic_cast<Node<A>*>(t);
+    if (pn)
+        return new Node<B>( fmap<A>(f, pn->_left) 
+                          , fmap<A>(f, pn->_right));
+    return nullptr;
+}
+```
+
+เพิ่อความง่ายดาย ผมตัดสินใจที่จะไม่สนใจกับปัญหาของการจัดการmemoryและทรัพยากรแต่ในโด้ดที่ใช้ในproductionคุณอาจจะต้องใช้smart pointer(ที่เป็นเอกลักษณ์หรือใช้ร่วมกัน แล้วแต่นโยบายของคุณ) 
+
+นำมาเทียบกับการเขียนใน`Haskell`ของ`fmap`
+
+```Haskell
+instance Functor Tree where
+    fmap f (Leaf a) = Leaf (f a)
+    fmap f (Node t t') = Node (fmap f t) (fmap f t')
+```
+
+การเขียนนี้สามารถถูกสร้างโดยcomplierเช่นกัน
+
+## Functorนักเขียน
+
+ผมสัญญาว่าผมจะกลับมาที่categortyแบบkleisliที่ผมอธิบายก่อนหน้านี้ morphismในcategoryนั้นถูกแสดงโดยfunctionที่ผ่านการประดับแล้วที่return data structureแบบ`Writer`
+
+```Haskell
+type Writer a = (a, String)
+```
+
+ผมพูดก่อนหน้านี้คือการประดับของfunctionนั้นมีความเกี่ยวข้องบางอย่างกับendofunctor และแน่นอนว่าconstructorของtypeอย่าง`Writer`นั้นมีความเป็นfunctorใน`a` เราไม่ต้องที่จะมีการเขียนของ`fmap`สำหรับมันเพราะว่ามันก็เป็นแค่typeแบบproduct
+
+แต่อะไรคือความสัมพันธ์ระหว่างcategoryแบบKleisliและfunctorโดยทั่วไปแล้ว? categoryแบบKleisliในการที่เป็นcategoryนิยามการประกอบกันและidentity ให้ผมได้เตือนความจำคุณว่าการประกอบกันนั้นถูกให้โดยfish operator
+
+```Haskell
+(>=>) :: (a -> Writer b) -> (b -> Writer c) -> (a -> Writer c)
+m1 >=> m2 = \x ->
+    let (y, s1) = m1 x
+        (z, s2) = m2 y 
+    in (z, s1 ++ s2)
+```
+
+และmorphismแบบidentityถูกให้โดยfunctionmี่เรียกว่า`return`
+
+```Haskell
+return :: a -> Writer a
+return x = (x, "")
+```
+
+มันกลายมาเป็นว่าถ้าคุณมองที่typeของfunctionทั้งสองมาพอ(และผมหมายถึง*นาน*มากพอ)คุณสามารถหาวิธีการในการรวมพวกมันเข้าเดียวกันในการสร้างfunctionที่มีtype signatureที่ถูกต้องเพื่อที่จะนำมาใช้ในฐานะ`fmap`ในแบบนี้
+
+```Haskell
+fmap f = id >=> (\x -> return (f x))
+```
+
+ในที่นี้fish operatorได้รวมสองfunction หนึ่งในนั้นคือ`id`ที่คุ้นเคยและอีกตัวหนึ่งคือlambdaที่ใช้`return`ขอผลลัพธ์ของ`f`ที่ทำบนargumentของlambnda ส่วนทียากที่สุดที่จะทำความเข้าใจก็คงเป็นการใช้`id` ไม่ใช้หรอที่argumentของfish operatorควรที่จะเป็นfunctionที่นำtypeแบบ"ธรรมดา"และreturn typeผ่านการประดับแล้ว? ก็ไม่ตลอก ไม่มีใครบอกว่า`a`ใน`a -> Writer b`ต้องเป็นtypeแบบ"ธรรมดา" มันเป็นตัวแปรแบบtypeดังนั้นมันสามารถที่จะเป็นได้ทุกๆอย่าง โดยเฉพาะมันสามารถที่จะเป็นtypeที่ผ่านการประดับแล้วอย่าง`Writer b`
+
+ดังนั้น`id`จะรับ`Writer a`และแปลมันเป็น`Writer a` fish operatorจะทำการดึงค่าของ`a`และส่งไปในฐานะ`x`ไปยังlambda ในที่นี้`f`จะกลายมาเป็น`b`และ`return`จะทำการประดับมันให้ได้มันมาเป็น`Writer b` มำทั้งหมดเข้าด้วยกันเราก็จะได้functionที่นำ`Writer a`เขามาและส่งกลับมาเป็น`Writer b`ในที่สุด ซึ่งเป็นส่งที่`fmap`ควรที่จะสร้าง
+
+สังเกตได้ว่าargumentนี้มีความทั่วไปเป็นอย่างมาก คุณสามมารถที่จะแทนที่`Writer`กับconstructorของtypeแบบไหนก็ได้ ตราบเท่าทีมันรับรองfist operatorและ`return`คุณสามารถนิยาม`fmap`ได้เหมือนกัน ดังนั้นการประดับในcategoryแบบKleisliจึงเป็นfunctorตลอด (แต่ไม่ใช้ทุกfunctorที่จะก่อให้เกิดเป็นcategoryแบบKleisi) 
+
+คุณอาจจะสงสัยว่าถ้า`fmap`ที่เราพึ่งนิยามนั้นเหมือนกับ`fmap`ที่complierอาจจะสร้างมาสำหรับเราด้วย`deriving Functor` น่าสนใจไม่น้อยที่มันเป็นแบบเดียวกัน นี่ก็เป็นเพราะวิธีการที่Haskellเขียนfunctionsแบบpolymorphic มันถูกเรียกว่า*parametric polymorphism*และมันเป็นที่มาของสิ่งที่เรียกว่า ทฤษฎีบทที่ได้มาแบบฟรีๆ(theorems for free) หนึ่งในทฤษฎีบทเหล่านี้พูดว่า ถ้าได้มีการเขียนของ`fmap`สำหรับconstructorของtypeที่ให้มาที่เก็บรักษาidentityไว้ แล้วมันก็จะมีแค่มันเพียงตัวเดียว
+
+## FunctorแบบCovariantและContravariant
+
+ในตอนนี้ดราได้พิจารณาfunctorนักเขียน เรามากลับมาที่functorนักอ่าน มันมาจากconstructorของtypeแบบลูกศรfunctionที่ถูกใช้บางส่วน
+
+```Haskell
+(->) r
+```
+
+เราสามารถที่จะเขียนใหม่ในtypeที่มีความหมายเดียวกัน
+
+```Haskell
+type Reader r a = r -> a
+```
+
+ที่instance`Functor`ในที่ที่เราเห็นมาก่อนเขียนว่า
+
+```Haskell
+instance Functor (Reader r) where
+    fmap f g = f . g
+```
+
+แต่ก็เหหมือนกับcostructorของtype pairหรือconstructorของtype`Either` constructorของtype functionนั้นนำargumentชองtypeทั้งสองเข้ามา pairและ`Either`มีความเป็นfunctorในargumentทั้งสอง มันคือbifunctor แล้วconstructorของfunctionเป็นbifunctorด้วยหรือเปล่า? 
+
+เรามาลองที่จะทำมันให้มีความเป็นfunctorในargumentแรก เรามาเริ่มด้วยtypeที่มีความหมายเดียวกันมันคือแค่`Reader`แต่ถูกสลับargument
+
+```Haskell
+type Op r a = a -> r
+```
+
+ในตอนนี้เรายึดtypeที่return`r`ไว้แล้วแปรtypeของargument`a`ไปมา เรามาดูว่าเราสามารถที่จะให้typeต่างๆคู่กันเพื่อที่จะสามารถเขียน`fmap`ที่ควรที่จะตามเป็นsignatureของtypeไดต่อไปนี้
+
+```Haskell
+fmap :: (a -> b) -> (a -> r) -> (b -> r)
+```
+
+ด้วยแค่functionสองตัวที่นำ`a`มาแล้วก็return`b`และ`r`กลับมาตามลำดับ แต่มันไม่มีวิธีไหนในการสร้างfunctionที่นำ`b`เข้ามาและreturn`r`กลับมา มันอาจจะแตกต่างถ้าเราสามารถสลับ(invert)functionตัวแรกเพื่อที่ว่ามันนำ`b`เข้ามาและreturn`a`กลับมาแทน เราไม่สามารถสลับfunctionอะไรก็ตามแต่เราสามารถไปยังcategoryตรงข้าม
+
+สรุปอย่างคล้าวๆ สำหรับทุกๆcategory$\textbf{C}$ได้มีcategory dual$\textbf{C}^\text{op}$มันคือcategoryที่มีวัตถุเหมือนกับ$\textbf{C}$แต่ในทุกๆลูกศรอยู่ในทางตรงข้าม 
+
+ลองพิจารณาfunctorที่ไประหว่าง$\textbf{C}^\text{op}$และอีกcategory$\textbf{D}$หนึ่ง
+
+$$
+F::\textbf{C}^\text{op}\rightarrow\textbf{D}
+$$
+
+functorแบบนี้โยงmorphism$f^\text{op}::a\rightarrow b$ใน$\textbf{C}^\text{op}$ไปยังmorphism$f^\text{op}::Fa\rightarrow Fb$ใน$\textbf{D}$ แต่morphism$f^\text{op}$นั้นคู่กับบางmorphism$f::b\rightarrow a$อย่างลับๆในcategoryดังเดิม$\textbf{C}$ โปรดสังเกตการกลับทาง
+
+ในตอนนี้$F$เป็นfunctorธรรมดาแต่ได้มีการโยงที่เรานิยามที่มีฐานมาจาก$F$ที่ไม่ใช่functor เรามาเรียกมันว่า$G$ มันโยงจาก$\textbf{C}$ไปยัง$\textbf{D}$ มันโยงวัตถุในแบบเดียวกันที่$F$ทำแต่ในตอนที่มันทำการโยงmorphismมันจะทำการกลับทางพวกมัน มันนำmorphism$f::b\rightarrow b$ใน$\textbf{C}$โยงไปmorphismตรงข้าม$f^\text{op}::a\rightarrow b$แล้วก็ใช้functor$F$บนมันเพื่อที่จะได้$Ff^\text{op}:Fa\rightarrow Fb$มา
+
+ถ้าเราพิจารณาว่า$Fa$นั้นเหมือนกับ$Ga$และ$Fb$เหมือนกับ$Gb$ ทั้งหมดสามารถที่จะถูกอธิบายว่า $Gf::(b\rightarrow a)\rightarrow(Ga\rightarrow Gb)$มันคือ"functorที่มีการแปลงเล็กน้อย" การโยงระหว่างcategoryต่างๆนั้นกลับทิศทางของmorphismในรูปแบบนี้จะถูกเรียกว่าfunctorแบบ*contravariant* สังเกตว่าfunctorแบบcontravariantนั้นก็เป็นแค่functorธรรมดาจากcategoryตรงข้าม อนึ่งfunctorธรรมดา(เป็นแบบที่เราได้ทำการศึกษาจนถึงจุดนี้)จะถูกเรียกว่าfunctorแบบ*covariant*
+
+![bimap](images/contravariant.jpg){fig-align="center" height=200}
+
+ในที่นี้typeclassที่นิยามfunctorแบบcontravariant (จริงๆก็คือ*endo*functorแบบcontravariant)ในHaskell
+
+```Haskell
+class Contravariant f where
+    contramap :: (b -> a) -> (f a -> f b)
+```
+
+construnctorของtype`Op`คือinstanceของมัน
+
+```Haskell
+instance Contravariant (Op r) where
+    -- (b -> a) -> Op r a -> Op r b
+    contramap f g = g . f
+```
+
+สังเกตว่าfunction`f`ใส่ตัวเองเข้าก่อน(นั่นก็คืออยู่ทางด้านขวาของ)เนื้อหาของ`Op` นั้นก็คือfunction`g`
+
+นิยามของ`contramap`สำหรับ`Op` สามารถทำให้กระชับมากขึ้นถ้าคุณสังเกตว่ามันคือแค่operatorในการประกอบfunctionที่argumentถูกสลับ ได้มีfunctionพิเศษสำหรับการสลับargument เรียกว่า`flip`
+
+```Haskell
+flip :: (a -> b -> c) -> (b -> a -> c)
+flip f y x = f x y
+```
+
+ในแบบนี้เราก็จะได้
+
+
+```Haskell
+contramap = flip (.)
+```
+
+## Profunctors
+
+เราได้เห็นมาแล้วว่าoperatorของลุกศรfunctionเป็นแบบcontravariantในargumentตัวแรกและเป็นแบบcovariantในในargumentตัวที่สอง แล้วได้มีชื่อสำหรับสิ่ง(ที่ดูน่ากลัวนี้)นี้หรือเปล่า? มีกลับเป็นว่าถ้าcategoryปลายทางเป็น$\textbf{Set}$แล้วสิ่งที่ดูน่ากลัวนี้จะถูกเรียกว่า*profunctor* เพราะว่าfunctorแบบcontravariantนั้นเท่ากับfunctorแบบcovariantจากcategoryตรงข้าม profunctorนั้นถูกนิยามว่า
+
+
+$$
+\textbf{C}^\text{op}\times\textbf{D}\rightarrow\textbf{Set}
+$$
+
+เนื่องว่าในการประมาณแรกtypeของHaskellคือset เราได้ใช้ชื่อของ`Profunctor`ไปยังconstructorของtype`p`ของargumentทั้งสองที่มีความเป็นcontra-functorในargumentแรกและความเป็นfunctorในargumentที่สอง นี้คือtypeclassที่ถูกต้องที่มาจากlibrary`Data.Profunctor`ว่า
+
+```Haskell
+class Profunctor p where
+    dimap :: (a -> b) -> (c -> d) -> p b c -> p a d
+    dimap f g = lmap f . rmap g
+    lmap :: (a -> b) -> p b c -> p a c
+    lmap f = dimap f id
+    rmap :: (b -> c) -> p a b -> p a c
+    rmap = dimap id
+```
+
+functionทั้งสามมาคู่กับค่าเริ่มต้น เหมือนกับ`Bifunctor`ในการประกาศinstanceของ`Profunctor`คุณต้องมีทางเลือกของการเขียน`dimap`และทำการยอมรับค่าเริ่มต้นสำหรับ`lmap`และ`rmap`หรือเขียนทั้ง`lmap`และ`rmap`และยอมรับค่าเริ่มต้นสำหรับ`dimap`
+
+![dimap](images/dimap.jpg){fig-align="center" height=200}
+
+
+ในตอนนี้ดราสามารถยืนยันว่าoperatorแบบลูกศรfunctionคือinstanceของ`Profunctor`
+
+```Haskell
+instance Profunctor (->) where
+    dimap ab cd bc = cd . bc . ab
+    lmap = flip (.)
+    rmap = (.)
+```
+
+Profunctorถูกใช้ในlibaryของlensในHaskellเราจะเห็นพวกมันในตอนที่เราพูดเกี่ยวกับendsและcoends
+
+## FunctorของHom
+
+ในตัวอย่างข้างบนคือถาพสะท้อนของstatementที่ว่าการโยงที่นำคู่ของวัตถุ$a$และ$b$และกำหนดกับมันเป็นsetของmorphismระหว่างมัน(hom-set$\textbf{C}(a,b)$)คือfunctor มันคือfunctorจากcategoryแบบproduct$\textbf{C}^\text{op}\times\textbf{C}$ไปยังcategoryของsetอย่าง$\textbf{Set}$
+
+เรามานิยามการกระทำของมันบนmorphism morphismใน$\textbf{C}^\text{op}\times\textbf{C}$คือคู่ของmorphismจาก$\textbf{C}$
+
+$$
+\begin{gather*}
+  f :: a' \to a \\
+  g :: b \to b'
+\end{gather*}
+$$
+
+การliftingของคู่นี้ต้องเป็นmorphism(function)ที่มาจากsetจาก$\textbf{C}(a,b)$ไปยัง$\textbf{C}(a',b')$ แค่เลือกสมาชิก$h$ของ$\textbf{C}(a,b)$ (มันคือmorphismจาก$a$ไปยัง$b$)และกำหนดมันไปยัง
+
+$$
+g\circ h\circ f
+$$
+
+ที่ก็คือสมาชิกของ$\textbf{C}(a',b')$
+
+ในคุณได้เห็นแล้วhom-functorเป็นกรณีพิเศษของprofunctor
+
+## โจทย์ท้าทาย
+
+1. ลองแสดงดูว่าtypeของข้อมูล
+```Haskell
+data Pair a b = Pair a b
+```
+คือbifunctor สำหรับคะแนนเพิ่มลองเขียนทั้งสามmethodของ`Bifunctor`และใช้การให้เหตุผลทางสมการในการแสดงว่าการนิยามพวกนี้นั้นเข้ากันได้กลับค่าเริ่มต้นในทุกๆตอนที่มันถูกใช้
+
+2. ลองแสดงisomorphismระหว่างนิยามมาตรฐานของ`Maybe`และนิยามที่ตรงไปตรงมาอย่าง(desugaring)
+```Haskell
+type Maybe' a = Either (Const () a) (Identity a)
+```
+คำใบ้:นิยามการโยงสองตัวระหว่างการเขียนทั้งสอง สำหรับคะแนนเพิ่มลองแสดงว่าพวกมันคือinverseระหว่างกันโดยการใช้เหตุผลทางสมการ
+
+3. เรามาลองdata structureอีกอัน เราเรียกมันว่า`PreList`เพราะว่ามันคือจุดเริ่มของ`List` มันแทนที่recursionด้วยparameterแบบtype`b`
+```Haskell
+data PreList a b = Nil | Cons a b
+```
+เราอาจจะกู้นิยามก่อนหน้านี้ของ`List`โดยการใช้งาน`PreList`ไปกับตัวเอง(เราจะเห็นวิธีการในการทำมันในตอนที่เราพูดเกี่ยวกับfixed points)และลองแสดงว่า`PreList`คือinstanceของ`Bifunctor`
+
+4. แสดงว่าtypeแบบข้อมูลนิยามbifunctorใน`a`และ`b`
+```Haskell
+data K2 c a b = K2 c
+
+data Fst a b = Fst a
+
+data Snd a b = Snd b
+```
+สำหรับคะแนนเพิ่มลองตรวจสอบคำตอบของคุณกับpaperของConor McBrideอย่างClowns to the Left of me, Jokers to the Right[^1]
+
+5. นิยามbifunctorในภาษาที่มีมากกว่าHaskell ลองเขียน`bimap`สำหรับpairแบบทั่วไปในภาษานั้น
+
+6. `std::map`ควรที่จะถูกพิจารณาเป็นbifunctorหรือprofunctorในargumentของtemplate`Key`และ`T`? แล้วคุณจะทำการออกแบบtypeแบบข้อมูลใหม่ที่จะทำให้เป็นแบบนั้น?
+
+
+[^1]: [http://strictlypositive.org/CJ.pdf](http://strictlypositive.org/CJ.pdf)
+
