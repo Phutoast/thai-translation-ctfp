@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 27&nbsp; EndsและCoends</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/3.11/kan-extensions.html" rel="next">
+<link href="../../content/3.9/algebras-for-monads.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.10/ends-and-coends.html"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.1/its-all-about-morphisms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.2/adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.3/free-forgetful-adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.4/monads-programmers-definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.5/monads-and-effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Monadและผลตามมา(Effect) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.6/monads-categorically.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.7/comonads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.8/f-algebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.9/algebras-for-monads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">AlgebrasสำหรับMonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.10/ends-and-coends.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.11/kan-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#การแปลงแบบdinatural" id="toc-การแปลงแบบdinatural" class="nav-link active" data-scroll-target="#การแปลงแบบdinatural"><span class="header-section-number">27.1</span> การแปลงแบบDinatural</a></li>
+  <li><a href="#ends" id="toc-ends" class="nav-link" data-scroll-target="#ends"><span class="header-section-number">27.2</span> Ends</a></li>
+  <li><a href="#endsในฐานะequalizers" id="toc-endsในฐานะequalizers" class="nav-link" data-scroll-target="#endsในฐานะequalizers"><span class="header-section-number">27.3</span> EndsในฐานะEqualizers</a></li>
+  <li><a href="#การแปลงแบบธรรมชาตในฐานะends" id="toc-การแปลงแบบธรรมชาตในฐานะends" class="nav-link" data-scroll-target="#การแปลงแบบธรรมชาตในฐานะends"><span class="header-section-number">27.4</span> การแปลงแบบธรรมชาติในฐานะEnds</a></li>
+  <li><a href="#coends" id="toc-coends" class="nav-link" data-scroll-target="#coends"><span class="header-section-number">27.5</span> Coends</a></li>
+  <li><a href="#yoneda-lemmaชอนเรนninja-yoneda-lemma" id="toc-yoneda-lemmaชอนเรนninja-yoneda-lemma" class="nav-link" data-scroll-target="#yoneda-lemmaชอนเรนninja-yoneda-lemma"><span class="header-section-number">27.6</span> Yoneda lemmaช้อนเร้น(Ninja Yoneda Lemma)</a></li>
+  <li><a href="#การประกอบกนของprofunctor" id="toc-การประกอบกนของprofunctor" class="nav-link" data-scroll-target="#การประกอบกนของprofunctor"><span class="header-section-number">27.7</span> การประกอบกันของProfunctor</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>ได้มีวิธีการคิดหลากหลายที่ว่าเราอาจจะนำมาคิดกับmorphismsในcategoryแต่เราสามารถเห็นด้วยทั้งหมดว่าถ้าได้มีmorphismจากวัตถุ<span class="math inline">\(a\)</span>ไปยังวัตถุ<span class="math inline">\(b\)</span>แล้วกันนั้น สองวัตถุนั้นในแบบใดแบบหนึ่งที่“มีความสัมพันธ์กัน” morphismคือในมุมหนึ่งคือข้อพิสูจน์ของความสัมพันธ์นี้ มันจึงเห็นได้ชัดเจนในcategoryแบบposetใดๆก็ตามที่morphism<em>คือ</em>ความสัมพันธ์กัน โดนทั่วไปแล้ว ได้มี“การพิสูจน์”ที่หลากหลายของความสัมพันธ์เดียวกันระหว่างสองวัตถุ การพิสูจน์เหล่านี้ก่อให้เกิดsetที่เราเรียกได้ว่าhom-set ในตอนที่เราทำให้วัตถุมีความหลากหลาย เราได้การโยงจากคู่ของวัตถุไปยังsetของ”การพิสูจน์ต่างๆ” การโยงแบบนี้เป็นแบบfunctor(ที่เป็นแบบcontravariantในargumentแรกและcovariantในตัวที่สอง) เราสามารถมองที่มันในฐานะความสัมพันธ์ในระดับกว้างระหว่างวัตถุในcategory ความสัมพันธ์แบบนี้นั้นถูกอธิบายโดยhom-functorอย่าง</p>
+<p><span class="math display">\[
+\textbf{C}(-, =) :: \textbf{C}^{op}\times{}\textbf{C} \to \textbf{Set}
+\]</span></p>
+<p>โดยทั่วไปแล้ว ในfunctorใดๆก็ตามเหมือนแบบนี้อาจจะถูกตีความในฐานะการก่อตั้งความสัมพันธ์ระหว่างวัตถุในcategory ความสัมพันธ์ก็อาจจะเกี่ยวข้องกับสองcategoryที่ไม่เหมือนกัน<span class="math inline">\(\textbf{C}\)</span>และ<span class="math inline">\(\textbf{D}\)</span> functorที่อธิบายความสัมพันธ์แบบนี้ มีsignatureดังต่องไปนี้และถูกเรียกว่าprofunctorว่า</p>
+<p><span class="math display">\[
+p :: \textbf{D}^{op}\times{}\textbf{C} \to \textbf{Set}
+\]</span></p>
+<p>นักคณิตศาสตร์บอกว่านั้นมันคือprofunctorจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{D}\)</span>(สังเกตการกลับด้านของมัน)และใช้ลูกศรที่ถูกกาในฐานะสัญลักษณ์สำหรับมันว่า</p>
+<p><span class="math display">\[
+\textbf{C} \nrightarrow \textbf{D}
+\]</span></p>
+<p>คุณสามารถคิกถึงprofunctorในฐานะ<em>ความสัมพันธ์ที่เกี่ยวกับการพิสูจน์</em>ระหว่างวัตถุของ<span class="math inline">\(\textbf{C}\)</span>และวัตถุของ<span class="math inline">\(\textbf{D}\)</span>ที่สมาชิกต่างของsetเป็นสัญลักษณ์ของการพิสูจน์ของความสัมพันธ์ ถ้า<span class="math inline">\(p \ a \ b\)</span>นั้นว่าง ก็หมายความว่าไม่ได้มีความสัมพันธ์ระหว่าง<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span> จงจำได้ว่าความสัมพันธ์ไม่จำเป็นต้องมีความสมมาตร</p>
+<p>อีกวิธีคิดที่มีประโยชน์คือการgeneralizeของแนวคิดที่ว่าendofunctorคือภาชนะ ค่าของprofunctorของtype<span class="math inline">\(p \ a \ b\)</span>อาจจะถูกพิจารณาเป็นภาชนะของ<span class="math inline">\(b\)</span>ต่างๆที่มีสมาชิกของtype<span class="math inline">\(a\)</span>เป็นkey โดนเฉพาะเช่นสมาชิกของhom-profunctorคือfunctionจาก<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(b\)</span></p>
+<p>ในHaskell profunctorนั้นถูกนิยามในฐานะconstructorของtype<code>p</code>แบบสองargumentที่มาคู่กับmethodที่ถูกเรียกว่า<code>dimap</code>ที่liftsคู่ของfunctions ในส่วนแรกนั้นไปยังในทิศทางที่“ผิด”</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Profunctor</span> p <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    dimap ::</span> (c <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> d) <span class="ot">-&gt;</span> p a b <span class="ot">-&gt;</span> p c d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ความเป็นfunctorของprofunctorบอกเราว่าถ้าเรามีข้อพิสูจน์ที่<code>a</code>นั้นมีความสัมพันธ์กัน<code>b</code> แล้วเราก็จะมีข้อพิสูจน์ว่า<code>c</code>นั้นมีความสัมพันธ์กัน<code>d</code> ตราบเท่าทีมีmorphismจาก<code>c</code>ไปยัง<code>a</code>และอีกตัวหนึ่งจาก<code>b</code>ไปยัง<code>d</code> หรือเราอาจจะคิดของfunctionแรกในฐานะการแปลงkeyต่างๆตัวใหม่ไปยังkeyต่างๆตัวเก่า และfunctionที่สองในฐานะการแปลงเนื้อหาของภาชนะ</p>
+<p>สำหรับprofunctorsกระทำภายในcategoryหนึ่ง เราสามารถดึงข้อมูลค่อนข้างมากจากสมาชิกแนวทแยง(diagonal)ของtype<span class="math inline">\(p \ a \ a\)</span> เราสามารถพิสูจน์ว่า<span class="math inline">\(b\)</span>นั้นมีความสัมพันธ์ของ<span class="math inline">\(c\)</span> ตราบเท่าที่เรามีคู่ของmorphismsอย่าง<span class="math inline">\(b\to a\)</span>และ<span class="math inline">\(a\to c\)</span> ดีไปกว่านี้น เราสามารถใช้morphismเดี่ยวของการเข้าหาค่าที่อยู่นอกจากค่าในแนวทแยง ตัวอย่างเช่น ถ้าเรามีmorphism<span class="math inline">\(f::a\to b\)</span>เราสามารถยกpairของ<span class="math inline">\(\langle f,\operatorname{id}_b\rangle\)</span>ไปยังจาก <span class="math inline">\(p \ b\ b\)</span>ไปยัง<span class="math inline">\(p \ a \b\)</span>คือ</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dimap f <span class="fu">id</span> (p b b)<span class="ot"> ::</span> p a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หรือเราสามารถยกpairของ<span class="math inline">\(\langle \operatorname{id}_a,f\rangle\)</span>ไปยังจาก<span class="math inline">\(p \ a \ a\)</span>ไปยัง<span class="math inline">\(p \ a \b\)</span>คือ</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dimap <span class="fu">id</span> f (p a a)<span class="ot"> ::</span> p a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="การแปลงแบบdinatural" class="level2" data-number="27.1">
+<h2 data-number="27.1" class="anchored" data-anchor-id="การแปลงแบบdinatural"><span class="header-section-number">27.1</span> การแปลงแบบDinatural</h2>
+<p>เนื่องจากว่าprofunctorsคือfunctors เราสามารถนิยามการแปลงแบบธรรมชาติระหว่างพวกมันในรูปแบบมาตรฐาน แต่ในหลายกรณีมันดีพอแล้วในการนิยามการโยงระหว่างสมาชิกแนวทแยงของสองprofunctor การแปลงแบบนี้ถูกเรียกว่าการแปลงแบบdinatural โดนที่มันบรรลุเงื่อนไขของการสลับสุ่มที่แสดงถึง สองวิธีการที่เราเชื่อมสมาชิกแนวทแยงไปยังส่วนที่ไม่ได้เป็ยแบบแนวทแยง แปลงแบบdinaturalระหว่างสองprofunctors<span class="math inline">\(p\)</span>และ<span class="math inline">\(q\)</span>ที่คือสมาชิกของcategoryของfunctorอย่าง<span class="math inline">\([\textbf{C}^{op}\times{}\textbf{C}, \textbf{Set}]\)</span></p>
+<p><span class="math display">\[
+\alpha_a ::: p\ a\ a \to q\ a\ a
+\]</span></p>
+<p>ที่ก็diagramดังต่อไปนี้commutes สำหรับfunction<span class="math inline">\(f::a\to b\)</span>ใดๆก็ตาม</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/end.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>สังเกตว่าสิงนี้นั้นอ่อนกว่าอย่างแน่นอนเมื่อเทียบกับเงื่อนไขความเป็นธรรมชาติ ถ้า<span class="math inline">\(\alpha\)</span>นั้นคือการแปลงแบบธรรมชาติใน<span class="math inline">\([\textbf{C}^{op}\times{}\textbf{C}, \textbf{Set}]\)</span> diagramข้างบนนี้อาจจะถูกสร้างจากสองsquaresของความเป็นธรรมชาติและหนึ่งเงื่อนไขของความเป็นfunctor(profunctor<span class="math inline">\(q\)</span>นั้นคงไว้ซึ่งการประกอบกัน)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/end-1.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>สังเกตว่าส่วนประกอบของการแปลงแบบธรรมชาติ<span class="math inline">\(\alpha\)</span>ใน<span class="math inline">\([\textbf{C}^{op}\times{}\textbf{C}, \textbf{Set}]\)</span> นั้นถูกกำหนดโดยคู่ของวัตถุ<span class="math inline">\(\alpha_{ab}\)</span>การแปลงแบบdinaturalในอีทางหหนึ่งนั้นถูกกำหนดโดยวัตถุเดียว เนื่องด้วยว่ามันแค่โยงสมาชิกแนวทแยงของprofunctorsนั้น</p>
+</section>
+<section id="ends" class="level2" data-number="27.2">
+<h2 data-number="27.2" class="anchored" data-anchor-id="ends"><span class="header-section-number">27.2</span> Ends</h2>
+<p>เรานั้นพร้อมแล้วในการที่จะขยับจาก”algebra”ไปยังในสิ่งที่อาจจะถูกพิจารณาให้เป็น”calculus”ของทฤษฎีcategory calculusของends(และcoends)ยืมแนวคิดและบางเครื่องหมายจากcalculusดั้งเดิม โดยเฉพาะเช่นการที่coendอาจจะถูกเข้าใจในฐานะการบวกกันแบบไม่มีที่สิ้นสุดหรือเป็นการintegrate ในที่endนั้นคล้ายกับการคูณแบบไม่มีที่สิ้นสุด ได้มีแม้กระทั้งบางอย่างที่เหมือนfunction deltaของDirac</p>
+<p>endคือการการgeneralizeของlimit ที่functorถูกแทนที่ด้วยprofunctor แทนที่จะเป็นcone เรามีwedge ฐานของwedgeนั้นสร้างมาจากสมาชิกแนวทแยงของprofunctor<span class="math inline">\(p\)</span> ยอดของwedgeคือวัตถุ(ในที่นี้คือsetเนื่องด้วยเราจะพิจารณาถึงprofunctorsที่มีค่าเป็น<span class="math inline">\(\textbf{Set}\)</span>) แบะด้านข้างคือชุดของfunctionsที่โยงยอดของมันไปยังฐานของมัน</p>
+<p>คุณอาจจะคิดถึงชุดนี้ในฐานะfunctionแบบpolymorphicหนึ่งๆ(functionที่polymorphicในtypeของการreturnของมัน)</p>
+<p><span class="math display">\[
+\alpha :: \forall a\ .\ \operatorname{apex} \to p\ a\ a
+\]</span></p>
+<p>ไม่เหมือนกับcones ภายในwedgeเราไม่มีfunctionsใดๆก็ตามที่จะเชื่อมจุดต่างๆของฐาน แต่ในที่เราได้เห็นไปก่อนหน้านี้ ถ้้าเรามีmorphismใดๆก็ตามอย่าง<span class="math inline">\(f::a\to b\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> เราสามารถเชื่อมทั้ง<span class="math inline">\(p\ a\ a\)</span>และ<span class="math inline">\(p\ b\ b\)</span>ไปยังsetร่วม<span class="math inline">\(p\ a\ b\)</span> เรานั้นย้ำว่าdiagramเหล่านี้นั้นcommute</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/end-2.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>นี้ถูกเรียกว่า<em>เงื่อนไขของwedge</em>ที่สามารถถูกเขียนได้ว่า</p>
+<p><span class="math display">\[
+p \ \operatorname{id}_a \ f \circ \alpha_a = p \ f \ \operatorname{id}_b \circ \alpha_b
+\]</span></p>
+<p>หรือในสัญลักษณ์ของHaskell</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถไปต่อด้วยการสร้างแบบสากลและนิยามendของ<span class="math inline">\(p\)</span>ในฐานะwedgeสากล (คือset<span class="math inline">\(e\)</span>กับชุดของfunctions<span class="math inline">\(\pi\)</span>ที่สำหรับwedgeอื่นๆกับยอด<span class="math inline">\(a\)</span>และชุดของ<span class="math inline">\(\alpha\)</span> ได้มีfunctionที่เป็นเอกลักษณ์<span class="math inline">\(h::a\to e\)</span>ที่ทำให้สามเหลี่ยมทั้งหมดcommute)อย่าง</p>
+<p><span class="math display">\[
+\pi_a \circ h = \alpha_a
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/end-21.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>สัญลักษณ์สำหรับendคือเครื่องหมายของintegralกับ”ตัวแปลintegral”ในตำแหน่งข้างใต้อย่าง</p>
+<p><span class="math display">\[
+\int_c p\ c\ c
+\]</span></p>
+<p>ส่วนประกอบของ<span class="math inline">\(\pi\)</span>นั้นถูกเรียกว่าการโยงแบบprojectionสำหรับendว่า</p>
+<p><span class="math display">\[
+\pi_a :: \int_c p\ c\ c \to p\ a\ a
+\]</span></p>
+<p>สังเกตว่าถ้า<span class="math inline">\(\textbf{C}\)</span>คือcategoryแบบdiscrete(ไม่มีmorphismsนอกจากidentityต่างๆ) endนั้นคือแค่productทั้งหมดของช่องในแนวทแยงของ<span class="math inline">\(p\)</span>ทั้งcategory<span class="math inline">\(\textbf{C}\)</span>ทั้งหมด หลังจากนี้ผมจะแสดงให้คุณเห็นว่า ในกรณีที่ทั่วไปแล้ว ได้มีความสัมพันธ์ระหว่างendและproductนี้ผ่านequalizer</p>
+<p>ในHaskell สูตรของendแปลงโดยตรงไปยังquantifierแบบสากล</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">forall</span> a<span class="op">.</span> p a a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ถ้าพูดแบบรัดกุมแล้ว สิ่งนี้คือแค่productของสมาชิกแนวทแยงทั้งหมดของ<span class="math inline">\(p\)</span>แต่เงื่อนไขwedgeที่บรรลุโดยอัตโนมัติเนื่องด้วย<a href="https://bartoszmilewski.com/2017/04/11/profunctor-parametricity/">parametricity</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> สำหรับfunctionใดๆก็ตาม<span class="math inline">\(f::a\to b\)</span> เงื่อนไขwedgeอ่านได้ว่า</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dimap f <span class="fu">id</span> <span class="op">.</span> <span class="fu">pi</span> <span class="ot">=</span> dimap <span class="fu">id</span> f <span class="op">.</span> <span class="fu">pi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>หรือถ้ามีannotationsของtype</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dimap f id_b <span class="op">.</span> pi_b <span class="ot">=</span> dimap id_a f <span class="op">.</span> pi_a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่ทั้งสองข้างของสมการมีtypeว่า</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Profunctor</span> p <span class="ot">=&gt;</span> (<span class="kw">forall</span> c<span class="op">.</span> p c c) <span class="ot">-&gt;</span> p a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และ<code>pi</code>คือprojectionแบบpolymorphic</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pi</span><span class="ot"> ::</span> <span class="dt">Profunctor</span> p <span class="ot">=&gt;</span> <span class="kw">forall</span> c<span class="op">.</span> (<span class="kw">forall</span> a<span class="op">.</span> p a a) <span class="ot">-&gt;</span> p c c</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pi</span> e <span class="ot">=</span> e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้การอนุมานของtypeที่เลือกส่วนประกอบด้านขวาของ<code>e</code>โดยอัตโนมัติ</p>
+<p>เหมือนกับการที่เราสามารถที่ขะแสดงทั้งชุดของเงื่อนไขของการสลับกลุ่มสำหรับconeในฐานะการแปลงแบบธรรมชาติหนึ่ง เหมือนกันเราสามารถรวมเงื่อนไขของwedgeทั้งหมดไปยังการแปลงแบบdinatural สำหรับสิ่งนั้น เราต้องมีการgeneralizeของfunctorคงที่<span class="math inline">\(\Delta_c\)</span>ไปยังprofunctorคงที่ที่โยงทุกๆคู่ของวัตถุไปยังวัตถุเดียว<span class="math inline">\(c\)</span> และทุกๆคู่ของmorphismsไปยังmorphism identityสำหรับวัตถุนี้ wedgeคือการแปลงแบบdinatural จากprofunctorนั้นไปยังprofunctor<span class="math inline">\(p\)</span> แน่นอนว่าหกเหลี่ยมของความdinaturalityหดตัวไปยังwedgeรูปข้าวหลามตัดในตอนที่เราสังเกตว่า<span class="math inline">\(\Delta_c\)</span>liftsทั้งmorphismsไปยังfunction identityเดียว</p>
+<p>Endsสามารถถูกนิยามสำหรับcategoryเป้าหมายนอกเหนือจาก<span class="math inline">\(\textbf{Set}\)</span>แต่ในที่นี้เราจะแค่ให้ความสนใจกับprofunctorsที่มีค่าเป็น<span class="math inline">\(\textbf{Set}\)</span>และendsของพวกมัน</p>
+</section>
+<section id="endsในฐานะequalizers" class="level2" data-number="27.3">
+<h2 data-number="27.3" class="anchored" data-anchor-id="endsในฐานะequalizers"><span class="header-section-number">27.3</span> EndsในฐานะEqualizers</h2>
+<p>เงื่อนไขของการสลับกลุ่มในนิยามของendสามารถถูกเขียนโดยการใช้equalizer อย่างแรกเรามานิยามสองfunctions(ผมจะใช้สัญลักษณ์ของHaskell เพราะว่าเครื่องหมายทางคณิตศาสตร์ไม่ค่อยเป็นมิตรกับผู้ใช้ในกรณีนี้) functionsเหล่านี้ตรงกันกับสองแขนงของเงื่อนไขของwedgeที่มาบรรจบกัน อย่าง</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lambda ::</span> <span class="dt">Profunctor</span> p <span class="ot">=&gt;</span> p a a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> p a b</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>lambda paa f <span class="ot">=</span> dimap <span class="fu">id</span> f paa</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ot">rho ::</span> <span class="dt">Profunctor</span> p <span class="ot">=&gt;</span> p b b <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> p a b</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>rho pbb f <span class="ot">=</span> dimap f <span class="fu">id</span> pbb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ทั้งสองfunctionsโยงสมาชิกแนวทแยงของprofunctor<code>p</code>ไปยังfunctionsแบบpolymorphicของtype</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ProdP</span> p <span class="ot">=</span> <span class="kw">forall</span> a b<span class="op">.</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> p a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>functionsเหล่านี้มีtypesที่แตกต่างกัน แต่เราสามารถรวมtypesเหล่านี้เข้าด้วยกันถ้าเราสร้างtypeแบบproductขนาดใหญ่ เราทั้งหมดไว้ในสมาชิกแนวทแยงของ<code>p</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">DiaProd</span> p <span class="ot">=</span> <span class="dt">DiaProd</span> (<span class="kw">forall</span> a<span class="op">.</span> p a a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>functions<code>lambda</code>และ<code>rho</code>ก่อใหห้เกิดการโยงสองอย่างจากtypeแบบproductนี้</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lambdaP ::</span> <span class="dt">Profunctor</span> p <span class="ot">=&gt;</span> <span class="dt">DiaProd</span> p <span class="ot">-&gt;</span> <span class="dt">ProdP</span> p</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>lambdaP (<span class="dt">DiaProd</span> paa) <span class="ot">=</span> lambda paa</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ot">rhoP ::</span> <span class="dt">Profunctor</span> p <span class="ot">=&gt;</span> <span class="dt">DiaProd</span> p <span class="ot">-&gt;</span> <span class="dt">ProdP</span> p</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>rhoP (<span class="dt">DiaProd</span> pbb) <span class="ot">=</span> rho pbb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>endของ<code>p</code>คือequalizerของfunctionsทั้งสอง จำไว้ว่าequalizerเลือกsubsetที่ใหญ่ที่สุดที่สองfunctionsนั้นเท่ากับ ในกรณีนี้มันเลือกsubsetของproductของสมาชิกแนวทแยงที่ทำให้diagramsของwedge commuteกัน</p>
+</section>
+<section id="การแปลงแบบธรรมชาตในฐานะends" class="level2" data-number="27.4">
+<h2 data-number="27.4" class="anchored" data-anchor-id="การแปลงแบบธรรมชาตในฐานะends"><span class="header-section-number">27.4</span> การแปลงแบบธรรมชาติในฐานะEnds</h2>
+<p>ตัวอย่างที่สำคัญมากที่สุดของendคือsetของการแปลงแบบธรมมชาติ การแปลงแบบธรมมชาติ ระหว่างสองfunctors<span class="math inline">\(F\)</span>และ<span class="math inline">\(G\)</span> คือชุดของmorphismsที่ถูกเลือกจากhom-setsในรูปแบบของ<span class="math inline">\(\textbf{C}(F \ a, G \ a)\)</span> ถ้ามันไม่สำหรับเงื่อนไขของความเป็นธรรมชาติ ชุดของการแปลงแบบธรรมชาติก็เป็นแค่productของhom-setsเหล่านี้ ในHaskellนั้นคือ</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">forall</span> a<span class="op">.</span> f a <span class="ot">-&gt;</span> g a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เหคุผลที่มันทำงานได้ในHaskellก็เพราะว่าความเป็นธรรมชาติตามมาจากความparametricity แต่ภายนอกของHaskell ส่วนแนวทแยงทั้งหมดของhom-setsแบบนี้ไม่ได้ทำให้เกิดการแปลงแบบธรรมชาติ แต่ลองสังเกตการโยงนี้</p>
+<p><span class="math display">\[
+\langle a, b \rangle \to \textbf{C}(F\ a, G\ b)
+\]</span></p>
+<p>นั้นคือprofunctor ดังนั้นมันสมเหตุสมผลในการศึกษาendของมัน นี้คือเงื่อนไขwedgeของมัน</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/end1.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เรามาเลือกสมาชิกหนึ่งจากset<span class="math inline">\(\int_c \textbf{C}(F\ c, G\ c)\)</span> projectionsทั้งสองจะโยงสมาชิกนี้ของสองตัวประกอบของการแปลงแบบเฉพาะ เรามาเรียกมันว่า</p>
+<p><span class="math display">\[
+\begin{align*}
+  \tau_a &amp; :: F\ a \to G\ a \\
+  \tau_b &amp; :: F\ b \to G\ b
+\end{align*}
+\]</span></p>
+<p>ในทางแขนงช้ายมือ เราliftคู่ของmorphisms<span class="math inline">\(\langle \operatorname{id}_a, G\ f \rangle\)</span>โดยการใช้ hom-functor คุณณอาจจะจำได้ว่าการliftแบบนี้นั้นถูกเขียนในฐานะการประกอบก่อนและหลังพร้อมกัน ในตอนที่เรากระทำบน<span class="math inline">\(\tau_a\)</span>คู่ที่ถูกliftคือ</p>
+<p><span class="math display">\[
+G\ f \circ \tau_a \circ \operatorname{id}_a
+\]</span></p>
+<p>ในอีกแขนหนึ่งของdiagramให้เรา</p>
+<p><span class="math display">\[
+\operatorname{id}_b \circ \tau_b \circ F\ f
+\]</span></p>
+<p>ความเท่ากันของพวกมัน โดยเงื่อนไขของwedge นั้นไม่ใช้อย่างอื่นนอกจากเงื่อนไขความเป็นธรมมชาติสำหรับ<span class="math inline">\(\tau\)</span></p>
+</section>
+<section id="coends" class="level2" data-number="27.5">
+<h2 data-number="27.5" class="anchored" data-anchor-id="coends"><span class="header-section-number">27.5</span> Coends</h2>
+<p>อย่างที่คาดไว้ dualของendนั้นถูกเรียกว่าcoend มันสร้างมาจากdualของwedgeที่เรียกว่าcowedge (อ่านว่าco-wedgeไม่ใช่cow-edge)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/end-31.jpg" height="200" class="figure-img"></p>
+<figcaption class="figure-caption">An edgy cow?</figcaption>
+</figure>
+</div>
+<p>เครื่องหมายสำหรับcoendคือสัญลักษณ์integralที่“ตัวแปลในการทำintegration”นั้นอยู่ข้างบน</p>
+<p><span class="math display">\[
+\int^c p\ c\ c
+\]</span></p>
+<p>เหมือนกับendที่เกี่ยวข้องกับproduct coendนั้นเกี่ยวข้องกับcoproductหรือsum (ในแนวนี้ มันมีความคล้ายกับintegralที่คือlimitของsum) แทนที่จะมีprojections เรามีinjectionsที่ไปจากสมาชิกแนวทแยงของprofunctorลงไปยังcoend ถ้ามันไม่ใช้สำหรับ เงื่อนไขของcowedge เราอาจจะพูดได้ว่าcoendของprofunctor นั้นคือ<span class="math inline">\(p\ a\ a\)</span>หรือ<span class="math inline">\(p\ b\ b\)</span>หรือ<span class="math inline">\(p\ c\ c\)</span>และอื่นๆ หรือเราอาจจะพ๔ดได้ว่าได้มี<span class="math inline">\(a\)</span>แบบนี้สำหรับที่coendคือแค่set<span class="math inline">\(p\ a\ a\)</span> quantifierแบบสากลที่เราได้ใช้ในนิยามของendหลายมาเป็นquantifierการมีอยู่สำหรับcoend</p>
+<p>นั้นคือเหตุผลที่ในHaskellเทียม เราอาจจะนิยามcoendในฐานะ</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>exists a<span class="op">.</span> p a a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แนวทางมาตราฐานของการเขียนquantifierการมีอยู่ในHaskellคือการใช้constructorsข้อมูลแบบquantifiedแบบสากล(universally quantified data constructors) ดังนั้นเราสามารถนิยาม</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Coend</span> p <span class="ot">=</span> <span class="kw">forall</span> a<span class="op">.</span> <span class="dt">Coend</span> (p a a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แนวคิกของสิ่งนี้คือว่ามันควรที่จะเป็นไปได้ในการสร้างcoendโดยการใช้ค่าของชุดของtypeต่างๆ<span class="math inline">\(p\ a\ a\)</span>ใดๆก็ตามไม่ว่าจะเป็น<span class="math inline">\(a\)</span>แบบไหนที่เราเลือก</p>
+<p>เหมือนกับการที่endสามารถถูกนิยามโดยการใช้equalizer coendสามารถถูกอธิบายโดยการใช้<em>coequalizer</em> เงื่อนไขcowedgeทั้งหมดสามารถถูกสรุปโดยการนำcoproductขนากใหญ่ของ<span class="math inline">\(p\ a\ b\)</span>สำหรับfunctions<span class="math inline">\(b\to a\)</span>ที่เป็นไปได้ทั้งหมด ในHaskellนั้นอาจจะถูกเขียนในฐานะtypeแบบการมีอยู่(existential type)</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">SumP</span> p <span class="ot">=</span> <span class="kw">forall</span> a b<span class="op">.</span> <span class="dt">SumP</span> (b <span class="ot">-&gt;</span> a) (p a b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ได้มีสองวิธีของการประเมินtypeแบบsumนี้ โดนการlift functionนั้โดยการใช้<code>dimap</code>และใช้มันกับprofunctor<span class="math inline">\(p\)</span></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>lambda,<span class="ot"> rho ::</span> <span class="dt">Profunctor</span> p <span class="ot">=&gt;</span> <span class="dt">SumP</span> p <span class="ot">-&gt;</span> <span class="dt">DiagSum</span> p</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>lambda (<span class="dt">SumP</span> f pab) <span class="ot">=</span> <span class="dt">DiagSum</span> (dimap f <span class="fu">id</span> pab)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>rho    (<span class="dt">SumP</span> f pab) <span class="ot">=</span> <span class="dt">DiagSum</span> (dimap <span class="fu">id</span> f pab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่<code>DiagSum</code>คือsumของสมาชิกแนวทแยงของ<span class="math inline">\(p\)</span></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">DiagSum</span> p <span class="ot">=</span> <span class="kw">forall</span> a<span class="op">.</span> <span class="dt">DiagSum</span> (p a a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>coequalizerของสองfunctionเหล่านี้คือcoend coequalizerนั้นก็ได้มาจาก<code>DiagSum p</code>โดยการจับคู่ของค่าที่ได้มาจากการใช้งาน<code>lambda</code>หรือ<code>rho</code>ไปยังargumentเดียวกัน ในที่นี้argumentคือคู่ที่ประกอบด้วยfunction<span class="math inline">\(b\rightarrow a\)</span>และสมาชิก<span class="math inline">\(p \ a \ b\)</span> การใช้งานของ<code>lambda</code>และ<code>rho</code>สร้างค่าที่สามารถที่จะแตกต่างกันของtype<code>DiagSum p</code> ในcoend สองค่านี้นั้นถูกจับคู่กัน ทำให้เงื่อนไขของcowedgeบรรลุโดยอัตโนมัติ</p>
+<p>กระบวนการของการจับคู่ของสมาชิกที่มีความสัมพันธ์กันในsetนั้นรู้จักกันในอย่างเป็นทางการในฐานะการทำquotient ในการนอยามquotientเราต้องการความสัมพันธ์แบบเท่ากัน(<em>equivalence relation</em>)<span class="math inline">\(\sim\)</span>ที่คือสัมพันธ์ที่สะท้อนได้(reflexive)มีความสมมาตร(symmetric)และส่งต่อได้(transitive)นั้นคือ</p>
+<p><span class="math display">\[
+\begin{align*}
+   &amp; a \sim a                                                         \\
+   &amp; \text{if}\ a \sim b\ \text{then}\ b \sim a                       \\
+   &amp; \text{if}\ a \sim b\ \text{and}\ b \sim c\ \text{then}\ a \sim c
+\end{align*}
+\]</span></p>
+<p>ความสัมพันธ์แบบนี้แยกsetไปยังชุดของความเท่ากัน(equivalence classes)ในแต่ละชุดของสมาชิกนั้นมีความสัมพันธ์ระว่างกัน เราสร้างsetแบบquotientโดยการเลือกตัวแทนหนึ่งจากแต่ละชุด ตัวอย่างที่เป็นมาตรฐานคือนิยามของจำนวนตรรกยะในฐานะคู่ของทั้งตังเลขกับความสัมพันธ์แบบเท่ากันอย่างนี้</p>
+<p><span class="math display">\[
+(a, b) \sim (c, d)\ \text{iff}\ a * d = b *
+\]</span></p>
+<p>มันง่ายมากในการตรวจสอบว่านี้คือความสัมพันธ์แบบเท่ากัน คู่ของ<span class="math inline">\((a,b)\)</span>นั้นถูกตีความในฐานะเศษส่วน<span class="math inline">\(\frac{a}{b}\)</span>และเศษส่วนที่ตัวเศษและตัวส่วนมีตัวหารเดียวกันนั้นถูกจับไว้ด้วยกัน จำนวนตรรกยะคือชุดของความเท่ากันของเศษส่วนอย่างนี้</p>
+<p>คุณอาจจะจำได้จากการสนทนาก่อนหน้านี้ของlimitsและcolimitsว่าhom-functorนั้นcontinuous นั้นก็คือมันคงไว้ในlimits ในทางเดียวกัน(Dually) hom-functorแบบcontravariantเปลี่ยนcolimitsไปยังlimits คุณสมบัติเหล่านี้สามารถถูกวางนัยแบบทั่วไปไปยังendsและcoends ที่ก็คือการgeneralizationของlimitsและcolimitsตามลำดับ โดยเฉพาะเช่น เราได้identityที่น่าสนใจในการแปลงcoendsไปยังendsอย่าง</p>
+<p><span class="math display">\[
+\textbf{Set}(\int^x p\ x\ x, c) \cong \int_x \textbf{Set}(p\ x\ x, c)
+\]</span></p>
+<p>เรามาดูไปที่Haskellเทียมกันบ้าง</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(exists x<span class="op">.</span> p x x) <span class="ot">-&gt;</span> c ≅ <span class="kw">forall</span> x<span class="op">.</span> p x x <span class="ot">-&gt;</span> c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันบอกเราว่าfunctionที่นำtypeประเภทของการมีอยู่นั้นเท่ากับfunctionแบบ polymorphic นั้นสมเหตุสมผลอย่างมากเพราะว่าfunctionแบบนี้ต้องเตรียมพร้อมในการทำงานกับหนึ่งในtypeที่อาจจะมีคุณสมบัติ(encoded)typeประเภทของการมีอยู่นั้น มันคือหลักการเดียวกันที่บอกเราว่าfunctionที่รับtypeแบบsum ต้องถูกเขียนในฐานะstatementแบบcase คู่กับtupleของhandlers ของในแต่ละtypeที่อยู่ในsum ในที่นี้typeแบบsumนั้นถูกแทนที่ด้วยcoend และชุดของhandlersกลายมาเป็นendหรือfunctionแบบpolymorphic</p>
+</section>
+<section id="yoneda-lemmaชอนเรนninja-yoneda-lemma" class="level2" data-number="27.6">
+<h2 data-number="27.6" class="anchored" data-anchor-id="yoneda-lemmaชอนเรนninja-yoneda-lemma"><span class="header-section-number">27.6</span> Yoneda lemmaช้อนเร้น(Ninja Yoneda Lemma)</h2>
+<p>setของการแปลงแบบธรรมชาติที่แสดงในYoneda lemmaอาจจะถูกเขียนโดยการใช้end ส่งผลให้เกิดสูตรนี้</p>
+<p><span class="math display">\[
+\int_z \textbf{Set}(\textbf{C}(a, z), F\ z) \cong F\ a
+\]</span></p>
+<p>ก็จะมีสูตรแบบdualดังต่อไปนี้</p>
+<p><span class="math display">\[
+\int^z \textbf{C}(z, a)\times{}F\ z \cong F\ a
+\]</span></p>
+<p>ความเท่ากันนี้นั้นครายกับสูตรของfunction deltaของDirac(นั้นคือfunction<span class="math inline">\(\delta(a - z)\)</span> หรือก็distributionที่มีจุดยอดinfiniteที่<span class="math inline">\(a=z\)</span>) ในที่นี้hom-functorเล่นในตำแหน่งของfunction delta</p>
+<p>นำมารวมกันทั้งสองความเท่ากัยนั้นมักจะถูกเรียกว่าYoneda lemmaช้อนเร้น</p>
+<p>ในการพิสูจน์สมาการที่สองเราจะใช้ผลลัพธ์เนื่องมาจากembeddingแบบYoneda ที่บอกว่าสองวัตถุนั้นisomorphicต่อเมื่อhom-functorsของพวกมันนั้นisomorphic ในอีกความหมายหนึ่ง<span class="math inline">\(a \cong b\)</span>ก็ต่อเมื่อได้มีการแปลงแบบธรรมชาติของtype</p>
+<p><span class="math display">\[
+[\textbf{C}, \textbf{Set}](\textbf{C}(a, -), \textbf{C}(b, =)]
+\]</span></p>
+<p>ที่ก็เป็นisomorphism</p>
+<p>เราเริ่มจากการใส่ทางด้านช้ายมือของidentityที่เราต้องการที่จะพิสูจน์ข้างใน hom-functorที่จะไปยังบางวัตถุ<span class="math inline">\(c\)</span>ใดๆก็ตาม</p>
+<p><span class="math display">\[
+\textbf{Set}(\int^z \textbf{C}(z, a)\times{}F\ z, c)
+\]</span></p>
+<p>โดยการใช้ความcontinuity เราสามารถแทนที่coendด้วยendว่า</p>
+<p><span class="math display">\[
+\int_z \textbf{Set}(\textbf{C}(z, a)\times{}F\ z, c)
+\]</span></p>
+<p>เราก็สามารถใช้ความเป็นadjunctionหระว่างproductและe exponentialให้เป็นประโยชน์ก็คือ</p>
+<p><span class="math display">\[
+\int_z \textbf{Set}(\textbf{C}(z, a), c^{(F\ z)})
+\]</span></p>
+<p>เราสามารถ”ทำการintegrate”โดยการใช้Yoneda lemmaมนการได้มาซึ่ง</p>
+<p><span class="math display">\[
+c^{(F\ a)}
+\]</span></p>
+<p>(สังเกตว่าเราได้ใช้รูปแบบcontravariantของYoneda lemma เพราะว่าfunctor<span class="math inline">\(c^{(F\ a)}\)</span>นั้นcontravariantใน<span class="math inline">\(z\)</span>) วัตถุexponentialนั้นisomorphicกับhom-setอย่าง</p>
+<p><span class="math display">\[
+\textbf{Set}(F\ a, c)
+\]</span></p>
+<p>สุดท้ายแล้วเราใช้การembeddingแบบYonedaให้เป็นประโยชน์ในการได้มาที่isomorphismอย่าง</p>
+<p><span class="math display">\[
+\int^z \textbf{C}(z, a)\times{}F\ z \cong F\ a
+\]</span></p>
+</section>
+<section id="การประกอบกนของprofunctor" class="level2" data-number="27.7">
+<h2 data-number="27.7" class="anchored" data-anchor-id="การประกอบกนของprofunctor"><span class="header-section-number">27.7</span> การประกอบกันของProfunctor</h2>
+<p>เรามาศึกษาให้ลึกขึ้นของแนวคิดที่ว่าprofunctorนั้นอธิบายความสัมพันธ์(หรือถ้าให้แม่นยำคือความสัมพันธ์ที่เกี่ยวกับการพิสูจน์) หมายความว่าset<span class="math inline">\(p\ a\ b\)</span> เป็นตัวแทนของsetของการพิสูจน์ที่<span class="math inline">\(a\)</span>นั้นเกี่ยวข้องกับ<span class="math inline">\(b\)</span> ถ้าเรามีสองความสัมพันธ์<span class="math inline">\(p\)</span>และ<span class="math inline">\(q\)</span>เราสามารถลองที่จะประกอบกัน เราจะบอกว่า<span class="math inline">\(a\)</span>นั้นเกี่ยวข้องกับ<span class="math inline">\(b\)</span>ผ่านการกระกอบกันของ<span class="math inline">\(q\)</span>หลัง<span class="math inline">\(p\)</span>ถ้ามีวัตถุระหว่างกลาง<span class="math inline">\(c\)</span>ที่ว่าทั้ง<span class="math inline">\(q\ b\ c\)</span>และ<span class="math inline">\(p\ c\ a\)</span>นั้นไม่ว่าง การพิสูจน์ของความสัมพันธ์ใหม่คือคู่ทั้งหมดของการพิสูจน์ของแต่ละความสัมพันธ์ ดังนั้น ด้วยความเข้าใจนี้ที่quantifierการมีอยู่ตรงกันกับcoendและการคูณแบบCartesianของสองsetนั้นตรงกับ”คู่ของการพิสูจน์” เราสามารถนิยามการประกอบกันของprofunctorsโดยการใช้สูตรดังต่อไปนี้</p>
+<p><span class="math display">\[
+(q \circ p)\ a\ b = \int^c p\ c\ a\times{}q\ b\ c
+\]</span></p>
+<p>นั้นเท่ากับนิยามของHaskellจาก<code>Data.Profunctor.Composition</code>หลังจากการเปลี่ยนชื่อเรามี</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Procompose</span> q p a b <span class="kw">where</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Procompose</span><span class="ot"> ::</span> q a c <span class="ot">-&gt;</span> p c b <span class="ot">-&gt;</span> <span class="dt">Procompose</span> q p a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นี้ได้ใช้typeแบบข้อมูลแบบalgebraicที่ถูกวางนัยแล้วหรือsyntaxแบบGADTที่คือตัวแปลtypeอิสระ(ในที่นี้คือ<code>c</code>)นั้นคือquantifierของการมีอยู่แล้ว constructorช้อมูล(ที่ถูกuncurried)<code>Procompose</code>จึงเท่ากับ</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>exists c<span class="op">.</span> (q a c, p c b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>unitของการประกอบกันที่ก็ถูกนิยามคือhom-functor สิ่งนี้ตามมาจากYoneda lemmaช้อนเร้น ดังนั้นมันมีเหตุผลในการถามคำถามถ้าได้มีcategoryที่profunctorsนั้นทำงานเป็นmorphismsหรือเปล่า คำตอบคือใช้ที่มีข้อแม้ว่าทั้งกฏการสลับกลุ่มและกฏidentityสำหรับการประกอบกันของprofunctorนั้นใช้ได้จนไปถึงคือisomorphismแบบธรรมชาติ categoryอย่างนี้ที่กฏนั้นตรงไปยังisomorphismนั้นถูกเรียกว่าbicategory(ที่มีความกว้างมากกว่า2-category)ดังนั้นเรามีbicategory<span class="math inline">\(\textbf{Prof}\)</span>ที่วัตถุคือcategories morphismsคือprofunctors และmorphismsระหว่างmorphisms(หรือในอีกคำๆหนึ่งtwo-cells)นั้นคือหารแปลงแบบธรรมชาติ ใรความเป็นจริงแล้ว เราสามารถไปได้ใกลกว่านี้ เพราะว่านอกเหนือจากprofunctors เราก็มีfunctorsทั่วไปในฐานะmorphismsระหว่างcategories categoryที่มีmorphismsสองแบบนั้นจะถูกเรียกว่าcategoryแบบdouble</p>
+<p>Profunctorsมีบทบาทสำคัญในlibrary lensของHaskellและlibraryลูกศร</p>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>https://bartoszmilewski.com/2017/04/11/profunctor-parametricity/<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/3.9/algebras-for-monads.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">AlgebrasสำหรับMonads</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/3.11/kan-extensions.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

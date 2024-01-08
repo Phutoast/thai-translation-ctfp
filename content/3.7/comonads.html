@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 24&nbsp; Comonads</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/3.8/f-algebras.html" rel="next">
+<link href="../../content/3.6/monads-categorically.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.7/comonads.html"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.1/its-all-about-morphisms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.2/adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.3/free-forgetful-adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.4/monads-programmers-definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.5/monads-and-effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Monadและผลตามมา(Effect) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.6/monads-categorically.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.7/comonads.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.8/f-algebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.9/algebras-for-monads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">AlgebrasสำหรับMonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.10/ends-and-coends.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.11/kan-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#เขยนโปรแกรมกบcomonads" id="toc-เขยนโปรแกรมกบcomonads" class="nav-link active" data-scroll-target="#เขยนโปรแกรมกบcomonads"><span class="header-section-number">24.1</span> เขียนโปรแกรมกับComonads</a></li>
+  <li><a href="#comonadsแบบproduct" id="toc-comonadsแบบproduct" class="nav-link" data-scroll-target="#comonadsแบบproduct"><span class="header-section-number">24.2</span> ComonadsแบบProduct</a></li>
+  <li><a href="#แยกชนสวนการคำนวณ" id="toc-แยกชนสวนการคำนวณ" class="nav-link" data-scroll-target="#แยกชนสวนการคำนวณ"><span class="header-section-number">24.3</span> แยกชิ้นส่วนการคำนวณ</a></li>
+  <li><a href="#comonadแบบstream" id="toc-comonadแบบstream" class="nav-link" data-scroll-target="#comonadแบบstream"><span class="header-section-number">24.4</span> ComonadแบบStream</a></li>
+  <li><a href="#comonadแบบcategory" id="toc-comonadแบบcategory" class="nav-link" data-scroll-target="#comonadแบบcategory"><span class="header-section-number">24.5</span> ComonadแบบCategory</a></li>
+  <li><a href="#comonadกกเกบ" id="toc-comonadกกเกบ" class="nav-link" data-scroll-target="#comonadกกเกบ"><span class="header-section-number">24.6</span> Comonadกักเก็บ</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">24.7</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>ในตอนนี้เราได้ครอบคลุมmonadsหมดแล้ว เราสามารถใช้ผลประโยชน์ของdualityและได้comonadsมาแบบฟรีๆอย่างง่านๆโดนการย้อนทางลูกศรและทำงานในcategoryตรงข้าม</p>
+<p>จำได้ว่าในระดับที่เรียบง่ายที่สุดmonadsนั้นเกี่ยวกับการประกอบกันลูกศรKleisliอย่าง</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">-&gt;</span> m b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่<code>m</code>คือfunctorที่คือmonad ถ้าเราใช้ตัวอักษร<code>w</code>(ที่ก็คือ<code>m</code>กลับหัว)สำหรับcomonad เราสามารถนิยามลูกศรco-Kleisliในฐานะmorphismของtypeนี้</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>w a <span class="ot">-&gt;</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>operator fishในแบบเดียวกันสำหรับลูกศรco-Kleisliนั้นถูกนิยามไว้ว่า</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">(=&gt;=) ::</span> (w a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (w b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (w a <span class="ot">-&gt;</span> c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สำหรับลูกศรco-Kleisliในการก่อให้เกิดcategory เราก็ต้องมีลูกศรco-Kleisliที่เป็นidentityที่ถูกเรียกว่า<code>extract</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">extract ::</span> w a <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันคือdualของ<code>return</code> เราก็ได้ทำการบังคับกฏของการสลับกลุ่มและรวมไปถึงกฏidentityด้านช้ายและขวา นำสิ่งเหล่านี้เข้าด้วยกัน เราสามารถนิยามcomonadในHaskellว่า</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Functor</span> w <span class="ot">=&gt;</span> <span class="dt">Comonad</span> w <span class="kw">where</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    (=&gt;=) ::</span> (w a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (w b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (w a <span class="ot">-&gt;</span> c)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ot">    extract ::</span> w a <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการปฏิบัติเราจะใช้primitivesที่แต่ต่างเล็กน้อย ในที่เราจะได้เห็นในอีกไม่ช้า</p>
+<p>คำถามคือ อะไรคือการใช้งานของcomonadsในการเขียนโปรแกรม</p>
+<section id="เขยนโปรแกรมกบcomonads" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="เขยนโปรแกรมกบcomonads"><span class="header-section-number">24.1</span> เขียนโปรแกรมกับComonads</h2>
+<p>เรามาเปรียบเทียบmonadกับcomonad monadให้วิธีการในการใล่ค่าไปยังในภาชนะโดยการใช้<code>return</code> มันไม่ได้ให้คุณการเข้าถึงของค่าหรือค่าต่างๆที่ถูกเก็บข้างใน แน่นอนว่าdata structuresที่เขียนmonadsอาจจะให้การเข้าถึงเนื้อหาของพวกมัน แต่นั้นถูกมองว่าเป็นสิ่งเสริมเพิ่มเติม ได้ไม่มีinterfaceเดียวกันสำหรับการดึงค่าจากmonad และเราได้เห็นตัวอย่างของmonad<code>IO</code>ที่มีความภูมิใจมันเองที่ไม่เคยที่จะเเปิดเผยเนื้อหาข้างใน</p>
+<p>comonadในอีกทางหนึ้งให้วิธีการในการดีงค่าๆหนึ่งจากมัน มันไม่ได้ให้ให้วิธีการในการใส่ค่าเข้าไป ดังนั้นถ้าคุณต้องการที่จะคิดถึงcomonadในฐานะภาชนะ มันนั้นในทุกๆครั้งมาด้วยเนื้อหาขางในที่มีอยู่แล้วและมันอนุญาตให้คุณได้ส่องเข้าไปในมัน</p>
+<p>เหมือนกับลูกศรKleisliนำค่าและสร้างผลัพธ์ที่ถูกประดับแล้ว(มันกประดับมันด้วยบริบท)ลูกศรco-Kleisliนำค่าคู่กับบริบททั้งหมดและสร้างผลลัพธ์ออกมา มันคือตัวแทนของ<em>การคำนวนที่มีบริบท (contextual computation)</em></p>
+</section>
+<section id="comonadsแบบproduct" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="comonadsแบบproduct"><span class="header-section-number">24.2</span> ComonadsแบบProduct</h2>
+<p>จำmonad monadได้หรือเปล่า? เราได้นำเสนอมันในการแก้ใขปัญหาของการเขียนการคํานวณที่ต้องการบางenvironmentที่อ่านได้อย่างเดียว<code>e</code> การคำนวณแบบนี้สามารถถูกแสดงในฐานะfunctionแบบpureในรูปของ</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(a, e) <span class="ot">-&gt;</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราได้ใช้การcurryในการแปลงมันไปยังลูกศรKleisliอย่าง</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">-&gt;</span> (e <span class="ot">-&gt;</span> b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่สังเกตว่าfunctionเหล่านี้นั้นมีรูปแบบของลูกศรco-Kleisliอยู่แล้ว เรามาแปลงargumentsของพวกมันไปยังรูปแบบfunctorที่สะดวกกว่านี้</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Product</span> e a <span class="ot">=</span> <span class="dt">Prod</span> e a <span class="kw">deriving</span> <span class="dt">Functor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถนิยามการoperatorของการประกอบกันย่างง่ายดายโดยการทำให้environmentเดียวกันพร้อมใช้กับลูกศรที่เรากำลังทำการประกอบ</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">(=&gt;=) ::</span> (<span class="dt">Product</span> e a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (<span class="dt">Product</span> e b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (<span class="dt">Product</span> e a <span class="ot">-&gt;</span> c)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=&gt;=</span> g <span class="ot">=</span> \(<span class="dt">Prod</span> e a) <span class="ot">-&gt;</span> <span class="kw">let</span> b <span class="ot">=</span> f (<span class="dt">Prod</span> e a)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                          c <span class="ot">=</span> g (<span class="dt">Prod</span> e b) </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                      <span class="kw">in</span> c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>การเขียนของ<code>extract</code> แค่ทิ้งenvironmentออกไป</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>extract (<span class="dt">Prod</span> e a) <span class="ot">=</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ไม่แปลกใจที่comonad productสามารถถูกใช้ในการกระทำการคำนวณแบบเดียวกับเป๊ะๆในฐานะmonad reader ในแบบหนึ่ง การเขียนแบบcomonadicของenvironmentนั้นเป็นธรรมชาติมากว่า (มันตาม จิตวิญญาณของ”การคำนวณในบริบท”) ในอีกทางหนึ่งmonadsมากับารแต่งsyntaxให้ง่ายขึ้น(syntactic sugar)ที่สะดวกของเครื่องหมาย<code>do</code></p>
+<p>ความเชื่อมต่อระหว่างmonad readerและcomonad productนั้นลึกกว่านี้ ที่ต้องเกี่ยวกับความจริงที่ว่าfunctor readerคือadjointด้านขวาของfunctor product แต่โดยทั่วไปแล้วcomonadsครอบคลุมความมายการคำนวณที่แต่ต่างกับmonads เราจะเห็นตัวอย่างมากขึ้นหลังจากนี้</p>
+<p>มันง่ายมากที่จะgeneralizecomonad<code>Product</code> ไปยังtypesแบบproductทั่วๆไปจนรวมไปถึงtuplesและrecords</p>
+</section>
+<section id="แยกชนสวนการคำนวณ" class="level2" data-number="24.3">
+<h2 data-number="24.3" class="anchored" data-anchor-id="แยกชนสวนการคำนวณ"><span class="header-section-number">24.3</span> แยกชิ้นส่วนการคำนวณ</h2>
+<p>ต่ามต่อจากขบวนการของการทำให้เป็นduality เราสามารถเริ่มไปและทำให้เป็นdualityของbindและjoinทางmonad ในอีกแบบหนึ่งเราสามารถที่ขบวนการเดียวกันที่เราได้ใช้กับmonads ที่เราศึกษาโครวสร้างของoperator fish แนวทางแบบนี้ดู่น่าจะให้ความรู้ได้มากกว่า</p>
+<p>จุดเริ่มคือการรู้ว่าoperatorของการประกอบกันต้องสร้างลูกศรco-Kleisliที่นำ<code>w a</code>และสร้าง<code>c</code> วิธีทางเดียวในการสร้าง<code>c</code>คือการใช้functionที่สองไปกับargumentของtype<code>w b</code>อย่าง</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">(=&gt;=) ::</span> (w a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (w b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (w a <span class="ot">-&gt;</span> c)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=&gt;=</span> g <span class="ot">=</span> g <span class="op">...</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่เราสามารถในการสร้างtype<code>w b</code>ที่อาจจะถูกให้กับ<code>g</code>? เราได้มีargumentของtype<code>w a</code>พร้อมอยู่แล้วและfunction<code>f :: w a -&gt; b</code>คำตอบคือการนิยามdualของbindที่ถูกเรียกว่าextend</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">extend ::</span> (w a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> w a <span class="ot">-&gt;</span> w b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการใช้<code>extend</code>เราสามารถเขียนการประกอบกันว่า</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=&gt;=</span> g <span class="ot">=</span> g <span class="op">.</span> extend f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถทำการแยกชิ้นส่วน<code>extend</code>หรือเปล่า? คุณอาจจะอยากที่จะพูดว่าทำไมไม่แค่ใช้งานfunction<code>w a -&gt; b</code>ไปกับargument<code>w a</code>แต่คุณก็จะรู้ในทันที่ว่าคุณไม่มีทางในการแปลง<code>b</code>ไปยัง<code>w b</code> จำได้ว่าcomonadไม่ให้ทางในการliftค่า ในจุดๆนี้ ในการสร้างแบบคล้ายๆกับของmonads เราได้ใช้<code>fmap</code> วิธีเดียวเราอาจจะใช้<code>fmap</code>ก็ถ้าเรามีบางอย่างของtype<code>w (w a)</code>ที่พร้อมใช้ ถ้าเราสามารถเปลี่ยน<code>w a</code>ไปยัง<code>w (w a)</code> และเพื่อความสะดวกที่ก็อาจจะเป็นdualของ<code>join</code>เป๊ะๆ เราเรียกมันว่า<code>duplicate</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">duplicate ::</span> w a <span class="ot">-&gt;</span> w (w a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ดังนั้นแค่เหมือนกับนิยามของmonadเราได้มีสามนิยามที่เหมือนกันสำหรับcomonadอย่าง การใช้ลูกศรco-Kleisli <code>extend</code>หรือ<code>duplicate</code>ในที่นี้คือนิยามของHaskellที่นำมาโดยตรงจากlibrary<code>Control.Comonad</code></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Functor</span> w <span class="ot">=&gt;</span> <span class="dt">Comonad</span> w <span class="kw">where</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    extract ::</span> w a <span class="ot">-&gt;</span> a</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ot">    duplicate ::</span> w a <span class="ot">-&gt;</span> w (w a)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    duplicate <span class="ot">=</span> extend <span class="fu">id</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ot">    extend ::</span> (w a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> w a <span class="ot">-&gt;</span> w b</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    extend f <span class="ot">=</span> <span class="fu">fmap</span> f <span class="op">.</span> duplicate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการที่มีการเขียนแบบมาตราฐานของ<code>extend</code>ในรูปแบบของ<code>duplicate</code>และในทางกลับกัน ดังนั้นคุณแค่ต้องoverrideตัวไดตัวหนึ่ง</p>
+<p>แนวคิดข้างหลังfunctionsเหล่านี้มีมาจากแนวคิดที่ว่าโดนทั่วไปแล้วcomonadสามารถถูกคิดในฐานะภาชนะที่มีวัตถุต่างของtype<code>a</code>(comonadแบบproductนั้นคือสิ่งที่เป็นพิเศษของแค่ค่าๆหนึ่ง) แนวคิดของค่า”ตอนๆนี้” สิ่งที่สามารถเข้าถึงได้ง่ายผ่าน<code>extract</code>ลูกศรco-Kleisliได้แสดงการคำนวณบางอย่างที่เพ่งเล็งไปที่ค่าในปัจจุบันแต่มันก็มีการเข้าถึงสำหรับทุกๆค่าที่อยู่รอบๆทั้งหมด ให้คิดถึงเกมของชีวิต(game of life)ของConway ในแต่ละช่อง(cell)ได้มีค่า(ที่โดยทั่วไปแล้วเป็นแค่<code>True</code>หรือ<code>False</code>) comonadที่ตรงกับเกมของชีวิตก็จะเป็นตารางของช่อง”ในตอนๆนี้”</p>
+<p>ดังนั้นแล้ว<code>duplicate</code>ทำอะไร? มันนำภาชนะแบบcomonadic<code>w a</code>และสร้างภาชนะของภาชนะ<code>w (w a)</code> แนวคิดคือว่าแต่ละภาชนะนั้นเพ่งเล็งไปยัง<code>a</code>ใน<code>w a</code>ที่แตกต่างกัน ในเกมของชีวิตคุณอาจจะมีตารางของตาราง ที่แต่ละช่องของตารางข้างนอกนั้นเก็บตารางข้างในเอาไว้ที่ทำการเพ่งเล็งบนช่องที่แตกต่างออกไป</p>
+<p>ในตอนนี้เรามาดูที่<code>extend</code> มันนำลูกศรco-Kleisliและภาชนะแบบcomonadic<code>w a</code>ที่เต็มไปด้วย<code>a</code>ต่างๆ มันนำการคำนวณมาใช้สำหรับทุกๆ<code>a</code>ต่างๆเหล่านี้แทนที่มันด้วย<code>b</code>ต่างๆ ผลลัพธ์คือภาชนะแบบcomonadicที่เต็มไปด้วย<code>b</code>ต่างๆ <code>extend</code>นำมันโดยการ เคลื่อนสอ่งที่เพ่งเล็งจาก<code>a</code>ตัวหนึ่งไปยังอีกตัวและทำการใช้ลูกศรco-Kleisliไปยังพวมมันแต่ละตัว ในเกมของชีวิตลูกศรco-Kleisliก็จะคำนวณแต่ละสถานะใหม่ของช่องในตอนๆนี้ ในการทำแบบนั้น มันอาจจะดูไปในบริบท(ที่ก็เดาว่าเป็นช่องรอบๆที่ใกล้ที่สุด) การเขียนแบบมาตราฐานของ<code>extend</code>แสดงให้เห็นถึงขบวนการนี้ ในตอนแรกเราเรียก<code>duplicate</code>ในการสร้างจุดที่ต้องเพ่งเล็งทั้งหมดแล้วก็ทำการใช้<code>f</code>ไปยังพวมมันแต่ละอัน</p>
+</section>
+<section id="comonadแบบstream" class="level2" data-number="24.4">
+<h2 data-number="24.4" class="anchored" data-anchor-id="comonadแบบstream"><span class="header-section-number">24.4</span> ComonadแบบStream</h2>
+<p>ขบวนการนี้ของการเลื่อนจุดที่สนใจจากสมาชิกหนึ่งไปยังภาชนะของอีกอันหนึ่งนั้นแลดงให้เห็นอย่างดีที่สุดโดยกับตัวอย่างของstreamไม่มีที่สิ้นสุด streamอย่างนี้คือเหมือนกับlistแต่แค่มันไม่ต้องมีconstructorว่างอย่าง</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Stream</span> a <span class="ot">=</span> <span class="dt">Cons</span> a (<span class="dt">Stream</span> a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันคือ<code>Functor</code>อย่างชัดๆ</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Stream</span> <span class="kw">where</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f (<span class="dt">Cons</span> a as) <span class="ot">=</span> <span class="dt">Cons</span> (f a) (<span class="fu">fmap</span> f as)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>จุดสนใจของstreamคือสมาชิกแรกของมันดังนั้นนี้คือการเขียนของ<code>extract</code></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>extract (<span class="dt">Cons</span> a _) <span class="ot">=</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>duplicate</code>สร้างstreamของstream ที่แต่ละตัวเพ่งเล็งไปที่สมาชิกที่แตกต่างกัน</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>duplicate (<span class="dt">Cons</span> a as) <span class="ot">=</span> <span class="dt">Cons</span> (<span class="dt">Cons</span> a as) (duplicate as)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สมาชิกแรกคือstreamดังเดิม สมาชิกที่สองคือหางของstreamดังเดิม มาชิกที่สองคือหางของมันเองและไปเรื่อยๆไม่มีที่สิ้นสุด</p>
+<p>ที่คือinstanceตัวเต็ม</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Comonad</span> <span class="dt">Stream</span> <span class="kw">where</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    extract (<span class="dt">Cons</span> a _) <span class="ot">=</span> a </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    duplicate (<span class="dt">Cons</span> a as) <span class="ot">=</span> <span class="dt">Cons</span> (<span class="dt">Cons</span> a as) (duplicate as)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันคือวิธีการที่functionalอย่างมากในการมองไปยังstreams ในภาษาแบบimperative เราอาจจะเรื่อมด้วยmethod<code>advance</code>ที่เลื่อนstreamโดยหนึ่งตำแหน่ง ในที่นี้<code>duplicate</code>สร้างstreamที่ถูกเลื่อนใรการทำแค่ครังเดียว ความlazyของHaskellทำให้สิ่งนี้เป็นไปได้และแม้กระทั่งเป็นที่ต้องการ แน่นอน ในการทำให้<code>Stream</code>นั้นใช้งานได้จริง เราอาจจะก็เขียนรูปแบบที่คล้ายกันของ<code>advance</code>ว่า</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span><span class="ot"> ::</span> <span class="dt">Stream</span> a <span class="ot">-&gt;</span> <span class="dt">Stream</span> a</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> (<span class="dt">Cons</span> a as) <span class="ot">=</span> as</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่มันไม่เคยเป็นส่วนหนึ่งของinterfaceของcomonad</p>
+<p>ถ้าคุณมีประสบการกับการการประมวลผลสัญญาณดิจิทัล(digital signal processing)คุณจะเห็นในทันที่ว่าลูกศรco-Kleisสำหรับstreamนั้นคือแค่filterแบบdigitalและ<code>extend</code>นั้นสร้างstreamที่ผ่านการfilterแล้ว</p>
+<p>ในฐานะตัวอย่างที่ง่ายๆ เรามาเขียนfilterแบบmoving average ในที่นี้คือfunctionที่บวกสมาชิก<code>n</code>ตัวของstreamไว้</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ot">sumS ::</span> <span class="dt">Num</span> a <span class="ot">=&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Stream</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sumS n (<span class="dt">Cons</span> a as) <span class="ot">=</span> <span class="kw">if</span> n <span class="op">&lt;=</span> <span class="dv">0</span> <span class="kw">then</span> <span class="dv">0</span> <span class="kw">else</span> a <span class="op">+</span> sumS (n <span class="op">-</span> <span class="dv">1</span>) as</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นี้คือfunctionในการคำนวณค่าเฉลี่ยของสมาชิก<code>n</code>ตัวแรกเอาไว้ในstream</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ot">average ::</span> <span class="dt">Fractional</span> a <span class="ot">=&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Stream</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>average n stm <span class="ot">=</span> (sumS n stm) <span class="op">/</span> (<span class="fu">fromIntegral</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการใช้งานบาส่วนแล้วของ<code>average n</code>คือลูกศรco-Kleisดังนั้น เราสามารถ<code>extend</code>มันไปยังทั้งstreamได้เลย</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ot">movingAvg ::</span> <span class="dt">Fractional</span> a <span class="ot">=&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Stream</span> a <span class="ot">-&gt;</span> <span class="dt">Stream</span> a</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>movingAvg n <span class="ot">=</span> extend (average n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ผลลัพธ์คือของstreamของrunning averages</p>
+<p>streamนั้นคือตัวอย่างของcomonadหนิ่งมิติทางเดียว มันสามารถทำได้เป็นสองทิศทางหรือขยายไปยังสองหรือมากกว่ามิตืได้ง่ายกว่า</p>
+</section>
+<section id="comonadแบบcategory" class="level2" data-number="24.5">
+<h2 data-number="24.5" class="anchored" data-anchor-id="comonadแบบcategory"><span class="header-section-number">24.5</span> ComonadแบบCategory</h2>
+<p>ในการนิยามcomonadในทฤษฎีcategoryนั้นเป็นการฝึกหัดที่ตรงไปตรงมาของduality เหมือนกับmonad เราเรืิ่มกับendofunctor<span class="math inline">\(T\)</span> การแปลงแบบธรรมชาติสองตัวอย่าง<span class="math inline">\(\eta\)</span>และ<span class="math inline">\(\mu\)</span>ที่นิยามmonadนั้นแค่กลับทางสำหรับcomonadอย่าง</p>
+<p><span class="math display">\[
+\begin{align*}
+  \varepsilon &amp; :: T \to I   \\
+  \delta      &amp; :: T \to T^2
+\end{align*}
+\]</span></p>
+<p>ส่นประกอบของการแปลงเหล่านี้ตรงกับ<code>extract</code>และ<code>duplicate</code> กฏของComonadนั้นคือถาพสะท้อนของกฎของmonad ไม่มีsurpriseในที่นี้</p>
+<p>แล้วก็ได้มีการได้มาของmonadจากadjunction dualityนั้นย้อนadjunctionคือadjointด้านช้ายกลายมาเป็นadjointด้านขวาและในทางกลับกัน และเนื่องด้วยการประกอบกัน<span class="math inline">\(R\circ L\)</span>นิยามmonad<span class="math inline">\(L\circ R\)</span>ต้องนิยามcomonad counitของadjunctionอย่าง</p>
+<p><span class="math display">\[
+\varepsilon :: L \circ R \to I
+\]</span></p>
+<p>นั้นก็คือ<span class="math inline">\(\varepsilon\)</span>เดียวกันที่เราเห็นในนิยามของcomonad(หรือในส่วนแระกอบ ในฐานะ<code>extract</code>ของHaskell) เราก็สามารถใช้unitของadjunctionอย่าง</p>
+<p><span class="math display">\[
+\eta :: I \to R \circ L
+\]</span></p>
+<p>ในการใส่<span class="math inline">\(R\circ L\)</span>ในตรงการของ<span class="math inline">\(L\circ R\)</span>และทำการสร้าง<span class="math inline">\(L \circ R \circ L \circ R\)</span> การสร้าง<span class="math inline">\(T^2\)</span>จาก<span class="math inline">\(T\)</span>ได้นิยาม<span class="math inline">\(\delta\)</span>และสิ่งนี้ได้ทำให้นิยามของcomonadสมบูรณ์</p>
+<p>เราก็ได้เห็นว่าmonadนั้นคือmonoid dualของประโยคนี้ก็อาจจะต้องการใช้งานของcomonoid แล้วอะไรคือcomonoid? นิยามดั้งเดิมของmonoidในฐานะcategoryที่มีสมาชิกเดียวไม่ได้มีdualที่น่าสนใจอะไร ในตอนที่คุณย้อนทิศทางของendomorphismsทั้งหมด คุณได้มีอีกmonoidหนึ่ง แต่จำได้ว่าในแนวทางของเรากับmonad เราใช้นิยามที่กว้างกว่าของmonoidในฐานะวัตถุในcategoryแบบmonoidal การสร้างนั้นมาจากสองmorphismsอย่าง</p>
+<p><span class="math display">\[
+\begin{align*}
+  \mu  &amp; :: m \otimes m \to m \\
+  \eta &amp; :: i \to m
+\end{align*}
+\]</span></p>
+<p>การย้อนของMorphismเหล่านี้สร้างcomonoidในcategoryแบบmonoid</p>
+<p><span class="math display">\[
+\begin{align*}
+  \delta      &amp; :: m \to m \otimes m \\
+  \varepsilon &amp; :: m \to i
+\end{align*}
+\]</span></p>
+<p>เราสามารถเขียนนิยามของcomonoidในHaskell</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Comonoid</span> m <span class="kw">where</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    split ::</span> m <span class="ot">-&gt;</span> (m, m)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ot">    destroy ::</span> m <span class="ot">-&gt;</span> ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่มันก็จะตรงไปตรงมา แน่นอนว่า<code>destroy</code>ไม่สนใจargumentของมัน</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>destroy _ <span class="ot">=</span> ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>split</code>คือแค่คู่ของfunctions</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>split x <span class="ot">=</span> (f x, g x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในตอนนี้พิจารณากฏของcomonoidที่คือdualของกฏunitของmonoid</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="op">.</span> bimap destroy <span class="fu">id</span> <span class="op">.</span> split <span class="ot">=</span> <span class="fu">id</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>rho <span class="op">.</span> bimap <span class="fu">id</span> destroy <span class="op">.</span> split <span class="ot">=</span> <span class="fu">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้<code>lambda</code>และ<code>rho</code>คือunitorsด้านช้ายและขวาตามลำดับ(ลองดูนิยามของcategoryแบบmonoid) นำมันเข้ามาในนิยามเราก็ได้</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lambda (bimap destroy <span class="fu">id</span> (split x))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ot">=</span> lambda (bimap destroy <span class="fu">id</span> (f x, g x))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ot">=</span> lambda ((), g x)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="ot">=</span> g x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่จะพิสูจน์ว่า<code>g = id</code> ในทางเดียวกันกฏที่สองนั้นขยายไปยัง<code>f = id</code> โดยสรุปแล้ว</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>split x <span class="ot">=</span> (x, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่แสดงว่าในHaskell(และโดยทั่วไปในcategory<span class="math inline">\(\textbf{Set}\)</span>)ทุกๆวัตถุนั้นคือcomonoidที่ตรงไปตรงมา</p>
+<p>โชคดีที่ว่าได้มีcategoryแบบmonoidอื่นๆที่น่าสนใจมากกว่าที่ทำการนิยามcomonoid หนึ่งในนั้นคือcategoryของendofunctors และมันกลับมาเป็นที่ว่า เหมือนกับmonadคือmonoidในcategoryของendofunctors</p>
+<blockquote class="blockquote">
+<p>comonadคือcomonoidในcategoryของendofunctors</p>
+</blockquote>
+</section>
+<section id="comonadกกเกบ" class="level2" data-number="24.6">
+<h2 data-number="24.6" class="anchored" data-anchor-id="comonadกกเกบ"><span class="header-section-number">24.6</span> Comonadกักเก็บ</h2>
+<p>อีกตัวอย่างหนึ่งที่สำคัญของcomonadคือdualของmonadสถานะ มันถูกเรียกว่าcomonad costateหรือcomonadกักเก็บ</p>
+<p>เราได้เห็นแล้วว่าmonadสถานะนั้นถูกสร้างโดยadjunctionที่นิยามexponentialsว่า</p>
+<p><span class="math display">\[
+\begin{align*}
+  L\ z &amp; = z\times{}s      \\
+  R\ a &amp; = s \Rightarrow a
+\end{align*}
+\]</span></p>
+<p>เราจะใช้adjunctionเดียวกันในการนิยามcomonadของcostate comonadนั้นถูกนิยามโดยการประกอบกันอย่าง<span class="math inline">\(L\circ R\)</span></p>
+<p><span class="math display">\[
+L\ (R\ a) = (s \Rightarrow a)\times{}
+\]</span></p>
+<p>แปลงสิ่งนี้ไปยังHaskell เราเริ่มด้วยadjunctionระหว่างfunctor<code>Product</code>ในทางด้านช้ายและfunctor<code>Reader</code>ในทางด้านขวา การประกอบกันของ<code>Product</code>หลัง<code>Reader</code>นั้นตรงกันกับนิยามดังต่อไปนี้</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Store</span> s a <span class="ot">=</span> <span class="dt">Store</span> (s <span class="ot">-&gt;</span> a) s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>counitของadjunctionที่นำมาที่วัตถุ<span class="math inline">\(a\)</span>คือmorphismอย่าง</p>
+<p><span class="math display">\[
+\varepsilon_a :: ((s \Rightarrow a)\times{}s) \to a
+\]</span></p>
+<p>หรือในสัญลักษณ์ของHaskell</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>counit (<span class="dt">Prod</span> (<span class="dt">Reader</span> f) s)) <span class="ot">=</span> f s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันกลายมาเป็น<code>extract</code>ของเรา</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>extract (<span class="dt">Store</span> f s) <span class="ot">=</span> f s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>unitของadjunctionคือ</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ot">unit ::</span> a <span class="ot">-&gt;</span> <span class="dt">Reader</span> s (<span class="dt">Product</span> a s)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>unit a <span class="ot">=</span> <span class="dt">Reader</span> (\s <span class="ot">-&gt;</span> <span class="dt">Prod</span> a s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สามารถถูกเขียนใหม่ในฐานะconstructorข้อมูลที่ถูกใช้บางส่วนว่า</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Store</span><span class="ot"> f ::</span> s <span class="ot">-&gt;</span> <span class="dt">Store</span> f s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสร้าง<span class="math inline">\(\delta\)</span>หรือ<code>duplicate</code>ในฐานะการประกอบกันแนวนอนว่า</p>
+<p><span class="math display">\[
+\begin{align*}
+  \delta &amp; :: L \circ R \to L \circ R \circ L \circ R \\
+  \delta &amp; = L \circ \eta \circ R
+\end{align*}
+\]</span></p>
+<p>เราได้แอบ<span class="math inline">\(\eta\)</span>ผ่าน<span class="math inline">\(L\)</span>ช้ายสุดที่คือfunctor<code>Product</code> มันหมายความถึงการกระทำกับ<span class="math inline">\(\eta\)</span>หรือ<code>Store f</code> ในส่วนประกอบด้านช้ายของคู่(นั้นคือสิ่งที่<code>fmap</code>สำหรับ<code>Product</code>จะทำ) เรามี</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>duplicate (<span class="dt">Store</span> f s) <span class="ot">=</span> <span class="dt">Store</span> (<span class="dt">Store</span> f) s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(จำไว้ว่าในสูตรสำหรับ<span class="math inline">\(\delta,L\)</span>และ<span class="math inline">\(R\)</span>เป็นตัวแทนสำหรับการ แปลงแบบธรรมชาติแบบidentityที่ส่วนประกอบนั้นคือmorphisms identity)</p>
+<p>ในที่นี้นิยามโดยสมบูรณ์ของcomonad<code>Store</code>คือ</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Comonad</span> (<span class="dt">Store</span> s) <span class="kw">where</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    extract (<span class="dt">Store</span> f s) <span class="ot">=</span> f s</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    duplicate (<span class="dt">Store</span> f s) <span class="ot">=</span> <span class="dt">Store</span> (<span class="dt">Store</span> f) s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณอาจจะคิดถึงส่วนของ<code>Reader</code>ใน<code>Store</code>ในฐานะภาชนะที่ทั่วไปของ<code>a</code>ต่างๆที่คู่กับกุญแจของสมาชิกในtype<code>s</code> ตัวอย่างเช่นถ้า<code>s</code>คือ<code>Int</code> แล้ว<code>Reader Int a</code>คือstreamสองทางที่ไม่มีที่สิ้นสุดของ<code>a</code> <code>Store</code>จับคู่ภาชนะนี้กับค่าของtypeของkey ตัวอย่างเช่น<code>Reader Int a</code>นั้นถูกจับคู่กับ<code>Int</code> ในกรณีนี้<code>extract</code>ได้ใช้จำนวณเต็มนี้ที่เป็นตัวชี้ไปยังstreamที่ไม่มีที่สิ้นสุด คุณอาจจะคิดถึงส่วนประกอบที่สองของ<code>Store</code>ในฐานะตำแหน่งปัจจุบัน</p>
+<p>ตามมาต่อจากตัวอย่างนี้<code>duplicate</code>สร้างstreamที่ไม่มีที่สิ้นสุดใหม่ที่มีตัวชี้เป็น<code>Int</code> streamนี้เก็บstreamsในฐานะสมาชิกของมัน โดยเฉพาะเช่นที่ตำแหน่งในตอนนี้ มันเก็บstreamดั้งเดิมเอาไว้ แต่ถ้าคุณใช้บาง<code>Int</code>อีกตัว(ทั้งบวกและลบ)ในฐานะกุญแจ คุณก็จะได้streamที่ถูกเลื่อนที่ในตัวชี้ใหม่</p>
+<p>โดนทั่วไปคุณสามารถทำให้ตัวเองมั่นใจว่าในตอนที่<code>extract</code>กระทำบน<code>Store</code>ที่ถูก<code>duplicate</code> มันได้สร้าง<code>Store</code>ดั้งเดิม(ในความเป็นจริงแล้ว กฏทางidentityสำหรับcomonadบอกว่า<code>extract . duplicate = id</code>)</p>
+<p>comonad<code>Store</code>มีบทบาทที่สำคัญในฐานะพื้นฐานทางทฤษฎีสำหรับlibrary<code>Lens</code> ในแนวคิดแล้วcomonadอย่าง<code>Store s a</code>นั้นรวมแนวคิดที่ของ”การเพ่งเล็ง” (เหมือนlens) ไปยังบางโครงสร้างย่อยของtype<code>a</code> โดยการใช้type<code>s</code>ในฐานะตัวชี้ โดยเฉพาะเช่นfunctionของtype</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">-&gt;</span> <span class="dt">Store</span> s a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นั้นเท่ากับคู่ของfunctionsต่างๆว่า</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ot">set ::</span> a <span class="ot">-&gt;</span> s <span class="ot">-&gt;</span> a</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="ot">get ::</span> a <span class="ot">-&gt;</span> s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ถ้า<code>a</code>คือtypeของproduct<code>set</code>ก็อาจจะถูกเขียนในฐานะการจัดวางfieldของtype<code>s</code>ข้างใน<code>a</code>ในขณะเดียวกันก็ทำการreturning รูปแบบของ<code>a</code>ที่ถูกดัดแปลง ในทางเดียวกัน<code>get</code>ก็อาจจะถูกเขียนให้อ่านค่าของfield<code>s</code>จาก<code>a</code> เราจะมาสำรวจแนวคิดเหล่านี้ในบทถัดไป</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="24.7">
+<h2 data-number="24.7" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">24.7</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองเขียนเกมของชีวิตของConwayโดยการใช้comonad<code>Store</code> คำใบ้: อะไรคือtypeคุณต้องเลือกสำหรับ<code>s</code>?</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/3.6/monads-categorically.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/3.8/f-algebras.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

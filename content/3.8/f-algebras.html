@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 25&nbsp; F-Algebras</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/3.9/algebras-for-monads.html" rel="next">
+<link href="../../content/3.7/comonads.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.8/f-algebras.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.1/its-all-about-morphisms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.2/adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.3/free-forgetful-adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.4/monads-programmers-definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.5/monads-and-effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Monadและผลตามมา(Effect) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.6/monads-categorically.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.7/comonads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.8/f-algebras.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.9/algebras-for-monads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">AlgebrasสำหรับMonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.10/ends-and-coends.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.11/kan-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#recursion" id="toc-recursion" class="nav-link active" data-scroll-target="#recursion"><span class="header-section-number">25.1</span> Recursion</a></li>
+  <li><a href="#categoryของf-algebra" id="toc-categoryของf-algebra" class="nav-link" data-scroll-target="#categoryของf-algebra"><span class="header-section-number">25.2</span> CategoryของF-Algebra</a></li>
+  <li><a href="#จำนวนธรรมชาต" id="toc-จำนวนธรรมชาต" class="nav-link" data-scroll-target="#จำนวนธรรมชาต"><span class="header-section-number">25.3</span> จำนวนธรรมชาติ</a></li>
+  <li><a href="#catamorphisms" id="toc-catamorphisms" class="nav-link" data-scroll-target="#catamorphisms"><span class="header-section-number">25.4</span> Catamorphisms</a></li>
+  <li><a href="#folds" id="toc-folds" class="nav-link" data-scroll-target="#folds"><span class="header-section-number">25.5</span> Folds</a></li>
+  <li><a href="#coalgebras" id="toc-coalgebras" class="nav-link" data-scroll-target="#coalgebras"><span class="header-section-number">25.6</span> Coalgebras</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">25.7</span> โจทย์ท้าทาย</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>เราได้เห็นการกำหนดรูปสูตรหลายแบบของmonoid ในฐานะset ในฐานะcategoryที่มีวัตถุเดี่ยว ในฐานะวัตถุในcategoryแบบmonoidal เราสามารถจะดึงสิ่งที่น่าสนใจออกมาได้เท่าไหร่จากแนวคิดที่เรียบง่ายนี้</p>
+<p>เรามาลองดู นำนิยามนี้ของmonoidในฐานะset<span class="math inline">\(m\)</span>กับคู่ของfunctionsว่า</p>
+<p><span class="math display">\[
+\begin{align*}
+  \mu  &amp; :: m\times{}m \to m \\
+  \eta &amp; :: 1 \to m
+\end{align*}
+\]</span></p>
+<p>ในที่นี้<span class="math inline">\(1\)</span>คือวัตถุสุดท้ายใน<span class="math inline">\(\textbf{Set}\)</span>ที่คือsetที่มีสมาชิกเดียว functionแลกนิยามการคูณ (มันนำคู่ของสมาชิกและreturns productของมัน) ในตัวที่สองเลือกสมาชิกunitจาก<span class="math inline">\(m\)</span> ไม่กับทุกๆการเลือกของfunctionsทั้งสองกับsignaturesเหล่านี้ก่อให้เกิดmonoid สำหรับสิ่งนี้เราต้องการที่จะบังคับใช้เงื่อนไขเพิ่มเติมนั้นคือกฎของการสลับกลุ่มและunit แต่เราจะมาลืมเกี่ยวกับมันสักครู่และแค่สนใจ”monoidsที่เป็นไปได้” คู่ของfunctionsนั้นคือสมาชิกของproductแบบCartesianของสองชุดของfunctions เรารู้ว่าชุดเหล่านี้อาจจะถูกแสดงแทนในฐานะวัตถุexponentialคือ</p>
+<p><span class="math display">\[
+\begin{align*}
+  \mu  &amp; \in m^{m\times{}m} \\
+  \eta &amp; \in m^1
+\end{align*}
+\]</span></p>
+<p>productแบบCartesianของสองชุดเหล่านี้คือ</p>
+<p><span class="math display">\[
+m^{m\times{}m}\times{}m^1
+\]</span></p>
+<p>ในการใช้พีชคณิตในระดับมัธยม(ที่ใช้งานได้ใรทุกๆcategoryแบบclosedและCartesian) เราสามารถเขียนใหม่ได้ว่า</p>
+<p><span class="math display">\[
+m^{m\times{}m + 1}
+\]</span></p>
+<p>ในเครื่องหมาย<span class="math inline">\(+\)</span>เป็นตัวแสงแทนสำหรับcoproductใน<span class="math inline">\(\textbf{Set}\)</span> เราได้แค่แทนที่คู่ของfunctionsกับfunctionเดี่ยวนั้นคือสมาชิกของset</p>
+<p><span class="math display">\[
+m\times{}m + 1 \to m
+\]</span></p>
+<p>สมาชิกใดๆก็ตามของsetเหล่านี้ของfunctionsนั้นเป็นสิ่งที่เป็นไปได้ที่จะเป็นmonoid</p>
+<p>ความสวยงามของการแปลงแบบนี้คือการที่ว่ามันนำไปสู่การgeneralizeที่น่าสนใจ ตัวอย่างเช่น อะไรคือวิธีการที่เราจะอธิบายgroupโดนการใช้ภาษานี้? groupคือmonoidที่มีหนึ่งfunctionมากขึ้นที่กำหนดinverseไปกับทุกสมาชิก ส่วนหลังคือfunctionของtype<span class="math inline">\(m\rightarrow m\)</span> ในฐานะตัวอย่าง จำนวนเต็มก่อให้เกิดgroupโดยที่มีการบวกในฐานะoperationแบบbinary ศูนย์ในฐานะunit และการติดลบในฐานะinverse ในการในการนิยามgroup เราอาจจะเริ่มด้วยfunctionsสามตัวว่า</p>
+<p><span class="math display">\[
+\begin{align*}
+  m\times{}m \to m \\
+  m \to m          \\
+  1 \to m
+\end{align*}
+\]</span></p>
+<p>เหมือนก่อนหน้านี้ เราสามารถรวมสามตัวเหล่านี้ไปยังชุดของfunctions</p>
+<p><span class="math display">\[
+m\times{}m + m + 1 \to
+\]</span></p>
+<p>เราเริ่มมากับoperatorแบบbinaryตัวหนึ่ง(การบวก) operatorแบบunary(negation)และoperatorแบบnullaryตัวหนึ่ง(identityที่ในที่นี้คือศูนย์) เราได้รวมมันไปยังfunctionหหนึ่ง ในทุกๆfunctionsกับsignatureนี้นิยามgroupsที่เป็นไปได้</p>
+<p>เราสามารถไปยังแบบนี้ ตัวอย่างเช่นในการนิยามring เราอาจจะเพิ่มoperatorแบบbinaryหนึ่งและoperatorแบบnullaryหนึ่งและอื่นๆ ในแต่ละครั้งเราจบลงที่typeของfunctionที่ทางด้านช้ายคือการบวกของสิ่งที่ยกกำลัง(ก็อาจจะรวมไปถึงยกกำลัง)และในทางด้านขวาเป็นsetตัวมันเอง</p>
+<p>ในตอนนี้เราสามารถไปอย่างสุดเหวี่ยงกับการgeneralize ตัวอย่างเช่น เราสามารถแทนที่setsกับวัตถุและfunctionsกับmorphisms เราสามารถนิยามoperatorsแบบn-aryในฐานะmorphismsจากproductsแบบn-ary มันหมายความว่าเราต้องการcategoryที่สามารถรับรองproductsที่มีที่สิ้นสุด สำหรับoperatorsแบบnullaryเราต้องการการมีอยู่ของวัตถุสุดท้าย ดังนั้นเราต้องการcategoryแบบCartesian ในการที่ได้จะรวมoperatorsเหล่านี้ เราต้องการexponentials ดังนั้นคือcategoryแบบCartesian closed สุดท้ายแล้ว เราต้องการcoproductsในการทำให้การเล่นกับพีชคณิตนั้นจบชักที่</p>
+<p>ในทางกลับกัน เราสามารถแค่ลืมเกี่ยวกับวิธีการที่เราหาสูตรของเราและเพ่งเล็งไปยังproductสุดท้าย ผลบวกของproductsในด้านช้ายของmorphismของเราได้นิยามendofunctor ถ้าเราเลือกendofunctor<span class="math inline">\(F\)</span>ทั่วๆไปจะเป็นอะไร? ในกรณีนี้เราไม่ต้องที่บังคับเงื่อนไขบนcategoryของเรา สิ่งที่เราได้มาเรียกว่าF-algebra</p>
+<p>F-algebraคือtripleที่ประกอบด้วยendofunctor<span class="math inline">\(F\)</span> วัตถุ<span class="math inline">\(a\)</span>และmorphism</p>
+<p><span class="math display">\[
+F\ a \to a
+\]</span></p>
+<p>วัตถุนั้นมันจะถูกเรียกว่าcarrier วัตถุข้างใต้หรือในบริบทของการเขียนโปรแกรมคือ<em>type</em>ของcarrier morphismนั้นมักจะถูกเรียกว่าfunctionการประเมินหรือmapโครงสร้าง คิดถึงfunctor<span class="math inline">\(F\)</span>ในฐานะการสร้างexpressionsและmorphismในฐานะการประเมินพวกมัน</p>
+<p>ในที่นี้นิยามของHaskellของF-algebra</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Algebra</span> f a <span class="ot">=</span> f a <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันตรงกับalgebraกับfunctionการประเมิน</p>
+<p>ในตัวอย่างของmonoid functorที่เราสนใจคือ</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">MonF</span> a <span class="ot">=</span> <span class="dt">MEmpty</span> <span class="op">|</span> <span class="dt">MAppend</span> a a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นี้คือHaskellสำหรับ<span class="math inline">\(1+a\times a\)</span>(จำได้ว่าdata structureแบบalgebraic)</p>
+<p>ringอาจจะถูกนิยามโดยการใช้functorเหล่านี้</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">RingF</span> a <span class="ot">=</span> <span class="dt">RZero</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="op">|</span> <span class="dt">ROne</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>             <span class="op">|</span> <span class="dt">RAdd</span> a a</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>             <span class="op">|</span> <span class="dt">RMul</span> a a</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>             <span class="op">|</span> <span class="dt">RNeg</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่ในHaskell<span class="math inline">\(1 + 1 + a\times{}a + a\times{}a + a\)</span></p>
+<p>มันคือตัวอย่างสำหรับringคือsetของintegers เราสามารถเลือก<code>Integer</code>ในฐานะtypeแบบcarrierและนิยามfunctionว่า</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">evalZ ::</span> <span class="dt">Algebra</span> <span class="dt">RingF</span> <span class="dt">Integer</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>evalZ <span class="dt">RZero</span>      <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>evalZ <span class="dt">ROne</span>       <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>evalZ (<span class="dt">RAdd</span> m n) <span class="ot">=</span> m <span class="op">+</span> n</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>evalZ (<span class="dt">RMul</span> m n) <span class="ot">=</span> m <span class="op">*</span> n</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>evalZ (<span class="dt">RNeg</span> n)   <span class="ot">=</span> <span class="op">-</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ได้มีF-algebrasมากขึ้นที่มาจากfunctorเดียวกัน<code>RingF</code> ตัวอย่างเช่นpolynomialsก่อให้เกิดringและรวมไปถึงmatricesกำลังสอง</p>
+<p>ในที่คุณได้เห็น บทบาทของfunctorนั้นในการสร้างexpressionsที่สามารถถูกประเมินของalgebra ถึงในตอนนี้แล้ว เราได้แต่เห็นexpressionsที่เรียบง่าย เรานั้นมักจะสนใจในexpressionsที่ซับซ้อนมากขึ้นที่สามารถถูกนิยามโดยการใช้recursion</p>
+<section id="recursion" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="recursion"><span class="header-section-number">25.1</span> Recursion</h2>
+<p>วิธีหนึ่งในการสร้างtrees expressionทั่วๆไปคือการแทนที่ตัวแปล<code>a</code>ภายในนิยามของfunctorกับrecursion ตัวอย่างเช่นexpressionทั่วๆไปในringนั้นสร้างโดยdata structureแบบtreeอย่าง</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="dt">RZero</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>          <span class="op">|</span> <span class="dt">ROne</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>          <span class="op">|</span> <span class="dt">RAdd</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>          <span class="op">|</span> <span class="dt">RMul</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>          <span class="op">|</span> <span class="dt">RNeg</span> <span class="dt">Expr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถแทนที่ตัวประเมินringเริ่มต้นกับรูปแบบrecursive</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">evalZ ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>evalZ <span class="dt">RZero</span>        <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>evalZ <span class="dt">ROne</span>         <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>evalZ (<span class="dt">RAdd</span> e1 e2) <span class="ot">=</span> evalZ e1 <span class="op">+</span> evalZ e2</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>evalZ (<span class="dt">RMul</span> e1 e2) <span class="ot">=</span> evalZ e1 <span class="op">*</span> evalZ e2</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>evalZ (<span class="dt">RNeg</span> e)     <span class="ot">=</span> <span class="op">-</span>(evalZ e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สิ่งนี้นั้นไม่มีผลในมาปฏิบัติเพราะว่าเรานั้นถูกบังคับในการแสดงแทนทุกๆจำนวนเต็มในฐานะการบวกกันของเลขหนึ่งแต่มันจะเป็นสิ่งที่จำเป็น</p>
+<p>แต่อะไรคือวิธีการที่เราจะอธิบายexpression treesโดยการใช้ภาษาของF-algebras? เราต้องการในแบบไดก็ตามที่ทำให้เป็นสูตรของขบวนการของการแทนที่ตัวแปลtypeอิสระในนิยามของคำนิยามของfunctorของเราในแบบrecursively คู่กับผลของการแทนที่ ลองจินตนาการการทำนี้ให้เป็นขั้น เริ่มแรกนิยามtreeที่มีความลึกเท่ากับหนึ่งว่า</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">RingF1</span> a <span class="ot">=</span> <span class="dt">RingF</span> (<span class="dt">RingF</span> a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เรากำลังเติมเต็มหลุมในนิยามของ<code>RingF</code>กับtreeที่ไม่มีความลึกที่สร้ามมาโดย<code>RingF a</code> treeที่มีความลึกเท่ากับสองสามารถได้มาอย่างเดี่ยวกัน</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">RingF2</span> a <span class="ot">=</span> <span class="dt">RingF</span> (<span class="dt">RingF</span> (<span class="dt">RingF</span> a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่เราก็สามารถถูกเขียนว่า</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">RingF2</span> a <span class="ot">=</span> <span class="dt">RingF</span> (<span class="dt">RingF1</span> a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ทำตามขบวนนี้เราสามารถเขียนในสมการทางสัญลักษณ์ว่า</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">RingF_</span>{n<span class="op">+</span><span class="dv">1</span>} a <span class="ot">=</span> <span class="dt">RingF</span> (<span class="dt">RingF_</span>{n} a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในแนวคิด หลังจากการทำขบวนการนี้ช้ำหลายๆครั้งเราจะจบที่<code>Expr</code>ของเรา สังเกตว่า<code>Expr</code>ไม่ได้ขึ้นกับ<code>a</code> จุดเริ่มแรกของการเดินทางของเราไม่สำคัญ เราก็จะกลับมาที่เดิมเสมอ นี้นั้นไม่ถูกต้องเสมอไปสำหรับendofunctorทั่วๆไปในcategoryทั่วๆไปแต่สิ่งต่างๆในcategory<span class="math inline">\(\textbf{Set}\)</span>นั้นไม่ก่อให้เกิดปัญหา</p>
+<p>แน่นอนว่านี้คือข้อโต้เถียงที่ไม่เข้มงวดและผมจะทำให้มันนั้นเข้มงวดมากขึ้นหลังจากนี้</p>
+<p>การใช้endofunctorหลายๆครั้งไม่มีที่สิ้นสุดได้สร้างจุดคงที่(fixed point)และวัตถุนั้นถูกนิยามโดย</p>
+<p><span class="math display">\[
+\operatorname{Fix} f = f (\operatorname{Fix} f)
+\]</span></p>
+<p>แนวคิดข้างหลังนิยามนี้คือว่า เนิื่องว่าเราได้ทำการใช้งาน<span class="math inline">\(f\)</span>ที่ไม่มีที่สิ้นสุดในการได้มาที่<span class="math inline">\(\operatorname{Fix} f\)</span> การใช้งานมันในอีกรอบหนึ่งไม่ได้เปลี่ยนอะไรเลย ในHaskell นิยามของจุดคงที่คือ</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Fix</span> f <span class="ot">=</span> <span class="dt">Fix</span> (f (<span class="dt">Fix</span> f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>กล่าวได้ว่า นี้อาจจะอ่านได้ง่ายกว่าถ้าชื่อของconstructorนั้นแตกต่างจากชื่อของtypeที่ถูกนิยามในว่า</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Fix</span> f <span class="ot">=</span> <span class="dt">In</span> (f (<span class="dt">Fix</span> f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่เราจะคงอยู่กับสัญลักษณ์ที่ได้รับการยอมรับ การสร้าง<code>Fix</code>(หรือ<code>In</code>ถ้าคุณชอบมากกว่า)สมารถถูกมองในฐานะfunction</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Fix</span><span class="ot"> ::</span> f (<span class="dt">Fix</span> f) <span class="ot">-&gt;</span> <span class="dt">Fix</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>นั้นก็คือfunctionที่ปลอกชั้นๆหนึ่งของการใช้งานของfunctor</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">unFix ::</span> <span class="dt">Fix</span> f <span class="ot">-&gt;</span> f (<span class="dt">Fix</span> f)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>unFix (<span class="dt">Fix</span> x) <span class="ot">=</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สองfunctionนั้นคือinverseซึ่งกันและกันห เราจะใช้functionsเหล่านี้ภายหลัง</p>
+</section>
+<section id="categoryของf-algebra" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="categoryของf-algebra"><span class="header-section-number">25.2</span> CategoryของF-Algebra</h2>
+<p>นี้คือเคล็ดลับที่เก่าที่สุดในหนังสือเล่มนี้คือไม่ว่าคุณจะคิดได้ว่าเกี่ยวกับวิธีการการสร้างวัตถุใหม่ ต้องดูที่ว่าพวกมันก่อให้เกิดcategoryหรือเปล่า ไม่แปลกใจที่algebraข้างบนendofunctor<span class="math inline">\(F\)</span>ที่ให้มาก่อให้เกิดcategory วัตถุในcategoryนั้นคือalgebraต่างๆที่คือคู่ที่ประกอบด้วยobjectพาหะ(carrier)และmorphism <span class="math inline">\(F \ a \to a\)</span> ที่ทั้งคู่มาจากcategoryดั้งเดิม</p>
+<p>ในการที่ทำให้ภาพรวมสมบูรณ์ เราต้องการที่จะนิยามmorphismsในcategoryของF-Algebra morphismต้องโยงalgebra<span class="math inline">\((a,f)\)</span>ไปยังอีกalgebraหนึ่ง<span class="math inline">\((b,g)\)</span> เราจะมานิยามมันในฐานะmorphism<span class="math inline">\(m\)</span>ที่โยงพาหะของพวมมันเข้าด้วยกัน (มันจะไปจาก<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(b\)</span>ในcategoryดั้งเดิม) ไม่แค่morphismอะไรก็ได้ที่สามารถจะทำได้เพราะว่าเราต้องการให้มันเข้าได้กับตัวประเมินทั้งสอง(เราเรียกmorphismที่คงไว้ที่โครงสร้างนี้ว่า<em>homomorphism</em>)ที่นี้คือวิธีการที่คุณนิยามhomomorphismของF-algebras เริ่มแรกสังเกตว่าเราสามารถlift<span class="math inline">\(m\)</span>ไปยังการโยง</p>
+<p><span class="math display">\[
+F \ m :: F \ a \to F \ b
+\]</span></p>
+<p>แล้สเราก็ตามมันไปกับ<span class="math inline">\(g\)</span>เพื่อที่จะได้ถึง<span class="math inline">\(b\)</span> ในทางเดียวกัน เราสามารถใช้<span class="math inline">\(f\)</span>ในการไปจาก<span class="math inline">\(F \ a\)</span>ไปยัง<span class="math inline">\(a\)</span>และก็ตาม<span class="math inline">\(m\)</span>ไป เราต้องการให้ทั้งสองทางนั้นเท่ากัน</p>
+<p><span class="math display">\[
+g\circ F \ m = m \circ f
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>มันง่ายมากที่จะทำให้เรามั่นใจว่านี้คือcategoryแน่นอน(คำใบ้: morphisms identityจาก<span class="math inline">\(\textbf{C}\)</span>สามารถทำงานได้และการประกอบกันของhomomorphismsคือhomomorphism)</p>
+<p>วัตถุเริ่มต้นในcategoryของF-algebras ถ้ามันมีอยู่จะถูกเรียกว่า<em>algebraเริ่มต้น</em>(initial algebra) เรามาเรียกcarrierของalgebraเริ่มต้น<span class="math inline">\(i\)</span>และตัวประเมินของมันอย่าง<span class="math inline">\(j :: F \ i \rightarrow i\)</span> มันกลายมาเป็นว่า<span class="math inline">\(j\)</span>ที่คือตัวประเมินของalgebraเริ่มต้นนั้นคือisomorphism ผลลัพธ์นี้ถูกเรียกว่าtheoremของLambek การพิสูจน์ตามมาจากบนนิยามของวัตถุเริ่มต้นที่ต้องการที่จะมีhomomorphism<span class="math inline">\(m\)</span>ที่เป็นเอกลักษณ์จากมันไปยังF-algebrasอิ่นๆ เนื่องว่า<span class="math inline">\(m\)</span>คือhomomorphism diagramดังนี้ต้องcommute</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg2.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในตอนนี้เรามาสร้างalgebraที่carrierคือ<span class="math inline">\(F \ i\)</span> ตัวประเมินของalgebraเหล่านี้ต้องเป็นmorphismจาก<span class="math inline">\(F \ (F \ i)\)</span>ไปยัง<span class="math inline">\(F \ i\)</span> เราสามารถสร้างตัวประเมินอย่างนี้อย่างง่ายๆโดยการlift<span class="math inline">\(j\)</span>ว่า</p>
+<p><span class="math display">\[
+F\ j :: F\ (F\ i) \to F\ i
+\]</span></p>
+<p>เพราะว่า<span class="math inline">\((i,j)\)</span>คือalgebraเริ่มต้น ต้องมีhomomorphismที่เป็นเอกลักษณ์<span class="math inline">\(m\)</span>จากมันไปยัง<span class="math inline">\((F \ i, F \ j)\)</span> diagramดังนี้ต้องcommute</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg3a.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>แต่เราก็ต้องมีdiagramที่commutingอย่างง่ายๆ(เส้นทางทั้งสองต้องเหมือนกัน)คือ</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg3.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ที่สามารถถูกตีความในฐานะการแสดงว่า<span class="math inline">\(j\)</span>คือhomomorphismของalgebras การโยงระหว่าง<span class="math inline">\((F \ i, F \ j)\)</span>ไปยัง<span class="math inline">\((i,j)\)</span> เราสามารถแปะdiagramsทั้งสองเข้ากันในการที่ได้มาที่</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg4.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในทางกลับกันdiagramนี้อาจจะถูกตีความในฐานะการแสดงว่า<span class="math inline">\(j\circ m\)</span>คือhomomorphismของalgebras ในกรณีนี้เท่านั้นที่algebrasทั้งสองนั้นเหมือนกัน ยิ่งไปกว่านั้น เพราะว่า<span class="math inline">\((i,j)\)</span>นั้นเป็นวัตถุเริ่มต้น มันจึงสามารถมีhomomorphismอันหนึ่งจากมันไปยังตนเอง และนั้นคือmorphism<span class="math inline">\(\operatorname{id}_i\)</span> identity ที่เรารู้ว่ามันคือhomomorphismของalgebras ดังนั้น<span class="math inline">\(j\circ m=\operatorname{id}_i\)</span> โดยการใช้ความจริงนี้และคุณสมบัติของdiagramด้านช้าย เราสามารถแสดงว่า<span class="math inline">\(m\circ j=\operatorname{id}_{Fi}\)</span> สิ่งนี้แสดงว่า<span class="math inline">\(m\)</span>คือinverseของ<span class="math inline">\(j\)</span>และดังนั้น<span class="math inline">\(j\)</span>คือisomorphismระหว่าง<span class="math inline">\(F \ i\)</span>และ<span class="math inline">\(i\)</span></p>
+<p><span class="math display">\[
+F \ i \cong i
+\]</span></p>
+<p>แต่นั้นคือแค่การพูดว่า<span class="math inline">\(i\)</span>คือจุดคงที่ของ<span class="math inline">\(F\)</span> นั้นคือproofที่เคร่งครัดภายใต้ข้อพิสูจน์ที่ไม่ค่อยเคร่งครัดมากก่อนหน้านี้</p>
+<p>กลับมาในHaskellที่เราสามารถมอง<span class="math inline">\(i\)</span>ในฐานะ<code>Fix f</code> <span class="math inline">\(j\)</span>ในฐานะconstructorของเรา<code>Fix</code>และinverseของมันในฐานะ<code>unFix</code> isomorphismในtheoremของLambekบอกเราว่า ในการที่ได้มายังalgebraเริ่มต้น เรานำfunctor<span class="math inline">\(f\)</span>และแทนที่argumentของมัน<span class="math inline">\(a\)</span>กับ<code>Fix f</code> เราก็เห็นว่าทำไมจุดคงที่ไม่ได้ขึ้นอยู่กับ<span class="math inline">\(a\)</span></p>
+</section>
+<section id="จำนวนธรรมชาต" class="level2" data-number="25.3">
+<h2 data-number="25.3" class="anchored" data-anchor-id="จำนวนธรรมชาต"><span class="header-section-number">25.3</span> จำนวนธรรมชาติ</h2>
+<p>จำนวนธรรมชาติก็สามารถถูกนิยามในฐานะF-algebra จุดเริ่มต้นคือคู่ของmorphisms</p>
+<p><span class="math display">\[
+\begin{align*}
+  zero &amp; :: 1 \to N \\
+  succ &amp; :: N \to N
+\end{align*}
+\]</span></p>
+<p>ส่วนแรกทำการเลือกเลขศูนย์และส่วนที่สองโยงทุกๆเลขไปยังสิ่งที่ตามมาของพวมมัน เหมือนก่อนหน้านี้ เราสามารถรวมสองตัวไปยังหนึ่งตัว</p>
+<p><span class="math display">\[
+1 + N \to N
+\]</span></p>
+<p>ในด้านช้ายนิยามfunctorที่ในHaskellสามารถถูกเขียนในแบบนี้</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">NatF</span> a <span class="ot">=</span> <span class="dt">ZeroF</span> <span class="op">|</span> <span class="dt">SuccF</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>จุดคงที่ของfunctorนี้(algebraเริ่มต้นที่มันสร้าง)สามารถถูกเขียนในHaskellว่า</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Nat</span> <span class="ot">=</span> <span class="dt">Zero</span> <span class="op">|</span> <span class="dt">Succ</span> <span class="dt">Nat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>จำนวนธรรมชาตินั้นคือเลขศูนย์หรือเป็นสิ่งต่อเนื่องของอีกจำนวนหนึ่ง สิ่งนี้รู้จักในฐานะตัวอย่างของจำนวนธรรมชาติแบบPeano</p>
+</section>
+<section id="catamorphisms" class="level2" data-number="25.4">
+<h2 data-number="25.4" class="anchored" data-anchor-id="catamorphisms"><span class="header-section-number">25.4</span> Catamorphisms</h2>
+<p>เรามาเขียนใหม่เงื่อนไขเริ่มต้นโดยการใช้การเขียนแบบHaskell เราเรียกalgebraเริ่มต้น<code>Fix f</code> ตัวประเมินค่าคือconstructor<code>Fix</code> ได้มีmorphismที่เป็นเอกลักษณ์<code>m</code>จากalgebraเริ่มต้นไปยังalgebraอื่นๆที่อยู่ในfunctorเดี่ยวกัน เรามาเลือกalgebraที่carrierของมันคือ<code>a</code>และตัวประเมินค่าคือ<code>alg</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg5.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>อนึ่งสังเกตสิ่งที่<code>m</code>เป็นคือตัวประเมินค่าของจุดคงที่คือตัวประเมินค่าสำหรับ expression treeแบบrecursiveทั้งหมด เรามาหาวิธีการทั่วๆไปในการเขียนมัน</p>
+<p>theoremของLambekบอกเราว่าconstructor<code>Fix</code>นั้นคือisomorphism เราเรียกinverseของมันว่า<code>unFix</code> ดังนั้นเราสามารถกลับลูกศศรหนึ่งของdiagramนี้เพื่อได้สิ่งนี้มา</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg6.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เรามาเขียนเงื่อนไขของการcommutationสำหรับdiagramนี้</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> alg <span class="op">.</span> <span class="fu">fmap</span> m <span class="op">.</span> unFix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถตีความสมการนี้ในฐานะนิยามแบบrecursiveของ<code>m</code> การrecursionนั้นถูกทำให้หยุดลงสำหรับtreeที่จำกัดใดๆก็ตามที่ถูกสร้างโดยการใช้functor<code>f</code> เราสามารถมองเห็นว่าโดนการที่เราสังเกตว่า<code>Fix m</code>ทำงานภายใต้ชั้นด้านบนจองfunctor<code>f</code> ในอีกความหมายหนึ่ง มันทำงานได้บนchildrenของtreeดั้งเดิม childrenต่างๆกันนั้นจะมีขนากน้อยกว่าหนึ่งชั้นเมื่อเทียบกับtreeดั้งเดิมโดนตลอด</p>
+<p>ในที่นี้สิ่งที่เกิดขึ้นในตอนที่เราทำการใช้<code>m</code>ไปยังtreeที่ถูกสร้างโดยการใช้<code>Fix f</code> การกระทำของ<code>unFix</code>ที่เลาะออกของconstructor การเปิดเผยชั้นข้างบนของtree เราก็ต้องก็ทำการใช้<code>m</code>ไปยังทุกchildrenของnodeด้านบน สิ่งนี้สร้างผลลัพธ์ของtype<code>a</code> ในที่สุดแล้ว เราจะรวมผลลัพธ์เหล่านี้โดยการทำการใช้ตัวประเมินที่ไม่recursive<code>alg</code> จุดที่สำคัญคือว่าตัวประเมิน<code>alg</code>ของเรานั้นเป็นfunctionง่ายๆที่ไม่recursive</p>
+<p>เนื่องด้วยที่เราสามารถทำได้สำหรับalgebra<code>alg</code> มันสมเหตุสมในการนิยามfunctionแบบ higher orderที่นำalgebraในฐานะparameterและให้functionกับเรา เราเรียกว่า<code>m</code> functionแบบ higher orderนั้นถูกเรียกว่าcatamorphism</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ot">cata ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (f a <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> <span class="dt">Fix</span> f <span class="ot">-&gt;</span> a</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cata alg <span class="ot">=</span> alg <span class="op">.</span> <span class="fu">fmap</span> (cata alg) <span class="op">.</span> unFix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เรามาเห็นตัวอย่างที่ว่า นำfunctorที่นิยามจำนวนธรรมชาติ</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">NatF</span> a <span class="ot">=</span> <span class="dt">ZeroF</span> <span class="op">|</span> <span class="dt">SuccF</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เรามาเลือก<code>(Int, Int)</code>ในฐานะtypeแบบcarrierและนิยามalgebraของเราว่า</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ot">fib ::</span> <span class="dt">NatF</span> (<span class="dt">Int</span>, <span class="dt">Int</span>) <span class="ot">-&gt;</span> (<span class="dt">Int</span>, <span class="dt">Int</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fib <span class="dt">ZeroF</span> <span class="ot">=</span> (<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>fib (<span class="dt">SuccF</span> (m, n)) <span class="ot">=</span> (n, m <span class="op">+</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถทำให้เชื่อมั่นว่าcatamorphismสำหรับalgebraนี้<code>catafib</code>ถูกคำนวณตัวเลขFibonacci</p>
+<p>โดนทั่วไป algebraสำหรับ<code>NatF</code>นิยามความสัมพันธ์แบบrecurrenceคือ ค่าของสมาชิกในตอนนี้ในรูปแบบของสมาชิกก่อหน้านี้ catamorphismก็ทำการประเมินมาขิกตัวที่nแบบต่อเนื่องแบบนั้น</p>
+</section>
+<section id="folds" class="level2" data-number="25.5">
+<h2 data-number="25.5" class="anchored" data-anchor-id="folds"><span class="header-section-number">25.5</span> Folds</h2>
+<p>listของ<code>e</code>นั้นคือalgebraเริ่มต้นสำหรับfunctorแบบนี้</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">ListF</span> e a <span class="ot">=</span> <span class="dt">NilF</span> <span class="op">|</span> <span class="dt">ConsF</span> e a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แน่นอนว่าการแทนที่ตัวแปร<code>a</code>กับผลลัพธ์ของrecursionที่เราจะเรียก<code>List e</code> เรามี</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">List</span> e <span class="ot">=</span> <span class="dt">Nil</span> <span class="op">|</span> <span class="dt">Cons</span> e (<span class="dt">List</span> e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>algebraสำหรับfunctorแบบlistเลือกtypeแบบcarrierโดยเฉพาะและนิยามfunctionที่ทำการจับคู่รูปแบบ(Pattern matching)บนconstructorsทั้งสองทั้งสอง ค่าของมันสำหรับ<code>NillF</code>บอกเราในวิธีการที่จะประเมินlistว่างและค่าของมันสำหรับ<code>ConsF</code>บอกเราในวิธีการรวมสมาชิกในตอนนี้กับค่าที่ถูกสะสมมาก่อนหน้านี้</p>
+<p>ตัวอย่างเช่น ในที่นี้algebraสามารถถูกใช้ในการคำนวณขนาดของlist(ในtypeของcarrierคือ<code>Int</code>)</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lenAlg ::</span> <span class="dt">ListF</span> e <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>lenAlg (<span class="dt">ConsF</span> e n) <span class="ot">=</span> n <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>lenAlg <span class="dt">NilF</span> <span class="ot">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แน่นอนว่าcatamorphismมี่เป็นผลลัพธ์<code>cata lenAlg</code>คำนวนขนาดของlist สังเกตว่าตัวประเมินนั้นคือผลรวมของ(1)functionที่นำสมาชิกของlistและตัวรวบรวม(accumulatorและreturnsตัวรวบรวมใหม่มา และ(2)ค่าเริมต้นในที่นี้คือเลขศูนย์ typeของค่านี้และtypeของตัวรวบรวมนั้นถูกให้มาโดยtypeของcarrier</p>
+<p>เทียบสิ่งนี้กับนิยามแบบทั่วไปในHaskell</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span> <span class="ot">=</span> <span class="fu">foldr</span> (\e n <span class="ot">-&gt;</span> n <span class="op">+</span> <span class="dv">1</span>) <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ทั้สองargumentsสำหรับ<code>foldr</code>นั้นคือสองส่วนประกอบของalgebraจริงๆ</p>
+<p>เรามาลองอีกตัวอย่างหนึ่ง</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ot">sumAlg ::</span> <span class="dt">ListF</span> <span class="dt">Double</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sumAlg (<span class="dt">ConsF</span> e s) <span class="ot">=</span> e <span class="op">+</span> s</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sumAlg <span class="dt">NilF</span> <span class="ot">=</span> <span class="fl">0.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในอีกครั้งเราที่เราเทียบกับ</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span> <span class="ot">=</span> <span class="fu">foldr</span> (\e s <span class="ot">-&gt;</span> e <span class="op">+</span> s) <span class="fl">0.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณก็ได้เห็นแล้วว่า<code>foldr</code>นั้นคือแค่ทางเฉพาะของcatamorphismต่อlists</p>
+</section>
+<section id="coalgebras" class="level2" data-number="25.6">
+<h2 data-number="25.6" class="anchored" data-anchor-id="coalgebras"><span class="header-section-number">25.6</span> Coalgebras</h2>
+<p>เหมือกับทั่วๆไปเรามีการสร้างที่เป็นdualที่คือF-coalgebraที่ทิศทางของmorphismนั้นตรงกันข้าม</p>
+<p><span class="math display">\[
+a \to F\ a
+\]</span></p>
+<p>Coalgebrasสำหรับfunctorที่ให้มาก็ก่อให้เกิดcategoryที่homomorphismsทำการคงโครงสร้างทางcoalgebraเอาไว้ วัตถุสุดท้าย<span class="math inline">\((t,u)\)</span>ในcategoryนั้นถูกเรียกว่าcoalgebraสุดท้าย สำหรัยcoalgebraอื่นๆ<span class="math inline">\((a,f)\)</span>ได้มีhomomorphism<span class="math inline">\(m\)</span>ที่เป็นเอกลักษณ์ที่ทำให้diagramดังต่อไปนี้commuteอย่าง</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/alg7.png" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในcoalgebraสุดท้ายคือจุดคงที่ของfunctorในความหมายที่ว่าmorphism<span class="math inline">\(u :: t \to F\ t\)</span>นั้นคือisomorphism(theoremของLambekสำหรับcoalgebras)ว่า</p>
+<p><span class="math display">\[
+F\ t \cong t
+\]</span></p>
+<p>coalgebraสุดท้ายนั้นมักจะถูกตีความในการเขียนโปรแกรมในฐานะวิธีการของการสร้าง(ที่อาจจะไม่มีที่สิ้นสุด)data structureหรือระบบของการเปลี่ยนแปลง(transition systems)</p>
+<p>เหมือนกับcatamorphismที่สามารถถูกใช้ในการประเมินalgebraเริ่มต้น anamorphismสามารถถูกใช้ในการcoevaluate coalgebraสุดท้าย</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ot">ana ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> f a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Fix</span> f</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ana coalg <span class="ot">=</span> <span class="dt">Fix</span> <span class="op">.</span> <span class="fu">fmap</span> (ana coalg) <span class="op">.</span> coalg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ตัวอย่างที่ตรงไปตรงมาของcoalgebraนั้นตามมาจากfunctorที่จุดคงที่นั้นคือstreamที่ไม่มีที่สิ้นสุดของสมาชิกของtype สิ่งนี้คือfunctor</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">StreamF</span> e a <span class="ot">=</span> <span class="dt">StreamF</span> e a</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">deriving</span> <span class="dt">Functor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>และสิ่งนี้คือจุดคงที่ของมัน</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Stream</span> e <span class="ot">=</span> <span class="dt">Stream</span> e (<span class="dt">Stream</span> e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>coalgebraสำหรับ<code>StreamF e</code>นั้นนำจุดเกิดของtype<code>a</code>และสร้างpair(<code>StreamF</code>นั้นเป็นชื่อที่อลังการของpair)ที่ประกอบด้วยสมาชิกหนึ่งและจุดเกิดอันต่อไป</p>
+<p>คุณสามารถสร้างตัวอย่างง่ายๆของcoalgebrasที่สร้างsequencesไม่มีที่สิ้นสุดเหมือนกับlistของตัวเลขกำลังสองหรือreciprocals</p>
+<p>ตัวอย่างที่น่าสนใจมากกว่าคือcoalgebraที่สร้างlistของจำนวนเฉพาะ เคล็ดลับคือการใช้listที่ไม่มีที่สิ้นสุดในฐานะcarrier จุดเกิดเริ่มต้นก็จะเป็นlistของ<code>[2..]</code> จุดเกิดอันต่อไปก็จะเป็นส่วนหางของlistนั้นที่เลขที่หารสองลงตัวถูกนำออกไป มันคือlistของเลขคี่ที่เริ่มด้วย<span class="math inline">\(3\)</span> ในขั้นตอนต่อไป เราจะนำ่วนหางของlistนี้และทำการนำเลขที่หารสามลงตัวออกไปและอื่นๆ คุณอาจจะรู้ว่านี้คือการสร้างตะแกรงของเอราทอสเทนีส(sieve of Eratosthenes) coalgebraนี้นั้นถูดเขียนโดยfunctionดังต่อไปนี้</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ot">era ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> <span class="dt">StreamF</span> <span class="dt">Int</span> [<span class="dt">Int</span>]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>era (p <span class="op">:</span> ns) <span class="ot">=</span> <span class="dt">StreamF</span> p (<span class="fu">filter</span> (notdiv p) ns)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> notdiv p n <span class="ot">=</span> n <span class="ot">`mod`</span> p <span class="op">/=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>anamorphismสำหรับcoalgebraนี้สร้างlistของprimesว่า</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>primes <span class="ot">=</span> ana era [<span class="dv">2</span><span class="op">..</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>streamนั้นคือlistที่ไม่มีที่สิ้นสุด ดังนั้นมันอาจจะเป็นไปได้ในการแปลงมันไปยังlistของHaskell ในการทำแบบนั้นเราสามารถใช้functorเดิมอย่าง<code>StreamF</code>ในการสร้างalgebraและเราสามารถดำเนินการทำcatamorphismข้างบนมัน ตัวอย่างเช่นนี้คือcatamorphismที่แปลงstreamไปยังlist</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ot">toListC ::</span> <span class="dt">Fix</span> (<span class="dt">StreamF</span> e) <span class="ot">-&gt;</span> [e]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>toListC <span class="ot">=</span> cata al</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span><span class="ot"> al ::</span> <span class="dt">StreamF</span> e [e] <span class="ot">-&gt;</span> [e] </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>          al (<span class="dt">StreamF</span> e a) <span class="ot">=</span> e <span class="op">:</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้จุดคงที่ของเดิมนั้นเป็นทั้งalgebraเริ่มต้นและcoalgebraสุดท้ายสำหรับendofunctorเดียวกัน มันไม่เป็นแบบนี้ตลอดในcategoryทั่วๆไป โดยทั่วไปแล้วendofunctorอาจจะมีหลายจุดคงที่(หรือไม่มีเลย) algebraเริ่มต้นคือสิ่งที่เรียกว่าจุดคงที่ที่น้อยที่สุดและcoalgebraสุดท้ายคือจุดคงที่ที่สูงที่สุด แต่ในHaskellทั้งสองนั้นถูกนิยามโดยสูตรเดียวกันและพวกมันนั้นตรงกัน</p>
+<p>anamorphismสำหรับlistsนั้นถูกเรียกว่าunfold ในการสร้างlistsที่คงที่ functorนั้นถูกแปลงในการสร้างpairของ<code>Maybe</code></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ot">unfoldr ::</span> (b <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (a, b)) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> [a]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ค่าของ<code>Nothing</code>จะจบการสร้างของlist</p>
+<p>ในกรณีที่น่าสนใจของcoalgebraนั้นเกี่ยวกับlenses lensสามารถถูกแสดงในฐานะคู่ของgetterและsetter</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ot">set ::</span> a <span class="ot">-&gt;</span> s <span class="ot">-&gt;</span> a</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ot">get ::</span> a <span class="ot">-&gt;</span> s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในที่นี้<code>a</code>นั้นมักจะคือบางtypeแบบข้อมูลแบบproductกับfieldของtype<code>s</code> getterดึงค่าของfieldนั้นและsetterแทนที่fieldนี้กับค่าใหม่ functionsทั้งสองเหล่านี้สามารถถูกรวมกันไปยังหนึ่งตัว</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">-&gt;</span> (s, s <span class="ot">-&gt;</span> a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถเขียนfunctionนี้ใหม่เพิ่มเติมว่า</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">-&gt;</span> <span class="dt">Store</span> s a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่เราได้นิยามfunctor</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Store</span> s a <span class="ot">=</span> <span class="dt">Store</span> (s <span class="ot">-&gt;</span> a) s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตว่านี้นั้นไม่ใช่functorแบบalgebraicง่ายๆที่สร้างมาจากsumsของproducts มันข้องเกี่ยวกับexponential<span class="math inline">\(a^s\)</span></p>
+<p>lensคือcoalgebraสสำหรับfunctorนี้ที่มีtypeแบบcarrier<code>a</code> เราได้เห็นก่อนหน้านี้ว่า<code>Store s</code>นั้นก็เป็นcomonad มันกลับมาเป็นว่าlensที่ประพฤติตนดีจะตรงกันกับcoalgebraที่เข้ากันได้กับโครงสร้างของcomonad เราจะมาพูดเกี่ยวกับสิ่งนี้ในบทต่อไป</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="25.7">
+<h2 data-number="25.7" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">25.7</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองเขียนfunctionที่ทำการประเมินสำหรับringของpolynomialsที่มีตัวแปลเดียว คุณสามารถแสดงpolynomialในฐานะlistของcoefficientsที่อยู่ข้างหน้า การยกกำลังของ<span class="math inline">\(x\)</span> ตัวอย่างเช่น<span class="math inline">\(4x^2-1\)</span>อาจจะถูกแสดงในฐานะ (เริ่มมากับตัวยกกำลังศูนย์)อย่าง<code>[-1, 0, 4]</code></li>
+<li>ลองgeneralizeการสร้างก่อนหน้านี้ไปยังpolynomialsสำหรับตัวแปลที่เป็นอิสระอย่าง<span class="math inline">\(x^2y-3y^3z\)</span></li>
+<li>ลองเขียนalgebraleสำหรับringของmatrices<span class="math inline">\(2\times2\)</span></li>
+<li>นิยามcoalgebraที่anamorphismสร้างlistของกำลังสองของจำนวนธรรมชาติ</li>
+<li>ใช้<code>unfoldr</code>ในการสร้างlistของจำนวนเฉพาะ<span class="math inline">\(n\)</span>ตัวแรก</li>
+</ol>
+<p>(Page 272)</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/3.7/comonads.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/3.9/algebras-for-monads.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">AlgebrasสำหรับMonads</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

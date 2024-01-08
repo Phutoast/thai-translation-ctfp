@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 28&nbsp; ส่วนขยายKan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/etc/glossary.html" rel="next">
+<link href="../../content/3.10/ends-and-coends.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.11/kan-extensions.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.1/its-all-about-morphisms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.2/adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.3/free-forgetful-adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.4/monads-programmers-definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.5/monads-and-effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Monadและผลตามมา(Effect) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.6/monads-categorically.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.7/comonads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.8/f-algebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.9/algebras-for-monads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">AlgebrasสำหรับMonads</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.10/ends-and-coends.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.11/kan-extensions.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#สวนขยายkanดานขวา" id="toc-สวนขยายkanดานขวา" class="nav-link active" data-scroll-target="#สวนขยายkanดานขวา"><span class="header-section-number">28.1</span> ส่วนขยายKanด้านขวา</a></li>
+  <li><a href="#สวนขยายkanในฐานะadjunction" id="toc-สวนขยายkanในฐานะadjunction" class="nav-link" data-scroll-target="#สวนขยายkanในฐานะadjunction"><span class="header-section-number">28.2</span> ส่วนขยายKanในฐานะAdjunction</a></li>
+  <li><a href="#สวนขยายkanดานชาย" id="toc-สวนขยายkanดานชาย" class="nav-link" data-scroll-target="#สวนขยายkanดานชาย"><span class="header-section-number">28.3</span> ส่วนขยายKanด้านช้าย</a></li>
+  <li><a href="#สวนขยายkanในฐานะends" id="toc-สวนขยายkanในฐานะends" class="nav-link" data-scroll-target="#สวนขยายkanในฐานะends"><span class="header-section-number">28.4</span> ส่วนขยายKanในฐานะEnds</a></li>
+  <li><a href="#สวนขยายkanในhaskell" id="toc-สวนขยายkanในhaskell" class="nav-link" data-scroll-target="#สวนขยายkanในhaskell"><span class="header-section-number">28.5</span> ส่วนขยายKanในHaskell</a></li>
+  <li><a href="#functorอสระ" id="toc-functorอสระ" class="nav-link" data-scroll-target="#functorอสระ"><span class="header-section-number">28.6</span> Functorอิสระ</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>จากถึงตอนนี้เราได้ทำงานกับcategoryเดียวหรือคู่ของcategories ในบางกรณีที่นั้นค่อนข้างมีข้อจำกัด</p>
+<p>ตัวอย่างเช่น ในการนิยามlimitในcategory<span class="math inline">\(\textbf{C}\)</span>เรานำเสนอcategoryตัวชี้<span class="math inline">\(\textbf{I}\)</span>ในฐานะแม่แบบสำหรับแบบแผนที่จะสร้างฐานสำหรับconeของเรา มันอาจจะสมเหตุสมผลในการนำเสนออีกcategoryที่เป็นตัวที่ตรงไปตรงมาในการเป็นแม่แบบสำหรับจุดยอดของcone แทนที่จะใช้functorคงที่<span class="math inline">\(\Delta_c\)</span>จาก<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span></p>
+<p>ใันถึงเวลาในการแก้ไขความกระอักกระอ่วนนี้ เรามานิยามlimitโดยการใช้สามcategoryนี้ เรามาเริ่มด้วยfunctor<span class="math inline">\(D\)</span>จากcategoryตัวชี้<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span> นี้คือfunctorทราเลือกbaseของcone diagramของfunctorคือ</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan2.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>การเพื่มขึ้นมาใหม่คือcategory<span class="math inline">\(\textbf{1}\)</span>ที่มีวัตถุเดียว(และmorphism identityเดียว) ได้มีfunctor<span class="math inline">\(K\)</span>ที่เป็นไปได้ตัวหนึ่งจาก<span class="math inline">\(\textbf{I}\)</span>ไปยังcategoryนี้ มันโยงวัตถุทั้งหมดไปยังวัตถุเดียวใน<span class="math inline">\(\textbf{1}\)</span> และทุกmorphismsไปยังmorphismแบบfunctor identityใดๆก็ตามจาก<span class="math inline">\(\textbf{1}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span>เลือกจุดยอดสำหรับconeของเรา</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan15.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>coneนั้นคือการแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon\)</span>จาก<span class="math inline">\(F \circ K\)</span>ไปยัง<span class="math inline">\(D\)</span> สังเกตว่า<span class="math inline">\(F \circ K\)</span>ทำแบบเดียวกันเมื่อเทียบกับ<span class="math inline">\(\Delta_c\)</span>ดั้งเดิมของเรา diagramต่อไปนี้แสดงการแปลงแบบนี้</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan3-e1492120491591.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>เราสามารถนิยามคุณสมบัติสากลที่เลือกfunctor<span class="math inline">\(F\)</span>ที่“ดีที่สุด” <span class="math inline">\(F\)</span>นี้จะโยง<span class="math inline">\(\textbf{1}\)</span>ไปยังวัตถุที่คือlimitของ<span class="math inline">\(D\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> และการแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon\)</span>จาก<span class="math inline">\(F \circ K\)</span>ไปยัง<span class="math inline">\(D\)</span>จะให้projectionsที่ตรงกัน functorสากลนี้ถูกเรียกว่าส่วนขยายKanด้านขวาของ<span class="math inline">\(D\)</span>ร่วมกับ<span class="math inline">\(K\)</span>และมีเครื่องหมายเป็น<span class="math inline">\(\operatorname{Ran}_KD\)</span></p>
+<p>เรามากำหนดคุณสมบัติสากลนี้ สมมติว่าเรามีอีกconeหนึ่งที่คืออีกfunctor<span class="math inline">\(F'\)</span>คู่กับการแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon'\)</span>จาก<span class="math inline">\(F' \circ K\)</span>ไปยัง <span class="math inline">\(D\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan31-e1492120512209.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ถ้าส่วนขยายKan<span class="math inline">\(F=\operatorname{Ran}_KD\)</span>มีอยู่ ก็จะมีการแปลงแบบธรรมชาติที่เป็นเอกลักษณ์<span class="math inline">\(\sigma\)</span>จาก<span class="math inline">\(F'\)</span>ไปยังมันในแบบที่ว่า<span class="math inline">\(\varepsilon'\)</span>แยกตัวประกอบผ่าน<span class="math inline">\(\varepsilon\)</span>นั้นคืิอ</p>
+<p><span class="math display">\[
+\varepsilon' = \varepsilon\ .\ (\sigma \circ K)
+\]</span></p>
+<p>ในที่นี้<span class="math inline">\(\sigma \circ K\)</span>คือการประกอบทางแนวนอนของสองการแปลงแบบธรรมชาติ(หนึ่งในนั้นเป็นการ แปลงแบบธรรมชาติแบบidentityบน<span class="math inline">\(K\)</span>) การแปลงแบบนี้ก็จะถูกประกอบแนวตั้งกับ<span class="math inline">\(\varepsilon\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan5.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในรูปแบบของส่วนประกอบ ในตอนที่กรัทำบนวัตถุ<span class="math inline">\(i\)</span>ใน<span class="math inline">\(\textbf{I}\)</span>เราได้</p>
+<p><span class="math display">\[
+\varepsilon'_i = \varepsilon_i \circ \sigma_{K i}
+\]</span></p>
+<p>ในกรณีของเรา<span class="math inline">\(\sigma\)</span>นั้นมีแค่สวนประกอบเดี่ยวที่ตรงกับวัตถุเดี่ยวของ<span class="math inline">\(\textbf{1}\)</span> กังนั้นแน่นอนว่าได้มีmorphismที่เป็นเอกลักษณ์จากยอดของconeนิยามโดย<span class="math inline">\(F'\)</span>ไปยังยอดของconeสากลนิยามโดย<span class="math inline">\(\operatorname{Ran}_KD\)</span> เงื่อนไขการสลับกลุ่มนั้นคือตัวที่ต้องการโดนนิยามของlimit</p>
+<p>แต่สิ่งที่สำคัญคือการที่เรานั้นมีอิสระในการแทนที่category<span class="math inline">\(\textbf{1}\)</span>ที่เรียบง่ายด้วยcategory<span class="math inline">\(\textbf{A}\)</span>อะไรก็ได้ และนิยามของส่วนขยายKanด้านขวานั้นก็ยังเป็นไปได้</p>
+<section id="สวนขยายkanดานขวา" class="level2" data-number="28.1">
+<h2 data-number="28.1" class="anchored" data-anchor-id="สวนขยายkanดานขวา"><span class="header-section-number">28.1</span> ส่วนขยายKanด้านขวา</h2>
+<p>ส่วนขยายKanด้านขวาของfunctor<span class="math inline">\(D::\textbf{I}\to\textbf{C}\)</span>ร่วมกับ<span class="math inline">\(K::\textbf{I}\to\textbf{A}\)</span>คือfunctor<span class="math inline">\(F::\textbf{A}\to\textbf{C}\)</span>(ที่<span class="math inline">\(\operatorname{Ran}_KD\)</span>)คู่กับการแปลงแบบธรรมชาติ</p>
+<p><span class="math display">\[
+\varepsilon :: F \circ K \to D
+\]</span></p>
+<p>ในแบบที่ว่าในfunctorอื่นๆใดๆก็ตาม<span class="math inline">\(F'::\textbf{A}\to\textbf{C}\)</span>และการแปลงแบบธรรมชาติอย่าง</p>
+<p><span class="math display">\[
+\varepsilon' ::  F' \circ K \to D
+\]</span></p>
+<p>ได้มีการแปลงแบบธรรมชาติที่เป็นเอกลักษณ์</p>
+<p><span class="math display">\[
+\sigma :: F' \to F
+\]</span></p>
+<p>ที่แยกตัวประกอบ<span class="math inline">\(\varepsilon'\)</span></p>
+<p><span class="math display">\[
+\varepsilon' = \varepsilon\ .\ (\sigma \circ K)
+\]</span></p>
+<p>นิยามนั้นค่อนข้างยางแต่มันสามาถถูกแสดงในdiagramที่ดูดีนี้</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan7.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>วิธีการที่น่าสนใจในการมองที่สิ่งนี้คืือสังเกตว่าในแนวคิดนี้แล้วส่วนขยายKanนั้นกระทำเหมือนinverseของ”การคูณของfunctor” บางคนเขียนไปไกลจนถึงการใช้สัญลักษณ์<span class="math inline">\(D/K\)</span>สำหรับ<span class="math inline">\(\operatorname{Ran}_KD\)</span> แน่นอนว่าในสัญลักษณ์นี้ นิยามของ<span class="math inline">\(\varepsilon\)</span>ที่ก็ถูกเรียกเป็นcounitของส่วนขยายKanด้านขวา ดูเหมือนการตัดออก</p>
+<p><span class="math display">\[
+\varepsilon::D/K\circ K\to D
+\]</span></p>
+<p>ได้มีการตีความในอีกแบบหนึ่งของส่วนขยายของKan ลองพิจารณาว่าfunctor<span class="math inline">\(K\)</span>นั้นฝังcategory<span class="math inline">\(\textbf{I}\)</span>ไว้ใน<span class="math inline">\(\textbf{A}\)</span> ในกรณีที่ง่ายที่สุด<span class="math inline">\(\textbf{I}\)</span>ก็อาจจะเป็นแค่categoryย่อยของ<span class="math inline">\(\textbf{A}\)</span> เรามีfunctor<span class="math inline">\(D\)</span>ที่โยง<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span> เราสามารถที่จะขยาย<span class="math inline">\(D\)</span>ไปยังfunctor<span class="math inline">\(F\)</span>ที่ถูกนิยามทั้งหมดใน<span class="math inline">\(\textbf{A}\)</span>ได้หรือเปล่า? ในอุดมคติแล้ว การขยายอาจจะทำให้การประกอบ<span class="math inline">\(F\circ K\)</span>นั้นisomorphicกับ<span class="math inline">\(D\)</span> ในอีกความหมายหนึ่ง<span class="math inline">\(F\)</span>อาจจะขยายdomainของ<span class="math inline">\(D\)</span>ไปยัง<span class="math inline">\(\textbf{A}\)</span> แต่isomorphismแบบเต็มๆนั้นเป็นสิ่งที่เกินไปและเราสามารถทำได้ด้วนแค่ครึ่งหนึ่งของมันคือ การแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon\)</span>ทางเดียวจาก<span class="math inline">\(F\circ K\)</span>ไปยัง<span class="math inline">\(D\)</span>(ส่วนขยายKanด้านช้ายเลือกอีกทิศทางหนึ่ง)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan6.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>แน่นอนว่าการรูปของการฝังจะไม่สามารถใช้ได้ในตอนที่functor<span class="math inline">\(K\)</span>นั้นไม่ injectiveบนวัตถุหรือไม่faithfulบนhom-setsเหมือนในตัวอย่างของlimit ในกรณรีนั้นแล้วส่วนขยายของkanพยายามอย่างที่สุดในการอนุมานข้อมูลที่สูญหายออกไป</p>
+</section>
+<section id="สวนขยายkanในฐานะadjunction" class="level2" data-number="28.2">
+<h2 data-number="28.2" class="anchored" data-anchor-id="สวนขยายkanในฐานะadjunction"><span class="header-section-number">28.2</span> ส่วนขยายKanในฐานะAdjunction</h2>
+<p>ในตอนนี้สมมุติว่าส่วนขยายKanด้านช้ายนั้นมีตัวตนอยู่สำหรับทุกๆ<span class="math inline">\(D\)</span>(และ<span class="math inline">\(K\)</span>ที่ไม่เปลี่ยนไป) ในกรณีนี้<span class="math inline">\(\operatorname{Ran}_K-\)</span>(ที่เส้นแทนที่<span class="math inline">\(D\)</span>)คือfunctorจากcategoryแบบfunctor<span class="math inline">\([\textbf{I},\textbf{C}]\)</span>ไปยังcategoryแบบfunctor<span class="math inline">\([\textbf{A},\textbf{C}]\)</span> มันกลับกลายเป็นว่าfunctorนี้คือadjointด้ายขวาของfunctorของการกระกอบก่อน<span class="math inline">\(-\circ K\)</span> ที่ส่วนหลังโยงfunctorsใน<span class="math inline">\([\textbf{A},\textbf{C}]\)</span> ไปยังfunctorsใน<span class="math inline">\([\textbf{I},\textbf{C}]\)</span> adjunctionคือ</p>
+<p><span class="math display">\[
+[\textbf{I}, \textbf{C}](F' \circ K, D) \cong [\textbf{A}, \textbf{C}](F', \operatorname{Ran}_{K}D)
+\]</span></p>
+<p>มันคือการเขียนใหม่ของความจริงที่ว่าทุกๆการแปลงแบบธรรมชาติที่เราเรียกว่า<span class="math inline">\(\varepsilon'\)</span>นั้นตรงกันกับการแปลงแบบธรรมชาติที่เป็นเอกลักษณ์ที่เราเรียกว่า<span class="math inline">\(\sigma\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan92.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ยิ่งไปกว่านั้นถ้าเราเลือกcategory<span class="math inline">\(\textbf{I}\)</span>ให้เหมือนกับ<span class="math inline">\(\textbf{C}\)</span>เราก็จะสามารถแทนที่functor identityของ<span class="math inline">\(I_\textbf{C}\)</span>สำหรับ<span class="math inline">\(D\)</span> เราก็จะได้สมการแบบนี้</p>
+<p><span class="math display">\[
+[\textbf{C}, \textbf{C}](F' \circ K, I_\textbf{C}) \cong [\textbf{A}, \textbf{C}](F', \operatorname{Ran}_{K}I_\textbf{C})
+\]</span></p>
+<p>เราสามารถเลือก<span class="math inline">\(F'\)</span>ในตอนนี้ให้เป็นแบบเดียวกันกับ<span class="math inline">\(\operatorname{Ran}_{K}I_\textbf{C}\)</span>ในกรณีนี้แล้วทางด้านขวามีการ แปลงแบบธรรมชาติแบบidentityและตรงกับด้านนี้คือทางด้านช้ายที่ให้เรากับการแปลงแบบธรรมชาติดังต่อไปนี้</p>
+<p><span class="math display">\[
+\varepsilon :: \operatorname{Ran}_{K}I_\textbf{C}\circ K\to I_\textbf{C}
+\]</span></p>
+<p>สิ่งนี้ดูคล้ายอย่างมากกับcounitของadjunctionอย่าง</p>
+<p><span class="math display">\[
+\operatorname{Ran}_{K}I_\textbf{C}  \dashv K
+\]</span></p>
+<p>แน่นอนว่าส่วนขยายKanด้านขวาของfunctor identityคู่กับfunctor<span class="math inline">\(K\)</span>สามารถถูกใช้ในการคำนวณadjointด้านช้ายของ<span class="math inline">\(K\)</span> สำหรับอย่างนั้นแล้ว อีกเงื่อนไขหนึ่งนั้นก็มีความจำเป็นคือส่วนขยายKanด้านขวาต้องถูกคงไว้โดยfunctor<span class="math inline">\(K\)</span> การคงไว้ของส่วนขยายหมายความว่า ถ้าเราคำนวณส่วนขยายKanของfunctorแบบประกอบก่อนกับ<span class="math inline">\(K\)</span> เราควรที่จะได้ผลลัพธ์เดียวกันในการ ทำการประกอบ<span class="math inline">\(K\)</span>ก่อนกับส่วนขยายKan ในกรณีของเราเงื่อนไขนี้สามารถทำให้เรียบง่ายไปเป็น</p>
+<p><span class="math display">\[
+K \circ \operatorname{Ran}_{K}I_{\textbf{C}} \cong \operatorname{Ran}_{K}K
+\]</span></p>
+<p>สังเกตว่าในการใช้ สัญลักษณ์นี้การหารโดย<span class="math inline">\(K\)</span> adjunctionสามารถถูกเขียนในฐานะ</p>
+<p><span class="math display">\[
+I/K \dashv K
+\]</span></p>
+<p>ที่ย้ำความเช้าใจของเราว่าadjunctionนั้นอธิบายinverseบางประเภท เงื่อนไขของการดำรงไว้กลายมาเป็น</p>
+<p><span class="math display">\[
+K \circ I/K \cong K/K
+\]</span></p>
+<p>ส่วนขยายKanด้านขวาของfunctorกับตวมันเอง<span class="math inline">\(K/K\)</span>ถูกเรียกว่าmonadแบบcodensity สูตรของadjunctionนั้นคือผลลัพธ์ที่สำคัญเพราะว่า ในการที่เราจะได้เห็นต่อจากนี้คือเราสามารถคำนวณส่วนขยายKanโดยการใช้ends (coends)ดังนั้นจึงให้เรา วิธีการที่มีประโยชน์ของการหาadjointsด้านขวา(หรือช้าย)</p>
+</section>
+<section id="สวนขยายkanดานชาย" class="level2" data-number="28.3">
+<h2 data-number="28.3" class="anchored" data-anchor-id="สวนขยายkanดานชาย"><span class="header-section-number">28.3</span> ส่วนขยายKanด้านช้าย</h2>
+<p>ได้มีการสร้างแบบdualที่ให้เราส่วนขยายKanด้านช้าย ในการสร้างบางความเข้าใจ เราจะสามารถเริ่มด้วยนิยามของcolimitและแปลงโครงสร้างมันใหม่เพื่อให้ได้ใช้categoryที่มีสมาชิกเดียว<span class="math inline">\(\textbf{1}\)</span> เราสร้างcoconeโดยการใช้functor<span class="math inline">\(F::\textbf{I}\to\textbf{C}\)</span>ในการสร้างฐานของมันและfunctor<span class="math inline">\(F::\textbf{1}\to\textbf{C}\)</span>ในการเลือกจุดยอดของมัน</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan81.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ด้านข้างของcoconeที่ก็คือinjectionsคือส่วนประกอบของการแปลงแบบธรรมชาติ<span class="math inline">\(\eta\)</span>จาก<span class="math inline">\(D\)</span>ไปยัง<span class="math inline">\(F \circ K\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan10a.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>colimitคือcoconeสากล ดังนั้นสำหรับfunctor<span class="math inline">\(F'\)</span>อื่นๆและการแปลแบบธรรมชาติอย่าง</p>
+<p><span class="math display">\[
+\eta' :: D \to F' \circ K
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan10b.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ได้มีการแปลงแบบธรรมชาติที่เป็นเอกลักษณ์<span class="math inline">\(\sigma\)</span>จาก<span class="math inline">\(F\)</span>ไปยัง<span class="math inline">\(F'\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan14.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในการที่ว่า</p>
+<p><span class="math display">\[
+\eta' = (\sigma \circ K)\ .\ \eta
+\]</span></p>
+<p>สิ่งนี้ถูกแสดงในdiagramดังต่อไปนี้</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan112.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>ในการแทนที่categoryที่มีสมาชิกเดียว<span class="math inline">\(\textbf{1}\)</span>ด้วย<span class="math inline">\(\textbf{A}\)</span> นิยามนี้ถูกวางนัยแบบเป็นธรรมชาติไปยังส่วนขยายKanด้านช้ายที่มีเครื่องหมายอย่าง <span class="math inline">\(\operatorname{Lan}_KD\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan12.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>การแปลงแบบธรรมชาติ</p>
+<p><span class="math display">\[
+\eta :: D \to \operatorname{Lan}_KD \circ K
+\]</span></p>
+<p>นั้นถูกเรียกว่าunitของส่วนขยายKanด้านช้าย</p>
+<p>เหมือนกับก่อนหน้านี้ เราสามารถแปลงจกาจับคู่กันแบบหนึ่งต่อหนึ่งระหว่างการแปลงแบบธรรมชาติของ</p>
+<p><span class="math display">\[
+\eta' = (\sigma \circ K)\ .\ \eta
+\]</span></p>
+<p>ในรูปแบบของadjunctionว่า</p>
+<p><span class="math display">\[
+[\textbf{A}, \textbf{C}](\operatorname{Lan}_KD, F') \cong [\textbf{I}, \textbf{C}](D, F' \circ K)
+\]</span></p>
+<p>ในอีกความหมายหนึ่งส่วนขยายKanด้านช้ายคือadjointด้านช้ายและส่วนขยายKanด้านขวาคือadjointด้านขวาของการประกอบก่อนด้วย<span class="math inline">\(K\)</span></p>
+<p>เหมือนกับส่วนขยายKanด้านขวาของfunctor identityที่อาจจะถูกใช้ในการคำนวณadjointด้านช้ายของ<span class="math inline">\(K\)</span> ส่วนขยายKanด้านช้ายของfunctor identityกลายมาเป็นfunctor identityที่ด้านขวาของ<span class="math inline">\(K\)</span>(ที่มี<span class="math inline">\(\eta\)</span>เป็นunitชองadjunction)</p>
+<p><span class="math display">\[
+K\dashv\operatorname{Lan}_KI_\textbf{C}
+\]</span></p>
+<p>รวมกันของสองผลลัพธ์เราก็จะได้</p>
+<p><span class="math display">\[
+\operatorname{Ran}_KI_\textbf{C}\dashv K\dashv\operatorname{Lan}_KI_\textbf{C}
+\]</span></p>
+</section>
+<section id="สวนขยายkanในฐานะends" class="level2" data-number="28.4">
+<h2 data-number="28.4" class="anchored" data-anchor-id="สวนขยายkanในฐานะends"><span class="header-section-number">28.4</span> ส่วนขยายKanในฐานะEnds</h2>
+<p>พลังที่แท้จริงของส่วนขยายKanมาจากความจริงที่ว่าพวกมันสามารถถูกคำนวณในโดยการใช้ends(และcoends) เพื่อให้มีความง่ายดายเราจะจำกัดความสนใจไปยังกรณีที่categoryเป้าหมาย<span class="math inline">\(\textbf{C}\)</span>คือ<span class="math inline">\(\textbf{Set}\)</span>แต่สูตรต่างๆสามารถถูกขยายไปยังcategoryใดๆก็ตาม</p>
+<p>เรามากลับมาของแนวคิดที่ว่าส่วนขยายKanสามารถถูกใช้ในการขยายการกระทำของfunctorให้อยู่ข้างนอกdomainกั้งเดิมของมัน สมมุติว่า<span class="math inline">\(K\)</span>นั้นฝัง<span class="math inline">\(\textbf{I}\)</span>ภายใน<span class="math inline">\(\textbf{A}\)</span> functor<span class="math inline">\(D\)</span>โยง<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span> เราก็อาจจะแค่บอกว่าสำหรับวัตถุ<span class="math inline">\(a\)</span>ใดๆก็ตามในimageของ<span class="math inline">\(K\)</span>ที่ก็คือ<span class="math inline">\(a = K \ i\)</span> functorที่ถูกขยายโยง<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(D \ i\)</span> ปัญหาคือว่าเราจะทำอะไรกับวัตถุใน<span class="math inline">\(A\)</span>ที่อยู่ข้างนอกimageของ<span class="math inline">\(K\)</span>? แนวคิดคือว่าในทุกๆวัตถุเหล่านี้นั้นมีความเป็นไปได้ที่จะเชื่อมผ่านmorphismsหลายๆตัวไปยังทุกๆวัตถุในimageของ<span class="math inline">\(K\)</span> functorนั้นต้องคงไว้ที่morphismsเหล่านี้ ความเป็นทั้งหมด(totality)ของmorphismsจากวัตถุ<span class="math inline">\(a\)</span>ไปยังimageของ<span class="math inline">\(K\)</span>นั้นถูกแสดงโดย</p>
+<p><span class="math display">\[
+\textbf{A}(a, K\ -)
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kan13.jpg" height="200" class="figure-img"></p>
+</figure>
+</div>
+<p>สังเกตว่าhom-functorนี้คือการประกอบกันของสองfunctors</p>
+<p><span class="math display">\[
+\textbf{A}(a, K\ -) = \textbf{A}(a, -) \circ K
+\]</span></p>
+<p>ส่วนขยายKanด้านขวาคือadjointด้านขวาของการประกอบกันของfunctor</p>
+<p><span class="math display">\[
+[\textbf{I}, \textbf{Set}](F' \circ K, D) \cong [\textbf{A}, \textbf{Set}](F', \operatorname{Ran}_{K}D)
+\]</span></p>
+<p>เรามาดูว่าอะไรจะเกิิดขึ้นในตอนที่เราแทนที่<span class="math inline">\(F'\)</span>ด้วยhom functor</p>
+<p><span class="math display">\[
+[\textbf{I}, \textbf{Set}](\textbf{A}(a, -) \circ K, D) \cong [\textbf{A}, \textbf{Set}](\textbf{A}(a, -), \operatorname{Ran}_{K}D)
+\]</span></p>
+<p>และก็นำcompositionเข้าไป</p>
+<p><span class="math display">\[
+[\textbf{I}, \textbf{Set}](\textbf{A}(a, K\ -), D) \cong [\textbf{A}, \textbf{Set}](\textbf{A}(a, -), \operatorname{Ran}_{K}D)
+\]</span></p>
+<p>ในด้านขวามือสามารถถูกลดโดยการใช้Yoneda lemma</p>
+<p><span class="math display">\[
+[\textbf{I}, \textbf{Set}](\textbf{A}(a, K\ -), D) \cong \operatorname{Ran}_{K}D\ a
+\]</span></p>
+<p>ในตอนนี้เราสามารถเขียนsetของการแปลงแบบธรรมชาติใหม่ในฐานะendในการได้มาของสูตรที่สะดวกสำหรับส่วนขยายKanด้านขวาว่า</p>
+<p><span class="math display">\[
+\operatorname{Ran}_{K}D\ a \cong \int_i \textbf{Set}(\textbf{A}(a, K\ i), D\ i)
+\]</span></p>
+<p>ได้มีสูตรที่คล้ายกันสำหรับส่วนขยายKanด้านช้ายในรูปแบบของcoend</p>
+<p><span class="math display">\[
+\operatorname{Lan}_{K}D\ a = \int^i \textbf{A}(K\ i, a)\times{}D\ i
+\]</span></p>
+<p>ในการที่จะเห็นว่านี้เป็นจริง เราจะแสดงว่าสิ่งนี้คือadjointด้านช้ายของการประกอบfunctorนั้นก็คือ</p>
+<p><span class="math display">\[
+[\textbf{A}, \textbf{Set}](\operatorname{Lan}_{K}D, F') \cong [\textbf{I}, \textbf{Set}](D, F' \circ K)
+\]</span></p>
+<p>เรามาแทนที่สูตรของเราในด้านช้าย</p>
+<p><span class="math display">\[
+[\textbf{A}, \textbf{Set}](\int^i \textbf{A}(K\ i, -)\times{}D\ i, F')
+\]</span></p>
+<p>นี้คือsetของการแปลงแบบธรรมชาติดังนั้นมันจึงสามารถถูกเขียนใหม่ในฐานะendว่า</p>
+<p><span class="math display">\[
+\int_a \textbf{Set}(\int^i \textbf{A}(K\ i, a)\times{}D\ i, F'\ a)
+\]</span></p>
+<p>ในการใช้งานความcontinuityของhom-functor เราสามารถแทนที่coendกับend</p>
+<p><span class="math display">\[
+\int_a \int_i \textbf{Set}(\textbf{A}(K\ i, a)\times{}D\ i, F'\ a)
+\]</span></p>
+<p>เราสามารถใช้adjunctionของproduct-exponential</p>
+<p><span class="math display">\[
+\int_a \int_i \textbf{Set}(\textbf{A}(K\ i, a),\ (F'\ a)^{D\ i})
+\]</span></p>
+<p>exponentialนั้นisomorphicกับhom-setที่ตรงกับมัน</p>
+<p><span class="math display">\[
+\int_a \int_i \textbf{Set}(\textbf{A}(K\ i, a),\ \textbf{A}(D\ i, F'\ a))
+\]</span></p>
+<p>ได้มีทฤษฎีบทที่ถูกเรียกว่าทฤษฎีบทFubiniที่อนุญาติให้เราได้สลับสองends</p>
+<p><span class="math display">\[
+\int_i \int_a \textbf{Set}(\textbf{A}(K\ i, a),\ \textbf{A}(D\ i, F'\ a))
+\]</span></p>
+<p>endข้างในเป็นตัวแสดงของsetของการแปลงแบบธรรมชาติระหว่างสองfunctorsดังนั้นเราสามารถใช้Yoneda lemmaว่า</p>
+<p><span class="math display">\[
+\int_i \textbf{A}(D\ i, F'\ (K\ i))
+\]</span></p>
+<p>นี้แน่นอนคือsetของการแปลงแบบธรรมชาติที่ก่อให้เกิดด้านขวามือของadjunctionที่เราต้องการที่จะพิสูจน์</p>
+<p><span class="math display">\[
+[\textbf{I}, \textbf{Set}](D, F' \circ K)
+\]</span></p>
+<p>การคำนวณเหล่านี้โดยการใช้ends coendsและYoneda lemmaนั้นเหมือนกับ”calculus”ของendsแบบทั่วๆไป</p>
+</section>
+<section id="สวนขยายkanในhaskell" class="level2" data-number="28.5">
+<h2 data-number="28.5" class="anchored" data-anchor-id="สวนขยายkanในhaskell"><span class="header-section-number">28.5</span> ส่วนขยายKanในHaskell</h2>
+<p>สูตรของendและcoendสำหรับส่วนขยายKanสามารถถูกแปลไปยังHaskell เรามาเริ่มด้วยส่วนขยายด้านขวาเป็น</p>
+<p><span class="math display">\[
+\operatorname{Ran}_{K}D\ a \cong \int_i \textbf{Set}(\textbf{A}(a, K\ i), D\ i)
+\]</span></p>
+<p>เราแทนที่endกับquantifierแบบสากลและhom-setsกับtypesแบบfunction</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Ran</span> k d a <span class="ot">=</span> <span class="dt">Ran</span> (<span class="kw">forall</span> i<span class="op">.</span> (a <span class="ot">-&gt;</span> k i) <span class="ot">-&gt;</span> d i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มาดูที่นิยามนี้ มันชัดเจนมากว่า<code>Ran</code>ต้องเก็บค่าของtype<code>a</code>ที่ก็functionสามารถถูกใช้งานได้ และการแปลงแบบธรรมชาติระหว่างสองfunctors<code>k</code>และ<code>d</code> ตัวอย่างเช่น สมมุติว่า<code>k</code>คือfunctorแบบtree และ<code>d</code>คือfunctorของlistและคุณจะได้มากับ <code>Ran Tree [] String</code> ถ้าคุณผ่านมันไปยังfunctionที่</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>คุณจะได้กลับมาที่listของ<code>Int</code>และอื่นๆ ส่วนขยายKanด้านขวาจะใช้functionของคุณในการสร้างtreeและก็บรรจุมันไปยังlistใหม่ ตัวอย่างเช่นคุณอาจจะส่งมันไปยังparserที่ก็สร้างtreeของการparseจากstringและคุณก็จะได้listที่ตรงกับ การท่องในแนวลึกของtreeนี้</p>
+<p>ส่วนขยายKanด้านขวาสามารถถูกใช้ในการคำนวณadjointด้านช้ายของfunctorที่ให้มาโดยการแทนที่functor<code>d</code>ด้วยfunctor identity สิ่งนี้นำไปสู่adjointด้านช้ายของfunctor<code>k</code>ที่ถูกแสดงแทนโดยsetของfunctionsแบบpolymorphicของtypeอย่าง</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">forall</span> i<span class="op">.</span> (a <span class="ot">-&gt;</span> k i) <span class="ot">-&gt;</span> i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สมมุติว่า<code>k</code>นั้นคือfunctorหลงลืมจากcategoryของmonoids quantifierแบบสากลก็จะไปยังmonoidsทั้งหมด แน่นอนว่าในHaskell เราไม่สามารถแสดงกฏของmonoid แต่สิ่งที่ตามมาคือการประมาณที่ไม่เลวของfunctorอิสระที่เป็นผลลัพธ์(functorหลงลืม<code>k</code>คือidentityบนวัตถุ)</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Lst</span> a <span class="ot">=</span> <span class="kw">forall</span> i<span class="op">.</span> <span class="dt">Monoid</span> i <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> i) <span class="ot">-&gt;</span> i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>อย่างที่คาดไว้มันได้สร้างmonoidอิสระหรือlistของHaskell</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">toLst ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Lst</span> a</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>toLst as <span class="ot">=</span> \f <span class="ot">-&gt;</span> <span class="fu">foldMap</span> f as</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ot">fromLst ::</span> <span class="dt">Lst</span> a <span class="ot">-&gt;</span> [a]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>fromLst f <span class="ot">=</span> f (\a <span class="ot">-&gt;</span> [a])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ส่วนขยายKanด้านช้ายคือcoend</p>
+<p><span class="math display">\[
+\operatorname{Lan}_{K}D\ a = \int^i \textbf{A}(K\ i, a)\times{}D\ i
+\]</span></p>
+<p>ดังนั้นมันแปลงไปquantifierการมีอยู่ ที่แสดงเป็นสัญลักษณ์ว่า</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Lan</span> k d a <span class="ot">=</span> exists i<span class="op">.</span> (k i <span class="ot">-&gt;</span> a, d i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สิ่งนี้สามารถถูกเขียนในHaskellโดยการใช้GADTsหรือการใช้constructorข้อมูลที่ถูกquantifiedในแบบสากล</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Lan</span> k d a <span class="ot">=</span> <span class="kw">forall</span> i<span class="op">.</span> <span class="dt">Lan</span> (k i <span class="ot">-&gt;</span> a) (d i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>การตีความของdata structureคือการที่ว่ามันเก็บfunctionที่นำภาชนะของบาง<code>i</code>ที่ไม่ได้ถูกกำหนดและก่อให้เกิด<code>a</code> มันก็มีภาชนะของ<code>i</code>เหล่านี้ เนื่องด้วยคุณไม่รู้เลยว่า<code>i</code>ต่างๆคืออะไร สิ่งเดียวที่คุณสามารถทำได้กับโครงสร้างช้อมูลนี้คือการเรียกคืนภาชนะของ<code>i</code>ต่างๆ ทำการบรรจุมันใหม่ไปยังภาชนะที่นิยามโดยfunctor<code>k</code>โดยการใช้การแปลงแบบธรรมชาติ และเรียกfunctionในการได้มาที่<code>a</code> ตัวอย่างเช่นถ้า<code>d</code>นั้นคือtreeและ<code>k</code>คือlist คุณสามารถสร้างtree ทำการเรียกใช้งานfunctionกับlistที่เป็นผลลัพธ์ และได้มาซึ่ง<code>a</code></p>
+<p>ส่วนขยายKanด้านช้่ายสามารถถูกใช้ในการคำนวณadjointด้านขวาของfunctor เรารู้ว่าadjointด้านช้ายของfunctorแบบproductคือexponential ดังนั้นเรามาลองในการเขียนมันโดยการใช้ส่วนขยายKan</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Exp</span> a b <span class="ot">=</span> <span class="dt">Lan</span> ((,) a) <span class="dt">I</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แน่นอนว่าสิ่งนี่นั้นisomorphicกับtypeของfunctionนั้นเห็นได้โดยคู่ของfunctionsดังต่อไปนีิ้</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">toExp ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Exp</span> a b</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>toExp f <span class="ot">=</span> <span class="dt">Lan</span> (f <span class="op">.</span> <span class="fu">fst</span>) (<span class="dt">I</span> ())</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ot">fromExp ::</span> <span class="dt">Exp</span> a b <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>fromExp (<span class="dt">Lan</span> f (<span class="dt">I</span> x)) <span class="ot">=</span> \a <span class="ot">-&gt;</span> f (a, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตว่า ในการที่ได้อธิบายก่อนหน้านี้ในกรณีทั่วไป เราทำการทำขั้นตอนดังต่อไปนี้</p>
+<ol type="1">
+<li>กู้มีภาชนะของ<code>x</code>(ในที่นี้มันก็แค่ภาชนะidentityที่ตรงไปตรงมา)และfunction<code>f</code></li>
+<li>บรรจุภาชนะใหม่โดนการใช้การแปลงแบบธรรมชาติระหว่างfunctor identityและfunctorแบบpair</li>
+<li>เรียก<code>f</code>มาใช้งาน</li>
+</ol>
+</section>
+<section id="functorอสระ" class="level2" data-number="28.6">
+<h2 data-number="28.6" class="anchored" data-anchor-id="functorอสระ"><span class="header-section-number">28.6</span> Functorอิสระ</h2>
+<p>การใช้งานที่น่าสนใจของส่วนขยายKanคือการสร้างของfunctorอิสระ มันคือการสร้างของfunctorอิสระ มันคือผลลัพธ์ของปัญหาของทางปฏิบัติดังต่อไปนี้ สมมุติว่าคุณมีconstructorแขงtypeที่คือการโยงระว่างวัตถุ มันเป็นไปได้หรือเปล่าในการนิยามfunctorตามจากconstructorของtypeนี้? ในอีกความหมายหนึ่ง เราสามารถนิยามการโยงระหว่างmorphismsที่อาจจะขยายconstructorของtypeนี้ไปยังendofunctorที่สมบูญได้หรือเปล่า?</p>
+<p>การสังเกตที่น่าสนใจคือว่าconstructorของtypeสามารถถูกอธิบายในฐานะfunctorที่domainของมันเป็นcategoryแบบdiscrete categoryแบบdiscreteไม่มีmorphismsนอหเหนือไปจากmorphisms identity category<span class="math inline">\(\textbf{C}\)</span>ที่ได้มา เราสามารถสร้างcategoryแบบdiscrete<span class="math inline">\(|\textbf{C}|\)</span>ได้ตรอดโดนการแค่ทิ้งmorphismsทั้งหมดที่ไม่ใช้functor identity<span class="math inline">\(F\)</span>จาก<span class="math inline">\(|\textbf{C}|\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span>คือแค่การโดยงของวัตถุ หรือสิ่งที่เราเรียกว่าconstructorของtypeในHaskell ได้มีfunctor<span class="math inline">\(J\)</span>มาตราฐานที่ฝัง<span class="math inline">\(|\textbf{C}|\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span>ที่ก็คือ มันคือidentityบนวัตถุ(และบนmorphisms identity) ส่วนขยายKanด้านช้ายของ<span class="math inline">\(F\)</span>คู่<span class="math inline">\(J\)</span>ถ้ามันมีอยู่คือfunctorจาก<span class="math inline">\(\textbf{C}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span></p>
+<p><span class="math display">\[
+\operatorname{Lan}_{J}F\ a = \int^i \textbf{C}(J\ i, a)\times{}F\ i
+\]</span></p>
+<p>มันถูกเรียกว่าfunctorอิสระที่ขึ้นมาจาก<span class="math inline">\(F\)</span></p>
+<p>ในHaskell เราอาจจะเขียนมันในรูปแบบ</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">FreeF</span> f a <span class="ot">=</span> <span class="kw">forall</span> i<span class="op">.</span> <span class="dt">FMap</span> (i <span class="ot">-&gt;</span> a) (f i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แน่นอนว่าสำหรับconstructor<code>f</code>ของtypeใดๆก็ตาม <code>FreeF f</code>คือfunctor</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">FreeF</span> f) <span class="kw">where</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> g (<span class="dt">FMap</span> h fi) <span class="ot">=</span> <span class="dt">FMap</span> (g <span class="op">.</span> h) fi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ในการที่คุณได้เห็น functorอิสระปลอมการ liftของfunctionโดยการจดจำทั้งfunctionและargumentของมัน มันรวบรวมfunctionsที่ถูกlift โดยการจำการประกอบของพวกมัน กฏfunctorนั้นถูกบรลุแบบอัตโนมัติ การสร้างแบบนี้ถูกใช้ในpaper<a href="https://okmij.org/ftp/Haskell/extensible/more.pdf">Freer Monads, More Extensible Effects</a></p>
+<p>ในอีกทางหนึ่ง เราสามารถใช้ส่วนขยายKanด้านขวาสำหรับวัตถุประสงค์เดียวกัน</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">FreeF</span> f a <span class="ot">=</span> <span class="dt">FreeF</span> (<span class="kw">forall</span> i<span class="op">.</span> (a <span class="ot">-&gt;</span> i) <span class="ot">-&gt;</span> f i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>มันง่ายมากในการตรวดสอบว่านี้คือfunctorอย่างแน่นอน</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">FreeF</span> f) <span class="kw">where</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> g (<span class="dt">FreeF</span> r) <span class="ot">=</span> <span class="dt">FreeF</span> (\bi <span class="ot">-&gt;</span> r (bi <span class="op">.</span> g))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/3.10/ends-and-coends.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/etc/glossary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
