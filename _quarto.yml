@@ -37,6 +37,11 @@ book:
         - content/3.4/monads-programmers-definition.qmd
         - content/3.5/monads-and-effects.qmd
         - content/3.6/monads-categorically.qmd
+        - content/3.7/comonads.qmd
+        - content/3.8/f-algebras.qmd
+        - content/3.9/algebras-for-monads.qmd
+        - content/3.10/ends-and-coends.qmd
+        - content/3.11/kan-extensions.qmd
     - part: "Appendices"
       chapters:
         - content/etc/glossary.qmd
