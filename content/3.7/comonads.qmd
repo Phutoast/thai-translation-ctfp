@@ -1,0 +1,412 @@
+# Comonads
+
+ในตอนนี้เราได้ครอบคลุมmonadsหมดแล้ว เราสามารถใช้ผลประโยชน์ของdualityและได้comonadsมาแบบฟรีๆอย่างง่านๆโดนการย้อนทางลูกศรและทำงานในcategoryตรงข้าม
+
+จำได้ว่าในระดับที่เรียบง่ายที่สุดmonadsนั้นเกี่ยวกับการประกอบกันลูกศรKleisliอย่าง
+
+```Haskell
+a -> m b
+```
+
+ที่`m`คือfunctorที่คือmonad ถ้าเราใช้ตัวอักษร`w`(ที่ก็คือ`m`กลับหัว)สำหรับcomonad เราสามารถนิยามลูกศรco-Kleisliในฐานะmorphismของtypeนี้
+
+```Haskell
+w a -> b
+```
+
+operator fishในแบบเดียวกันสำหรับลูกศรco-Kleisliนั้นถูกนิยามไว้ว่า
+
+```Haskell
+(=>=) :: (w a -> b) -> (w b -> c) -> (w a -> c)
+```
+
+สำหรับลูกศรco-Kleisliในการก่อให้เกิดcategory เราก็ต้องมีลูกศรco-Kleisliที่เป็นidentityที่ถูกเรียกว่า`extract`
+
+```Haskell
+extract :: w a -> a
+```
+
+มันคือdualของ`return` เราก็ได้ทำการบังคับกฏของการสลับกลุ่มและรวมไปถึงกฏidentityด้านช้ายและขวา นำสิ่งเหล่านี้เข้าด้วยกัน เราสามารถนิยามcomonadในHaskellว่า
+
+```Haskell
+class Functor w => Comonad w where
+    (=>=) :: (w a -> b) -> (w b -> c) -> (w a -> c)
+    extract :: w a -> a
+```
+
+ในการปฏิบัติเราจะใช้primitivesที่แต่ต่างเล็กน้อย ในที่เราจะได้เห็นในอีกไม่ช้า
+
+คำถามคือ อะไรคือการใช้งานของcomonadsในการเขียนโปรแกรม
+
+## เขียนโปรแกรมกับComonads
+
+เรามาเปรียบเทียบmonadกับcomonad monadให้วิธีการในการใล่ค่าไปยังในภาชนะโดยการใช้`return` มันไม่ได้ให้คุณการเข้าถึงของค่าหรือค่าต่างๆที่ถูกเก็บข้างใน แน่นอนว่าdata structuresที่เขียนmonadsอาจจะให้การเข้าถึงเนื้อหาของพวกมัน แต่นั้นถูกมองว่าเป็นสิ่งเสริมเพิ่มเติม ได้ไม่มีinterfaceเดียวกันสำหรับการดึงค่าจากmonad และเราได้เห็นตัวอย่างของmonad`IO`ที่มีความภูมิใจมันเองที่ไม่เคยที่จะเเปิดเผยเนื้อหาข้างใน
+
+comonadในอีกทางหนึ้งให้วิธีการในการดีงค่าๆหนึ่งจากมัน มันไม่ได้ให้ให้วิธีการในการใส่ค่าเข้าไป ดังนั้นถ้าคุณต้องการที่จะคิดถึงcomonadในฐานะภาชนะ มันนั้นในทุกๆครั้งมาด้วยเนื้อหาขางในที่มีอยู่แล้วและมันอนุญาตให้คุณได้ส่องเข้าไปในมัน
+
+เหมือนกับลูกศรKleisliนำค่าและสร้างผลัพธ์ที่ถูกประดับแล้ว(มันกประดับมันด้วยบริบท)ลูกศรco-Kleisliนำค่าคู่กับบริบททั้งหมดและสร้างผลลัพธ์ออกมา มันคือตัวแทนของ*การคำนวนที่มีบริบท (contextual computation)*
+
+## ComonadsแบบProduct
+
+จำmonad monadได้หรือเปล่า? เราได้นำเสนอมันในการแก้ใขปัญหาของการเขียนการคํานวณที่ต้องการบางenvironmentที่อ่านได้อย่างเดียว`e` การคำนวณแบบนี้สามารถถูกแสดงในฐานะfunctionแบบpureในรูปของ
+
+```Haskell
+(a, e) -> b
+```
+
+เราได้ใช้การcurryในการแปลงมันไปยังลูกศรKleisliอย่าง
+
+```Haskell
+a -> (e -> b)
+```
+
+แต่สังเกตว่าfunctionเหล่านี้นั้นมีรูปแบบของลูกศรco-Kleisliอยู่แล้ว เรามาแปลงargumentsของพวกมันไปยังรูปแบบfunctorที่สะดวกกว่านี้
+
+```Haskell
+data Product e a = Prod e a deriving Functor
+```
+
+เราสามารถนิยามการoperatorของการประกอบกันย่างง่ายดายโดยการทำให้environmentเดียวกันพร้อมใช้กับลูกศรที่เรากำลังทำการประกอบ
+
+```Haskell
+(=>=) :: (Product e a -> b) -> (Product e b -> c) -> (Product e a -> c)
+f =>= g = \(Prod e a) -> let b = f (Prod e a)
+                          c = g (Prod e b) 
+                      in c
+```
+
+การเขียนของ`extract` แค่ทิ้งenvironmentออกไป
+
+```Haskell
+extract (Prod e a) = a
+```
+
+ไม่แปลกใจที่comonad productสามารถถูกใช้ในการกระทำการคำนวณแบบเดียวกับเป๊ะๆในฐานะmonad reader ในแบบหนึ่ง การเขียนแบบcomonadicของenvironmentนั้นเป็นธรรมชาติมากว่า (มันตาม จิตวิญญาณของ"การคำนวณในบริบท") ในอีกทางหนึ่งmonadsมากับารแต่งsyntaxให้ง่ายขึ้น(syntactic sugar)ที่สะดวกของเครื่องหมาย`do`
+
+ความเชื่อมต่อระหว่างmonad readerและcomonad productนั้นลึกกว่านี้ ที่ต้องเกี่ยวกับความจริงที่ว่าfunctor readerคือadjointด้านขวาของfunctor product แต่โดยทั่วไปแล้วcomonadsครอบคลุมความมายการคำนวณที่แต่ต่างกับmonads เราจะเห็นตัวอย่างมากขึ้นหลังจากนี้
+
+มันง่ายมากที่จะgeneralizecomonad`Product` ไปยังtypesแบบproductทั่วๆไปจนรวมไปถึงtuplesและrecords
+
+## แยกชิ้นส่วนการคำนวณ
+
+ต่ามต่อจากขบวนการของการทำให้เป็นduality เราสามารถเริ่มไปและทำให้เป็นdualityของbindและjoinทางmonad ในอีกแบบหนึ่งเราสามารถที่ขบวนการเดียวกันที่เราได้ใช้กับmonads ที่เราศึกษาโครวสร้างของoperator fish แนวทางแบบนี้ดู่น่าจะให้ความรู้ได้มากกว่า
+
+จุดเริ่มคือการรู้ว่าoperatorของการประกอบกันต้องสร้างลูกศรco-Kleisliที่นำ`w a`และสร้าง`c` วิธีทางเดียวในการสร้าง`c`คือการใช้functionที่สองไปกับargumentของtype`w b`อย่าง
+
+```Haskell
+(=>=) :: (w a -> b) -> (w b -> c) -> (w a -> c)
+f =>= g = g ... 
+```
+
+แต่เราสามารถในการสร้างtype`w b`ที่อาจจะถูกให้กับ`g`? เราได้มีargumentของtype`w a`พร้อมอยู่แล้วและfunction`f :: w a -> b`คำตอบคือการนิยามdualของbindที่ถูกเรียกว่าextend
+
+```Haskell
+extend :: (w a -> b) -> w a -> w b
+```
+
+ในการใช้`extend`เราสามารถเขียนการประกอบกันว่า
+
+```Haskell
+f =>= g = g . extend f
+```
+
+เราสามารถทำการแยกชิ้นส่วน`extend`หรือเปล่า? คุณอาจจะอยากที่จะพูดว่าทำไมไม่แค่ใช้งานfunction`w a -> b`ไปกับargument`w a`แต่คุณก็จะรู้ในทันที่ว่าคุณไม่มีทางในการแปลง`b`ไปยัง`w b` จำได้ว่าcomonadไม่ให้ทางในการliftค่า ในจุดๆนี้ ในการสร้างแบบคล้ายๆกับของmonads เราได้ใช้`fmap` วิธีเดียวเราอาจจะใช้`fmap`ก็ถ้าเรามีบางอย่างของtype`w (w a)`ที่พร้อมใช้ ถ้าเราสามารถเปลี่ยน`w a`ไปยัง`w (w a)` และเพื่อความสะดวกที่ก็อาจจะเป็นdualของ`join`เป๊ะๆ เราเรียกมันว่า`duplicate`
+
+```Haskell
+duplicate :: w a -> w (w a)
+```
+
+ดังนั้นแค่เหมือนกับนิยามของmonadเราได้มีสามนิยามที่เหมือนกันสำหรับcomonadอย่าง การใช้ลูกศรco-Kleisli `extend`หรือ`duplicate`ในที่นี้คือนิยามของHaskellที่นำมาโดยตรงจากlibrary`Control.Comonad`
+
+```Haskell
+class Functor w => Comonad w where
+    extract :: w a -> a
+    duplicate :: w a -> w (w a)
+    duplicate = extend id
+    extend :: (w a -> b) -> w a -> w b
+    extend f = fmap f . duplicate
+```
+
+ในการที่มีการเขียนแบบมาตราฐานของ`extend`ในรูปแบบของ`duplicate`และในทางกลับกัน ดังนั้นคุณแค่ต้องoverrideตัวไดตัวหนึ่ง
+
+แนวคิดข้างหลังfunctionsเหล่านี้มีมาจากแนวคิดที่ว่าโดนทั่วไปแล้วcomonadสามารถถูกคิดในฐานะภาชนะที่มีวัตถุต่างของtype`a`(comonadแบบproductนั้นคือสิ่งที่เป็นพิเศษของแค่ค่าๆหนึ่ง) แนวคิดของค่า"ตอนๆนี้" สิ่งที่สามารถเข้าถึงได้ง่ายผ่าน`extract`ลูกศรco-Kleisliได้แสดงการคำนวณบางอย่างที่เพ่งเล็งไปที่ค่าในปัจจุบันแต่มันก็มีการเข้าถึงสำหรับทุกๆค่าที่อยู่รอบๆทั้งหมด ให้คิดถึงเกมของชีวิต(game of life)ของConway ในแต่ละช่อง(cell)ได้มีค่า(ที่โดยทั่วไปแล้วเป็นแค่`True`หรือ`False`) comonadที่ตรงกับเกมของชีวิตก็จะเป็นตารางของช่อง"ในตอนๆนี้" 
+
+ดังนั้นแล้ว`duplicate`ทำอะไร? มันนำภาชนะแบบcomonadic`w a`และสร้างภาชนะของภาชนะ`w (w a)` แนวคิดคือว่าแต่ละภาชนะนั้นเพ่งเล็งไปยัง`a`ใน`w a`ที่แตกต่างกัน ในเกมของชีวิตคุณอาจจะมีตารางของตาราง ที่แต่ละช่องของตารางข้างนอกนั้นเก็บตารางข้างในเอาไว้ที่ทำการเพ่งเล็งบนช่องที่แตกต่างออกไป
+
+ในตอนนี้เรามาดูที่`extend` มันนำลูกศรco-Kleisliและภาชนะแบบcomonadic`w a`ที่เต็มไปด้วย`a`ต่างๆ มันนำการคำนวณมาใช้สำหรับทุกๆ`a`ต่างๆเหล่านี้แทนที่มันด้วย`b`ต่างๆ ผลลัพธ์คือภาชนะแบบcomonadicที่เต็มไปด้วย`b`ต่างๆ `extend`นำมันโดยการ เคลื่อนสอ่งที่เพ่งเล็งจาก`a`ตัวหนึ่งไปยังอีกตัวและทำการใช้ลูกศรco-Kleisliไปยังพวมมันแต่ละตัว ในเกมของชีวิตลูกศรco-Kleisliก็จะคำนวณแต่ละสถานะใหม่ของช่องในตอนๆนี้  ในการทำแบบนั้น มันอาจจะดูไปในบริบท(ที่ก็เดาว่าเป็นช่องรอบๆที่ใกล้ที่สุด) การเขียนแบบมาตราฐานของ`extend`แสดงให้เห็นถึงขบวนการนี้ ในตอนแรกเราเรียก`duplicate`ในการสร้างจุดที่ต้องเพ่งเล็งทั้งหมดแล้วก็ทำการใช้`f`ไปยังพวมมันแต่ละอัน
+
+## ComonadแบบStream
+
+ขบวนการนี้ของการเลื่อนจุดที่สนใจจากสมาชิกหนึ่งไปยังภาชนะของอีกอันหนึ่งนั้นแลดงให้เห็นอย่างดีที่สุดโดยกับตัวอย่างของstreamไม่มีที่สิ้นสุด streamอย่างนี้คือเหมือนกับlistแต่แค่มันไม่ต้องมีconstructorว่างอย่าง
+
+```Haskell
+data Stream a = Cons a (Stream a)
+```
+
+มันคือ`Functor`อย่างชัดๆ
+
+```Haskell
+instance Functor Stream where
+    fmap f (Cons a as) = Cons (f a) (fmap f as)
+```
+
+จุดสนใจของstreamคือสมาชิกแรกของมันดังนั้นนี้คือการเขียนของ`extract`
+
+```Haskell
+extract (Cons a _) = a
+```
+
+`duplicate`สร้างstreamของstream ที่แต่ละตัวเพ่งเล็งไปที่สมาชิกที่แตกต่างกัน
+
+```Haskell
+duplicate (Cons a as) = Cons (Cons a as) (duplicate as)
+```
+
+สมาชิกแรกคือstreamดังเดิม สมาชิกที่สองคือหางของstreamดังเดิม มาชิกที่สองคือหางของมันเองและไปเรื่อยๆไม่มีที่สิ้นสุด
+
+ที่คือinstanceตัวเต็ม
+
+```Haskell
+instance Comonad Stream where
+    extract (Cons a _) = a 
+    duplicate (Cons a as) = Cons (Cons a as) (duplicate as)
+```
+
+มันคือวิธีการที่functionalอย่างมากในการมองไปยังstreams ในภาษาแบบimperative เราอาจจะเรื่อมด้วยmethod`advance`ที่เลื่อนstreamโดยหนึ่งตำแหน่ง ในที่นี้`duplicate`สร้างstreamที่ถูกเลื่อนใรการทำแค่ครังเดียว ความlazyของHaskellทำให้สิ่งนี้เป็นไปได้และแม้กระทั่งเป็นที่ต้องการ แน่นอน ในการทำให้`Stream`นั้นใช้งานได้จริง เราอาจจะก็เขียนรูปแบบที่คล้ายกันของ`advance`ว่า
+
+```Haskell
+tail :: Stream a -> Stream a
+tail (Cons a as) = as
+```
+
+แต่มันไม่เคยเป็นส่วนหนึ่งของinterfaceของcomonad 
+
+ถ้าคุณมีประสบการกับการการประมวลผลสัญญาณดิจิทัล(digital signal processing)คุณจะเห็นในทันที่ว่าลูกศรco-Kleisสำหรับstreamนั้นคือแค่filterแบบdigitalและ`extend`นั้นสร้างstreamที่ผ่านการfilterแล้ว
+
+ในฐานะตัวอย่างที่ง่ายๆ เรามาเขียนfilterแบบmoving average ในที่นี้คือfunctionที่บวกสมาชิก`n`ตัวของstreamไว้
+
+```Haskell
+sumS :: Num a => Int -> Stream a -> a
+sumS n (Cons a as) = if n <= 0 then 0 else a + sumS (n - 1) as
+```
+
+นี้คือfunctionในการคำนวณค่าเฉลี่ยของสมาชิก`n`ตัวแรกเอาไว้ในstream
+
+```Haskell
+average :: Fractional a => Int -> Stream a -> a
+average n stm = (sumS n stm) / (fromIntegral n)
+```
+
+ในการใช้งานบาส่วนแล้วของ`average n`คือลูกศรco-Kleisดังนั้น เราสามารถ`extend`มันไปยังทั้งstreamได้เลย
+
+```Haskell
+movingAvg :: Fractional a => Int -> Stream a -> Stream a
+movingAvg n = extend (average n)
+```
+
+ผลลัพธ์คือของstreamของrunning averages
+
+streamนั้นคือตัวอย่างของcomonadหนิ่งมิติทางเดียว มันสามารถทำได้เป็นสองทิศทางหรือขยายไปยังสองหรือมากกว่ามิตืได้ง่ายกว่า
+
+
+## ComonadแบบCategory
+
+ในการนิยามcomonadในทฤษฎีcategoryนั้นเป็นการฝึกหัดที่ตรงไปตรงมาของduality เหมือนกับmonad เราเรืิ่มกับendofunctor$T$ การแปลงแบบธรรมชาติสองตัวอย่าง$\eta$และ$\mu$ที่นิยามmonadนั้นแค่กลับทางสำหรับcomonadอย่าง
+
+$$
+\begin{align*}
+  \varepsilon & :: T \to I   \\
+  \delta      & :: T \to T^2
+\end{align*}
+$$
+
+ส่นประกอบของการแปลงเหล่านี้ตรงกับ`extract`และ`duplicate` กฏของComonadนั้นคือถาพสะท้อนของกฎของmonad ไม่มีsurpriseในที่นี้
+
+แล้วก็ได้มีการได้มาของmonadจากadjunction dualityนั้นย้อนadjunctionคือadjointด้านช้ายกลายมาเป็นadjointด้านขวาและในทางกลับกัน และเนื่องด้วยการประกอบกัน$R\circ L$นิยามmonad$L\circ R$ต้องนิยามcomonad counitของadjunctionอย่าง
+
+$$
+\varepsilon :: L \circ R \to I
+$$
+
+นั้นก็คือ$\varepsilon$เดียวกันที่เราเห็นในนิยามของcomonad(หรือในส่วนแระกอบ ในฐานะ`extract`ของHaskell) เราก็สามารถใช้unitของadjunctionอย่าง
+
+$$
+\eta :: I \to R \circ L
+$$
+
+ในการใส่$R\circ L$ในตรงการของ$L\circ R$และทำการสร้าง$L \circ R \circ L \circ R$ การสร้าง$T^2$จาก$T$ได้นิยาม$\delta$และสิ่งนี้ได้ทำให้นิยามของcomonadสมบูรณ์
+
+เราก็ได้เห็นว่าmonadนั้นคือmonoid dualของประโยคนี้ก็อาจจะต้องการใช้งานของcomonoid แล้วอะไรคือcomonoid? นิยามดั้งเดิมของmonoidในฐานะcategoryที่มีสมาชิกเดียวไม่ได้มีdualที่น่าสนใจอะไร ในตอนที่คุณย้อนทิศทางของendomorphismsทั้งหมด คุณได้มีอีกmonoidหนึ่ง แต่จำได้ว่าในแนวทางของเรากับmonad เราใช้นิยามที่กว้างกว่าของmonoidในฐานะวัตถุในcategoryแบบmonoidal การสร้างนั้นมาจากสองmorphismsอย่าง
+
+$$
+\begin{align*}
+  \mu  & :: m \otimes m \to m \\
+  \eta & :: i \to m
+\end{align*}
+$$
+
+การย้อนของMorphismเหล่านี้สร้างcomonoidในcategoryแบบmonoid
+
+$$
+\begin{align*}
+  \delta      & :: m \to m \otimes m \\
+  \varepsilon & :: m \to i
+\end{align*}
+$$
+
+เราสามารถเขียนนิยามของcomonoidในHaskell
+
+```Haskell
+class Comonoid m where
+    split :: m -> (m, m)
+    destroy :: m -> ()
+```
+
+แต่มันก็จะตรงไปตรงมา แน่นอนว่า`destroy`ไม่สนใจargumentของมัน
+
+```Haskell
+destroy _ = ()
+```
+
+`split`คือแค่คู่ของfunctions
+
+```Haskell
+split x = (f x, g x)
+```
+
+ในตอนนี้พิจารณากฏของcomonoidที่คือdualของกฏunitของmonoid
+
+```Haskell
+lambda . bimap destroy id . split = id
+rho . bimap id destroy . split = id
+```
+
+ในที่นี้`lambda`และ`rho`คือunitorsด้านช้ายและขวาตามลำดับ(ลองดูนิยามของcategoryแบบmonoid) นำมันเข้ามาในนิยามเราก็ได้
+
+```Haskell
+lambda (bimap destroy id (split x))
+= lambda (bimap destroy id (f x, g x))
+= lambda ((), g x)
+= g x
+```
+
+ที่จะพิสูจน์ว่า`g = id` ในทางเดียวกันกฏที่สองนั้นขยายไปยัง`f = id` โดยสรุปแล้ว
+
+```Haskell
+split x = (x, x)
+```
+
+ที่แสดงว่าในHaskell(และโดยทั่วไปในcategory$\textbf{Set}$)ทุกๆวัตถุนั้นคือcomonoidที่ตรงไปตรงมา
+
+โชคดีที่ว่าได้มีcategoryแบบmonoidอื่นๆที่น่าสนใจมากกว่าที่ทำการนิยามcomonoid หนึ่งในนั้นคือcategoryของendofunctors และมันกลับมาเป็นที่ว่า เหมือนกับmonadคือmonoidในcategoryของendofunctors
+
+> comonadคือcomonoidในcategoryของendofunctors
+
+## Comonadกักเก็บ
+
+อีกตัวอย่างหนึ่งที่สำคัญของcomonadคือdualของmonadสถานะ มันถูกเรียกว่าcomonad costateหรือcomonadกักเก็บ 
+
+เราได้เห็นแล้วว่าmonadสถานะนั้นถูกสร้างโดยadjunctionที่นิยามexponentialsว่า
+
+$$
+\begin{align*}
+  L\ z & = z\times{}s      \\
+  R\ a & = s \Rightarrow a
+\end{align*}
+$$
+
+เราจะใช้adjunctionเดียวกันในการนิยามcomonadของcostate comonadนั้นถูกนิยามโดยการประกอบกันอย่าง$L\circ R$
+
+$$
+L\ (R\ a) = (s \Rightarrow a)\times{}
+$$
+
+แปลงสิ่งนี้ไปยังHaskell เราเริ่มด้วยadjunctionระหว่างfunctor`Product`ในทางด้านช้ายและfunctor`Reader`ในทางด้านขวา การประกอบกันของ`Product`หลัง`Reader`นั้นตรงกันกับนิยามดังต่อไปนี้
+
+```Haskell
+data Store s a = Store (s -> a) s
+```
+
+counitของadjunctionที่นำมาที่วัตถุ$a$คือmorphismอย่าง
+
+$$
+\varepsilon_a :: ((s \Rightarrow a)\times{}s) \to a
+$$
+
+หรือในสัญลักษณ์ของHaskell
+
+```Haskell
+counit (Prod (Reader f) s)) = f s
+```
+
+มันกลายมาเป็น`extract`ของเรา
+
+```Haskell
+extract (Store f s) = f s
+```
+
+unitของadjunctionคือ
+
+```Haskell
+unit :: a -> Reader s (Product a s)
+unit a = Reader (\s -> Prod a s)
+```
+
+สามารถถูกเขียนใหม่ในฐานะconstructorข้อมูลที่ถูกใช้บางส่วนว่า
+
+```Haskell
+Store f :: s -> Store f s
+```
+
+เราสร้าง$\delta$หรือ`duplicate`ในฐานะการประกอบกันแนวนอนว่า
+
+$$
+\begin{align*}
+  \delta & :: L \circ R \to L \circ R \circ L \circ R \\
+  \delta & = L \circ \eta \circ R
+\end{align*}
+$$
+
+เราได้แอบ$\eta$ผ่าน$L$ช้ายสุดที่คือfunctor`Product` มันหมายความถึงการกระทำกับ$\eta$หรือ`Store f` ในส่วนประกอบด้านช้ายของคู่(นั้นคือสิ่งที่`fmap`สำหรับ`Product`จะทำ) เรามี
+
+```Haskell
+duplicate (Store f s) = Store (Store f) s
+```
+
+(จำไว้ว่าในสูตรสำหรับ$\delta,L$และ$R$เป็นตัวแทนสำหรับการ แปลงแบบธรรมชาติแบบidentityที่ส่วนประกอบนั้นคือmorphisms identity)
+
+ในที่นี้นิยามโดยสมบูรณ์ของcomonad`Store`คือ
+
+```Haskell
+instance Comonad (Store s) where
+    extract (Store f s) = f s
+    duplicate (Store f s) = Store (Store f) s
+```
+
+คุณอาจจะคิดถึงส่วนของ`Reader`ใน`Store`ในฐานะภาชนะที่ทั่วไปของ`a`ต่างๆที่คู่กับกุญแจของสมาชิกในtype`s` ตัวอย่างเช่นถ้า`s`คือ`Int` แล้ว`Reader Int a`คือstreamสองทางที่ไม่มีที่สิ้นสุดของ`a` `Store`จับคู่ภาชนะนี้กับค่าของtypeของkey ตัวอย่างเช่น`Reader Int a`นั้นถูกจับคู่กับ`Int` ในกรณีนี้`extract`ได้ใช้จำนวณเต็มนี้ที่เป็นตัวชี้ไปยังstreamที่ไม่มีที่สิ้นสุด คุณอาจจะคิดถึงส่วนประกอบที่สองของ`Store`ในฐานะตำแหน่งปัจจุบัน
+
+ตามมาต่อจากตัวอย่างนี้`duplicate`สร้างstreamที่ไม่มีที่สิ้นสุดใหม่ที่มีตัวชี้เป็น`Int` streamนี้เก็บstreamsในฐานะสมาชิกของมัน โดยเฉพาะเช่นที่ตำแหน่งในตอนนี้ มันเก็บstreamดั้งเดิมเอาไว้ แต่ถ้าคุณใช้บาง`Int`อีกตัว(ทั้งบวกและลบ)ในฐานะกุญแจ คุณก็จะได้streamที่ถูกเลื่อนที่ในตัวชี้ใหม่
+
+โดนทั่วไปคุณสามารถทำให้ตัวเองมั่นใจว่าในตอนที่`extract`กระทำบน`Store`ที่ถูก`duplicate` มันได้สร้าง`Store`ดั้งเดิม(ในความเป็นจริงแล้ว กฏทางidentityสำหรับcomonadบอกว่า`extract . duplicate = id`)
+
+comonad`Store`มีบทบาทที่สำคัญในฐานะพื้นฐานทางทฤษฎีสำหรับlibrary`Lens` ในแนวคิดแล้วcomonadอย่าง`Store s a`นั้นรวมแนวคิดที่ของ"การเพ่งเล็ง" (เหมือนlens) ไปยังบางโครงสร้างย่อยของtype`a` โดยการใช้type`s`ในฐานะตัวชี้ โดยเฉพาะเช่นfunctionของtype
+
+```Haskell
+a -> Store s a
+```
+
+นั้นเท่ากับคู่ของfunctionsต่างๆว่า
+
+```Haskell
+set :: a -> s -> a
+get :: a -> s
+```
+
+ถ้า`a`คือtypeของproduct`set`ก็อาจจะถูกเขียนในฐานะการจัดวางfieldของtype`s`ข้างใน`a`ในขณะเดียวกันก็ทำการreturning รูปแบบของ`a`ที่ถูกดัดแปลง ในทางเดียวกัน`get`ก็อาจจะถูกเขียนให้อ่านค่าของfield`s`จาก`a` เราจะมาสำรวจแนวคิดเหล่านี้ในบทถัดไป
+
+## โจทย์ท้าทาย
+
+1. ลองเขียนเกมของชีวิตของConwayโดยการใช้comonad`Store` คำใบ้: อะไรคือtypeคุณต้องเลือกสำหรับ`s`?
+
+
+

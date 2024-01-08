@@ -1,0 +1,388 @@
+# AlgebrasสำหรับMonads
+
+ถ้าเราตีความendofunctorsในฐานะวิธีการของการนิยามexpressions algebrasอนุญาตให้เราประเมินพวกกันและmonadsอนุญาติให้เราสร้างและปรับเปลี่ยนพวกกัน โดยการรวมalgebrasกับmonads เราไม่ได้แค่ได้การใช้งานที่หลากหลายแต่เราก็สามารถตอบบางคำถามที่น่าสนใจ
+
+หนึ่งในคำถามแบบนี้นั้นเกี่ยวกับความสัมพันธ์ระหว่างmonadsและadjunctions ในการที่เราได้เห็นมาก่อหน้านี้ ทุกๆadjunctionนิยามmonads(และcomonad) คำถามคือทุกๆmonad(หรือcomonad)สามารถถูกสร้างจากadjunctionได้หรือไม่?คำตอบคือใช่ ได้มีทั้งชุดของadjunctionsที่สร้างมาจากmonadที่ให้มา ผมจะแสดงให้คุณเห็นสองadjunctions
+
+![](images/pigalg.png){fig-align="center" height=200}
+
+เรามาทบทวนนิยามต่างๆ monadคือendofunctor$m$ที่มาคู่กับการแปลงแบบธรรมชาติสองอย่างที่บรรลุบางเงื่อนไขของความสอดคล้องกัน ส่วนประกอบของการแปลงแบบนี้ที่$a$คือ
+
+$$
+\begin{align*}
+  \eta_a & :: a \to m\ a         \\
+  \mu_a  & :: m\ (m\ a) \to m\ a
+\end{align*}
+$$
+
+algebraสำหรับendofunctorเดียวกันคือการเลือกของบางวัตถุโดยเฉพาะ(carrier$a$)คู่กับmorphismอย่าง
+
+$$
+\operatorname{alg} :: m\ a \to 
+$$
+
+สิ่งแรกที่ให้สังเกตคือว่าalgebraจะไปยังทิศทางที่ตรงกันข้ามไปยัง$\eta_a$ แนวคิดคือที่ว่า$\eta_a$สร้างexpressionที่ตรงไปตรงมาจากค่าของtype$a$ เงื่อนไขของความสอดคล้องที่ทำให้algebraเข้ากันได้กับmonadทำให้มั่นใจได้ว่าการประเมินexpressionนี้โดยการใช้algebraที่carrierของมันคือ$a$ให้เราได้ค่าดังเดิมกลับมา
+
+$$
+\operatorname{alg} \circ \eta_a = \operatorname{id}_a
+$$
+
+เงื่อนไขที่สองเกิดมาจากความจริงที่ว่าได้มีสองวิธีในการประเมินexpressionช้ำช้อน(doubly nested)อย่าง $m \ (m \ a)$ เราสามารถทำการใช้$\mu_a$ในการทำให้expressionนั้นแบบและก็ใช้ตัวประเมินของalgebra หรือเราสามารถใช้ตัวประเมินที่ถูกlifted ในการประเมินexpressionsที่อยู่ข้างในและก็ทำการใช้ตัวประเมินไปยังผลลัพธ์ เราต้องการที่จะให้แนวทางทั้งสองนั้นเท่ากัน
+
+$$
+\operatorname{alg} \circ \mu_a = \operatorname{alg} \circ m\ \operatorname{alg}
+$$
+
+ในที่นี้ `m alg`คือmorphismที่มีผลัพธ์มาจากการlift$\operatorname{alg}$โดยการใช้functor$m$ diagramsของการcommutingต่อไปนี้ได้อธิบายเงื่อนไขทั้งสอง(ผมได้แทนที่$m$กับ$T$ในการคาดถึงสิ่งที่ตามมา)
+
+<p align="center"><img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20a%20%5Carrow%5Brd%2C%20equal%5D%20%5Carrow%5Br%2C%20%22%5Ceta_a%22%5D%0A%20%20%20%20%20%20%26%20Ta%20%5Carrow%5Bd%2C%20%22alg%22%5D%20%5C%5C%0A%20%20%20%20%20%20%26%20a%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%5Cqquad%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20T(Ta)%20%5Carrow%5Br%2C%20%22T%5C%20alg%22%5D%20%5Carrow%5Bd%2C%20%22%5Cmu_a%22%5D%0A%20%20%20%20%20%20%26%20Ta%20%5Carrow%5Bd%2C%20%22alg%22%5D%20%5C%5C%0A%20%20%20%20%20%20Ta%20%5Carrow%5Br%2C%20%22alg%22%5D%0A%20%20%20%20%20%20%26%20a%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd}[column sep=large, row sep=large] a \arrow[rd, equal] \arrow[r, &quot;\eta_a&quot;] &amp; Ta \arrow[d, &quot;alg&quot;] \\ &amp; a \end{tikzcd} \qquad \begin{tikzcd}[column sep=large, row sep=large] T(Ta) \arrow[r, &quot;T\ alg&quot;] \arrow[d, &quot;\mu_a&quot;] &amp; Ta \arrow[d, &quot;alg&quot;] \\ Ta \arrow[r, &quot;alg&quot;] &amp; a \end{tikzcd} \] " /></p>
+
+
+เราก็สามารถแสดงเงื่อนไขเหล่านี้ในHaskellว่า
+
+```Haskell
+alg . return = id
+alg . join = alg . fmap alg
+```
+
+เรามาดูที่ตัวอย่างเล็กๆนี้ algebraสสำหรับendofunctorของlistประกอบขึ้นจากบางtype`a`และfunctionที่สร้าง`a`จากlistของ`a` เราสามารถแสดงfunctionนี้โดยการใช้`foldr`โดยการเลือกทั้งสองtypeของสมาชิกและtypeของตัวรวบรวมในการที่จะให้เท่ากับ`a`
+
+```Haskell
+foldr :: (a -> a -> a) -> a -> [a] -> a
+```
+
+algebraเฉพาะนี้นั้นถูกกำหนดโดยfunctionที่มีสองargument เรามาเรียกมันว่า`f`และค่าจะถูกเรียกว่า`z` functorของlistก็เป็นmonadเข่นเดียวกัน โดยที่`return`แปลงค่าๆหนึ่งไปยังlistที่มีสมาชิกเดียว การประกอบกัยของalgebraในที่นี้คือ`foldr f z` หลัง`return`นำ`x`ไปยัง
+
+```Haskell
+foldr f z [x] = x `f` z
+```
+
+ที่การกระทำของ`f`นั้นถูกเขียนในรูปแแบบinfix algebraนั้นเข้ากันได้กับmonadในเงื่อนไขความเข้ากันที่ถูกบรรลุในทุก`x`
+
+```Haskell
+x `f` z = x
+```
+
+ถ้าเราดูที่`f`ในฐานะoperatorแบบbinary เงื่อนไขนี้บอกเราว่า`z`นั้นคือunitด้านขวา
+
+ในเงื่อนไขของความเข้ากันได้ที่สองทำงานบนlistของlist การกระทำของ`join`ต่อแต่ละlistsเข้าด้วยกัน เราก็สามารถทำการfold listที่เป็นผลลัพธ์ ในอีกครั้ง ถ้าเราตีความ`f`ในฐานะoperatorแบบbinary เงื่อนไขนี้บอกเราว่าoperationแบบbinaryนี้นั้นมีคุณสมบัติของการสลับหมู่ เงื่อนไขเหล่านี้นั้นถูกเติมเต็มในตอนที่`(a, f, z)`คือmonoid
+
+## T-algebras
+
+เนื่องด้วยนักคณิตศาสตร์ชอบมากกว่าในการเรียกmonadsของพวกกันว่า$T$ พวกมันถูกเรียกว่าalgebrasที่เช้ากันได้กับมันว่าT-algebras T-algebrasสำหรับmonad$T$ที่ให้มาในcategory$\textbf{C}$ก่อให้เกิดcategoryที่เรียกว่าcategoryแบบEilenberg-Moore ที่มักจะถูกเขียนโดย$\textbf{C}^T$ Morphismsในcategoryนั้นคือhomomorphismsของalgebras สิ่งเหล่านี้นั้นคือ homomorphismsเดียวกันของจกสที่ได้เห็นเรานิยามสำหรับF-algebras
+
+T-algebraคือคู่ที่ประกอบด้วยวัตถุcarrierและตัวประเมิน$(a,f)$ ได้มีfunctorหลงลืม$U^T$อย่างชัดเจนจาก$\textbf{C}^T$ไปยัง$\textbf{C}$ที่โยง$(a,f)$ไปยัง$a$ มันก็โยงhomomorphismของ T-algebrasไปยังmorphismที่คู่กับระหว่างวัตถุcarrierใน$\textbf{C}$ คุณอาจจะจำได้จากการสนทนาของadjunctionsของเราที่adjointด้านช้ายคือfunctorหลงลืมที่ถูกเรียกว่าfunctorอิสระ
+
+adjointด้านช้ายของ$U^T$นั้นถูดเรียกว่า$F^T$ มันโยงวัตถุ$a$ใน$\textbf{C}$ไปยังalgebraอิสระใน$\textbf{C}^T$ carrierของalgebraอิสระคือ$T \ a$ ตัวประเมินของเราคือmorphismจาก$T \ (T \ a)$กลับไปยัง$T \ a$ เนื่องด้วยว่า$T$คือmonad เราสามารถใช้monadic$\mu_a$ (`join`ในHaskell)ในฐานะตัวประเมิน 
+
+เรายังต้องแสดงว่านี้คือT-algebra สำหนับอย่างนั้นแล้วเงื่อนไขของความเข้ากันได้ต้องถูกบรรลุอย่าง
+
+$$
+\begin{align*}
+  \operatorname{alg} & \circ \eta_{Ta} = \operatorname{id}_{Ta}     \\
+  \operatorname{alg} & \circ \mu_a = \operatorname{alg} \circ T\ \operatorname{alg}
+\end{align*}
+$$
+
+แต่สสิ่งเหล่านี้นั้นคือแค่กฏของmonadถ้าคุณแทนที่$\mu$สำหรับalgebra
+
+ในที่คุณอาจจะจำได้ ทุกๆadjunctionนิยามmonad มันกลับมาเป็นว่าadjunctionระหว่าง$F^T$กับ$U^T$นิยามmonad$T$นั้นที่ถูกใช้ในการสร้างcategoryแบบEilenberg-Moore เนื่องด้วยเราสามารถทำการสร้างนี้สำหรับทุกๆmonad เราจบลงที่ว่าทุกๆmonadสามารถถูกสร้างจากadjunction ในตอนถัดไป ผมจะแสดงให้คุณเห็นว่าได้มีadjunctionอีกตัวที่สร้างmonadเดียวกัน 
+
+นี้คือแผนคือในตอนแรกเราจะแสดงให้คุณเห็นว่า$F^T$นั้นคือadjointด้านช้ายของ$U^T$ ผมจะทำมันโดยการนิยามunitและcounitของadjunctionนี้และพิสูจน์ให้เห็นว่าความเท่ากันแบบสามเหลี่ยมนั้นถูกบรรลุ แล้วผมจะแสดงให้เห็นว่าmonadที่ถูดสร้างจากadjunctionนี้นั้นเป็นmonadดั้งเดิมของเราจริงๆ
+
+unitของadjunctionี้คือการแปลงแบบธรรมชาติ
+
+$$
+\eta :: I \to U^T \circ F^T
+$$
+
+เรามาคำนวณส่วนประกอบ$a$ของการแปลงนี้ functor identityให้เรา$a$ functorอิสระสร้างalgebraอิสระ$(T \ a, \mu_a)$และfunctorหลงลืมลดมันไปยัง$T \ a$ ทั้งหมดเหล่านี้ เราได้มาที่การโยงจาก$a$ไปยัง$T \ a$ เราจะแค่ใช้unitของmonad$T$ในฐานะunitของadjunctionนี้
+
+เรามาดูที่counit
+
+$$
+\varepsilon  :: F^T \circ U^T \to I
+$$
+
+เรามาำนวณส่วนประกอบของมันที่บางT-algebra$(a, f)$ functorหลงลืม ลืม$f$และfunctorอิสระสร้างคู่ของ$(T \ a,\mu_a)$ ดังนั้นในการนิยามส่วนประกอบของอิสระ$\varepsilon$ที่$(a, f)$  เราต้องการmorphismด้านขวาในcategoryของEilenberg-Moore หรือhomomorphismของT-algebrasอย่าง
+
+$$
+(T\ a, \mu_a) \to (a, f)
+$$
+
+
+homomorphismอย่างนี้ควรที่จะโยงcarrier$T \ a$ไปยัง$a$ เรามานำตัวประเมินที่หลงลืม$f$กลับมา ในตอนนี้เราจะใช้มันในฐานะhomomorphismของT-algebras แน่นอนว่าdiagramของการcommutingเดียวกันที่ทำให้$f$เป็นT-algebraอยาจจะถูกตีความใหม่ในการแสดงว่ามันคือhomomorphismของT-algebras
+
+<p align="center"><img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20T(Ta)%20%5Carrow%5Br%2C%20%22T%20f%22%5D%20%5Carrow%5Bd%2C%20%22%5Cmu_a%22%5D%0A%20%20%20%20%26%20Ta%20%5Carrow%5Bd%2C%20%22f%22%5D%20%5C%5C%0A%20%20%20%20Ta%20%5Carrow%5Br%2C%20%22f%22%5D%0A%20%20%20%20%26%20a%0A%20%20%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd}[column sep=large, row sep=large] T(Ta) \arrow[r, &quot;T f&quot;] \arrow[d, &quot;\mu_a&quot;] &amp; Ta \arrow[d, &quot;f&quot;] \\ Ta \arrow[r, &quot;f&quot;] &amp; a \end{tikzcd} \] " /></p>
+
+ดังนั้นเราได้นิยามส่วนประกอบของการแปลงแบบธรรมชาติ$\varepsilon$ที่เป็นcounitที่$(a, f)$(วัตถุในcategoryของT-algebras)ในการเป็น$f$
+
+ในการทำให้adjunctionนี้สมบูรณ์ เราก็ต้องการที่จะแสดงว่าunitและcounitบรรลุความเท่ากันแบบสามเหลี่ยม ที่ก็คือ
+
+<p align="center"><img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20Ta%20%5Carrow%5Brd%2C%20equal%5D%20%5Carrow%5Br%2C%20%22T%20%5Ceta_a%22%5D%0A%20%20%20%20%20%20%26%20T(Ta)%20%5Carrow%5Bd%2C%20%22%5Cmu_a%22%5D%20%5C%5C%0A%20%20%20%20%20%20%26%20Ta%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%5Cqquad%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20a%20%5Carrow%5Brd%2C%20equal%5D%20%5Carrow%5Br%2C%20%22%5Ceta_a%22%5D%0A%20%20%20%20%20%20%26%20Ta%20%5Carrow%5Bd%2C%20%22f%22%5D%20%5C%5C%0A%20%20%20%20%20%20%26%20a%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd}[column sep=large, row sep=large] Ta \arrow[rd, equal] \arrow[r, &quot;T \eta_a&quot;] &amp; T(Ta) \arrow[d, &quot;\mu_a&quot;] \\ &amp; Ta \end{tikzcd} \qquad \begin{tikzcd}[column sep=large, row sep=large] a \arrow[rd, equal] \arrow[r, &quot;\eta_a&quot;] &amp; Ta \arrow[d, &quot;f&quot;] \\ &amp; a \end{tikzcd} \] " /></p>
+
+ส่วนแรกนั้นถูกต้องเนื่องด้วยกฏของunitสำหรับmonad$T$ ส่วนที่สองนั้นคือแค่กฏของT-algebra$(a, f)$
+
+เราได้สถาปนาว่าfunctorsทั้งสองก่อให้เกิดadjunctionว่า
+
+$$
+F^T \dashv U^T
+$$
+
+ทุกๆadjunctionได้ทำให้เกิดmonad ในการเดินทางไปและกลับ
+
+$$
+U^T \circ F^T
+$$
+
+คือendofunctorใน$\textbf{C}$ที่ก่อให้เกิดmonadที่ตรงกัน เรามาดูอะไรคือactionของมันบนวัตถุ$a$ algebraอิสระสร้างโดย$F^T$คือ$(T \ a, \mu_a)$ functorหลงลืม$U^T$ทิ้งตัวประเมิน ดังนั้นแน่นอนว่าเรามี
+
+$$
+U^T \circ F^T = T
+$$
+
+ตามที่คาดไว้unitของadjunctionคือunitของmonad$T$
+
+คุณอาจจะจำได้ว่าcounitของadjunctionสร้างการคูณแบบmonadผ่านสูตรดังต่อไปนี้
+
+$$
+\mu = R \circ \varepsilon \circ L
+$$
+
+การประกอบกันแนวนอนของการแปลงแบบธรรมชาติสามตัว สองตัวนั้นเป็นการแปลงและโยงแบบธรรมชาติและidentityในแบบ$L$ไปยัง$L$และ$R$ไปยัง$R$ สิ่งที่อยู่ตรงกลางที่คือcounitคือการแปลงแบบธรรมชาติที่ส่วนประกอบที่algebra$(a, f)$คือ$f$
+
+เรามาคำนวณส่วนประกอบ$\mu_a$ เราเริ่มด้วยการประกอบกันในแนวนอนของ$\varepsilon$หลัง$F^T$ ที่ทำให้เกิดส่วนประกอบของ$\varepsilon$ที่$F^T \ a$ เนื่องด้วย$F^T$นำ$a$ไปยังalgebra$(T \ a, \mu_a)$และ$\varepsilon$เลิกตัวประเมินค่า เราจะจบลงที่$\mu_a$ การประกอบกันทางแนวนอนในด้านช้ายกับ$U^T$ไม่เปลี่ยนอะไรเลย เพราะว่าการกระทำของ$U^T$บนmorphismsนั้นตรงไปตรงมา แน่นอนว่าดังนั้น$\mu$ที่ได้มาจากadjunctionนั้นเป็นเหมือนกันในฐานะ$\mu$ของmonadดังเดิม$T$
+
+## CategoryแบบKleisli
+
+เราได้เห็นcategoryแบบKleisliก่อนหน้านี้ มันคือcategoryที่ถูกสร้างจากcategory$\textbf{C}$อีกตัวและmonad$T$ เราจะเรียกcategoryนี้ว่า$\textbf{C}_T$ วัตถุในcategoryแบบKleisli$\textbf{C}_T$ คือวัตถุของ$\textbf{C}$ แต่morphismsนั้นแตกต่าง morphism$f_K$จาก$a$ไปยัง$b$ในcategoryแบบKleisliตรงกับmorphism $f$จาก$a$ไปยัง$T \ b$ในcategoryดั้งเดิม เราเรียกmorphismนี้ว่าลูกศรKleisliจาก$a$ไปยัง$b$
+
+การประกอบกันของmorphismsในcategoryแบบKleisliนั้นถูกนิยามในรูปแบบของการประกอบกันแบบmonadของลูกศรKleisli ตัวอย่างเช่น เรามาประกอบ$g_K$หลัง$f_K$ ในcategoryแบบKleisliเรามี
+
+$$
+\begin{gather*}
+  f_{K} :: a \to b \\
+  g_{K} :: b \to c
+\end{gather*}
+$$
+
+ที่ในcategory$\textbf{C}$ตรงกับmorphismดังต่อไปนี้
+
+$$
+\begin{gather*}
+  f :: a \to T\ b \\
+  g :: b \to T\ c
+\end{gather*}
+$$
+
+เรานิยามการประกอบกัน
+
+$$
+h_{K} = g_{K} \circ f_{K}
+$$
+
+ในฐานะลูกศรKleisliใน$\textbf{C}$ 
+
+$$
+\begin{align*}
+  h & :: a \to T\ c          \\
+  h & = \mu \circ (T\ g) \circ f
+\end{align*}
+$$
+
+ในHaskellเราก็จะเขียนมันในแบบนี้
+
+```Haskell
+h = join . fmap g . f
+```
+
+ได้มีfunctor$F$จาก$\textbf{C}$ไปยัง$\textbf{C}_T$ที่กระทำแบบง่ายๆบนวัตถุ แต่บนmorphismsมันโยง$f$ใน$\textbf{C}$ไปยังmorphismใน$\textbf{C}_T$โดยการสร้างลูกศรKleisliที่ประดับค่าreturnของ$f$ ถ้าเรามีmorphism
+
+$$
+f :: a \to b
+$$
+
+มันสร้างmorphismใน$\textbf{C}_T$ที่มีลูกศรKleisliที่ตรงกันอย่าง
+
+$$
+\eta \circ f
+$$
+
+ในHaskellเราสามารถเขียนมันว่า
+
+```Haskell
+return . f
+```
+
+เราก็สามารถนิยามfunctor$G$จาก$\textbf{C}_T$กลับไปยัง$\textbf{C}$ มันนำวัตถุ$a$จากcategoryแบบKleisliและโยงมันไปยังวัตถุ$T \ a$ใน$\textbf{C}$ การกระทำของมันบนmorphism$f_K$ตรงกันกับลูกศรKleisliอย่าง
+
+$$
+f :: a \to T\ b
+$$
+
+คือmorphismใน$\textbf{C}$
+
+$$
+T\ a \to T\ b
+$$
+
+ที่ให้โดยการlift$f$และก็ทำการใช้งาน$\mu$
+
+$$
+\mu_{T b} \circ T\ f
+$$
+
+ในเครื่องหมายของHaskellก็อาจจะอ่านได้ว่า
+
+```Haskell
+G f_T = join . fmap f
+```
+
+เราอาจจะสังเกตสิ่งนี้ในฐานะนิยามของการมัดแบบmonadในรูปแบบของ`join`
+
+มันง่ายที่จะเห็นว่าสองfunctorsก่อให้เกิดadjunction
+
+$$
+F \dashv G
+$$
+
+และการประกอบกันของพวกมัน$G\circ F$ก่อให้เกิดmonadดั้งเดิม$T$
+
+ดังนั้นนี้คือadjunctionตัวที่สองที่สร้างmonadเดียวกัน ในความเป็นจริงแล้วได้มีทั้งcategoryของadjunctions $\textbf{Adj}(\textbf{C}, T)$ ที่ทำให้เกิดmonadเดียวกันบน$\textbf{C}$ adjunctionแบบKleisliที่เราได้เห็นมาคือวัตถุเริ่มต้นในcategoryนี้และadjunctionแบบEilenberg-Mooreคือวัตถุสสุดท้าย
+
+## CoalgebrasสำหรับComonads
+
+ในการสร้างแบบคร้ายๆกันสามารถถูกทำได้สำหรับComonads$W$ใดๆก็ตาม เราสามารถนิยาม categoryของcoalgebrasที่เข้ากันได้กับComonads พวกมันทำให้diagramsดังนี้commuteว่า
+
+<p align="center"><img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20a%20%5Carrow%5Brd%2C%20equal%5D%0A%20%20%20%20%20%20%26%20Wa%20%5Carrow%5Bl%2C%20%22%5Cepsilon_a%22'%5D%20%5C%5C%0A%20%20%20%20%20%20%26%20a%20%5Carrow%5Bu%2C%20%22coa%22'%5D%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%5Cqquad%0A%20%20%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%2C%20row%20sep%3Dlarge%5D%0A%20%20%20%20%20%20W(Wa)%0A%20%20%20%20%20%20%26%20Wa%20%5Carrow%5Bl%2C%20%22W%5C%20coa%22'%5D%20%5C%5C%0A%20%20%20%20%20%20Wa%20%5Carrow%5Bu%2C%20%22%5Cdelta_a%22%5D%0A%20%20%20%20%20%20%26%20a%20%5Carrow%5Bu%2C%20%22coa%22%5D%20%5Carrow%5Bl%2C%20%22coa%22'%5D%0A%20%20%20%20%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd}[column sep=large, row sep=large] a \arrow[rd, equal] &amp; Wa \arrow[l, &quot;\epsilon_a&quot;'] \\ &amp; a \arrow[u, &quot;coa&quot;'] \end{tikzcd} \qquad \begin{tikzcd}[column sep=large, row sep=large] W(Wa) &amp; Wa \arrow[l, &quot;W\ coa&quot;'] \\ Wa \arrow[u, &quot;\delta_a&quot;] &amp; a \arrow[u, &quot;coa&quot;] \arrow[l, &quot;coa&quot;'] \end{tikzcd} \] " /></p>
+
+ที่$coa$คือmorphismแบบcoevaluationของcoalgebraที่carrierคือ$a$อย่าง
+
+$$
+coa :: a \to W\ a
+$$
+
+และ$\varepsilon$และ$\delta$คือสแงการแปลงแบบธรรมชาติที่ทำการนิยามcomonad(ในHaskell ส่วนประกอบของพวกมันนั้นถูกเรียกว่า`extract`และ`duplicate`) 
+
+ได้มีfunctorหลงลืมที่ชัดเจนอย่าง$U^W$จากcategoryของcoalgebrasเหล่านี้ไปยัง$\textbf{C}$  มันแค่ลืมcoevaluation เราจะพิจารณาadjointด้านขวาของมันที่ก็คือ$F^W$อย่าง
+
+$$
+U^W \dashv F^W
+$$
+
+adjointด้านขวาไปยังfunctorหลงลืมถูกเรียกว่าfunctorแบบcofree $F^W$สร้างcoalgebrasแบบcofree มันกำหนดcoalgebra$(W\ a, \delta_a)$ไปยังวัตถุ$a$ใน$\textbf{C}$ adjunctionนั้นสร้างcomonadดั้งเดิมใหม่ในฐานะการประกอบกัน$U^W \circ F^W$
+
+ในแบบเดียวกัน เราสามารถสร้างcategoryแบบco-Kleisliกับลูกศรco-Kleisliและสร้างcomonadใหม่จากadjunctionที่คู่กัน
+
+## Lenses
+
+เรากลับมาที่การสนทนาของเราเกี่ยวกับlenses lensสามาถถูกเขียนในฐานะcoalgebraว่า
+
+$$
+\operatorname{coalg}_s :: a \to \operatorname{Store}\ s\ a
+$$
+
+สำหรับfunctor$\operatorname{Store} s$เรามี
+
+```Haskell
+data Store s a = Store (s -> a) s
+```
+
+coalgebraนี้สามารถถูกแสดงในฐานะคู่ของfunctions
+
+$$
+\begin{align*}
+  set & :: a \to s \to a \\
+  get & :: a \to s
+\end{align*}
+$$
+
+(คิดถึง$a$ในฐานะเป็นตัวแทนของ"ทั้งหมด(all)"และ$s$ในฐานะส่วน"เล็ก(small)"ของมัน) ในรูปแบบของคู่นี้เรามี
+
+$$
+\operatorname{coalg}_s\ a = \operatorname{Store}\ (\operatorname{set}\ a)\ (\operatorname{get}\ a)
+$$
+
+ในที่นี้$a$คือค่าของtype$a$ สังเกตว่าการใช้งานบางส่วน`set`คือfunction$s\rightarrow a$
+
+เราอาจจะรู้ว่า$\operatorname{Store} s$คือcomonad
+
+```Haskell
+instance Comonad (Store s) where
+    extract (Store f s) = f s
+    duplicate (Store f s) = Store (Store f) s
+```
+
+คำถามที่ว่าภายใต้เงื่อนไขอะไรที่lensเป็นcoalgebraสำหรับcomonad? เงื่อนไขความสอดคล้องแรกคือ
+
+$$
+\varepsilon_a \circ \operatorname{coalg} = \operatorname{id}_a
+$$
+
+แปลมาเป็น
+
+$$
+\operatorname{set}\ a\ (\operatorname{get}\ a) = a
+$$
+
+สิ่งนี้คือกฏของlensที่แสดงความจริงที่ว่าถ้าคุณกำหนดfieldของโครงสร้าง$a$
+ไปยังค่าก่อนหน้านี้ของมัน จะไม่มีอะไรเปลี่ยน
+
+เงื่อนไขที่สองคือ
+
+$$
+\operatorname{fmap}\ \operatorname{coalg} \circ \operatorname{coalg} = \delta_a \circ \operatorname{coalg}
+$$
+
+ต้องการทำงานได้มากกว่า ในตัวแรก ลองจำนิยามของ`fmap`สำหรับ`Store`functor
+
+```Haskell
+fmap g (Store f s) = Store (g . f) s
+```
+
+ทำการใช้งาน`fmap coalg`ไปยังผลลัพธ์ของ`coalg`ให้เราได้ว่า
+
+```Haskell
+Store (coalg . set a) (get a)
+```
+
+ในทางหลับกัน การใช้งาน`duplicate`ของค่าของ`coalg`สร้างได้ว่า
+
+```Haskell
+Store (Store (set a)) (get a)
+```
+
+สำหรับให้expressionsทั้งสองเหล่านี้ต้องเท่ากัน สองfunctionsภายใต้`Store`ต้องเท่ากับในตอนกระทำบน`s`ใดๆก็ได้
+
+```Haskell
+coalg (set a s) = Store (set a) s
+```
+
+ทำการขยาย`coalg`ออกมาเราได้มาที่ว่า
+
+```Haskell
+Store (set (set a s)) (get (set a s)) = Store (set a) s
+```
+
+สิ่งนี้เท่ากับสองกฏที่เหลือของlensที่ในตัวแรกคือ
+
+```Haskell
+set (set a s) = set a
+```
+
+บอกเราว่าการตั้งค่าของfieldทั้งสองรอบนั้นเหมือนกับการตั้งค่าครั้งเดียว กฏที่สองคือ
+
+```Haskell
+get (set a s) = s
+```
+
+บอกเราว่าการได้มาของค่าของfieldนั้นถูกตั้งค่าของ$s$ให้$s$กลับมา
+
+ในอีกความหมายหนึ่ง lensที่ทำตัวดีนั้นคือcoalgebraของcomonadสำหรับfunctor`Store`อย่าแน่นอน
+
+## โจทย์ท้าทาย
+
+1. อะไรคือการกระทำของfunctorอิสระ$F :: C \to C^T$บนmorphisms(คำใบ้:ใช้เงื่อนไขความเป็นธรรมชาติสำหรับmonadic$\mu$)
+2. ลองนิยามadjunction$$U^W \dashv F^W$$
+3. ลองพิสูจน์ว่าadjunctionข้างบนว่าได้สร้างcomonadดั้งเดิมมาใหม่
+

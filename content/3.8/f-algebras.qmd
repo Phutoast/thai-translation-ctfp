@@ -1,0 +1,526 @@
+# F-Algebras
+
+เราได้เห็นการกำหนดรูปสูตรหลายแบบของmonoid ในฐานะset ในฐานะcategoryที่มีวัตถุเดี่ยว ในฐานะวัตถุในcategoryแบบmonoidal เราสามารถจะดึงสิ่งที่น่าสนใจออกมาได้เท่าไหร่จากแนวคิดที่เรียบง่ายนี้
+
+เรามาลองดู นำนิยามนี้ของmonoidในฐานะset$m$กับคู่ของfunctionsว่า
+
+$$
+\begin{align*}
+  \mu  & :: m\times{}m \to m \\
+  \eta & :: 1 \to m
+\end{align*}
+$$
+
+ในที่นี้$1$คือวัตถุสุดท้ายใน$\textbf{Set}$ที่คือsetที่มีสมาชิกเดียว functionแลกนิยามการคูณ (มันนำคู่ของสมาชิกและreturns productของมัน) ในตัวที่สองเลือกสมาชิกunitจาก$m$ ไม่กับทุกๆการเลือกของfunctionsทั้งสองกับsignaturesเหล่านี้ก่อให้เกิดmonoid สำหรับสิ่งนี้เราต้องการที่จะบังคับใช้เงื่อนไขเพิ่มเติมนั้นคือกฎของการสลับกลุ่มและunit แต่เราจะมาลืมเกี่ยวกับมันสักครู่และแค่สนใจ"monoidsที่เป็นไปได้" คู่ของfunctionsนั้นคือสมาชิกของproductแบบCartesianของสองชุดของfunctions เรารู้ว่าชุดเหล่านี้อาจจะถูกแสดงแทนในฐานะวัตถุexponentialคือ
+
+$$
+\begin{align*}
+  \mu  & \in m^{m\times{}m} \\
+  \eta & \in m^1
+\end{align*}
+$$
+
+productแบบCartesianของสองชุดเหล่านี้คือ
+
+$$
+m^{m\times{}m}\times{}m^1
+$$
+
+ในการใช้พีชคณิตในระดับมัธยม(ที่ใช้งานได้ใรทุกๆcategoryแบบclosedและCartesian) เราสามารถเขียนใหม่ได้ว่า
+
+$$
+m^{m\times{}m + 1}
+$$
+
+ในเครื่องหมาย$+$เป็นตัวแสงแทนสำหรับcoproductใน$\textbf{Set}$ เราได้แค่แทนที่คู่ของfunctionsกับfunctionเดี่ยวนั้นคือสมาชิกของset
+
+$$
+m\times{}m + 1 \to m
+$$
+
+สมาชิกใดๆก็ตามของsetเหล่านี้ของfunctionsนั้นเป็นสิ่งที่เป็นไปได้ที่จะเป็นmonoid
+
+ความสวยงามของการแปลงแบบนี้คือการที่ว่ามันนำไปสู่การgeneralizeที่น่าสนใจ ตัวอย่างเช่น อะไรคือวิธีการที่เราจะอธิบายgroupโดนการใช้ภาษานี้? groupคือmonoidที่มีหนึ่งfunctionมากขึ้นที่กำหนดinverseไปกับทุกสมาชิก ส่วนหลังคือfunctionของtype$m\rightarrow m$ ในฐานะตัวอย่าง จำนวนเต็มก่อให้เกิดgroupโดยที่มีการบวกในฐานะoperationแบบbinary ศูนย์ในฐานะunit และการติดลบในฐานะinverse ในการในการนิยามgroup เราอาจจะเริ่มด้วยfunctionsสามตัวว่า
+
+$$
+\begin{align*}
+  m\times{}m \to m \\
+  m \to m          \\
+  1 \to m
+\end{align*}
+$$
+
+เหมือนก่อนหน้านี้ เราสามารถรวมสามตัวเหล่านี้ไปยังชุดของfunctions
+
+$$
+m\times{}m + m + 1 \to 
+$$
+
+เราเริ่มมากับoperatorแบบbinaryตัวหนึ่ง(การบวก) operatorแบบunary(negation)และoperatorแบบnullaryตัวหนึ่ง(identityที่ในที่นี้คือศูนย์) เราได้รวมมันไปยังfunctionหหนึ่ง ในทุกๆfunctionsกับsignatureนี้นิยามgroupsที่เป็นไปได้
+
+เราสามารถไปยังแบบนี้ ตัวอย่างเช่นในการนิยามring เราอาจจะเพิ่มoperatorแบบbinaryหนึ่งและoperatorแบบnullaryหนึ่งและอื่นๆ ในแต่ละครั้งเราจบลงที่typeของfunctionที่ทางด้านช้ายคือการบวกของสิ่งที่ยกกำลัง(ก็อาจจะรวมไปถึงยกกำลัง)และในทางด้านขวาเป็นsetตัวมันเอง
+
+ในตอนนี้เราสามารถไปอย่างสุดเหวี่ยงกับการgeneralize ตัวอย่างเช่น เราสามารถแทนที่setsกับวัตถุและfunctionsกับmorphisms เราสามารถนิยามoperatorsแบบn-aryในฐานะmorphismsจากproductsแบบn-ary มันหมายความว่าเราต้องการcategoryที่สามารถรับรองproductsที่มีที่สิ้นสุด สำหรับoperatorsแบบnullaryเราต้องการการมีอยู่ของวัตถุสุดท้าย ดังนั้นเราต้องการcategoryแบบCartesian ในการที่ได้จะรวมoperatorsเหล่านี้ เราต้องการexponentials ดังนั้นคือcategoryแบบCartesian closed สุดท้ายแล้ว เราต้องการcoproductsในการทำให้การเล่นกับพีชคณิตนั้นจบชักที่
+
+ในทางกลับกัน เราสามารถแค่ลืมเกี่ยวกับวิธีการที่เราหาสูตรของเราและเพ่งเล็งไปยังproductสุดท้าย ผลบวกของproductsในด้านช้ายของmorphismของเราได้นิยามendofunctor ถ้าเราเลือกendofunctor$F$ทั่วๆไปจะเป็นอะไร? ในกรณีนี้เราไม่ต้องที่บังคับเงื่อนไขบนcategoryของเรา สิ่งที่เราได้มาเรียกว่าF-algebra
+
+F-algebraคือtripleที่ประกอบด้วยendofunctor$F$ วัตถุ$a$และmorphism
+
+$$
+F\ a \to a
+$$
+
+วัตถุนั้นมันจะถูกเรียกว่าcarrier วัตถุข้างใต้หรือในบริบทของการเขียนโปรแกรมคือ*type*ของcarrier morphismนั้นมักจะถูกเรียกว่าfunctionการประเมินหรือmapโครงสร้าง คิดถึงfunctor$F$ในฐานะการสร้างexpressionsและmorphismในฐานะการประเมินพวกมัน
+
+ในที่นี้นิยามของHaskellของF-algebra
+
+```Haskell
+type Algebra f a = f a -> a
+```
+
+มันตรงกับalgebraกับfunctionการประเมิน
+
+ในตัวอย่างของmonoid functorที่เราสนใจคือ
+
+```Haskell
+data MonF a = MEmpty | MAppend a a
+```
+
+นี้คือHaskellสำหรับ$1+a\times a$(จำได้ว่าdata structureแบบalgebraic)
+
+ringอาจจะถูกนิยามโดยการใช้functorเหล่านี้
+
+```Haskell
+data RingF a = RZero
+             | ROne
+             | RAdd a a
+             | RMul a a
+             | RNeg a
+```
+
+ที่ในHaskell$1 + 1 + a\times{}a + a\times{}a + a$
+
+มันคือตัวอย่างสำหรับringคือsetของintegers เราสามารถเลือก`Integer`ในฐานะtypeแบบcarrierและนิยามfunctionว่า
+
+```Haskell
+evalZ :: Algebra RingF Integer
+evalZ RZero      = 0
+evalZ ROne       = 1
+evalZ (RAdd m n) = m + n
+evalZ (RMul m n) = m * n
+evalZ (RNeg n)   = -n
+```
+
+ได้มีF-algebrasมากขึ้นที่มาจากfunctorเดียวกัน`RingF` ตัวอย่างเช่นpolynomialsก่อให้เกิดringและรวมไปถึงmatricesกำลังสอง
+
+ในที่คุณได้เห็น บทบาทของfunctorนั้นในการสร้างexpressionsที่สามารถถูกประเมินของalgebra ถึงในตอนนี้แล้ว เราได้แต่เห็นexpressionsที่เรียบง่าย เรานั้นมักจะสนใจในexpressionsที่ซับซ้อนมากขึ้นที่สามารถถูกนิยามโดยการใช้recursion
+
+## Recursion
+
+วิธีหนึ่งในการสร้างtrees expressionทั่วๆไปคือการแทนที่ตัวแปล`a`ภายในนิยามของfunctorกับrecursion ตัวอย่างเช่นexpressionทั่วๆไปในringนั้นสร้างโดยdata structureแบบtreeอย่าง
+
+```Haskell
+data Expr = RZero 
+          | ROne
+          | RAdd Expr Expr
+          | RMul Expr Expr
+          | RNeg Expr
+```
+
+เราสามารถแทนที่ตัวประเมินringเริ่มต้นกับรูปแบบrecursive
+
+```Haskell
+evalZ :: Expr -> Integer
+evalZ RZero        = 0
+evalZ ROne         = 1
+evalZ (RAdd e1 e2) = evalZ e1 + evalZ e2
+evalZ (RMul e1 e2) = evalZ e1 * evalZ e2
+evalZ (RNeg e)     = -(evalZ e)
+```
+
+สิ่งนี้นั้นไม่มีผลในมาปฏิบัติเพราะว่าเรานั้นถูกบังคับในการแสดงแทนทุกๆจำนวนเต็มในฐานะการบวกกันของเลขหนึ่งแต่มันจะเป็นสิ่งที่จำเป็น 
+
+แต่อะไรคือวิธีการที่เราจะอธิบายexpression treesโดยการใช้ภาษาของF-algebras? เราต้องการในแบบไดก็ตามที่ทำให้เป็นสูตรของขบวนการของการแทนที่ตัวแปลtypeอิสระในนิยามของคำนิยามของfunctorของเราในแบบrecursively คู่กับผลของการแทนที่ ลองจินตนาการการทำนี้ให้เป็นขั้น เริ่มแรกนิยามtreeที่มีความลึกเท่ากับหนึ่งว่า
+
+```Haskell
+type RingF1 a = RingF (RingF a)
+```
+
+เรากำลังเติมเต็มหลุมในนิยามของ`RingF`กับtreeที่ไม่มีความลึกที่สร้ามมาโดย`RingF a` treeที่มีความลึกเท่ากับสองสามารถได้มาอย่างเดี่ยวกัน
+
+```Haskell
+type RingF2 a = RingF (RingF (RingF a))
+```
+
+ที่เราก็สามารถถูกเขียนว่า
+
+```Haskell
+type RingF2 a = RingF (RingF1 a)
+```
+
+ทำตามขบวนนี้เราสามารถเขียนในสมการทางสัญลักษณ์ว่า
+
+```Haskell
+type RingF_{n+1} a = RingF (RingF_{n} a)
+```
+
+ในแนวคิด หลังจากการทำขบวนการนี้ช้ำหลายๆครั้งเราจะจบที่`Expr`ของเรา สังเกตว่า`Expr`ไม่ได้ขึ้นกับ`a` จุดเริ่มแรกของการเดินทางของเราไม่สำคัญ เราก็จะกลับมาที่เดิมเสมอ นี้นั้นไม่ถูกต้องเสมอไปสำหรับendofunctorทั่วๆไปในcategoryทั่วๆไปแต่สิ่งต่างๆในcategory$\textbf{Set}$นั้นไม่ก่อให้เกิดปัญหา
+
+แน่นอนว่านี้คือข้อโต้เถียงที่ไม่เข้มงวดและผมจะทำให้มันนั้นเข้มงวดมากขึ้นหลังจากนี้
+
+การใช้endofunctorหลายๆครั้งไม่มีที่สิ้นสุดได้สร้างจุดคงที่(fixed point)และวัตถุนั้นถูกนิยามโดย
+
+$$
+\operatorname{Fix} f = f (\operatorname{Fix} f)
+$$
+
+แนวคิดข้างหลังนิยามนี้คือว่า เนิื่องว่าเราได้ทำการใช้งาน$f$ที่ไม่มีที่สิ้นสุดในการได้มาที่$\operatorname{Fix} f$ การใช้งานมันในอีกรอบหนึ่งไม่ได้เปลี่ยนอะไรเลย ในHaskell นิยามของจุดคงที่คือ
+
+```Haskell
+newtype Fix f = Fix (f (Fix f))
+```
+
+กล่าวได้ว่า นี้อาจจะอ่านได้ง่ายกว่าถ้าชื่อของconstructorนั้นแตกต่างจากชื่อของtypeที่ถูกนิยามในว่า
+
+```Haskell
+newtype Fix f = In (f (Fix f))
+```
+
+แต่เราจะคงอยู่กับสัญลักษณ์ที่ได้รับการยอมรับ การสร้าง`Fix`(หรือ`In`ถ้าคุณชอบมากกว่า)สมารถถูกมองในฐานะfunction
+
+```Haskell
+Fix :: f (Fix f) -> Fix f
+```
+
+นั้นก็คือfunctionที่ปลอกชั้นๆหนึ่งของการใช้งานของfunctor
+
+```Haskell
+unFix :: Fix f -> f (Fix f)
+unFix (Fix x) = x
+```
+
+สองfunctionนั้นคือinverseซึ่งกันและกันห เราจะใช้functionsเหล่านี้ภายหลัง
+
+## CategoryของF-Algebra
+
+นี้คือเคล็ดลับที่เก่าที่สุดในหนังสือเล่มนี้คือไม่ว่าคุณจะคิดได้ว่าเกี่ยวกับวิธีการการสร้างวัตถุใหม่ ต้องดูที่ว่าพวกมันก่อให้เกิดcategoryหรือเปล่า ไม่แปลกใจที่algebraข้างบนendofunctor$F$ที่ให้มาก่อให้เกิดcategory วัตถุในcategoryนั้นคือalgebraต่างๆที่คือคู่ที่ประกอบด้วยobjectพาหะ(carrier)และmorphism $F \ a \to a$ ที่ทั้งคู่มาจากcategoryดั้งเดิม
+
+ในการที่ทำให้ภาพรวมสมบูรณ์ เราต้องการที่จะนิยามmorphismsในcategoryของF-Algebra morphismต้องโยงalgebra$(a,f)$ไปยังอีกalgebraหนึ่ง$(b,g)$ เราจะมานิยามมันในฐานะmorphism$m$ที่โยงพาหะของพวมมันเข้าด้วยกัน (มันจะไปจาก$a$ไปยัง$b$ในcategoryดั้งเดิม) ไม่แค่morphismอะไรก็ได้ที่สามารถจะทำได้เพราะว่าเราต้องการให้มันเข้าได้กับตัวประเมินทั้งสอง(เราเรียกmorphismที่คงไว้ที่โครงสร้างนี้ว่า*homomorphism*)ที่นี้คือวิธีการที่คุณนิยามhomomorphismของF-algebras เริ่มแรกสังเกตว่าเราสามารถlift$m$ไปยังการโยง
+
+$$
+F \ m :: F \ a \to F \ b
+$$
+
+แล้สเราก็ตามมันไปกับ$g$เพื่อที่จะได้ถึง$b$ ในทางเดียวกัน เราสามารถใช้$f$ในการไปจาก$F \ a$ไปยัง$a$และก็ตาม$m$ไป เราต้องการให้ทั้งสองทางนั้นเท่ากัน 
+
+$$
+g\circ F \ m = m \circ f
+$$
+
+![](images/alg.png){fig-align="center" height=200}
+
+
+มันง่ายมากที่จะทำให้เรามั่นใจว่านี้คือcategoryแน่นอน(คำใบ้: morphisms identityจาก$\textbf{C}$สามารถทำงานได้และการประกอบกันของhomomorphismsคือhomomorphism)
+
+วัตถุเริ่มต้นในcategoryของF-algebras ถ้ามันมีอยู่จะถูกเรียกว่า*algebraเริ่มต้น*(initial algebra) เรามาเรียกcarrierของalgebraเริ่มต้น$i$และตัวประเมินของมันอย่าง$j :: F \ i \rightarrow i$ มันกลายมาเป็นว่า$j$ที่คือตัวประเมินของalgebraเริ่มต้นนั้นคือisomorphism ผลลัพธ์นี้ถูกเรียกว่าtheoremของLambek การพิสูจน์ตามมาจากบนนิยามของวัตถุเริ่มต้นที่ต้องการที่จะมีhomomorphism$m$ที่เป็นเอกลักษณ์จากมันไปยังF-algebrasอิ่นๆ เนื่องว่า$m$คือhomomorphism diagramดังนี้ต้องcommute
+
+![](images/alg2.png){fig-align="center" height=200}
+
+ในตอนนี้เรามาสร้างalgebraที่carrierคือ$F \ i$ ตัวประเมินของalgebraเหล่านี้ต้องเป็นmorphismจาก$F \ (F \ i)$ไปยัง$F \ i$ เราสามารถสร้างตัวประเมินอย่างนี้อย่างง่ายๆโดยการlift$j$ว่า
+
+$$
+F\ j :: F\ (F\ i) \to F\ i
+$$
+
+เพราะว่า$(i,j)$คือalgebraเริ่มต้น ต้องมีhomomorphismที่เป็นเอกลักษณ์$m$จากมันไปยัง$(F \ i, F \ j)$ diagramดังนี้ต้องcommute
+
+![](images/alg3a.png){fig-align="center" height=200}
+
+แต่เราก็ต้องมีdiagramที่commutingอย่างง่ายๆ(เส้นทางทั้งสองต้องเหมือนกัน)คือ
+
+![](images/alg3.png){fig-align="center" height=200}
+
+ที่สามารถถูกตีความในฐานะการแสดงว่า$j$คือhomomorphismของalgebras การโยงระหว่าง$(F \ i, F \ j)$ไปยัง$(i,j)$ เราสามารถแปะdiagramsทั้งสองเข้ากันในการที่ได้มาที่
+
+![](images/alg4.png){fig-align="center" height=200}
+
+ในทางกลับกันdiagramนี้อาจจะถูกตีความในฐานะการแสดงว่า$j\circ m$คือhomomorphismของalgebras ในกรณีนี้เท่านั้นที่algebrasทั้งสองนั้นเหมือนกัน ยิ่งไปกว่านั้น เพราะว่า$(i,j)$นั้นเป็นวัตถุเริ่มต้น  มันจึงสามารถมีhomomorphismอันหนึ่งจากมันไปยังตนเอง และนั้นคือmorphism$\operatorname{id}_i$ identity ที่เรารู้ว่ามันคือhomomorphismของalgebras ดังนั้น$j\circ m=\operatorname{id}_i$ โดยการใช้ความจริงนี้และคุณสมบัติของdiagramด้านช้าย เราสามารถแสดงว่า$m\circ j=\operatorname{id}_{Fi}$ สิ่งนี้แสดงว่า$m$คือinverseของ$j$และดังนั้น$j$คือisomorphismระหว่าง$F \ i$และ$i$
+
+$$
+F \ i \cong i
+$$
+
+แต่นั้นคือแค่การพูดว่า$i$คือจุดคงที่ของ$F$ นั้นคือproofที่เคร่งครัดภายใต้ข้อพิสูจน์ที่ไม่ค่อยเคร่งครัดมากก่อนหน้านี้ 
+
+กลับมาในHaskellที่เราสามารถมอง$i$ในฐานะ`Fix f` $j$ในฐานะconstructorของเรา`Fix`และinverseของมันในฐานะ`unFix` isomorphismในtheoremของLambekบอกเราว่า ในการที่ได้มายังalgebraเริ่มต้น เรานำfunctor$f$และแทนที่argumentของมัน$a$กับ`Fix f` เราก็เห็นว่าทำไมจุดคงที่ไม่ได้ขึ้นอยู่กับ$a$
+
+## จำนวนธรรมชาติ
+
+จำนวนธรรมชาติก็สามารถถูกนิยามในฐานะF-algebra จุดเริ่มต้นคือคู่ของmorphisms
+
+$$
+\begin{align*}
+  zero & :: 1 \to N \\
+  succ & :: N \to N
+\end{align*}
+$$
+
+ส่วนแรกทำการเลือกเลขศูนย์และส่วนที่สองโยงทุกๆเลขไปยังสิ่งที่ตามมาของพวมมัน เหมือนก่อนหน้านี้ เราสามารถรวมสองตัวไปยังหนึ่งตัว
+
+$$
+1 + N \to N
+$$
+
+ในด้านช้ายนิยามfunctorที่ในHaskellสามารถถูกเขียนในแบบนี้
+
+```Haskell
+data NatF a = ZeroF | SuccF a
+```
+
+จุดคงที่ของfunctorนี้(algebraเริ่มต้นที่มันสร้าง)สามารถถูกเขียนในHaskellว่า
+
+```Haskell
+data Nat = Zero | Succ Nat
+```
+
+จำนวนธรรมชาตินั้นคือเลขศูนย์หรือเป็นสิ่งต่อเนื่องของอีกจำนวนหนึ่ง สิ่งนี้รู้จักในฐานะตัวอย่างของจำนวนธรรมชาติแบบPeano
+
+
+## Catamorphisms
+
+เรามาเขียนใหม่เงื่อนไขเริ่มต้นโดยการใช้การเขียนแบบHaskell เราเรียกalgebraเริ่มต้น`Fix f` ตัวประเมินค่าคือconstructor`Fix` ได้มีmorphismที่เป็นเอกลักษณ์`m`จากalgebraเริ่มต้นไปยังalgebraอื่นๆที่อยู่ในfunctorเดี่ยวกัน เรามาเลือกalgebraที่carrierของมันคือ`a`และตัวประเมินค่าคือ`alg`
+
+![](images/alg5.png){fig-align="center" height=200}
+
+อนึ่งสังเกตสิ่งที่`m`เป็นคือตัวประเมินค่าของจุดคงที่คือตัวประเมินค่าสำหรับ expression treeแบบrecursiveทั้งหมด เรามาหาวิธีการทั่วๆไปในการเขียนมัน
+
+theoremของLambekบอกเราว่าconstructor`Fix`นั้นคือisomorphism เราเรียกinverseของมันว่า`unFix` ดังนั้นเราสามารถกลับลูกศศรหนึ่งของdiagramนี้เพื่อได้สิ่งนี้มา
+
+![](images/alg6.png){fig-align="center" height=200}
+
+เรามาเขียนเงื่อนไขของการcommutationสำหรับdiagramนี้
+
+```Haskell
+m = alg . fmap m . unFix
+```
+
+เราสามารถตีความสมการนี้ในฐานะนิยามแบบrecursiveของ`m` การrecursionนั้นถูกทำให้หยุดลงสำหรับtreeที่จำกัดใดๆก็ตามที่ถูกสร้างโดยการใช้functor`f` เราสามารถมองเห็นว่าโดนการที่เราสังเกตว่า`Fix m`ทำงานภายใต้ชั้นด้านบนจองfunctor`f` ในอีกความหมายหนึ่ง มันทำงานได้บนchildrenของtreeดั้งเดิม childrenต่างๆกันนั้นจะมีขนากน้อยกว่าหนึ่งชั้นเมื่อเทียบกับtreeดั้งเดิมโดนตลอด
+
+ในที่นี้สิ่งที่เกิดขึ้นในตอนที่เราทำการใช้`m`ไปยังtreeที่ถูกสร้างโดยการใช้`Fix f` การกระทำของ`unFix`ที่เลาะออกของconstructor การเปิดเผยชั้นข้างบนของtree เราก็ต้องก็ทำการใช้`m`ไปยังทุกchildrenของnodeด้านบน สิ่งนี้สร้างผลลัพธ์ของtype`a` ในที่สุดแล้ว เราจะรวมผลลัพธ์เหล่านี้โดยการทำการใช้ตัวประเมินที่ไม่recursive`alg` จุดที่สำคัญคือว่าตัวประเมิน`alg`ของเรานั้นเป็นfunctionง่ายๆที่ไม่recursive
+
+เนื่องด้วยที่เราสามารถทำได้สำหรับalgebra`alg` มันสมเหตุสมในการนิยามfunctionแบบ higher orderที่นำalgebraในฐานะparameterและให้functionกับเรา เราเรียกว่า`m` functionแบบ higher orderนั้นถูกเรียกว่าcatamorphism
+
+```Haskell
+cata :: Functor f => (f a -> a) -> Fix f -> a
+cata alg = alg . fmap (cata alg) . unFix
+```
+
+เรามาเห็นตัวอย่างที่ว่า นำfunctorที่นิยามจำนวนธรรมชาติ
+
+```Haskell
+data NatF a = ZeroF | SuccF a
+```
+
+เรามาเลือก`(Int, Int)`ในฐานะtypeแบบcarrierและนิยามalgebraของเราว่า
+
+```Haskell
+fib :: NatF (Int, Int) -> (Int, Int)
+fib ZeroF = (1, 1)
+fib (SuccF (m, n)) = (n, m + n)
+```
+
+เราสามารถทำให้เชื่อมั่นว่าcatamorphismสำหรับalgebraนี้`catafib`ถูกคำนวณตัวเลขFibonacci
+
+โดนทั่วไป algebraสำหรับ`NatF`นิยามความสัมพันธ์แบบrecurrenceคือ ค่าของสมาชิกในตอนนี้ในรูปแบบของสมาชิกก่อหน้านี้ catamorphismก็ทำการประเมินมาขิกตัวที่nแบบต่อเนื่องแบบนั้น
+
+
+## Folds
+
+listของ`e`นั้นคือalgebraเริ่มต้นสำหรับfunctorแบบนี้
+
+```Haskell
+data ListF e a = NilF | ConsF e a
+```
+
+แน่นอนว่าการแทนที่ตัวแปร`a`กับผลลัพธ์ของrecursionที่เราจะเรียก`List e` เรามี
+
+```Haskell
+data List e = Nil | Cons e (List e)
+```
+
+algebraสำหรับfunctorแบบlistเลือกtypeแบบcarrierโดยเฉพาะและนิยามfunctionที่ทำการจับคู่รูปแบบ(Pattern matching)บนconstructorsทั้งสองทั้งสอง ค่าของมันสำหรับ`NillF`บอกเราในวิธีการที่จะประเมินlistว่างและค่าของมันสำหรับ`ConsF`บอกเราในวิธีการรวมสมาชิกในตอนนี้กับค่าที่ถูกสะสมมาก่อนหน้านี้
+
+ตัวอย่างเช่น ในที่นี้algebraสามารถถูกใช้ในการคำนวณขนาดของlist(ในtypeของcarrierคือ`Int`)
+
+```Haskell
+lenAlg :: ListF e Int -> Int
+lenAlg (ConsF e n) = n + 1
+lenAlg NilF = 0
+```
+
+แน่นอนว่าcatamorphismมี่เป็นผลลัพธ์`cata lenAlg`คำนวนขนาดของlist สังเกตว่าตัวประเมินนั้นคือผลรวมของ(1)functionที่นำสมาชิกของlistและตัวรวบรวม(accumulatorและreturnsตัวรวบรวมใหม่มา และ(2)ค่าเริมต้นในที่นี้คือเลขศูนย์ typeของค่านี้และtypeของตัวรวบรวมนั้นถูกให้มาโดยtypeของcarrier
+
+เทียบสิ่งนี้กับนิยามแบบทั่วไปในHaskell
+
+```Haskell
+length = foldr (\e n -> n + 1) 0
+```
+
+ทั้สองargumentsสำหรับ`foldr`นั้นคือสองส่วนประกอบของalgebraจริงๆ
+
+เรามาลองอีกตัวอย่างหนึ่ง
+
+```Haskell
+sumAlg :: ListF Double Double -> Double
+sumAlg (ConsF e s) = e + s
+sumAlg NilF = 0.0
+```
+
+ในอีกครั้งเราที่เราเทียบกับ
+
+
+```Haskell
+sum = foldr (\e s -> e + s) 0.0
+```
+
+คุณก็ได้เห็นแล้วว่า`foldr`นั้นคือแค่ทางเฉพาะของcatamorphismต่อlists
+
+## Coalgebras
+
+เหมือกับทั่วๆไปเรามีการสร้างที่เป็นdualที่คือF-coalgebraที่ทิศทางของmorphismนั้นตรงกันข้าม
+
+$$
+a \to F\ a
+$$
+
+Coalgebrasสำหรับfunctorที่ให้มาก็ก่อให้เกิดcategoryที่homomorphismsทำการคงโครงสร้างทางcoalgebraเอาไว้ วัตถุสุดท้าย$(t,u)$ในcategoryนั้นถูกเรียกว่าcoalgebraสุดท้าย สำหรัยcoalgebraอื่นๆ$(a,f)$ได้มีhomomorphism$m$ที่เป็นเอกลักษณ์ที่ทำให้diagramดังต่อไปนี้commuteอย่าง
+
+![](images/alg7.png){fig-align="center" height=200}
+
+ในcoalgebraสุดท้ายคือจุดคงที่ของfunctorในความหมายที่ว่าmorphism$u :: t \to F\ t$นั้นคือisomorphism(theoremของLambekสำหรับcoalgebras)ว่า
+
+$$
+F\ t \cong t
+$$
+
+coalgebraสุดท้ายนั้นมักจะถูกตีความในการเขียนโปรแกรมในฐานะวิธีการของการสร้าง(ที่อาจจะไม่มีที่สิ้นสุด)data structureหรือระบบของการเปลี่ยนแปลง(transition systems)
+
+เหมือนกับcatamorphismที่สามารถถูกใช้ในการประเมินalgebraเริ่มต้น anamorphismสามารถถูกใช้ในการcoevaluate coalgebraสุดท้าย
+
+```Haskell
+ana :: Functor f => (a -> f a) -> a -> Fix f
+ana coalg = Fix . fmap (ana coalg) . coalg
+```
+
+ตัวอย่างที่ตรงไปตรงมาของcoalgebraนั้นตามมาจากfunctorที่จุดคงที่นั้นคือstreamที่ไม่มีที่สิ้นสุดของสมาชิกของtype สิ่งนี้คือfunctor
+
+```Haskell
+data StreamF e a = StreamF e a
+  deriving Functor
+```
+
+และสิ่งนี้คือจุดคงที่ของมัน
+
+```Haskell
+data Stream e = Stream e (Stream e)
+```
+
+coalgebraสำหรับ`StreamF e`นั้นนำจุดเกิดของtype`a`และสร้างpair(`StreamF`นั้นเป็นชื่อที่อลังการของpair)ที่ประกอบด้วยสมาชิกหนึ่งและจุดเกิดอันต่อไป
+
+คุณสามารถสร้างตัวอย่างง่ายๆของcoalgebrasที่สร้างsequencesไม่มีที่สิ้นสุดเหมือนกับlistของตัวเลขกำลังสองหรือreciprocals
+
+ตัวอย่างที่น่าสนใจมากกว่าคือcoalgebraที่สร้างlistของจำนวนเฉพาะ เคล็ดลับคือการใช้listที่ไม่มีที่สิ้นสุดในฐานะcarrier จุดเกิดเริ่มต้นก็จะเป็นlistของ`[2..]` จุดเกิดอันต่อไปก็จะเป็นส่วนหางของlistนั้นที่เลขที่หารสองลงตัวถูกนำออกไป มันคือlistของเลขคี่ที่เริ่มด้วย$3$ ในขั้นตอนต่อไป เราจะนำ่วนหางของlistนี้และทำการนำเลขที่หารสามลงตัวออกไปและอื่นๆ คุณอาจจะรู้ว่านี้คือการสร้างตะแกรงของเอราทอสเทนีส(sieve of Eratosthenes) coalgebraนี้นั้นถูดเขียนโดยfunctionดังต่อไปนี้
+
+```Haskell
+era :: [Int] -> StreamF Int [Int]
+era (p : ns) = StreamF p (filter (notdiv p) ns)
+    where notdiv p n = n `mod` p /= 0
+```
+
+anamorphismสำหรับcoalgebraนี้สร้างlistของprimesว่า
+
+```Haskell
+primes = ana era [2..]
+```
+
+streamนั้นคือlistที่ไม่มีที่สิ้นสุด ดังนั้นมันอาจจะเป็นไปได้ในการแปลงมันไปยังlistของHaskell ในการทำแบบนั้นเราสามารถใช้functorเดิมอย่าง`StreamF`ในการสร้างalgebraและเราสามารถดำเนินการทำcatamorphismข้างบนมัน ตัวอย่างเช่นนี้คือcatamorphismที่แปลงstreamไปยังlist
+
+```Haskell
+toListC :: Fix (StreamF e) -> [e]
+toListC = cata al
+    where al :: StreamF e [e] -> [e] 
+          al (StreamF e a) = e : a
+```
+
+ในที่นี้จุดคงที่ของเดิมนั้นเป็นทั้งalgebraเริ่มต้นและcoalgebraสุดท้ายสำหรับendofunctorเดียวกัน มันไม่เป็นแบบนี้ตลอดในcategoryทั่วๆไป โดยทั่วไปแล้วendofunctorอาจจะมีหลายจุดคงที่(หรือไม่มีเลย) algebraเริ่มต้นคือสิ่งที่เรียกว่าจุดคงที่ที่น้อยที่สุดและcoalgebraสุดท้ายคือจุดคงที่ที่สูงที่สุด แต่ในHaskellทั้งสองนั้นถูกนิยามโดยสูตรเดียวกันและพวกมันนั้นตรงกัน
+
+anamorphismสำหรับlistsนั้นถูกเรียกว่าunfold ในการสร้างlistsที่คงที่ functorนั้นถูกแปลงในการสร้างpairของ`Maybe`
+
+```Haskell
+unfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+```
+
+ค่าของ`Nothing`จะจบการสร้างของlist
+
+ในกรณีที่น่าสนใจของcoalgebraนั้นเกี่ยวกับlenses lensสามารถถูกแสดงในฐานะคู่ของgetterและsetter
+
+```Haskell
+set :: a -> s -> a
+get :: a -> s
+```
+
+ในที่นี้`a`นั้นมักจะคือบางtypeแบบข้อมูลแบบproductกับfieldของtype`s` getterดึงค่าของfieldนั้นและsetterแทนที่fieldนี้กับค่าใหม่ functionsทั้งสองเหล่านี้สามารถถูกรวมกันไปยังหนึ่งตัว
+
+```Haskell
+a -> (s, s -> a)
+```
+
+เราสามารถเขียนfunctionนี้ใหม่เพิ่มเติมว่า
+
+```Haskell
+a -> Store s a
+```
+
+ที่เราได้นิยามfunctor
+
+```Haskell
+data Store s a = Store (s -> a) s
+```
+
+สังเกตว่านี้นั้นไม่ใช่functorแบบalgebraicง่ายๆที่สร้างมาจากsumsของproducts มันข้องเกี่ยวกับexponential$a^s$
+
+lensคือcoalgebraสสำหรับfunctorนี้ที่มีtypeแบบcarrier`a` เราได้เห็นก่อนหน้านี้ว่า`Store s`นั้นก็เป็นcomonad มันกลับมาเป็นว่าlensที่ประพฤติตนดีจะตรงกันกับcoalgebraที่เข้ากันได้กับโครงสร้างของcomonad เราจะมาพูดเกี่ยวกับสิ่งนี้ในบทต่อไป
+
+## โจทย์ท้าทาย
+
+1. ลองเขียนfunctionที่ทำการประเมินสำหรับringของpolynomialsที่มีตัวแปลเดียว คุณสามารถแสดงpolynomialในฐานะlistของcoefficientsที่อยู่ข้างหน้า การยกกำลังของ$x$ ตัวอย่างเช่น$4x^2-1$อาจจะถูกแสดงในฐานะ (เริ่มมากับตัวยกกำลังศูนย์)อย่าง`[-1, 0, 4]`
+2. ลองgeneralizeการสร้างก่อนหน้านี้ไปยังpolynomialsสำหรับตัวแปลที่เป็นอิสระอย่าง$x^2y-3y^3z$
+3. ลองเขียนalgebraleสำหรับringของmatrices$2\times2$
+4. นิยามcoalgebraที่anamorphismสร้างlistของกำลังสองของจำนวนธรรมชาติ
+5. ใช้`unfoldr`ในการสร้างlistของจำนวนเฉพาะ$n$ตัวแรก
+
+
+
+(Page 272)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
