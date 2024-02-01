@@ -1,6 +1,4 @@
-
-
-# ทฤษฎีแบบLawvere (Lawvere Theories)
+# ทฤษฎีแบบLawvere (Lawvere Theories) (Sketch)
 
 ในปัจจุบันคุณไม่สามารถพูดถึงการเขียนโปรแกรมแบบfunctionalโดยที่ไม่กล่าวถึงmonads แต่ก็มีจักรวาลคู่ขนานที่โดยบังเอิญที่Eugenio Moggiหันมาให้ความสนใจกับทฤษฎีแบบLawvereแทนที่จะเป็นmonads เรามาสำรวจจักรวาลนั้นกัน
 
