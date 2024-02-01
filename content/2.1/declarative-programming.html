@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -99,21 +106,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-sidebar floating">
-
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html">Part 2</a></li><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html">Part 2</a></li><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -123,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
@@ -381,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
@@ -389,7 +422,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html">Part 2</a></li><li class="breadcrumb-item"><a href="../../content/2.1/declarative-programming.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></h1>
 </div>
@@ -404,7 +437,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>ในส่วนแรกของหนังสือเล่มนี้ผมได้เสนอว่าทั้งทฤษฎีcategoryและการเขียนโปรแกรมนั้นเกี่ยวกับความประกอบกันได้ ในการเขียนโปรแกรมคุณทำการแยกปัญหาไปเรื่อๆจนคุณถึงในระดับของรายระเอียดที่คุณสามารถทำงานกับมันได้ ทำการแก้ปัญหาย่อยๆในแต่ละตัวและทำการประกอบคำตอบใหม่จากล่างขึ้นบน ถ้าให้พูดแบบคล่าวๆได้มีสองวิธีในการทำแบบนี้คือการบอกคอมพิวเตอร์ในสิ่งที่ต้องทำหรือบอกวิธีการทำมัน ตัวหนึ่งเรียกว่าdeclarativeและอีกอันหนึ่งคือimperative</p>
 <p>คุณสามารถเห็นสิ่งนี้แม้ในระดับที่พื้นฐานที่สุด การประกอบกันเองอาจจะถูกนิยามในแบบdeclarative เหมือนใน<code>h</code>คือการประกอบของ<code>g</code>ที่ตามมาจาก<code>f</code></p>
@@ -420,7 +455,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>สังเกตวิธีนี้นั้นมีความคล้ายกับการคิกแบบimperativeคือการที่เราไปยังคำตอบสุดท้ายโดยการตามเป็นลำดับของขั้นเล็กๆที่แต่ละตัวขึ้นอยู่กับผลลัพธ์ชองลำดับที่แล้ว ในความเป็นจริงแล้วการsimulationโดยคอมพิวเตอร์ของระบบทางฟิสิกส์นั้นโดยบ่อยครั้งถูกเขียนโดยการแปลงสมการdifferentialไปยังสมการdifferenceและทำการทำซ้ำมัน นี้คือวิธีการที่ยานอวกาศถูกทำให้เคลื่อนไหวได้ในเกมasteroids ในแต่ละขั้นของเวลา ตำแหน่งของยานอวกาศนันถูกเปลี่ยนโดยการบวกเพิ่มขึ้นอย่างเล็กน้อย ที่ถูกคำนวนโดยการคูณความเร็วของมันกับเวลาdelta ส่วนความเร็วนี้นก็ถูกเปลี่ยนโดยการบวกเพิ่มขึ้นอย่างเล็กน้อยในสัดส่วนของความเร่งที่ถูกให้มาโดยแรงหารด้วยมวล</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/asteroids.png" height="200" class="figure-img"></p>
+<p><img src="images/asteroids.png" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ได้มีการเขียนลงมาโดยตรงของสมการdiffferentialที่ตรงกันกับกฎการเคลื่อนที่ของNewton</p>
@@ -439,19 +474,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>ที่ที่<span class="math inline">\(v_1\)</span>คือความเร็วของแสงในอากาศและ<span class="math inline">\(v_2\)</span>คือความเร็วของแสงในน้ำ</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/snell.jpg" height="200" class="figure-img"></p>
+<p><img src="images/snell.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>กลศาสตร์ดั้งเดิมทั้งหมดสามารถมาจากหลักการการกระทำที่น้อยที่สุด(principle of least action) การกระทำสามารถถูกคำนวนสำหรับเส้นทางใดๆก็ตามโดนการทำการintegrate Lagrangianนั้นที่ก็คือความแตกต่างระหว่างพลังงานจลน์และพลังงานศักย์ (สังเกตว่า มันคือความแตกต่างไม่ใช่การบวกกัน หารบวกกันสามารถเป็นพลังงานทั้งหมด) ในตอนที่คุณยิงปืนครกเพื่อที่จะชนเป้าหมายที่ให้มา กระสุนยิงนั้นจะไปข้างบนก่อนที่พลังงานศักย์ที่มาจากแรงโน้มถ่วงนั้นมีมากกว่าและจะใช้บางเวลาตรงนั้นในการรวบรวมสิ่งที่ให้มาที่เป็นลบโดยการกระทำ แล้วมันจะเร่งความเร็วเพื่อที่จะเคลื่อนที่อย่างรวดเร็วผ่านพื้นที่ที่มีพลังงานศักย์น้อย</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/mortar.jpg" height="200" class="figure-img"></p>
+<p><img src="images/mortar.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ผลงานของFeynmanที่ยิ่งใหญ่ที่สุดคือการนึงถึงได้ว่าหลักการการกระทำที่น้อยสามารถถูกใช้(generalized)ไปยังกลศาสตร์ควอนตัม ในอีกครั้งที่ปัญหาคือการแสดงออกในรูปสูตรของสภาพเริ่มต้นและสภาพสุดท้าย path integralของFeynmanระหว่างสภาพเหล่านี้ถูกใช้ในการคำนวนความเป็นไปได้ของการเปลี่ยนแปลง</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/feynman.jpg" height="200" class="figure-img"></p>
+<p><img src="images/feynman.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ประเด็นอยู่ที่ว่าได้มีทวิลักษณ์ที่ไม่ได้ถูกอธิบายและน่าสนใจในการที่เราสามารถอธิบายกฏของphysics เราสามารถใช้ภาพแบบเฉพาะแห่งที่สิ่งต่างๆเกิดขึ้นเเป็นลำดับและในการเพื่มขึ้นอย่างเล็กๆ หรือเราสามารถใช้ภาพแบบสากลที่ที่เราประกาศเงื่อนไขเริ่มและเงื่อนไขสุดท้ายและทุกๆอย่างระหว่างมันก็จะตามมา</p>
@@ -461,7 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>แล้วสิ่งนี้เกี่ยวกับทฤษฎีcategoryอย่างไร? ผมจะเสนอว่าทฤษฎีcategoryนั้นสนับสนุนแนวทางแบบสากรและดังนั้นรองรับการเขียนโปรแกรมแบบdeclarative ก่อนอื่นเลยคือไม่เหมือนcalculus มันไม่มีเครื่องหมาย ที่มีอยู่แล้วของระยะทางหรือบริเวณข้างเคียงหรือเวลา สิ่งที่เรามีอยู่ทั้งหมดคือวัตถุนามธรรมและการเชื่อมต่อที่เป็นนามธรรมระหว่างมัน ถ้าคุณสามารถไปจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(B\)</span>ผ่านลำดับของขั้นต่างๆ คุณสามารถที่จะไปได้ในกระโดดครั้งเดียว มากไปกว่านั้น เครื่องมือส่วนใหญ่ทฤษฎีcategoryคือการสร้างแบบสากลที่เป็นจุดสูงสุดของแนวทางแบบสากล เราได้เห็นมันในการใช้งานแล้ว ตัวอย่างเช่นในนิยามของproductแบบcategorical มันสามารถถูกทำได้โดยการกำหนดคุณสมบัติของมัน (ที่เป็นแนวทางที่declarativeอย่างมาก มันคือวัตถุที่ทีprojectionสองตัวและเป็นวัตถุที่ดีที่สุด) มันทำให้บางคุณสมบัติดีที่สุคนั้นก็คือคุณสมบัติของการแยกตัวประกอบของprojectionของวัตถุอื่นๆ</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/productranking.jpg" height="200" class="figure-img"></p>
+<p><img src="images/productranking.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>เทียวกับหลักการของเวลาที่น้อยที่สุดของFermatหรือหลักการการกระทำที่น้อยที่สุด</p>
@@ -557,10 +592,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -570,8 +604,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -584,6 +627,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -627,6 +789,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -652,6 +815,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -713,17 +902,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/1.10/natural-transformations.html" class="pagination-link">
+      <a href="../../content/1.10/natural-transformations.html" class="pagination-link  aria-label=" &lt;span="" transformation="" (การแปลงแบบธรรมชาติ)="" (sketch)&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/2.2/limits-and-colimits.html" class="pagination-link">
+      <a href="../../content/2.2/limits-and-colimits.html" class="pagination-link" aria-label="<span class='chapter-number'>13</span>&nbsp; <span class='chapter-title'>LimitและColimit (Sketch)</span>">
         <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

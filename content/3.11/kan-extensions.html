@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -99,21 +106,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-sidebar floating">
-
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.11/kan-extensions.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan (Sketch)</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.11/kan-extensions.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan (Sketch)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -123,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
@@ -381,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -400,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.11/kan-extensions.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan (Sketch)</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan (Sketch)</span></h1>
 </div>
@@ -415,33 +448,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>จากถึงตอนนี้เราได้ทำงานกับcategoryเดียวหรือคู่ของcategories ในบางกรณีที่นั้นค่อนข้างมีข้อจำกัด</p>
 <p>ตัวอย่างเช่น ในการนิยามlimitในcategory<span class="math inline">\(\textbf{C}\)</span>เรานำเสนอcategoryตัวชี้<span class="math inline">\(\textbf{I}\)</span>ในฐานะแม่แบบสำหรับแบบแผนที่จะสร้างฐานสำหรับconeของเรา มันอาจจะสมเหตุสมผลในการนำเสนออีกcategoryที่เป็นตัวที่ตรงไปตรงมาในการเป็นแม่แบบสำหรับจุดยอดของcone แทนที่จะใช้functorคงที่<span class="math inline">\(\Delta_c\)</span>จาก<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span></p>
 <p>ใันถึงเวลาในการแก้ไขความกระอักกระอ่วนนี้ เรามานิยามlimitโดยการใช้สามcategoryนี้ เรามาเริ่มด้วยfunctor<span class="math inline">\(D\)</span>จากcategoryตัวชี้<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span> นี้คือfunctorทราเลือกbaseของcone diagramของfunctorคือ</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan2.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan2.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>การเพื่มขึ้นมาใหม่คือcategory<span class="math inline">\(\textbf{1}\)</span>ที่มีวัตถุเดียว(และmorphism identityเดียว) ได้มีfunctor<span class="math inline">\(K\)</span>ที่เป็นไปได้ตัวหนึ่งจาก<span class="math inline">\(\textbf{I}\)</span>ไปยังcategoryนี้ มันโยงวัตถุทั้งหมดไปยังวัตถุเดียวใน<span class="math inline">\(\textbf{1}\)</span> และทุกmorphismsไปยังmorphismแบบfunctor identityใดๆก็ตามจาก<span class="math inline">\(\textbf{1}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span>เลือกจุดยอดสำหรับconeของเรา</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan15.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan15.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>coneนั้นคือการแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon\)</span>จาก<span class="math inline">\(F \circ K\)</span>ไปยัง<span class="math inline">\(D\)</span> สังเกตว่า<span class="math inline">\(F \circ K\)</span>ทำแบบเดียวกันเมื่อเทียบกับ<span class="math inline">\(\Delta_c\)</span>ดั้งเดิมของเรา diagramต่อไปนี้แสดงการแปลงแบบนี้</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan3-e1492120491591.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan3-e1492120491591.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>เราสามารถนิยามคุณสมบัติสากลที่เลือกfunctor<span class="math inline">\(F\)</span>ที่“ดีที่สุด” <span class="math inline">\(F\)</span>นี้จะโยง<span class="math inline">\(\textbf{1}\)</span>ไปยังวัตถุที่คือlimitของ<span class="math inline">\(D\)</span>ใน<span class="math inline">\(\textbf{C}\)</span> และการแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon\)</span>จาก<span class="math inline">\(F \circ K\)</span>ไปยัง<span class="math inline">\(D\)</span>จะให้projectionsที่ตรงกัน functorสากลนี้ถูกเรียกว่าส่วนขยายKanด้านขวาของ<span class="math inline">\(D\)</span>ร่วมกับ<span class="math inline">\(K\)</span>และมีเครื่องหมายเป็น<span class="math inline">\(\operatorname{Ran}_KD\)</span></p>
 <p>เรามากำหนดคุณสมบัติสากลนี้ สมมติว่าเรามีอีกconeหนึ่งที่คืออีกfunctor<span class="math inline">\(F'\)</span>คู่กับการแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon'\)</span>จาก<span class="math inline">\(F' \circ K\)</span>ไปยัง <span class="math inline">\(D\)</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan31-e1492120512209.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan31-e1492120512209.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ถ้าส่วนขยายKan<span class="math inline">\(F=\operatorname{Ran}_KD\)</span>มีอยู่ ก็จะมีการแปลงแบบธรรมชาติที่เป็นเอกลักษณ์<span class="math inline">\(\sigma\)</span>จาก<span class="math inline">\(F'\)</span>ไปยังมันในแบบที่ว่า<span class="math inline">\(\varepsilon'\)</span>แยกตัวประกอบผ่าน<span class="math inline">\(\varepsilon\)</span>นั้นคืิอ</p>
@@ -451,7 +486,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>ในที่นี้<span class="math inline">\(\sigma \circ K\)</span>คือการประกอบทางแนวนอนของสองการแปลงแบบธรรมชาติ(หนึ่งในนั้นเป็นการ แปลงแบบธรรมชาติแบบidentityบน<span class="math inline">\(K\)</span>) การแปลงแบบนี้ก็จะถูกประกอบแนวตั้งกับ<span class="math inline">\(\varepsilon\)</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan5.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan5.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ในรูปแบบของส่วนประกอบ ในตอนที่กรัทำบนวัตถุ<span class="math inline">\(i\)</span>ใน<span class="math inline">\(\textbf{I}\)</span>เราได้</p>
@@ -481,7 +516,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>นิยามนั้นค่อนข้างยางแต่มันสามาถถูกแสดงในdiagramที่ดูดีนี้</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan7.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan7.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>วิธีการที่น่าสนใจในการมองที่สิ่งนี้คืือสังเกตว่าในแนวคิดนี้แล้วส่วนขยายKanนั้นกระทำเหมือนinverseของ”การคูณของfunctor” บางคนเขียนไปไกลจนถึงการใช้สัญลักษณ์<span class="math inline">\(D/K\)</span>สำหรับ<span class="math inline">\(\operatorname{Ran}_KD\)</span> แน่นอนว่าในสัญลักษณ์นี้ นิยามของ<span class="math inline">\(\varepsilon\)</span>ที่ก็ถูกเรียกเป็นcounitของส่วนขยายKanด้านขวา ดูเหมือนการตัดออก</p>
@@ -491,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>ได้มีการตีความในอีกแบบหนึ่งของส่วนขยายของKan ลองพิจารณาว่าfunctor<span class="math inline">\(K\)</span>นั้นฝังcategory<span class="math inline">\(\textbf{I}\)</span>ไว้ใน<span class="math inline">\(\textbf{A}\)</span> ในกรณีที่ง่ายที่สุด<span class="math inline">\(\textbf{I}\)</span>ก็อาจจะเป็นแค่categoryย่อยของ<span class="math inline">\(\textbf{A}\)</span> เรามีfunctor<span class="math inline">\(D\)</span>ที่โยง<span class="math inline">\(\textbf{I}\)</span>ไปยัง<span class="math inline">\(\textbf{C}\)</span> เราสามารถที่จะขยาย<span class="math inline">\(D\)</span>ไปยังfunctor<span class="math inline">\(F\)</span>ที่ถูกนิยามทั้งหมดใน<span class="math inline">\(\textbf{A}\)</span>ได้หรือเปล่า? ในอุดมคติแล้ว การขยายอาจจะทำให้การประกอบ<span class="math inline">\(F\circ K\)</span>นั้นisomorphicกับ<span class="math inline">\(D\)</span> ในอีกความหมายหนึ่ง<span class="math inline">\(F\)</span>อาจจะขยายdomainของ<span class="math inline">\(D\)</span>ไปยัง<span class="math inline">\(\textbf{A}\)</span> แต่isomorphismแบบเต็มๆนั้นเป็นสิ่งที่เกินไปและเราสามารถทำได้ด้วนแค่ครึ่งหนึ่งของมันคือ การแปลงแบบธรรมชาติ<span class="math inline">\(\varepsilon\)</span>ทางเดียวจาก<span class="math inline">\(F\circ K\)</span>ไปยัง<span class="math inline">\(D\)</span>(ส่วนขยายKanด้านช้ายเลือกอีกทิศทางหนึ่ง)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan6.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan6.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>แน่นอนว่าการรูปของการฝังจะไม่สามารถใช้ได้ในตอนที่functor<span class="math inline">\(K\)</span>นั้นไม่ injectiveบนวัตถุหรือไม่faithfulบนhom-setsเหมือนในตัวอย่างของlimit ในกรณรีนั้นแล้วส่วนขยายของkanพยายามอย่างที่สุดในการอนุมานข้อมูลที่สูญหายออกไป</p>
@@ -505,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>มันคือการเขียนใหม่ของความจริงที่ว่าทุกๆการแปลงแบบธรรมชาติที่เราเรียกว่า<span class="math inline">\(\varepsilon'\)</span>นั้นตรงกันกับการแปลงแบบธรรมชาติที่เป็นเอกลักษณ์ที่เราเรียกว่า<span class="math inline">\(\sigma\)</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan92.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan92.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ยิ่งไปกว่านั้นถ้าเราเลือกcategory<span class="math inline">\(\textbf{I}\)</span>ให้เหมือนกับ<span class="math inline">\(\textbf{C}\)</span>เราก็จะสามารถแทนที่functor identityของ<span class="math inline">\(I_\textbf{C}\)</span>สำหรับ<span class="math inline">\(D\)</span> เราก็จะได้สมการแบบนี้</p>
@@ -539,13 +574,13 @@ K \circ I/K \cong K/K
 <p>ได้มีการสร้างแบบdualที่ให้เราส่วนขยายKanด้านช้าย ในการสร้างบางความเข้าใจ เราจะสามารถเริ่มด้วยนิยามของcolimitและแปลงโครงสร้างมันใหม่เพื่อให้ได้ใช้categoryที่มีสมาชิกเดียว<span class="math inline">\(\textbf{1}\)</span> เราสร้างcoconeโดยการใช้functor<span class="math inline">\(F::\textbf{I}\to\textbf{C}\)</span>ในการสร้างฐานของมันและfunctor<span class="math inline">\(F::\textbf{1}\to\textbf{C}\)</span>ในการเลือกจุดยอดของมัน</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan81.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan81.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ด้านข้างของcoconeที่ก็คือinjectionsคือส่วนประกอบของการแปลงแบบธรรมชาติ<span class="math inline">\(\eta\)</span>จาก<span class="math inline">\(D\)</span>ไปยัง<span class="math inline">\(F \circ K\)</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan10a.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan10a.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>colimitคือcoconeสากล ดังนั้นสำหรับfunctor<span class="math inline">\(F'\)</span>อื่นๆและการแปลแบบธรรมชาติอย่าง</p>
@@ -554,13 +589,13 @@ K \circ I/K \cong K/K
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan10b.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan10b.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ได้มีการแปลงแบบธรรมชาติที่เป็นเอกลักษณ์<span class="math inline">\(\sigma\)</span>จาก<span class="math inline">\(F\)</span>ไปยัง<span class="math inline">\(F'\)</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan14.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan14.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ในการที่ว่า</p>
@@ -570,13 +605,13 @@ K \circ I/K \cong K/K
 <p>สิ่งนี้ถูกแสดงในdiagramดังต่อไปนี้</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan112.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan112.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>ในการแทนที่categoryที่มีสมาชิกเดียว<span class="math inline">\(\textbf{1}\)</span>ด้วย<span class="math inline">\(\textbf{A}\)</span> นิยามนี้ถูกวางนัยแบบเป็นธรรมชาติไปยังส่วนขยายKanด้านช้ายที่มีเครื่องหมายอย่าง <span class="math inline">\(\operatorname{Lan}_KD\)</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan12.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan12.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>การแปลงแบบธรรมชาติ</p>
@@ -611,7 +646,7 @@ K\dashv\operatorname{Lan}_KI_\textbf{C}
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/kan13.jpg" height="200" class="figure-img"></p>
+<p><img src="images/kan13.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
 <p>สังเกตว่าhom-functorนี้คือการประกอบกันของสองfunctors</p>
@@ -828,10 +863,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -841,8 +875,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -855,6 +898,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -898,6 +1060,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -923,6 +1086,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -984,17 +1173,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/3.10/ends-and-coends.html" class="pagination-link">
+      <a href="../../content/3.10/ends-and-coends.html" class="pagination-link  aria-label=" &lt;span="" (sketch)&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends (Sketch)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/etc/glossary.html" class="pagination-link">
+      <a href="../../content/etc/glossary.html" class="pagination-link" aria-label="<span class='chapter-number'>29</span>&nbsp; <span class='chapter-title'>คำเฉพาะและคำแปลของมัน</span>">
         <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
