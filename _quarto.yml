@@ -42,6 +42,10 @@ book:
         - content/3.9/algebras-for-monads.qmd
         - content/3.10/ends-and-coends.qmd
         - content/3.11/kan-extensions.qmd
+        - content/3.12/enriched-categories.qmd
+        - content/3.13/topoi.qmd
+        - content/3.14/lawvere-theories.qmd
+        - content/3.15/monads-monoids-and-categories.qmd
     - part: "Appendices"
       chapters:
         - content/etc/glossary.qmd
