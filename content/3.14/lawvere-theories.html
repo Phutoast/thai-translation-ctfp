@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 31&nbsp; ทฤษฎีแบบLawvere (Lawvere Theories)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/3.15/monads-monoids-and-categories.html" rel="next">
+<link href="../../content/3.13/topoi.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.14/lawvere-theories.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">ทฤษฎีแบบLawvere (Lawvere Theories)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">ทฤษฎีcategoryสำหรับโปรแกรมเมอร์</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Translator’s Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/0.0/preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.1/category-the-essence-of-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Category: แก่นแท้ของการประกอบเข้าด้วยกัน (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.2/types-and-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.3/categories-great-and-small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categoryทั้งเล็กและใหญ่ (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.4/kleisli-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.5/products-and-coproducts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.6/simple-algebraic-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Typeข้อมูลแบบAlgebraicอย่างง่าย (Simple Algebraic Data Types) (Draft)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.7/functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.9/function-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/1.10/natural-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Natural Transformation (การแปลงแบบธรรมชาติ) (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.1/declarative-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.2/limits-and-colimits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LimitและColimit (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.3/free-monoids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.4/representable-functors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functorที่มีตัวแทนได้ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.5/the-yoneda-lemma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">LemmaของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/2.6/yoneda-embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">การEmbeddingของYoneda (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.1/its-all-about-morphisms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">มันเกี่ยวกับmorphismทั้งหมด (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.2/adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Adjunctions (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.3/free-forgetful-adjunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Adjunctionอิสระ(Free)/ทำให้ลืม(Forgetful) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.4/monads-programmers-definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Monadsในนิยามของโปรแกรมเมอร์ (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.5/monads-and-effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Monadและผลตามมา(Effect) (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.6/monads-categorically.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">MonadในแบบCategory (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.7/comonads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Comonads (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.8/f-algebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">F-Algebras (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.9/algebras-for-monads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">AlgebrasสำหรับMonads (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.10/ends-and-coends.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">EndsและCoends (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.11/kan-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">ส่วนขยายKan (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.12/enriched-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.13/topoi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Topoid</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.14/lawvere-theories.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">ทฤษฎีแบบLawvere (Lawvere Theories)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/3.15/monads-monoids-and-categories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Monads Monoids และ Categoryต่างๆ</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Original Book’s Acknowledgments (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/colophon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Original Book’s Colophon (Sketch)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/etc/copyleft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Original Book’s Copyleft Notice (Sketch)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#algebraสากล" id="toc-algebraสากล" class="nav-link active" data-scroll-target="#algebraสากล"><span class="header-section-number">31.1</span> Algebraสากล</a></li>
+  <li><a href="#ทฤษฎแบบlawvere" id="toc-ทฤษฎแบบlawvere" class="nav-link" data-scroll-target="#ทฤษฎแบบlawvere"><span class="header-section-number">31.2</span> ทฤษฎีแบบLawvere</a></li>
+  <li><a href="#modelsของทฤษฎแบบlawvere" id="toc-modelsของทฤษฎแบบlawvere" class="nav-link" data-scroll-target="#modelsของทฤษฎแบบlawvere"><span class="header-section-number">31.3</span> ModelsของทฤษฎีแบบLawvere</a></li>
+  <li><a href="#ทฤษฎของmonoids" id="toc-ทฤษฎของmonoids" class="nav-link" data-scroll-target="#ทฤษฎของmonoids"><span class="header-section-number">31.4</span> ทฤษฎีของMonoids</a></li>
+  <li><a href="#ทฤษฎแบบlawvereและmonad" id="toc-ทฤษฎแบบlawvereและmonad" class="nav-link" data-scroll-target="#ทฤษฎแบบlawvereและmonad"><span class="header-section-number">31.5</span> ทฤษฎีแบบLawvereและMonad</a></li>
+  <li><a href="#monadในฐานะcoends" id="toc-monadในฐานะcoends" class="nav-link" data-scroll-target="#monadในฐานะcoends"><span class="header-section-number">31.6</span> MonadในฐานะCoends</a></li>
+  <li><a href="#ทฤษฎแบบlawvereของผลขางเคยงside-effect" id="toc-ทฤษฎแบบlawvereของผลขางเคยงside-effect" class="nav-link" data-scroll-target="#ทฤษฎแบบlawvereของผลขางเคยงside-effect"><span class="header-section-number">31.7</span> ทฤษฎีแบบLawvereของผลข้างเคียง(Side Effect)</a></li>
+  <li><a href="#โจทยทาทาย" id="toc-โจทยทาทาย" class="nav-link" data-scroll-target="#โจทยทาทาย"><span class="header-section-number">31.8</span> โจทย์ท้าทาย</a></li>
+  <li><a href="#อานเพม" id="toc-อานเพม" class="nav-link" data-scroll-target="#อานเพม"><span class="header-section-number">31.9</span> อ่านเพิ่ม</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/3.1/its-all-about-morphisms.html">Part 3</a></li><li class="breadcrumb-item"><a href="../../content/3.14/lawvere-theories.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">ทฤษฎีแบบLawvere (Lawvere Theories)</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">ทฤษฎีแบบLawvere (Lawvere Theories)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>ในปัจจุบันคุณไม่สามารถพูดถึงการเขียนโปรแกรมแบบfunctionalโดยที่ไม่กล่าวถึงmonads แต่ก็มีจักรวาลคู่ขนานที่โดยบังเอิญที่Eugenio Moggiหันมาให้ความสนใจกับทฤษฎีแบบLawvereแทนที่จะเป็นmonads เรามาสำรวจจักรวาลนั้นกัน</p>
+<section id="algebraสากล" class="level2" data-number="31.1">
+<h2 data-number="31.1" class="anchored" data-anchor-id="algebraสากล"><span class="header-section-number">31.1</span> Algebraสากล</h2>
+<p>ได้มีหลากหลายวิธีในการอธิบายalgebrasในหลากหลายขั้นของabstraction เราพยายามในการหาภาษาที่กว่างในการอธิบายสิ่งต่างๆอย่างmonoids groupsหรือrings ในขั้นที่ง่ายที่สุด การส้ราเหล่านี้นิยาม<em>operations</em>บนสมาชิกของset บวกกับบาง<em>กฏ</em>ที่ต้องถูกบรรลุโดยoperationsเหล่านี้ ตัวอย่างเช่นmonoidสามารถถูกนิยามในรูปแบบของoperationที่สลับกลุ่มได้ เราก็มีสมาชิกunitและกฏของunit แต่ด้วยการจินตนาการนิดหน่อยเราสามาถแปลงสมาชิกunitไปยังoperationว่าง(nullary operation)ที่คือoperationที่ไม่นำargumentsอะไรเลยและreturnsสมาชิกพิเศษของset ถ้าเราต้องการที่จะพูดเกี่ยวกับgroups เราเพื่มoperatorแบบunaryที่นำสมาชิกและreturns inverseของมัน ได้มีกฏของinverseด้านช้ายและขวาที่ไปพร้อมมัน ringนิยามสองoperatorsแบบbinaryกับกฏเพิ่มเติมและอื่นๆ</p>
+<p>ภาพใหญ่คือว่าalgebraนั้นถูกนิยามโดยsetของoperationsแบบ<span class="math inline">\(n\)</span>-aryสำหรับค่าต่างๆของ<span class="math inline">\(n\)</span> และsetของidentitiesในความเท่ากัน identitiesเหล่านี้นั้นquantifiedแบบสากลทั้งหมด สมการการสลับหมู่ต้องถูกบรรลุโดยจัดหมู่ที่เป็นไปได้ของสามสมาชิกและอื่นๆ</p>
+<p>โดยบังเอิญที่สิ่งนี้ขจัดfieldsออกจากการพิจารณา สำหรับเหตุผลเรียบง่ายที่ศูนย์(unitของการบวก)นั้นไม่มีinverseของการคูณ กฏของinverseสำหรับfieldไม่สามารถถูกquantifiedแบบสากล</p>
+<p>นิยามนี้ของalgebraสากลสามารถถูกขยายไปยังcategoryนอกเหนือจาก<span class="math inline">\(\textbf{Set}\)</span>ถ้าเราแทนที่operations(functions)ดัวยmorphisms แทนที่ของset เราเลือกวัตถุ<span class="math inline">\(a\)</span>(ที่ถูกเรียกว่าวัตถุแบบgeneric)</p>
+<p>operationแบบunaryนั้นคือแค่endomorphismของ<span class="math inline">\(a\)</span> แต่แล้วอะไรคือaritiesอื่นๆ(<em>arity</em>คือตัวเลขของargumentsสำหรับoperationที่ให้มา) ? operationแบบbinary(arity 2)สามารถถูกนิยามในฐานะmorphismจากproduct<span class="math inline">\(a\times a\)</span>กลับไปยัง<span class="math inline">\(a\)</span> operation <span class="math inline">\(n\)</span>-aryแบบทั่วไปคือmorphismจากยกกำลัง<span class="math inline">\(n\)</span>ของ<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(a\)</span></p>
+<p><span class="math display">\[
+\alpha_n :: a^n \to a
+\]</span></p>
+<p>operationแบบnullaryคือmorphismจากวัตถุสุดท้าย(ยกกำลังศูนย์ของ<span class="math inline">\(a\)</span>) ดังนั้นสิ่งที่เราต้องการทั้งหมดในการที่จะนิยามalgebraใดๆก็ตามคือcategoryที่วัตถุต่างๆนั้นคือการยกกำลังของวัตถุพิเศษ<span class="math inline">\(a\)</span>หนึ่ง algebraเฉพาะเจาะจงนั้นถูกเขียนลงไปในhom-setsของcategoryนี้ นี้คือทฤษฎีแบบLawvereอย่างย่อๆ</p>
+<p>การได้มาของทฤษฎีแบบLawvereนั้นต้องผ่านหลายหลายขั้นตอนดังนั้นนี้คือแผนการ</p>
+<ol type="1">
+<li>Categoryของsets<span class="math inline">\(\textbf{FinSet}\)</span></li>
+<li>skeletonของมัน<span class="math inline">\(\textbf{F}\)</span></li>
+<li>oppositeของมัน<span class="math inline">\(\textbf{F}^\text{op}\)</span></li>
+<li>ทฤษฎีแบบLawvere<span class="math inline">\(\textbf{L}\)</span>คือวัตถุในcategory<span class="math inline">\(\textbf{Law}\)</span></li>
+<li>model<span class="math inline">\(M\)</span>ของcategoryแบบLawvereคือวัตถุในcategory<span class="math inline">\(\textbf{Mod}(\textbf{Law}, \textbf{Set})\)</span></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/lawvere1.png" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+</figure>
+</div>
+</section>
+<section id="ทฤษฎแบบlawvere" class="level2" data-number="31.2">
+<h2 data-number="31.2" class="anchored" data-anchor-id="ทฤษฎแบบlawvere"><span class="header-section-number">31.2</span> ทฤษฎีแบบLawvere</h2>
+<p>ทฤษฎีแบบLawvereทั้งหมดมีแกน(backbone)แบบเดียวกัน วัตถุทั้งหมดในทฤษฎีแบบLawvereนั้นสร้างมาจากหนึ่งวัตถุโดยการใช้products(จริงๆก็คือการยกกำลัง) แต่แล้วอะไรคือวิธีการที่เรานิยามproductsเหล่านี้ในcategoryทั่วๆไป? มันกลับมาเป็นว่าเราสามารถนิยามproductsโดยการใช้การโยงจากcategoryที่ง่ายกว่า ในความเป็นจริงแล้วcategoryที่ง่ายกว่านี้อาจจะนิยามcoproductsแทนที่จะเป็นproducts และเราจะใช้functorแบบ<em>contravariant</em>ในการฝังมันในcategoryเป้าหมายของเรา functorแบบcontravariantเปลี่ยนcoproductsไปยังproductsและinjectionsไปยังprojections</p>
+<p>ทางเลือกแยยทั่วๆไปสำหรับแกนของทฤษฎีแบบLawvereคือcategoryของsetsจำกัด<span class="math inline">\(\textbf{FinSet}\)</span> มันมีsetว่าง<span class="math inline">\(\emptyset\)</span> setที่มีสมาชิกเดียว<span class="math inline">\(1\)</span> setที่มีสองสมาชิก<span class="math inline">\(2\)</span> และอื่นๆ วัตถุทั้งหมดในcategoryนี้สามารถถูกสร้างจากsetที่มีสมาชิกเดียวโดยการใช้coproducts(โดยมองsetว่างในฐานะกรณีพิเศษของcoproductแบบnullary) ตัวอย่างเช่นsetที่มีสองสมาชิกคือsumของสองsetที่มีสมาชิกเดียว <span class="math inline">\(2=1+1\)</span> ในการแสดงในHaskell</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Two</span> <span class="ot">=</span> <span class="dt">Either</span> () ()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>แต่ถึงแม้มันเป็นธรรมชาติในการคิดว่าได้มีแค่หนึ่งsetว่าง ได้อาจจะมีหลายsetที่มีสมาชิกเดียวที่จำเพาะ โดยเฉพาะเช่นset<span class="math inline">\(1+\emptyset\)</span>นั้นแตกต่างจากset<span class="math inline">\(\emptyset+1\)</span>และแตกต่างจาก<span class="math inline">\(1\)</span>ถึงแมัพวกกันจะisomorphic coproductในcategoryของsetนั้นไม่มีความสลับกลุ่ม เราสามารถแก้สถานการณ์นั้นโดนการสร้างcategoryที่ชี้หาsetที่isomorphicกันทั้งหมด categoryอย่างนั้นถูกเรียกว่า<em>skeleton</em> ในอีกความหมายหนึ่งbackboneของทฤษฎีแบบLawvereคือskeleton<span class="math inline">\(\textbf{F}\)</span>ของ<span class="math inline">\(\textbf{FinSet}\)</span> วัตถุในcategoryนี้สามารถถูกชี้กับเลขธรรมชาติ(รวมไปถึงศูนย์)ที่ตรงกันกับการนับสมาชิกใน<span class="math inline">\(\textbf{FinSet}\)</span> coproductมีบทบาทในการบวก morphismsใน<span class="math inline">\(\textbf{F}\)</span>คู่กับfunctionระหว่างsetจำกัด ตัวอย่างเช่นได้มีmorphismที่เป็นเอกลักษณ์จาก<span class="math inline">\(n\)</span>ไปยัง<span class="math inline">\(\emptyset\)</span>(ยกเว้น<span class="math inline">\(\emptyset\to\emptyset\)</span>) morphisms <span class="math inline">\(n\)</span>จาก<span class="math inline">\(1\)</span>ไปยัง<span class="math inline">\(n\)</span>(morphisms) morphismหนึ่งจาก<span class="math inline">\(n\)</span>ไปยัง<span class="math inline">\(1\)</span>และอื่นๆ ในที่นี้<span class="math inline">\(n\)</span>นั้นบ่งบอกถึงวัตถุใน<span class="math inline">\(\textbf{F}\)</span>ที่คู่กับsetที่มีสมาชิกทั้งหมดใน<span class="math inline">\(\textbf{FinSet}\)</span>ที่ถูกชี้ตัวผ่านisomorphisms</p>
+<p>ในการใช้category<span class="math inline">\(\textbf{F}\)</span>เราสามารถนิยามอย่างรัดกุมทฤษฎีแบบLawvereในฐานะcategory<span class="math inline">\(\textbf{L}\)</span> ที่มีfunctorพิเศษเป็นคู่อย่าง</p>
+<p><span class="math display">\[
+I_\textbf{L}::\textbf{F}^\text{op}\to\textbf{L}
+\]</span></p>
+<p>functorนี้อาจจะเป็นbijectionบนวัตถุและมันอาจจะคงproductที่จำกัดไว้(productใน<span class="math inline">\(\textbf{F}^\text{op}\)</span>นั้นเหมือนกับcoproductsใน<span class="math inline">\(\textbf{F}\)</span>)</p>
+<p><span class="math display">\[
+I_\textbf{L}(m\times n) = I_\textbf{L}m\times I_\textbf{L}n
+\]</span></p>
+<p>คุณอาจจะในบางครั้งเห็นfunctorนี้ถูกทำให้อยู่ในฐานะidentity-บน-วัตถุ ที่หมายความว่าวัตถุใน<span class="math inline">\(\textbf{F}\)</span>และ<span class="math inline">\(\textbf{L}\)</span>นั้นเหมือนกัน ดังนั้นเราจะใช้ชื่อเดียวกันกับมัน เราจะเขียนมันในฐานะจำนวนธรรมชาติ แต่ต้องจำไว้ว่าวัตถุใน<span class="math inline">\(\textbf{F}\)</span>นั้นำปม่เหมือนกับset(พวกมันคือclasseต่างๆของsetที่isomorphicกัน)</p>
+<p>hom-setsใน<span class="math inline">\(\textbf{L}\)</span>นั้นโดยทั่วไปนั้นมีคุณค่ามากกว่าตังที่อยู่ใน<span class="math inline">\(\textbf{F}^\text{op}\)</span> พวกมันอาจจะเก็บmorphismนอกเหนือจากสิ่งที่ตรงกับfunctionต่างๆใน<span class="math inline">\(\textbf{FinSet}\)</span>(ตัวหลังนั้นในบางครั้งถูกเรียกว่า<em>operationsของproductพื้นฐาน(basic product operations)</em>) กฎของความเท่ากันของทฤษฎีแบบLawvereนั้นถูกเขียนในmorphismsเหล่านี้</p>
+<p>ข้อสังเกตที่สำคัญคือว่าsetที่มีสมาชิกเดียว<span class="math inline">\(1\)</span>ใน<span class="math inline">\(\textbf{F}\)</span>นั้นถูกโยงไปยังบางวัตถุที่เราก็เรียกว่า<span class="math inline">\(1\)</span>ใน<span class="math inline">\(\textbf{L}\)</span> และวัตถุอื่นๆใน<span class="math inline">\(\textbf{L}\)</span>นั้นคือตัวยกกำลังของวัตถุนี้โดยอัตโนมัติ ตัวอย่างเช่นsetที่มีสองสมาชิก<span class="math inline">\(2\)</span>ใน<span class="math inline">\(\textbf{F}\)</span>คือcoproduct<span class="math inline">\(1+1\)</span>ดังนั้นมันต้องถูกโดยงไปยังproduct<span class="math inline">\(1\times1\)</span>(หรือ<span class="math inline">\(1^2\)</span>)ใน<span class="math inline">\(\textbf{L}\)</span> ในแนวทางนี้แล้วcategory<span class="math inline">\(\textbf{F}\)</span>กระทำเหมือนlogarithmของ<span class="math inline">\(\textbf{L}\)</span></p>
+<p>ภายในmorphismsใน<span class="math inline">\(\textbf{L}\)</span> เรามีสิ่งต่างๆที่ย้ายโดยfunctor<span class="math inline">\(I_\textbf{L}\)</span>จาก<span class="math inline">\(\textbf{F}\)</span> พวกมันมีบทบาททางโครงสร้างใน<span class="math inline">\(\textbf{L}\)</span> โดยเฉพาะเช่นinjectionsของcoproduct<span class="math inline">\(i_k\)</span>กลายมาเป็นprojectionsของproduct<span class="math inline">\(p_k\)</span> วิธีคิดที่มีประโยชน์คือการจินตนาการถึงprojectionของ</p>
+<p><span class="math display">\[
+p_k :: 1^n \to 1
+\]</span></p>
+<p>ในฐานะตัวเริ่มต้นสำหรับfunctionที่มี<span class="math inline">\(n\)</span>ตัวแปลที่ไม่สนใจทั้งหมดแค่แปรที่<span class="math inline">\(k\)</span>เท่านั้น ในทางกลับกันmorphismsคงที่<span class="math inline">\(n\to1\)</span>ใน<span class="math inline">\(\textbf{F}\)</span> หลายมาเป็นmorphismsแบบdiagonal<span class="math inline">\(1\to1^n\)</span>ใน<span class="math inline">\(\textbf{L}\)</span> พวกมันตรงกับการทำสำเนาของตัวแปรต่าง</p>
+<p>morphismsที่น่าสนใจใน<span class="math inline">\(\textbf{L}\)</span> คือตัวต่างๆที่นิยามoperationsแบบ<span class="math inline">\(n\)</span>-aryที่นอกเหนือจากprojections มันคือmorphismเหล่านี้ที่แยกทฤษฎีแบบLawvereออกจากอีกตัวหนึ่ง สิ่งเหล่านี้คือการคูณ การบวกและการเลือกสมาชิกunitและอื่นๆที่นิยามalgebra แต่ในการทำให้<span class="math inline">\(\textbf{L}\)</span>เป็นcategoryแบบสมบูรณ์ เราก็ต้แงการoperationsแบบผสม<span class="math inline">\(n\to m\)</span>(หรือในแบบเดียวกันคือ<span class="math inline">\(1^n \to 1^m\)</span>) เนื่องด้วยโครงสร้างที่เรียบง่ายของcategory พวมกันกลับมาเป็นproductของmorphismsที่เรียบง่ายกว่าของtype<span class="math inline">\(n \to 1\)</span> นี้คือการgeneralizationเท่าไปของประโยคที่ว่าfunctionที่returns productกลับมาคือproductของfunctions(หรือในการที่เราได้เห็นก่อนหน้านี้นั้นคือว่าhom-functorนั้นcontinuous)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/lawvere1.png" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<figcaption>ทฤษฎีแบบLawvere<span class="math inline">\(\textbf{L}\)</span>นั้นขึ้นมาจาก<span class="math inline">\(\textbf{F}^\text{op}\)</span>จากที่มันได้รับmorphisms”น่าเบื่อ”ที่นิยามproductต่างๆ มันเพื่มmorphisms”น่าสนใจ”ที่อธิบายoperationsแบบบ<span class="math inline">\(n\)</span>-ary</figcaption>
+</figure>
+</div>
+<p>Lawvereก่อให้เกิดcategory<span class="math inline">\(\textbf{Law}\)</span>ที่morphismต่างๆคือfunctorsที่คงไว้ซึ่งproductจำกัดและสลับกลุ่มได้กับfunctors<span class="math inline">\(I\)</span> ถ้ามีสองทฤษฎี <span class="math inline">\((\textbf{L}, I_{\textbf{L}})\)</span>และ<span class="math inline">\((\textbf{L'}, I'_{\textbf{L'}})\)</span> morphismระหว่างมันคือfunctor<span class="math inline">\(F :: \textbf{L} \to \textbf{L'}\)</span>ในการที่ว่า</p>
+<p><span class="math display">\[
+\begin{gather*}
+  F\ (m \times n) = F\ m \times F\ n \\
+  F \circ I_{\textbf{L}} = I'_{\textbf{L'}}
+\end{gather*}
+\]</span></p>
+<p>morphismระหว่างทฤษฎีแบบLawvereเก็บแนวคิดของการตีความของหนึ่งทฤษฎีภายในอีกตัว ตัวอย่างเช่นการคูณของgroupอาจจะถูกตีความในฐานะการคูณแบบmonoidถ้าเราไม่สนใจinverse</p>
+<p>ตัวอย่างที่ตรงไปตรงมาที่เรียบง่ายที่สุดของcategoryแบบLawvereคือ<span class="math inline">\(\textbf{F}^\text{op}\)</span>มันเอง(ที่ตรงกับตัวเลือกของfunctor identityสำหรับ<span class="math inline">\(I_\textbf{L}\)</span>)ทฤษฎีแบบLawvereที่ไม่มีoperationsหรือกฏกลับมาเป็นวัตถุเริ่มต้นใน<span class="math inline">\(\textbf{Law}\)</span></p>
+<p>ในจุดๆนี้มันอาจจะมีประโยชน์ในการแสดงตัวอย่างที่ไม่ตรงไปตรงมาของทฤษฎีแบบLawvere แต่มันอาจจะยากในการอธิบายโดยที่ไม่สนใจว่าmodelคืออะไร</p>
+</section>
+<section id="modelsของทฤษฎแบบlawvere" class="level2" data-number="31.3">
+<h2 data-number="31.3" class="anchored" data-anchor-id="modelsของทฤษฎแบบlawvere"><span class="header-section-number">31.3</span> ModelsของทฤษฎีแบบLawvere</h2>
+<p>กุญแจในการทำความเข้าใจทฤษฎีแบบLawvereนั้นคือการเข้าใจได้ว่าทฤษฎีแบบนี้เป็นการgeneralizationแต่ละalgebrasหลากหลายตัวที่มีฌครงสร้างเดียวกัน ตัวอย่างเช่นทฤษฎีแบบLawvereของmonoidนั้นอธิบายแก่นแท้ของความเป็นmonoid มันต้องถูกต้องสำหรับทุกๆmonoid monoidบางตัวจะกลายมาเป็นmodelของtheoryแบบนั้น modelนั้นถูกนิยามในฐานะfunctorจากทฤษฎีแบบLawvere<span class="math inline">\(\textbf{L}\)</span>ไปยังcategoryของ<span class="math inline">\(\textbf{Set}\)</span>(ได้มีการgeneralizationของทฤษฎีแบบLawvereที่ใช้categoryอื่นๆสำหรับmodelแต่ในที่นี้เราจะเพ่งเล็งไปที่<span class="math inline">\(\textbf{Set}\)</span>อย่างเดียว) เนื่องด้วยโครงสร้างของ<span class="math inline">\(\textbf{L}\)</span>ขึ้นอยู่อย่างมากกับproduct เราต้องการว่าfunctorแบบนี้ต้องคงไว้ซึ่งproductsจำกัด modelของ<span class="math inline">\(\textbf{L}\)</span>นั้นก็ถูกเรียกว่าalgebraบนทฤษฎีแบบLawvere<span class="math inline">\(\textbf{L}\)</span> ดังนั้นถูกนิยามโดยfunctorอย่าง</p>
+<p><span class="math display">\[
+\begin{gather*}
+  M :: \textbf{L} \to \textbf{Set} \\
+  M\ (a \times b) \cong M\ a \times M\ b
+\end{gather*}
+\]</span></p>
+<p>สังเกตว่าเราต้องการคงไว้ของproductsไว้แค่<em>จนถึงisomorphism</em> สิ่งนี้นั้นสำคัญมากเพราะว่าการคงไว้แบบเข้มงวดของproductsก็จะขจัดทฤษฎีต่างๆที่น่าสนใจ</p>
+<p>คงไว้ของproductโดยmodelหมายความว่าimageของ<span class="math inline">\(M\)</span>ใน<span class="math inline">\(\textbf{Set}\)</span>คือsetที่ต่อเนื่องกันสร้างโดยpowerของset<span class="math inline">\(M \ 1\)</span> คือimageของวัตถุ<span class="math inline">\(1\)</span>จาก<span class="math inline">\(\textbf{L}\)</span> เรามาเรียกsetนี้ว่า<span class="math inline">\(a\)</span>(setนี้นั้นในบางครังถูกเรียกว่า<em>sort</em>และalgebraแบบนั้นถูกเรียกว่า<em>single-sorted</em> ได้มีการgeneralizationแบบของทฤษฎีแบบLawvereไปยังalgebrasแบบmulti-sorted) โดยเฉพาะoperationsแบบbinaryจาก<span class="math inline">\(\textbf{L}\)</span>นั้นถูกโยงไปยังfunctions</p>
+<p><span class="math display">\[
+a \times a \to a
+\]</span></p>
+<p>เหมือนกับfunctorใดๆก็ตาม มันเป็นไปได้ว่าหลายmorphismsใน<span class="math inline">\(\textbf{L}\)</span>นั้นถูกยุบไปยังfunctionเดียวกันใน<span class="math inline">\(\textbf{Set}\)</span></p>
+<p>โดยบังเอิญความจริงที่ว่ากฏทั้งหมดนั้นเป็นความเท่ากับที่สามารถquantifiedแบบสากลหมายความว่าทุกๆทฤษฎีแบบLawvereมีmodelที่ตรงไปตรงมาคือfunctorคงที่ที่โยงทุกวัตถุไปยังsetที่มีสมาชิกเดียวและทุกๆmorphismsไปยังfunction identityของมัน</p>
+<p>morphismทั่วๆไปใน<span class="math inline">\(\textbf{L}\)</span>ของรูปแบบ<span class="math inline">\(m\to n\)</span>นั้นถูกโยงไปยังfunction</p>
+<p><span class="math display">\[
+a^m \to a^n
+\]</span></p>
+<p>ถ้าเรามีสองmodelที่แตกต่างกัน<span class="math inline">\(M\)</span>และ<span class="math inline">\(N\)</span> การแปลงแบบธรรมชาติระหว่างพวกมันคือชุดของfunctionsที่ถูกชี้โดย<span class="math inline">\(n\)</span></p>
+<p><span class="math display">\[
+\mu_n :: M\ n \to N\ n
+\]</span></p>
+<p>หรือในแบบเดียวกัน</p>
+<p><span class="math display">\[
+\mu_n :: a^n \to b^n
+\]</span></p>
+<p>ที่<span class="math inline">\(b = N \ 1\)</span></p>
+<p>สังเกตว่าเงื่อไขความเป็นธรรมชาติรับรองการคงไว้ของopeartionของ<span class="math inline">\(n\)</span>-aryอย่าง</p>
+<p><span class="math display">\[
+N\ f \circ \mu_n = \mu_1 \circ M\ f
+\]</span></p>
+<p>ที่<span class="math inline">\(f :: n \to 1\)</span>คือ<span class="math inline">\(n\)</span>-ary operation ใน<span class="math inline">\(\textbf{L}\)</span>.</p>
+<p>functorsที่นิยามmodelก่อให้เกิดcategoryของmodelต่างๆ<span class="math inline">\(\textbf{Mod}(\textbf{L}, \textbf{Set})\)</span> กับการแปลงแบบธรรมชาติในฐานะmorphisms</p>
+<p>ลองพิจารณาmodelสำหรับงทฤษฎีแบบLawvereที่ตรงไปตรงมาอย่าง<span class="math inline">\(\textbf{F}^\text{op}\)</span> modelแบบนี้นั้นถูกกำหนดโดยค่าของมันที่<span class="math inline">\(1\)</span> <span class="math inline">\(M \ 1\)</span> เนื่องด้วย<span class="math inline">\(M \ 1\)</span>สามารถเป็นsetใดๆก็ตามได้มีmodelที่มากมายพอๆกับจำนวณsetใน<span class="math inline">\(\textbf{Set}\)</span> นาเหนือจากไปนี้ทุกๆmorphismใน<span class="math inline">\(\textbf{Mod}(\textbf{F}^\text{op}, \textbf{Set})\)</span>(ที่คือการแปลงแบบธรรมชาติระหว่างfunctor<span class="math inline">\(M\)</span>และ<span class="math inline">\(N\)</span>)นั้นถูกกำหนดอย่าง เป็นเอกลักษณ์โดยส่วนประกอบของมันที่ <span class="math inline">\(M \ 1\)</span> ในทางกลับกันทุกๆfunction<span class="math inline">\(M\ 1 \to N\ 1\)</span>ก่อให้เกิดการแปลงแบบธรรมชาติระหว่างสองmodel <span class="math inline">\(M\)</span>และ<span class="math inline">\(N\)</span> ดังนั้น<span class="math inline">\(\textbf{Mod}(\textbf{F}^\text{op}, \textbf{Set})\)</span>นั้นเท่ากับ<span class="math inline">\(\textbf{Set}\)</span></p>
+</section>
+<section id="ทฤษฎของmonoids" class="level2" data-number="31.4">
+<h2 data-number="31.4" class="anchored" data-anchor-id="ทฤษฎของmonoids"><span class="header-section-number">31.4</span> ทฤษฎีของMonoids</h2>
+<p>ตัวอย่างที่ไม่ตรงไปตรงมาแต่ง่ายที่สุดของทฤษฎีแบบLawvereอธิบายโครงสร้างของmonoids มันคือทฤษฎีเดียวที่สกัดโครงสร้างของmonoidsที่เป็นไปได้ทั้งหมดในความหมายที่ว่าmodelของทฤษฎีนี้ขยายไปยังทั้งcategory<span class="math inline">\(\textbf{Mon}\)</span>ของmonoids เราได้เห็นการสร้างแบบสากลแล้วที่แสดงว่าทุกๆmonoidสามารถถูกได้มาจากmonoidอิสระที่เหมาะสมโดยการตามหาsetย่อยของmorphisms ดังนั้นmonoidอิสระตัวหนึ่งนั้นได้วางนัยmonoidหลายๆตัวแล้ว แต่ไต้มีmonoidอิสระนับไม่จำกัด ทฤษฎีแบบLawvereสำหรับ<span class="math inline">\(\textbf{L}_\textbf{Mod}\)</span>รวมพวกมันทั้งหมดในการสร้างที่งดงามเพียงครั้งเดียว</p>
+<p>ทุกๆmonoidต้องมีunit ดังนั้นเราจำเป็นต้องมีmorphismพิเศษ<span class="math inline">\(\eta\)</span>ใน<span class="math inline">\(\textbf{L}_\textbf{Mod}\)</span>ที่จาก<span class="math inline">\(0\)</span>ไปยัง<span class="math inline">\(1\)</span> สังเกตว่าได้ไม่สามารถมีmorphismที่ตรงกันใน<span class="math inline">\(\textbf{F}\)</span> morphismแบบนั้นอาจจะไปในทิศทางตรงกันข้ามจาก<span class="math inline">\(1\)</span>ไปยัง<span class="math inline">\(0\)</span>ที่ใน<span class="math inline">\(\textbf{FinSet}\)</span>ก็จะคือfunctionจากsetที่มีสมาชิกเดียวไปยังsetว่าง functionแบบนั้นไม่มีอยู่</p>
+<p>ต่อไปลองพิจารณาmorphisms<span class="math inline">\(2 \to 1\)</span>ที่คือสมาชิิกของ<span class="math inline">\(\textbf{L}_\textbf{Mod}(2,1)\)</span>ที่ต้องมีรูปแบบแรกเริ่มของoperationsแบบbinaryทั้งหมด ในการสร้างmodelsใน<span class="math inline">\(\textbf{Mod}(\textbf{L}_\textbf{Mod}, \textbf{Set})\)</span> morphismsเหล่านี้จะถูกโยงไปยังfunctionจากproductแบบCartesianของ<span class="math inline">\(M\ 1 \times M\ 1\)</span>ไปยัง<span class="math inline">\(M\ 1\)</span> ในอีกความหมายหนึ่งfunctionที่มีสองargument</p>
+<p>คำถามคือ มีfunctionsที่มีสองargumentsกี่ตัวที่เราสามารถเขียนโดยการใช้แค่operatorของmonoid เรามาเรียกสองargument<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span> ได้มีfunctionหนึ่งที่ละเว้นทั้งสองargumentsและreturn unitของmonoid แล้วก็มีสองprojectionsที่return<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>ตามลำดับ พวกมันนั้นตามด้วยfunctionsที่return<span class="math inline">\(ab\)</span>, <span class="math inline">\(ba\)</span>, <span class="math inline">\(aa\)</span>, <span class="math inline">\(bb\)</span>, <span class="math inline">\(aab\)</span>และอื่นๆ ในความเป็นจริงแล้วได้มีfunctionแบบนี้เป็นจำนวนfunctionของสองargumentที่เท่ากับสมาชิกในmonoidอิสระที่มีgenerators<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span> สังเกตว่า<span class="math inline">\(\textbf{L}_\textbf{Mod}(2,1)\)</span>ต้องมีmorphismเหล่านี้นเพราะว่าหนึ่งในmodelคือmonoidอิสระ ในmonoidอิสระ พวกมันตรงกับfunctionsแต่ละfunctions modelอื่นๆอาจจะยุบหลายmorphismใน<span class="math inline">\(\textbf{L}_\textbf{Mod}(2,1)\)</span>ไปยังfunctionเดียว แต่ไม่สำหรับmonoidอิสระ</p>
+<p>ถ้าเราเรียกmonoidอิสระที่มี<span class="math inline">\(n\)</span> generatorsว่า<span class="math inline">\(n^*\)</span> เราอาจจะจับคู่hom-set <span class="math inline">\(\textbf{L}(2,1)\)</span>กับhom-set<span class="math inline">\(\textbf{Mod}(1^*,2^*)\)</span>ใน<span class="math inline">\(\textbf{Mod}\)</span>ที่คือcategoryของmonoid โดยทั่วไปแล้วเราเลือก<span class="math inline">\(\textbf{L}_\textbf{Mod}(m,n)\)</span>ไปยัง<span class="math inline">\(\textbf{Mod}(n^*,m^*)\)</span> ในอีกความหมายหนึ่งcategory<span class="math inline">\(\textbf{L}_\textbf{Mod}\)</span>นั้นตรงกันข้ามกับcategoryของmonoidsอิสระ</p>
+<p>categoryของ<em>models</em>ของทฤษฎีแบบLawvereสำหรับmonoids<span class="math inline">\(\textbf{Mod}(\textbf{L}, \textbf{Set})\)</span>นั้นเท่ากับcategoryของmonoidทั้งหมดอย่าง<span class="math inline">\(\textbf{Mod}\)</span></p>
+</section>
+<section id="ทฤษฎแบบlawvereและmonad" class="level2" data-number="31.5">
+<h2 data-number="31.5" class="anchored" data-anchor-id="ทฤษฎแบบlawvereและmonad"><span class="header-section-number">31.5</span> ทฤษฎีแบบLawvereและMonad</h2>
+<p>ในการที่คุณอาจจะจำได้ทฤษฎีพีชคณิตสามารถถูกอธิบายโดยการใช้monad (โดยเฉพาะเช่นพีชคณิตสำหรับmonad) มันจรึงไม่แปลกใจที่ได้มีความเชื่อมโยงระหว่างทฤษฎีแบบLawvereและmonad</p>
+<p>เนิ่มด้วยเรามาดูในวิธีที่ทฤษฎีแบบLawvereก่อให้เกิดmonad มันทำแบบนี้ผ่านadjunctionระหว่างfunctorหลงลืมกับfunctorอิสระ functorหลงลืม<span class="math inline">\(U\)</span>กำหนดsetของแต่ละmodel setนี้นั้นถูกให้มาโดยการหาค่าของfunctor<span class="math inline">\(M\)</span>จาก<span class="math inline">\(\textbf{Mod}(\textbf{L}, \textbf{Set})\)</span>ที่วัตถุ<span class="math inline">\(1\)</span>ใน<span class="math inline">\(\textbf{L}\)</span></p>
+<p>ในอีกทางของการหา<span class="math inline">\(U\)</span>คือการใช้ประโยชน์ของความจริงที่ว่า<span class="math inline">\(\textbf{F}^\text{op}\)</span> คือวัตถุแรกเริ่มใน<span class="math inline">\(\textbf{Law}\)</span> มันหมายความว่าสำหรับทฤษฎีแบบLawvere<span class="math inline">\(\textbf{L}\)</span>ได้มีfunctorที่เป็นเอกลักษณ์<span class="math inline">\(\textbf{F}^\text{op}\to\textbf{L}\)</span> functorนี้สร้างfunctorตรงข้ามบนmodel(เนื่องด้วยmodelต่างๆนั้นคือfunctors<em>จาก</em>ทฤษฎีไปยังsets)</p>
+<p><span class="math display">\[
+\textbf{Mod}(\textbf{L}, \textbf{Set})\to\textbf{Mod}(\textbf{F}^\text{op}, \textbf{Set})
+\]</span></p>
+<p>มันสามารถถูกแสดงว่า<span class="math inline">\(U\)</span>ที่ถูกนิยามนั้นคือadjointด้านช้ายโดยตลอดนั้นคือfunctorอิสระ<span class="math inline">\(F\)</span></p>
+<p>มันนั้นสามารถมองเห็นได้อย่างง่ายสำหรับsetจำกัด functorอิสระ<span class="math inline">\(F\)</span>สร้างalgebraอิสระ algebraอิสระนั้นคือmodelโดยเฉพาะใน<span class="math inline">\(\textbf{Mod}(\textbf{L}, \textbf{Set})\)</span>นั้นถูกสร้างโดยgeneratorแบบsetจำกัด<span class="math inline">\(n\)</span> เราสามารถเขียน<span class="math inline">\(F\)</span>ในฐานะfunctorที่สามารถมีตัวแทนได้อย่าง</p>
+<p><span class="math display">\[
+\textbf{L}(n,-) :: \textbf{L}\to\textbf{Set}
+\]</span></p>
+<p>ในการแสดงว่ามันนั้นอิสระ สิ่งที่เราต้องทำทั้งหมดในการแสดงว่ามันคือadjointด้านช้ายไปยังfunctorหลงลืมอย่าง</p>
+<p><span class="math display">\[
+\textbf{Mod}(\textbf{L}(n, -), M) \cong\textbf{Set}(n, U(M))
+\]</span></p>
+<p>เรามาทำให้ด้านขวาง่ายขึ้นอย่าง</p>
+<p><span class="math display">\[
+\textbf{Set}(n, U(M))\cong\textbf{Set}(n, M \ 1)\cong (M \ 1)^n\cong M \ n
+\]</span></p>
+<p>(ผมได้ใช้ความเป็นจริงที่ว่าsetของmorphismsนั้นisomorphicไปยังexponentialที่ในกรณีนี้คือแค่productที่ผ่านทำซ้ำ) adjunctionนั้นคือผลของYoneda lemmaว่า</p>
+<p><span class="math display">\[
+[\textbf{L},\textbf{Set}]\big( \textbf{L}(n, -), M) \big)\cong M \ n
+\]</span></p>
+<p>ด้วยกันfunctorหลงลืมและอิสระนิยามmonad<span class="math inline">\(T=U\circ F\)</span>บน<span class="math inline">\(\textbf{Set}\)</span>ดังนั้นทุกๆทฤษฎีแบบLawvereสร้างmonad</p>
+<p>มันกลับมาเป็นว่าcategoryของalgebrasสำหรับmonadนี้นั้นเท่ากับcategoryของmodel</p>
+<p>คุณอาจจะจำได้ว่าalgebraแบบmonadนิยามวิธีการในการหาค่าexpressionที่ถูกสร้างโดยการใช้monad ทฤษฎีแบบLawvereนิยามoperationแบบn-aryที่สามารถถูกใช้ในการสร้างexpressions modelให้วิธีการมาในการหาค่าของexpressionเหล่านี้</p>
+<p>แต่ความสัมพันธ์ระหว่างmonadและทฤษฎีแบบLawvereไม่ได้ไปในทั้งสองทิศทาง มีแค่monadแบบที่มีarityที่จำกัด(finitary)ที่นำไปสู่ทฤษฎีแบบLawvere monadแบบที่มีarityที่จำกัดนั้นก่อมาจากfunctorที่มีarityที่จำกัด การกระทำของมันบนset<span class="math inline">\(a\)</span>ใดๆก็ตามสามารถถูกประเมินค่าโดยการใช้coendว่า</p>
+<p><span class="math display">\[
+F\ a = \int^n a^n \times (F\ n)
+\]</span></p>
+<p>เนื่องด้วยcoendนั้นวางนัยแบบทั่วไปของcoproductหรือsum สูตรแบบนี้คือการgeneralizationของการขยายอนุกรมกำลัง หรือเราสามารถใช้วิธีคิดที่ว่าfunctorนั้นคือวางนัยแบบทั่วไปของภาชนะ ในกรณีนี้แล้วภาชนะที่มีarityที่จำกัดของ<span class="math inline">\(a\)</span>ต่างๆสามารถถูกอธิบายในฐานะsumของรูปและเนื้อหา ในที่นี้<span class="math inline">\(F \ n\)</span>คือsetของรูปร่างของการเก็บ<span class="math inline">\(n\)</span>สมาชิกและเนื้อหาคือ<span class="math inline">\(n\)</span>-tupleของสมาชิก ตัวมันเองคือสมาชิกของ<span class="math inline">\(a^n\)</span> ตัวอย่างเช่นlist(ในฐานะfunctor)นั้นมีarityที่จำกัด ที่มีรูปหนึ่งสำหรับแต่และarity treeนั้นมีรูปร่างมากกว่าarityและอื่นๆและอื่นๆ</p>
+<p>ตัวอย่างแรก monadsทั้งหมดที่ถูกสร้างจากทฤษฎีแบบLawvereนั้นมีarityที่จำกัด และพวกกันสามารถถูกแสดงใรฐานะcoends</p>
+<p><span class="math display">\[
+T_{\textbf{L}}\ a = \int^n a^n \times \textbf{L}(n, 1)
+\]</span></p>
+<p>ในทางกลับกันการให้มาซึ่งmonadที่มีarityที่จำกัด<span class="math inline">\(T\)</span>บน<span class="math inline">\(\textbf{Set}\)</span> เราสามารถสร้างทฤษฎีแบบLawvere เราเริ่มโดยการสร้างcategoryแบบKleisliสำหรับ<span class="math inline">\(T\)</span> ในการคุณอาจจะจำได้ morphismในcategoryแบบKleisliสำหรับจาก<span class="math inline">\(a\)</span>ไปยัง<span class="math inline">\(b\)</span>นั้นให้มาโดยmorphismในcategoryภายใต้</p>
+<p><span class="math display">\[
+a \to T\ b
+\]</span></p>
+<p>ในตอนที่เราจำกัดบนsetจำกัด สิ่งนี้มาเป็น</p>
+<p><span class="math display">\[
+m \to T\ n
+\]</span></p>
+<p>categoryตรงกันข้ามไปยังcategoryแบบKleisliนี้<span class="math inline">\(\textbf{KL}_T^\text{op}\)</span>ถูกจำกัดไปยังsetที่จำกัดคือทฤษฎีแบบLawvereในที่เราสนใจ โดยเฉพาะเช่นhom-set<span class="math inline">\(\textbf{L}(n,1)\)</span>ที่อธิบายoperationsแบบ<span class="math inline">\(n\)</span>-aryใน<span class="math inline">\(\textbf{L}\)</span>นั้นให้มาโดยhom-set<span class="math inline">\(\textbf{KL}_T(1,n)\)</span></p>
+<p>มันกลายมาเป็นว่าmonadส่วนใหญ่ที่เราพบในการเขียนโปรแกรมนั้นมีarityที่จำกัด ที่มีข้อยกเว้นที่น่าสนใจของmonadแบบcontinuation มันเป็นไปได้ในการขยาย แนวคิดของทฤษฎีแบบLawvereนอกเหนือจากoperationที่มีarityที่จำกัด</p>
+</section>
+<section id="monadในฐานะcoends" class="level2" data-number="31.6">
+<h2 data-number="31.6" class="anchored" data-anchor-id="monadในฐานะcoends"><span class="header-section-number">31.6</span> MonadในฐานะCoends</h2>
+<p>เรามาสำรวจสูตรcoendในรายละเอียดมากขึ้น</p>
+<p><span class="math display">\[
+T_\textbf{L}a=\int^na^n\times\textbf{L}(n,1)
+\]</span></p>
+<p>ในการเริ่มต้น coendนี้นั้นนำมาบนprofunctor<span class="math inline">\(P\)</span>ใน<span class="math inline">\(\textbf{F}\)</span>ที่ถูกนิยามว่า</p>
+<p><span class="math display">\[
+P\ n\ m = a^n \times \textbf{L}(m, 1)
+\]</span></p>
+<p>profunctorนี้เป็นcontravariantในargument<span class="math inline">\(n\)</span>แรก ลองพิจารณาในวิธีการที่มันlift morphismต่างๆ morphismsใน<span class="math inline">\(\textbf{FinSet}\)</span>นั้นคือการโยงของsetจำกัด<span class="math inline">\(f::m\to n\)</span> การโยงแบบนั้นอธิบายการเลือกของสมาชิก<span class="math inline">\(m\)</span>ตัวจากsetที่มี<span class="math inline">\(n\)</span>สมาชิก (การเลือกช้ำนั้นเป็นไปได้) มันสามารถถูกliftไปยังการโยงของการยกกำลังของ<span class="math inline">\(a\)</span>โดนเฉพาะเช่น(สังเกตทิศทาง)</p>
+<p><span class="math display">\[
+a^n \to a^m
+\]</span></p>
+<p>การยกนั้นแค่เลือกสมาชิก<span class="math inline">\(m\)</span>จากtupleของ<span class="math inline">\(n\)</span>สมาชิก(อาจจะเป็นไปได้กับการเลือกช้ำ)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/liftpower.png" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+</figure>
+</div>
+<p>ตัวอย่างเช่น เรามานำ<span class="math inline">\(f_k :: 1 \to n\)</span>ที่คือการเลือกของสมาชิกที่<span class="math inline">\(k\)</span>จากsetที่มี<span class="math inline">\(n\)</span>สมาชิก มันliftไปยังfunctionที่นำtupleของ<span class="math inline">\(n\)</span>สมาชิกของ<span class="math inline">\(a\)</span>และreturnตัวที่<span class="math inline">\(k\)</span>มา</p>
+<p>หรือเรานำ<span class="math inline">\(f::m\to1\)</span>มา ที่คือfunctionคงที่ที่โยงสมาชิก<span class="math inline">\(m\)</span>ตัวทั้งหมดไปยังตัวหนึ่ง มันที่ถูกliftคือfunctionที่นำสมาชิกเดียวของ<span class="math inline">\(a\)</span>และทำช้ำมัน<span class="math inline">\(m\)</span>รอบ</p>
+<p><span class="math display">\[
+\lambda{}x \to (\underbrace{x, x,\ ...\ , x}_{m})
+\]</span></p>
+<p>คุณอาจจะสังเกตว่ามันนั้นไม่ชัดเจนในทันทีว่าprofunctorที่เราสนใจนั้นคือcovariantในargumentที่สอง hom-functor<span class="math inline">\(\textbf{L}(m,1)\)</span>นั้นเป็นcontravariantใน<span class="math inline">\(m\)</span>จริงๆ แต่เรากำลังนำcoendไปไม่ในcategory<span class="math inline">\(\textbf{L}\)</span>แต่ในcategory<span class="math inline">\(\textbf{F}\)</span> ตัวแปลcoend <span class="math inline">\(n\)</span>นั้นไปบนsetที่จำกัด(หรือแกนของสิ่งนั้น) category<span class="math inline">\(\textbf{L}\)</span>เก็บตรงกันข้ามของ<span class="math inline">\(\textbf{F}\)</span> ดังนั้นmorphism<span class="math inline">\(m\to n\)</span>ใน<span class="math inline">\(\textbf{F}\)</span>คือสมาชิกของ<span class="math inline">\(\textbf{L}(n,m)\)</span>ใน<span class="math inline">\(\textbf{L}\)</span> (การembedนั้นให้มาโดยfunctor<span class="math inline">\(I_\textbf{L}\)</span>)</p>
+<p>เรามาตรวจสอบการใช้งานของ<span class="math inline">\(\textbf{L}(m,1)\)</span>ในฐานะfunctorจาก<span class="math inline">\(\textbf{F}\)</span>ไปยัง<span class="math inline">\(\textbf{Set}\)</span> เราต้องการที่จะlift function<span class="math inline">\(f::m\to n\)</span>ดังนั้นเป้าหมายของเราคือการเขียนfunctionจาก<span class="math inline">\(\textbf{L}(m,1)\)</span>ไปยัง<span class="math inline">\(\textbf{L}(n,1)\)</span> ตามจากfunction<span class="math inline">\(f\)</span>ได้มีmorphismใน<span class="math inline">\(\textbf{L}\)</span>จาก<span class="math inline">\(n\)</span>ไปยัง<span class="math inline">\(m\)</span>(สังเกตทิศทาง) การประกอบก่อนของmorphismนี้กับ<span class="math inline">\(\textbf{L}(m,1)\)</span>ให้setย่อยของ<span class="math inline">\(\textbf{L}(n,1)\)</span>อย่าง</p>
+<p align="center">
+<img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%20%20%5Cbegin%7Btikzcd%7D%5Bcolumn%20sep%3Dlarge%5D%0A%20%20%20%20%5Ccat%7BL%7D(m%2C%201)%20%5Carrow%5Br%5D%20%26%20%5Ccat%7BL%7D(n%2C%201)%5C%5C%0A%20%20%20%20%7B%7D%5Em%20%5Cbullet%20%5Carrow%5Br%2C%20%22f%22'%5D%20%26%20%5Cbullet%5En%0A%20%20%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd}[column sep=large] \cat{L}(m, 1) \arrow[r] &amp; \cat{L}(n, 1)\\ {}^m \bullet \arrow[r, &quot;f&quot;'] &amp; \bullet^n \end{tikzcd} \] ">
+</p>
+<p>สังเกตว่าการliftของfunction<span class="math inline">\(1\to n\)</span>เราสามารถไปจาก<span class="math inline">\(\textbf{L}(1,1)\)</span>ไปยัง<span class="math inline">\(\textbf{L}(n,1)\)</span> เราจะมาใช้ความจริงนี้หลังจากนี้</p>
+<p>productของfunctorแบบcontravariant<span class="math inline">\(a^n\)</span>และfunctorแบบcovariant<span class="math inline">\(\textbf{L}(m,1)\)</span>คือprofunctor<span class="math inline">\(\textbf{F}^\text{op}\times\textbf{F}\to\textbf{Set}\)</span> จำได้ว่าcoendสามารถถูกนิยามในฐานะcoproduct(การบวกแบบdisjoint)ของทุกๆสมาชิกแนวทแยงของprofunctorที่ที่บางสมาชิกนั้นถูกระบุ การระบุนั้นตรงกับเงื่อนไขcowedge</p>
+<p>ในที่นี้coendเริ่มในฐานะการบวกแบบdisjointของsets<span class="math inline">\(a^n \times \textbf{L}(n, 1)\)</span>บน<span class="math inline">\(n\)</span>ต่างๆทั้งหมด การระบุสามารถถูกสร้างโดยการแสดงcoendในฐานะcoequalizer เราเริ่มด้วยตัวที่ไม่ได้อยู่ในแนวทแยง<span class="math inline">\(a^n \times \textbf{L}(m, 1)\)</span> ในการได้มาของตัวในแนวทแยง เราสามารถใช้morphism<span class="math inline">\(f::m\to n\)</span>ไปที่ตัวแรกหรือตัวที่สองของproduct ผลลัพธ์ทั้งสองก็ถูกระบุว่า</p>
+<p align="center">
+<img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%5Cbegin%7Btikzcd%7D%0A%09%26%20%7Ba%5En%20%5Ctimes%20%5Ctextbf%7BL%7D(m%2C%201)%7D%20%5C%5C%0A%09%7B%20a%5Em%20%5Ctimes%20%5Ctextbf%7BL%7D(m%2C%201)%7D%20%26%20%5Csim%20%26%20%7Ba%5En%20%5Ctimes%20%5Ctextbf%7BL%7D(n%2C%201)%7D%0A%09%5Carrow%5B%22%7B%5Clangle%20f%2C%5Coperatorname%7Bid%7D%5Crangle%7D%22'%2C%20from%3D1-2%2C%20to%3D2-1%5D%0A%09%5Carrow%5B%22%7B%5Clangle%20%5Coperatorname%7Bid%7D%2C%20f%5Crangle%7D%22%2C%20from%3D1-2%2C%20to%3D2-3%5D%0A%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd} &amp; {a^n \times \textbf{L}(m, 1)} \\ { a^m \times \textbf{L}(m, 1)} &amp; \sim &amp; {a^n \times \textbf{L}(n, 1)} \arrow[&quot;{\langle f,\operatorname{id}\rangle}&quot;', from=1-2, to=2-1] \arrow[&quot;{\langle \operatorname{id}, f\rangle}&quot;, from=1-2, to=2-3] \end{tikzcd} \] ">
+</p>
+<p><span class="math display">\[
+f::m\to n
+\]</span></p>
+<p>ผมได้แสดงก่อนหน้านี้ว่าการliftของ<span class="math inline">\(f::1\to n\)</span>ทำให้เกิดสองการแปลงอย่างนี้</p>
+<p><span class="math display">\[
+a^n\to a
+\]</span></p>
+<p>และ</p>
+<p><span class="math display">\[
+\textbf{L}(1, 1) \to \textbf{L}(n, 1)
+\]</span></p>
+<p>ดังนั้นเริ่มมาจาก<span class="math inline">\(a^n\times\textbf{L}(1,1)\)</span>เราสามารถไปถึงทั้งสอง</p>
+<p><span class="math display">\[
+a\times\textbf{L}(1, 1)
+\]</span></p>
+<p>ในตอนที่เราlift<span class="math inline">\(\langle f,\operatorname{id}\rangle\)</span>และ</p>
+<p><span class="math display">\[
+a^n\times\textbf{L}(n, 1)
+\]</span></p>
+<p>ในตอนที่เราlift<span class="math inline">\(\langle \operatorname{id}, f\rangle\)</span> สิ่งนี้ไม่ได้หมายความว่าทุกๆสมาชิกของ<span class="math inline">\(a^n\times\textbf{L}(n, 1)\)</span>สามารถถูกระบุด้วย<span class="math inline">\(a\times\textbf{L}(1, 1)\)</span> นั้นก็เพราะว่าไม่ทุกสมาชิกของ<span class="math inline">\(\textbf{L}(n, 1)\)</span>สามารถเข้าถึงจาก<span class="math inline">\(\textbf{L}(1, 1)\)</span> จำได้ว่าเราสามารถแค่lift morphismsจาก<span class="math inline">\(\textbf{F}\)</span> operationแบบ<span class="math inline">\(n\)</span>-aryที่ไม่ตรงไปตรงมาใน<span class="math inline">\(\textbf{L}\)</span>ไม่สามารถถูกสร้างโดยการlift morphism<span class="math inline">\(f::1\to n\)</span></p>
+<p>ในอีกความหมายหนึ่ง เราสามารถแค่ระบุaddends(endsเกี่ยวกับการบวก)ในสูตรของcoendที่<span class="math inline">\(\textbf{L}(n, 1)\)</span>สามารถไปถึงจาก<span class="math inline">\(\textbf{L}(1, 1)\)</span>ผ่านการใช้งานของmorphismsแบบเรียบง่าย พวกมันทั้งหมดนั้นเท่ากับ<span class="math inline">\(a\times\textbf{L}(1, 1)\)</span> morphismsแบบเรียบง่ายนั้นคือตัวที่คือimageของmorphismต่างใน<span class="math inline">\(\textbf{F}\)</span></p>
+<p>เรามาดูว่าสิ่งเหล่านี้ทำงานอย่างไรในกรณีที่ง่ายที่สุดของทฤษฎีแบบLawvere <span class="math inline">\(\textbf{F}^\text{op}\)</span>มันเอง ในทฤษฎีแบบนี้ ทุกๆ<span class="math inline">\(\textbf{L}(n, 1)\)</span>สามารถถูกเข้าถึงได้จาก<span class="math inline">\(\textbf{L}(1, 1)\)</span> นั้นก็เพราะว่า<span class="math inline">\(\textbf{L}(1, 1)\)</span>คือสิ่งที่มีสมาชิกเดียวที่เก็บแค่morphism identity และ<span class="math inline">\(\textbf{L}(n, 1)\)</span>แค่เก็บmorphismsที่ตรงกับinjections <span class="math inline">\(1\to n\)</span>ใน<span class="math inline">\(\textbf{F}\)</span>ที่<em>คือ</em>morphismsแบบทั่วไป ดังนั้นทุกaddendsในcoproductนั้นเท่ากันทั้งหมดและเราได้สิ่งนี้มา</p>
+<p><span class="math display">\[
+T \ a = a\times\textbf{L}(1, 1)
+\]</span></p>
+<p>ที่คือmonad identity</p>
+</section>
+<section id="ทฤษฎแบบlawvereของผลขางเคยงside-effect" class="level2" data-number="31.7">
+<h2 data-number="31.7" class="anchored" data-anchor-id="ทฤษฎแบบlawvereของผลขางเคยงside-effect"><span class="header-section-number">31.7</span> ทฤษฎีแบบLawvereของผลข้างเคียง(Side Effect)</h2>
+<p>เนื่องด้วยได้มีความสัมพันธ์ที่แน่นแบบนี้ระหว่างmonadและทฤษฎีแบบLawvere มันเป็นธรรมชาติมากในการถามคำถามว่าทฤษฎีแบบLawvereสามารถถูกใช้ในการเขียนโปรแกรมในฐานะทางเลือกนอกเหนือจากmonad ปัญกาใหญ่ของmonadคือพวกมันไม่ปนะกอบกันอย่างง่ายๆ ไม่มีสูตรทั่วไปในการสร้างตัวแปลงของmonad ทฤษฎีแบบLawvereมีข้อดีในจุดๆนี้คือพวกมันสามารถประกอบกันโดยการใช้coproductและproductแบบtensor ในอีกทางหนึ่ง มีแค่monadที่มีarityจำกัดที่สามารถถูกแปลงไปยังทฤษฎีแบบLawvere ตัวที่อยู่นอกเหนือจากนี้คือmonadแบบcontinuation(ต่อเนื่อง) ได้มีการค้นคว้าที่กำลังทำอยู่ในพื้นที่นี้(ลองดูในบรรณานุกรม)</p>
+<p>ในการให้คุณได้ลองสัมผัสในวิธีการที่ทฤษฎีแบบLawvereสามารถถูกใช้กับoperationแบบnullaryหนึ่ง<span class="math inline">\(0\to1\)</span> modelของทฤษฎีนี้คือfunctorที่โยง<span class="math inline">\(1\)</span>ไปยังบางset<span class="math inline">\(a\)</span>และโยงoperationแบบnullaryไปยังfunction</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">raise ::</span> () <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>เราสามารถได้monad<code>Maybe</code>กลับมาโดยการใช้สูตรของcoend เรามาพิจารณาว่าการบวกของoperationแบบnullaryทำกับhom-sets<span class="math inline">\(\textbf{L}(n,1)\)</span> นอกเหนือจากการสร้าง<span class="math inline">\(\textbf{L}(0,1)\)</span>(ที่นั้นไม่อยู่ใน<span class="math inline">\(\textbf{F}^\text{op}\)</span>) มันก็เพิ่มmorphismใหม่ไปยัง<span class="math inline">\(\textbf{L}(n,1)\)</span> พวกมันคือผลของmorphismประกอบของtype<span class="math inline">\(n\to0\)</span>กับ<span class="math inline">\(0\to1\)</span>ของเรา การเพิ่มนี้นั้นถูกระบุทั้งหมดกับ<span class="math inline">\(a^0\times\textbf{L}(0,1)\)</span>ในสูตรของcoendเพราะว่าพวกมันสามารถถูกได้มาจาก</p>
+<p><span class="math display">\[
+a^n\times\textbf{L}(0, 1)
+\]</span></p>
+<p>โดยการlift<span class="math inline">\(0\to n\)</span>ในทั้งสองแบบที่แตกต่างกัน</p>
+<p align="center">
+<img align="center" src="https://i.upmath.me/svg/%0A%5C%5B%0A%5Cbegin%7Btikzcd%7D%0A%09%26%20%7Ba%5En%5Ctimes%5Ctextbf%7BL%7D(0%2C%201)%7D%20%5C%5C%0A%09%7Ba%5E0%5Ctimes%5Ctextbf%7BL%7D(0%2C%201)%7D%20%26%20%5Csim%20%26%20%7Ba%5En%5Ctimes%5Ctextbf%7BL%7D(n%2C%201)%7D%0A%09%5Carrow%5B%22%7B%5Clangle%20f%2C%5Coperatorname%7Bid%7D%5Crangle%7D%22'%2C%20from%3D1-2%2C%20to%3D2-1%5D%0A%09%5Carrow%5B%22%7B%5Clangle%20%5Coperatorname%7Bid%7D%2Cf%5Crangle%7D%22%2C%20from%3D1-2%2C%20to%3D2-3%5D%0A%5Cend%7Btikzcd%7D%0A%5C%5D%0A" alt=" \[ \begin{tikzcd} &amp; {a^n\times\textbf{L}(0, 1)} \\ {a^0\times\textbf{L}(0, 1)} &amp; \sim &amp; {a^n\times\textbf{L}(n, 1)} \arrow[&quot;{\langle f,\operatorname{id}\rangle}&quot;', from=1-2, to=2-1] \arrow[&quot;{\langle \operatorname{id},f\rangle}&quot;, from=1-2, to=2-3] \end{tikzcd} \] ">
+</p>
+<p><span class="math display">\[
+f::0\to n
+\]</span></p>
+<p>coendลดไปยัง</p>
+<p><span class="math display">\[
+T_\textbf{L}a=a^0+a^1
+\]</span></p>
+<p>หรือถ้าใช้เครื่องหมายแบบHaskell</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Either</span> () a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ที่นั้นเท่ากับ</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Nothing</span> <span class="op">|</span> <span class="dt">Just</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>สังเกตว่าทฤษฎีแบบLawvereนี้รองรับการraisingของexceptionsไม่ใช่การจัดการของพวกมัน</p>
+</section>
+<section id="โจทยทาทาย" class="level2" data-number="31.8">
+<h2 data-number="31.8" class="anchored" data-anchor-id="โจทยทาทาย"><span class="header-section-number">31.8</span> โจทย์ท้าทาย</h2>
+<ol type="1">
+<li>ลองเขียนmorphismทั้งหมดระหว่าง<span class="math inline">\(2\)</span>และ<span class="math inline">\(3\)</span>ใน<span class="math inline">\(\textbf{F}\)</span>(แกนของ<span class="math inline">\(\textbf{FinSet}\)</span>)</li>
+<li>ลองแสดงว่าcategoryของmodelสำหรับทฤษฎีแบบLawvereของmonoidนั้นเท่ากับcategoryของalgebraแบบmonad สำหรับmonadแบบlist</li>
+<li>ทฤษฎีแบบLawvereของmonoidสร้างmonadแบบlist ลองแสดงว่าoperationแบบ binaryของมันสามารถถูกสร้างโดยการใช้ลูกศรKleisliที่ตรงกัน</li>
+<li><span class="math inline">\(\textbf{FinSet}\)</span>คือcategoryย่อยของ<span class="math inline">\(\textbf{Set}\)</span>และได้มีfunctorมราฝังมันใน<span class="math inline">\(\textbf{Set}\)</span> ทุกๆfunctorบน<span class="math inline">\(\textbf{Set}\)</span>สามารถถูกจำกัดไปยัง<span class="math inline">\(\textbf{FinSet}\)</span> ลองแสดงว่สfunctorที่มีarityที่จำกัดคือส่วนขยายKanด้านช้ายของการจำกัดของมัน</li>
+</ol>
+</section>
+<section id="อานเพม" class="level2" data-number="31.9">
+<h2 data-number="31.9" class="anchored" data-anchor-id="อานเพม"><span class="header-section-number">31.9</span> อ่านเพิ่ม</h2>
+<ol type="1">
+<li><a href="http://www.tac.mta.ca/tac/reprints/articles/5/tr5.pdf">Functorial semantics of algebraic theories</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>โดย F. William Lawvere</li>
+<li><a href="https://homepages.inf.ed.ac.uk/gdp/publications/Comp_Eff_Monads.pdf">Notions of Computation Determine Monads</a>โดยGordon Plotkin และ John Power</li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="http://www.tac.mta.ca/tac/reprints/articles/5/tr5.pdf">http://www.tac.mta.ca/tac/reprints/articles/5/tr5.pdf</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/3.13/topoi.html" class="pagination-link  aria-label=" &lt;span="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Topoid</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/3.15/monads-monoids-and-categories.html" class="pagination-link" aria-label="<span class='chapter-number'>32</span>&nbsp; <span class='chapter-title'>Monads Monoids และ Categoryต่างๆ</span>">
+        <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Monads Monoids และ Categoryต่างๆ</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

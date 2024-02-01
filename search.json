@@ -1901,47 +1901,377 @@
     ]
   },
   {
+    "objectID": "content/3.12/enriched-categories.html",
+    "href": "content/3.12/enriched-categories.html",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "",
+    "text": "29.1 ทำไมcategoryแบบmonoid?\nในการสร้างcategoryที่ถูกเพิ่มค่า เราต้องจำไว้ว่าเราควรที่จะนำนิยามทั่วๆไปกลับในตอนที่เราแทนที่categoryแบบmonoidด้วย\\(\\textbf{Set}\\)และhom-objectsด้วยhom-sets วิธีการที่ดีืี่สุดในการทำแบบนี้คือการเริ่มด้วยนิยามทั่วๆไปและเปลี่ยนนิยามไปเรื่อยๆในแบบที่ไร้จุด นั้นก็คืนโดยที่ไม่มีีการเรียกสมาชิกของsetออกมา\nเรามาเริ่มด้วยนิยามของการประกอบกัน โดนทั่วไปแล้วมันนำคู่ของmorphismsที่ตัวหนึ่งมาจาก\\(\\textbf{C}(b,c)\\)และอีกตัวหนึ่งมาจาก\\(\\textbf{C}(a,b)\\) และโยงมันไปยังmorphismจาก\\(\\textbf{C}(a, c)\\) ในอีกความหมายหนึ่งมันคือการโยง\n\\[\n\\textbf{C}(b,c)\\times\\textbf{C}(a, b)\\to\\textbf{C}(a, c)\n\\]\nนี้คือfunctionระหว่างset ตัวหนึ่งของพวกมันเป็นproductแบบCartesianของสองhom-sets สูตรนี้นั้นสามารถถูดgeneralizeโดยการแทนที่productแบบCartesianด้วยบางอย่างที่กว้างกว่า productของcategoryอาจจะใช้ได้แต่เราสามารถไปไกลกว่านี้และใช้productแบบtensorแบบทั่วๆไปที่สุด\nต่อมาคือmorphisms identity แทนที่จะเลือกสมาชิกเดียวๆจากhom-sets เราสามารถนิยามพวกมันโดยการใช้functionจากsetที่มีสมาชิกเดียว\\(1\\)ว่า\n\\[\nj_a::1\\to\\textbf{C}(a,a)\n\\]\nในอีกครั้งสามารถแทนที่setที่มีสมาชิกเดียวด้วยวัตถุสุดท้ายแต่เราสามารถไปไกลกว่างโดนการแทนที่มันด้วยunit\\(i\\)ของproductแบบtensor\nในการที่คุณได้เห็น วัตถุที่นำมาจากบางcategoryแบบmonoid\\(\\textbf{V}\\)นั้นคือตัวเลือกที่ดีสำหรับการแทนที่hom-set",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#categoryแบบmonoid",
+    "href": "content/3.12/enriched-categories.html#categoryแบบmonoid",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "29.2 categoryแบบmonoid",
+    "text": "29.2 categoryแบบmonoid\nเราได้พูดไปแล้วสำหรับcategoryแบบmonoidก่อนหน้านี้ แต่มันคุ้มที่จะกล่าวถึงนิยามอีกครั้ง categoryแบบmonoidนิยามproductแบบtensorที่คือbifunctor\n\\[\n\\otimes :: \\textbf{V}\\times{}\\textbf{V} \\to \\textbf{V}\n\\]\nเราต้องการproductแบบtensorที่มีคุณสมบัติการสลับหมู่แต่มันเพียงพอในการที่จะบรรลุความการสลับหมู่ จนไปถึงisomorphismธรรมชาติ isomorphismนี้นันถูกเรียกว่าassociator ส่วนประกอบมันคือ\n\\[\n\\alpha_{a b c} :: (a \\otimes b) \\otimes c \\to a \\otimes (b \\otimes c)\n\\]\nมันต้องเป็นธรรมขาติในทั้งสามarguments\ncategoryแบบmonoidก็ต้องนิยามวัตถุunitพิเศษ\\(i\\)ที่ทำหน้าที่ในฐานะunitของproductแบบtensor ในอีกครั้งไปถึงisomorphismธรรมชาติ o isomorphismsทั้งสองถูกเรียกว่าunitorช้ายและขวาตามลำดับและส่วนประกอบของพวกมันคือ\n\\[\n\\begin{align*}\n  \\lambda_a & :: i \\otimes a \\to a \\\\\n  \\rho_a    & :: a \\otimes i \\to a\n\\end{align*}\n\\]\nassociatorและunitorsต้องบรรลุเงื่อนไขของความเข้ากันได้อย่าง\n\n\n\n\n\n\ncategoryแบบmonoidนั้นถูกเรียกว่าสมมาตรถ้าได้มีisomorphismธรรมชาติที่มีส่วนประกอบอย่าง\n\\[\n\\gamma_{a b} :: a \\otimes b \\to b \\otimes a\n\\]\nที่“กำลังสองแล้วเท่ากับหนึ่ง”\n\\[\n\\gamma_{b a} \\circ \\gamma_{a b} = \\operatorname{id}_{a \\otimes b}\n\\]\nและที่ตรงกันกับโครงสร้างmonoid\nสิ่งที่น่าสนใจเกี่ยวกับcategoryแบบmonoidคือการที่ว่าคุณอาจจะสามารถที่จะนิยามhomภายใน(วัตถุfunctionในฐานะ)adjointด้านขวาของproductแบบtensor คุณอาจจะจำได้ว่านิยามดั้งเดิมของวัตถุfunctionหรือexponential นั้นผ่านadjointด้านขวาไปยังproductของcategory categoryที่วัตถุแบบนี้มีอยู่สำหรับคู่ของวัตถุใดๆก็ตามจะถูกเรีกยว่าCartesian closed ในที่นี้adjunctionที่นิยามhomภายในในcategoryแบบmonoidคือ\n\\[\n\\textbf{V}(a \\otimes b, c) \\sim \\textbf{V}(a, [b, c])\n\\]\nตามาจากG. M. Kelly2 ผมได้ใช้เครื่องหมาย\\([b,c]\\)สำหรับhomภายใน counitของadjunctionนี้คือการแปลงแบบธรรมชาติที่ส่วนประกอบถูกเรียกว่าmorphismsการประเมิน\n\\[\n\\varepsilon_{a b} :: ([a, b] \\otimes a) \\to b\n\\]\nสังเกตว่าถ้าproductแบบtensorนั้นไม่สมมาตร เราอาจจะนิยามhomภายในอีกตัวที่มีเครื่องหมาย\\([[a,c]]\\)โดยการใช้adjunctionดังต่อไปนี้\n\\[\n\\textbf{V}(a \\otimes b, c) \\sim \\textbf{V}(b, [[a, c]])\n\\]\ncategoryแบบmonoidที่ทั้งสองถูกนิยามว่าbiclosed ตัวอย่างของcategoryที่ไม่biclosedคือcategoryของendofunctorsใน\\(\\textbf{Set}\\) ที่การประกอบกันของfunctorนั้นมีหน้าที่ในฐานะproductแบบtensor นั้นคือcategoryที่เราใช้ในการนิยามmonadต่างๆ",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#categoryทถกเพมคา",
+    "href": "content/3.12/enriched-categories.html#categoryทถกเพมคา",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "29.3 Categoryที่ถูกเพิ่มค่า",
+    "text": "29.3 Categoryที่ถูกเพิ่มค่า\ncategory\\(\\textbf{C}\\)ที่ถูกเพิ่มค่าบนcategoryแบบmonoid\\(\\textbf{V}\\)แทนที่hom-setsด้วยhom-objects สำหรับทุกคู่ของวัตถุ\\(a\\)และ\\(b\\)ใน\\(\\textbf{C}\\) เราเชื่อมโยงวัตถุ\\(\\textbf{C}(a,b)\\)ใน\\(\\textbf{V}\\) เราใช้เครื่องหมายสำหรับhom-objectsในตอนที่เราใช้สำหรับhom-sets กับความเข้าใจที่ว่าพวกมันไม่ได้มีmorphisms ในอีกด้านหนึ่ง\\(\\textbf{V}\\)คือcategoryทั่วๆไป(ที่ไม่ได้ถูกเพิ่มค่า)กับhom-setsและmorphisms ดังนั้นเราไม่ได้ทิ้งsetทั้งหมด เราแค่ช่อนมันเอาไว้\nเนื่องด้วยเราไม่สามารถพูดเกี่ยวกับmorphismsเดี่ยวๆใน\\(\\textbf{C}\\) การประกอบกันของmorphisms นั้นถูกแทนที่โดยชุดของmorphismsใน\\(\\textbf{V}\\)\n\\[\n\\circ :: \\textbf{C}(b, c) \\otimes \\textbf{C}(a, b) \\to \\textbf{C}(a, c)\n\\]\n\n\n\n\n\nในทางเดียวกัน morphisms identityนั้นถูกแทนที่โดยชุดของmorphismsใน\\(\\textbf{V}\\)\n\\[\nj_a :: i \\to \\textbf{C}(a, a)\n\\]\nที่\\(i\\)นั้นคือunitของtensorใน\\(\\textbf{V}\\)\n\n\n\n\n\nความสลับกลุ่มของการประกอบกันนั้นถูกนิยามในรูปแบบของassociatorใน\\(\\textbf{V}\\)\n\n\n\nกฏของunitในแบบเดียวกันถูกแสดงในรูปแบบของunitors",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#preorder",
+    "href": "content/3.12/enriched-categories.html#preorder",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "29.4 Preorder",
+    "text": "29.4 Preorder\npreorderนั้นถูกนิยามในฐานะcategoryที่บาง ที่ที่ทุกๆhom-setนั้นว่างหรือมีแค่สมาชิกเดียว เราตีความset\\(\\textbf{C}(a,b)\\)ที่ไม่ว่างในฐานะข้อพิสูจน์ที่\\(a\\)นั้นน้อยกว่าหรือเท่ากับ\\(b\\) categoryแบบนี้สามารถถูกตีความในฐานะที่ถูกเพิ่มค่าcategoryแบบmonoidที่เรียบง่ายอย่างมากที่เก็บแค่สองวัตถุ\\(0\\)และ\\(1\\)(ในบางครั้งถูกเรียกว่าเท็จและจริง) นอกเหนือmorphisms identityที่จำเป็น categoryนี้นั้นมีmorphismเพียงอันเดียวจาก\\(0\\)ไปยัง\\(1\\) เรามาเรียกมันว่า\\(0\\to1\\) โครงสร้างmonoidแบบเรียบง่ายสามารถถูกสร้างจากมัน ด้วยproductแบบtensorออกแบบ การคำนวณของ\\(0\\)และ\\(1\\)(productที่ไม่ใช้ศูนย์เพียงอย่างเดียวคือ\\(1\\otimes1\\)) วัตถุidentityในcategoryนี้คือ\\(1\\) นี้คือcategoryแบบmonoidที่เคร่งก็เพราะว่าassociatorและunitorsคือmorphisms identity\nเนื่องด้วยว่าในpreorder hom-setนั้นจะว่างหรือมีแค่สมาชิกเดียว เราสามารถแทนที่มันอย่างง่ายๆด้วยhom-objectสำหรับcategoryขนาดเล็กของเรา preorderที่ถูกเพิ่มค่า\\(\\textbf{C}\\)มีhom-object\\(\\textbf{C}(a,b)\\)สำหรับคู่ใดๆก็ตามของวัตถุ\\(a\\)และ\\(b\\) ถ้า\\(a\\)นั้นน้อยกว่าหรือเท่ากับ\\(b\\) วัตถุนี้คือ\\(1\\) หรือไม่นั้นคือ\\(0\\)\nเรามาดูที่การประกอบกัน productแบบtensorของสองวัตถุใดๆก็ตามคือ\\(0\\)เว้นแต่ว่าทั้งสองมันจะเป็น\\(1\\) ที่ในกรณีนี้มันคือ\\(1\\) ถ้ามันคือ\\(0\\)แล้วเรามีสองตัวเลือกสำหรับmorphismการประกอบ มันอยาจจะเป็นทั้ง\\(\\operatorname{id}_0\\)หรือ\\(0\\to1\\) แต่ถ้ามันคือ\\(1\\)แล้วตัวเลือกเดี่ยวคือ\\(\\operatorname{id}_1\\) ถ้าเราทำการแปลงสิ่งนี้ให้กลับมายังความสัมพันธ์ สิ่งนี้บอกว่าถ้า\\(a\\le b\\)และ\\(b\\le c\\)แล้ว\\(a\\le c\\)ที่คือกฏของการถ่ายทอดที่เราต้องการ\nแล้วidentityละ? มันคือmorphismจาก\\(1\\)ไปยัง\\(\\textbf{C}(a,a)\\) ได้มีแค่morphismเดียวไปจาก\\(1\\)และนั้นคืิอidentity\\(\\operatorname{id}_1\\) ดังนั้น\\(\\textbf{C}(a,a)\\)ต้องเป็น\\(1\\) มันหมายความว่า\\(a\\le a\\)ที่คือกฎของreflexivityสำหรับpreorder ดังนั้นทั้งการถ่ายทอดและreflexivity นั้นถูกบังคับใช้อย่างอัตโนมัติ ถ้าเราทำการเขียนpreorderในฐานะcategoryที่ถูกเพิ่มค่า",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#พนทmetric",
+    "href": "content/3.12/enriched-categories.html#พนทmetric",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "29.5 พื้นที่Metric",
+    "text": "29.5 พื้นที่Metric\nตัวอย่างที่ที่น่าสนใจนั้นมาจาก William Lawvere3 เขาสังเกตว่าพื้นที่Metricสามารถถูกนิยามโดยการใช้categoryที่ถูกเพิ่มค่า พื้นที่Metricนิยามระยะทางระหว่างสองวัตถุใดๆก็ตาม ระยะทางนี้คือจำนวนจริงที่ไม่ติดลบ มันนั้นสะดวกในการนำinfinityในฐานะค่าที่เป็นไปได้ ถ้าระยะนั้นคืิอinfinity ได้ไม่มีวิธีการในการไปจากจุดเริ่มต้นไปยังวัตถุเป้าหมาย\nได้มีบางคุณสมบัติที่ชัดเจนที่ต้องถูกบรรลุโดยระยะ หนึ่งในนั้นคือว่าระยะจากวัตถุไปยังตนเองต้องเป็นศูนย์ อีกตัวหนึ่งคืออสมการสามเหลี่ยมคือ ระยะโดยตรงนั้นไม่ใหญ่ไปกว่าผลบวกของระยะของจุดระหว่างกลาง เราไม่จำเป็นต้องให้ระยะทางนั้นสมมาตร ที่อาจจะดูแปลกในตอนแรกแต่ในการที่Lawvereอธิบาย คุณสามารถจินตนาการว่าในทิศหนึ่งคุณอาจจะเดินขึ้นเขา ในอีกทางหนึ่งคุณคุณอาจจะเดินลงเขา ในกรณีใดๆก็ตาม ความสมมาตรอาจจะถูกกำหนดหลังจากนี้ในฐานะเงื่อนไขเพื่มเติม\nดังนั้นวิธีการที่พื้นที่metricอาจจะถูกแปลงไปยังถาษาทางcategoryคืออะไร? เราต้องสร้างcategoryที่hom-objectsนั้นคือระยะ จงจำไว้ว่าระยะนั้นไม่ใช้morphismsแต่คือhom-object แล้วhom-objectจะเป็นตัวเลขได้อย่างไร? ถ้าเราสามารถสร้างcategoryแบบmonoid\\(\\textbf{V}\\) ที่เลขเหล่านี้นั้นคือวัตถุ จำนวนจริงที่ไม่ติดลบ (รวมไปถึงinfinity) ก่อให้เกิดorderแบบtotal ดังนั้นพวกมันสามารถถูกมองในฐานะcategoryบาง morphismหรัหว่างสองตัวเลข\\(x\\)และ\\(y\\)มีอยู่ถ้า\\(x\\ge y\\) (สิ่งนี้นั้นตรงกันข้ามกับสิ่งที่ใช้ในการนิยามของpreorder) โครงสร้างmonoidนั้นให้มาโดยการบวก ที่เลขศูนย์นั้นมีหน้าที่เป็นวัตถุunit ในอีกความหมายหนึ่งproductแบบtensorของสองตัวเลขคือผลบวกของมัน\nพื้นที่metricนั้นคือcategoryที่ถูกเพิ่มค่าบนcategoryแบบmonoidal hom-object\\(\\textbf{C}(a,b)\\)จากวัตถุ\\(a\\)ไปยัง\\(b\\)นั้นไม่ได้ติดลบ (และอาจจะinfinite) ตัวเลขที่เราจะเรียกระยะจาก\\(a\\)ไปยัง\\(b\\) เรามาดูกันว่าสิ่งที่เราได้มาสำหรับidentityและการประกอบกันในcategoryแบบนั้น\nโดยนิยามของเรา morphismจากunitแบบtensorที่คือคัวเลขศูนย์ไปยังhom-object\\(\\textbf{C}(a,a)\\) คือความสัมพันธ์\n\\[\n0\\le\\textbf{C}(a,a)\n\\]\nเนื่องด้วย\\(\\textbf{C}(a,a)\\)คือตัวเลขมี่ไม่ติดลบ เงื่อนไขนี้บอกเราว่าระยะจาก\\(a\\)ไปยัง\\(a\\)นั้นต้องเป็นศูนย์ ลองตรวจสอบ!\nในตอนนี้เรามาพูดเกี่ยวกับการประกอบกัน เราเริ่มด้วยproductแบบtensorของhom-objectsที่ติดกันของ\\(\\textbf{C}(b,c)\\otimes\\textbf{C}(a,b)\\) เราได้นิยามproductแบบtensorในฐานะการบวกของสองระยะ การประกอบกันคือmorphismใน\\(\\textbf{V}\\)จากproductนี้ไปยัง\\(\\textbf{C}(a,c)\\) morphismใน\\(\\textbf{V}\\)นั้นถูกนิยามในฐานะความสัมพันธ์ที่มากกว่าหรือเท่ากับ ในอีกความหมายหนึ่ง ผลบวกของระยะจาก\\(a\\)ไปยัง\\(b\\) และจาก\\(b\\)ไปยัง\\(c\\)นั้นมากกว่าหรือเท่ากับระยะจาก\\(a\\)ไปยัง\\(c\\) แต่นั้นแต่นั้นคือแค่อสมการสามเหลี่ยม ลองตรวจสอบ!\nในการแปลงพื้นที่metricใหม่ในรูปแบบของcategoryที่ถูกเพิ่มค่า เราได้อสมการสามเหลี่ยมและระยะกับตัวเองที่เป็นศูนย์“โดยไม่มีอะไร”",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#functorsทถกเพมคา",
+    "href": "content/3.12/enriched-categories.html#functorsทถกเพมคา",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "29.6 Functorsที่ถูกเพิ่มค่า",
+    "text": "29.6 Functorsที่ถูกเพิ่มค่า\nนิยามของfunctorนั้นเกี่ยวข้องกับกับการโยงของmorphismต่างๆ ในลักษณะของการถูกเพิ่มค่านี้ เราไม่ต้องมีแนวคิดของmorphismsเดี่ยวๆ ดังนั้นเราต้องทำงานกับhom-objectเป็นกลุ่ม hom-objectคือวัตถุในcategoryแบบmonoid\\(\\textbf{V}\\) และเรามีmorphismระหว่างพวกมันให้ได้ใช้ ดังนั้นมันมีเหตุผลในการนิยามfunctorsที่ถูกเพิ่มค่าระหว่างcategoryในตอนที่พวกมันถูกเพิ่มค่าบนcategoryแบบmonoid\\(\\textbf{V}\\) ดังนั้นเราได้ใช้morphismsใน\\(\\textbf{V}\\)ของการโยงhom-objectsระหว่างcategoriesที่ถูกเพิ่มค่าสองตัว\nFunctorsที่ถูกเพิ่มค่า\\(F\\)ระหว่างสองcategories\\(\\textbf{C}\\)และ\\(\\textbf{D}\\)นอกเหนือจากการโยงวัตถุไปยังวัตถุ นั้นก็กำหนดไปยังทุกๆคู่ของวัตถุใน\\(\\textbf{C}\\) morphismใน\\(\\textbf{V}\\)\n\\[\nF_{a b} :: \\textbf{C}(a, b) \\to \\textbf{D}(F\\ a, F\\ b)\n\\]\nfunctorนั้นคือการโยงที่คงไว้ในโครงสร้าง สำหรับfunctorsทั่วๆไปมันหมายถึงการคงไว้ซึ่งการประกอบกันและidentity ในลักษณะของการถูกเพิ่มค่านี้ การคงไว้ซึ่งการประกอบกันหมายความว่าdiagramดังต่อไปนี้commute\n\n\n\nการคงอยู่ของidentityนั้นแทนที่โดยการคงอยู่ของmorphismsใน\\(\\textbf{V}\\)ที่“เลือก”identity",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#การเพมคาตนเองself-enrichment",
+    "href": "content/3.12/enriched-categories.html#การเพมคาตนเองself-enrichment",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "29.7 การเพิ่มค่าตนเอง(Self Enrichment)",
+    "text": "29.7 การเพิ่มค่าตนเอง(Self Enrichment)\ncategoryแบบmonoidที่ปิดและสมมาตรอาจจะเป็นตัวที่เพิ่มค่าตนเองโดยการแทนที่hom-setsด้วยhomsภายใน (ลองดูนิยามข้างบน) ในการทำให้สิ่งนี้ใช้ได้ เราต้องนิยามกฏของการประกอบสำหรับhomsภายใน ในอีกความหมายหนึ่ง เราต้องเขียนmorphismกับsignatureดั่งต่อไปนี้\n\\[\n[b, c] \\otimes [a, b] \\to [a, c]\n\\]\nสิ่งนี้นั้นไม่ต่างกันมากจากงานการเขียนโปรแกรมอื่นๆต่างกันแค่ว่าในทฤษฎีcategory เรามักจะให้การเขียนแบบไม่มีจุด เราเริ่มโดยการกำหนดsetที่สมาชิกที่ควรจะเป็นของมัน ในกรณีนี้มันคือสมาชิกของhom-set\n\\[\n\\textbf{V}([b, c] \\otimes [a, b], [a, c])\n\\]\nhom-setนี้นั้นisomorphicกับ\n\\[\n\\[\\textbf{V}(([b, c] \\otimes [a, b]) \\otimes a, c)\\]\n\\]\nผมได้ใช้แค่adjunctionที่นิยามhomภายใน\\([a,c]\\) ถ้าเราสร้างmorphismในsetใหม่นี้ adjunctionจะชี้เราไปยังmorphismในsetดั้งเดิมที่เราก็สามารถใช้ในฐานะการประกอบกัน เราสร้างmorphismนี้โดยการประกอบmorphismsหลายๆตัวที่เรามีพร้อมไว้อยู่ เราเริ่มด้วยการที่เราสามารถใช้associator\\(\\alpha_{[b,c],[a,b],a}\\)ในการสลับกลุ่มของสูตรทางด้านช้าย\n\\[\n[([b, c] \\otimes [a, b]) \\otimes a \\to [b, c] \\otimes ([a, b] \\otimes a)\n\\]\nเราก็ตามมันด้วยcounitของadjunction\\(\\varepsilon_{a b}\\):\n\\[\n[b, c] \\otimes ([a, b] \\otimes a) \\to [b, c] \\otimes b\n\\]\nและใช้counit\\(\\varepsilon_{b c}\\)อีกครั้งในการได้มาซึ่ง\\(c\\) ดังนั้นเราได้สร้างmorphismของ\n\\[\n\\varepsilon_{b c}\\ .\\ (\\operatorname_{[b, c]} \\otimes \\varepsilon_{a b})\\ .\\ \\alpha_{[b, c] [a, b] a}\n\\]\nที่คือสมาชิกของhom-set\n\\[\n\\[\\textbf{V}(([b, c] \\otimes [a, b]) \\otimes a, c)\\]\n\\]\nadjunctionนี้จะให้เราได้กฎของประกอบที่เรากำลังตามหา\nในแบบเดียวกันidentityคือ\n\\[\nj_a :: i \\to [a, a]\n\\]\nคือสมาชิกของhom-setดั่งต่อไปนี้\n\\[\n\\textbf{V}(i, [a, a])\n\\]\nที่isomorphicผ่านadjunctionอย่าง\n\\[\n\\[\\textbf{V}(i \\otimes a, a)\\]\n\\]\nเรารู้ว่าhom-setนี้มีidentityด้านช้าย\\(\\lambda_a\\) เราสามารถนิยาม\\(j_a\\)ในฐานะimageของมันภายใต้adjunctionนี้\nตัวอย่างที่ใช้ได้จริงของการเพิ่มค่าตนเองคือcategory\\(\\textbf{Set}\\)ที่ทำหน้าที่ในฐานะต้นแบบของtypesในภาษาโปรแกรม เราได้เห็นก่อนหน้านี้ว่ามะนคือcategoryแบบmonoidปิดคู่กับproductของCartesian ใน\\(\\textbf{Set}\\) hom-setระหว่างสองsetใดๆก็ตามคือsetเอง ดังนั้นมันคือวัตถุใน\\(\\textbf{Set}\\) เรารู้ว่ามันisomorphicกับsetของexponential ดังนั้นhomsภายนอกและภายในจรึงเท่าเทียมกัน ดังนั้นในตอนนี้เราก็รู้ว่า ผ่านการเพิ่มค่าตนเอง เราสามารถใช้setของexponentialในฐานะhom-objectและแสดงการประกอบกันในรูปแบบของproductsแบบCartesianของวัตถุexponential",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#ความสมพนธกบ2-categories",
+    "href": "content/3.12/enriched-categories.html#ความสมพนธกบ2-categories",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "29.8 ความสัมพันธ์กับ2-Categories",
+    "text": "29.8 ความสัมพันธ์กับ2-Categories\nผมได้พูดเกี่ยวกับ\\(\\textbf{2}\\)-categoryในบริบทของ\\(\\textbf{Cat}\\) categoryของcategoryขนาดเล็ก morphismsระหว่างcategoryนั้นคือfunctors แต่ก็ได้มีโครงสร้างเพิ่มเติมคือการแปลงแบบธรรมชาติระหหว่างfunctors ใน\\(\\textbf{2}\\)-category วัตถุมันจะถูกเรียกว่าzero-cell morphismsคือ1-cell และmorphismsระหว่างmorphismsคือ2-cells ใน\\(\\textbf{Cat}\\) 0-cellsคือcategory 1-cellsคือfunctorsและ2-cellsคือการแปลงแบบธรรมชาติ\nแต่สังเกตว่าfunctorsระหว่างสองcategoryก่อให้เกิดcategoryเช่นเดียวกัน ดังนั้นใน\\(\\textbf{Cat}\\) เราจำเป็นต้องมีhom-categoryแทนที่จะเป็นhom-set มันกลับกลายเป็นว่า เหมือนกับ\\(\\textbf{Set}\\)ที่สามารถถูกมองในฐานะcategoryที่ถูกเพ่ิมค่าบน\\(\\textbf{Set}\\) \\(\\textbf{Cat}\\)สามารถที่จะถูกมองในฐานะcategoryที่ถูกเพ่ิมค่าบน\\(\\textbf{Cat}\\) ให้กว้างไปกว่านั้น แค่เหมือนกับทุกๆcategoryสามารถถูกมองในฐานะcategoryที่ถูกเพ่ิมค่าบน\\(\\textbf{Set}\\) ทุกๆ\\(\\textbf{2}\\)-categoryสามารถถูกมองในการเพ่ิมค่าบน\\(\\textbf{Cat}\\)",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.12/enriched-categories.html#footnotes",
+    "href": "content/3.12/enriched-categories.html#footnotes",
+    "title": "29  Categoryที่ถูกเพิ่มค่า(Enriched Categories)",
+    "section": "",
+    "text": "https://ncatlab.org/↩︎\nhttp://www.tac.mta.ca/tac/reprints/articles/10/tr10.pdf↩︎\nhttp://www.tac.mta.ca/tac/reprints/articles/1/tr1.pdf↩︎",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Categoryที่ถูกเพิ่มค่า(Enriched Categories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.13/topoi.html",
+    "href": "content/3.13/topoi.html",
+    "title": "30  Topoid",
+    "section": "",
+    "text": "30.1 ตัวจำแนกวัตถุย่อย(Subobject Classifier)\nเรามาเริ่มโดยการลองที่จะแสดงถึงแนวคิดของsetย่อยโดยการใช้functionsแทนที่จะเป็นสมาชิดต่างๆ function\\(f\\)ใดๆก็ตามจากบางset\\(a\\)ไปยัง\\(b\\)นิยามsetย่อยของ\\(b\\)ที่คือimageของ\\(a\\)ภายใต้\\(f\\) แต่ก็ได้มีหลายfunctionsที่นิยามsetย่อยเดียวกัน เราต้องเฉพาะเจาะจงมากว่านี้ ในการเริ่ม เราอาจจะเพ่งเล็งไปยังfunctionsที่injective(ตัวที่ไม่รวบสมาชิกต่างๆไปยังตัวเดียว) functionแบบinjective”ยัด(inject)“setหนึ่งำปยังอีกตัวหนึ่ง สำหรับsetที่มีจำกัด คุณอาจจะจินตนาการfunctionแบบinjectiveในฐานะลูกศรที่ขนานกันที่ต่อสมาชิกของsetหนึ่งกับสมาชิกของอีกตัวหนึ่ง แน่นอนว่าsetตัวแรกไม่สามารถใหญ่กว่าsetตัวที่สองหรือไม่นั้นลูกศรอาจจะต้องรวมกันตรงจุดสุดท้าย ได้มีความไม่แน่นอนที่ยังเหลืออยู่นั้นคือได้อาจจะมีอีกset\\(a'\\)และอีกfunctionแบบinjective\\(f'\\)จากsetนั้นไปยัง\\(b\\)ที่เลือกsetย่อยเดียวกัน แต่คุณอาจจะทำให้คุณเองมั่นใจว่าsetดังต่อไปนี้ต้องisomorphicกับ\\(a\\) เราสามารถใช้ความจริงนี้ในการนิยามsetย่อยในฐานะชุดของfunctionแบบinjectiveที่มีความสัมพันธ์โดยisomorphismsของdomainพวกมัน หรือให้ชัดเจนกว่านี้ เราบอกว่าfunctionแบบinjectiveสองตัวอย่าง\n\\[\n\\begin{align*}\n  f  & :: a \\to b  \\\\\n  f' & :: a' \\to b\n\\end{align*}\n\\]\nนั้นเท่าเทียมกับถ้าได้มีisomorphism\n\\[\nh :: a \\to a'\n\\]\nในการที่ว่า\n\\[\nf = f'\\ .\\ h\n\\]\nชุดของinjectionsที่เท่าเทียมกับแบบนี้นิยามsetย่อยของ\\(b\\)อย่าง\nนิยามนี้สามารถถูกยกไปยังcategoryใดๆก็ตามถ้าเราแทนที่functionแบบinjectiveด้วยmonomorphism แค่เตือนความจำคุณ monomorphism\\(m\\)จาก\\(a\\)ไปยัง\\(b\\)นั้นถูกนิยามโดยคุณสมบัติสากล สำหรับวัตถุ\\(c\\)ใดๆก็ตามและคู่ใดๆก็ตามของmorphisms\n\\[\n\\begin{align*}\n  g  & :: c \\to a \\\\\n  g' & :: c \\to a\n\\end{align*}\n\\]\nในการที่ว่า\n\\[\nm\\ .\\ g = m\\ .\\ g'\n\\]\nมันต้องเป็นว่า\\(g=g'\\)นั้นก็คือ\nบนset นิยามนี้นั้นง่ายกว่าในการทำความเข้าใจถ้าเราพิจารณาว่ามันหมายความว่าอะไรสำหรับfunction\\(m\\)ที่ไม่ได้เป็นmonomorphism มันอาจจะโยงสองสมาชิกที่แตกต่างกันของ\\(a\\)ไปยังสมาชิกหนึ่งของ\\(b\\) เราอาจจะหาสองfunction\\(g\\)และ\\(g'\\)ที่แตกต่างกันแค่ที่สองสมาชิกเหล่านี้ หลังการประกอบกันกับ\\(m\\)อาจจะปิดบังความแตกต่าง\nได้มีอีกวิธีทางหนึ่งของการนิยามsetย่อยคือในการใช้functionหนึ่งที่ถูกเรียกว่าfunction characteristic มันคือfunction\\(\\chi\\)จากset\\(b\\)ไปยังsetที่มีสองสมาชิก\\(\\Omega\\) สมาชิกหนึ่งของsetนี้ถูกระบุในฐานะ”จริง”ของสมาชิกเหล่านี้ของ\\(b\\)ได้มีสมาชิกของsetย่อย และ”ไม่จริง”สำหหระบสิ่งที่ไม่อยู่\nมันยังเหลือในกการหาว่าการระบุของสมาชิกว่า”จริง”นั้นหมายความว่าอะไร เราสามารถใช้เคล็ดลับทั่วๆไปคือการใช้functionจากsetที่สมาชิกเดียวไปยัง\\(\\Omega\\)เราจะเรียกfunctionนี้ว่าจริง\n\\[\n\\operatorname{true} :: 1 \\to \\Omega\n\\]\nนิยามเหล่านี้สามารถถูกรวมกันในแบบที่ว่าพวกมันไม่ได้แค่นิยามว่าsubobjectคืออะไรแต่ก็นิยามวัตถุพิเศษ\\(\\Omega\\)โดยที่ไม่ต้องพูดถึงสมาชิก แนวคิดคือว่าเราต้องการให้morphis m\\(\\operatorname{true}\\)ในการแสดงแทนของsubobject”ทั่วไป” ใน\\(\\textbf{Set}\\)มันเลือกsetย่อยที่มีสมาชิกเดียวจากsetที่มีสองสมาชิก\\(\\Omega\\) สิ่งนี้นั้นทั่วไปทำที่จะเป็นได้ มันนั้นคือsetย่อยแท้อย่างแน่นอน เพราะว่า\\(\\Omega\\)นั้นมีสมาชิกมากกว่าหนึ่งที่ไม่ได้อยู่ในsetย่อยนั้น\nในสภาพแบบทั่วไป เรานิยามจริงให้เป็นmonomorphismจากวัตถุสุดท้ายไปยังวัตถุจำแนก\\(\\Omega\\) แต่เราต้องการในการนิยามวัตถุจำแนก เราต้องการคุณสมบัติสากลที่เชื่อมวัตถุนี้ไปยังfunctionลักษณะเฉพาะ มันกลับมาเป็นว่าใน\\(\\textbf{Set}\\) pullbackของจริงตามfunctionลักษณะเฉพาะ\\(\\chi\\)ที่นิยามทั้งวัตถุย่อย\\(a\\)และfunctionแบบinjectiveที่ผังมันใน\\(b\\) ในที่นี้คือdiagramของการpullback\nเรามาวิเคราะห์diagramนี้ equationของการpullbackคือ\n\\[\n\\operatorname{true}\\ .\\ \\operatorname{unit} = \\chi\\ .\\ f\n\\]\nfunction \\(\\operatorname{true}\\ .\\ \\operatorname{unit}\\)โยงทุกๆสมาชิกของ\\(a\\)ไปยัง”จริง” ดังนั้น\\(f\\)ต้องโยงสมาชิกทั้งหมดของ\\(a\\)ไปยังสมาชิกเหล่านี้ของ\\(b\\)ที่\\(\\chi\\)นั้น”จริง” สิ่งเหล่านี้โดยนิยามคือสมาชิกของsetย่อยที่ถูกระบุโดยfunctionลักษณะเฉพาะ\\(\\chi\\) ดังนั้นimageของ\\(f\\)คือsetย่อยนั้นอย่างแน่นอน ความเป็นสากลของpullbackรับประกันว่า\\(f\\)นั้นinjective\ndiagramของการpullbackนี้สามารถถูกใช้ในการนิยามวัตถุจำแนกในcategoryนอกเหนือจาก\\(\\textbf{Set}\\) categoryแย่างนี้ต้องมีวัตถุสุดท้าย ที่จะให้เรานิยามmonomorphism\\(\\operatorname{true}\\) มันก็ต้องมีpullbacks ที่เงื่อนไขจริงๆคือมันต้องมีlimitจำกัด(finite limits)(ที่pullbackคือตังอย่างของlimitจำกัด) ภายใต้สมมติฐานเหล่านี้ เรานิยามวัตถุจำแนก\\(\\Omega\\)โดยคุณสมบัติที่ว่าสำหรับทุกๆmonomorphism\\(f\\)ได้มีmorphism\\(\\chi\\)ที่เป็นเอกลักษณ์ที่ทำให้diagramของpullbackสมบูรณ์\nเรามาวิเคราะห์ประโยคสุดท้าย ในตอนที่เราสร้างpullback เราได้สามวัตถุมา\\(\\Omega\\),\\(b\\)และ\\(1\\)และสองmorphisms\\(\\operatorname{true}\\)และ\\(\\chi\\) การมีอยู่ของpullbackหมายความว่าเราสามารถหาวัตถุ\\(a\\)ที่ดีที่สุด คู่กับสองmorphisms\\(f\\)และ\\(\\operatorname{unit}\\)(ตัวหลังนั้นถูกกำหนดอย่างเป็นเอกลักษณ์โดยนิยามของวัตถุสุดท้าย)ที่ทำให้diagramนั้นcommute\nในที่นี้ เรากำลังแก้ระบบของหลายสมการ เรากำลังแก้สำหรับ\\(\\Omega\\)และ\\(\\operatorname{true}\\)ในขณะที่กำลังเปลี่ยนทั้ง\\(a\\)และ\\(b\\) สำหรับ\\(a\\)และ\\(b\\)ที่ให้มา อาจะหรืออาจะไม่มีmonomorphism\\(f::a\\to b\\) แต่ถ้ามันมีอยู่ เราต้องการให้มันเป็นpullbackของบาง\\(\\chi\\) นอกจากนี้เราต้องการให้\\(\\chi\\)นี้ให้ถูกกำหนดอย่าง เป็นเอกลักษณ์โดย\\(f\\)\nเราไม่สามารถพูดได้ว่าได้มีความตรงกันแบบหนึ่งต่อหนึ่งระหว่างmonomorphisms\\(f\\)และfunctionลักษณะเฉพาะ\\(\\chi\\) เพราะว่าpullbackนั้นเป็นเอกลักษณ์จนถึงisomorphism แต่ในนิยามก่อนหน้านี้ของsubsetในฐานะชุดของinjectionที่เท่ากัน เราสามารถวางนัยเท่าไปโดยการนิยามวัตถุย่อยของ\\(b\\)ในฐานะชุดของmonomorphismsที่เท่ากันไปยัง\\(b\\) ชุดของmonomorphismsนั้นตรงกันแบบหนึ่งต่อหนึ่งกับชุดของpullbacksที่เท่ากันของdiagramของเรา\nเราจึงนิยามsetของsubobjectsของ\\(b\\)ว่า\\(\\operatorname{Sub}(b)\\)ในฐานะชุดของmonomorphismsและสังเกตได้ว่ามันisomorphicกับsetของmorphismsจาก\\(b\\)ไปยัง\\(\\Omega\\)\n\\[\n\\operatorname{Sub}(b)\\cong\\textbf{C}(b,\\Omega)\n\\]\nสิ่งนี้กลับกลายเป็นisomorphismธรรมชาติของสองfunctors ในอีกความหมายหนึ่ง\\(\\operatorname{Sub}(-)\\)นั้นมีfunctorตัวแทน(แบบcontravariant)ที่ตัวแทนของมันคือวัตถุ\\(\\Omega\\)",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>30</span>  <span class='chapter-title'>Topoid</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.13/topoi.html#topos",
+    "href": "content/3.13/topoi.html#topos",
+    "title": "30  Topoid",
+    "section": "30.2 Topos",
+    "text": "30.2 Topos\ntoposคือcategoryที่\n\nCartesianปิดคือ มันมีproductsทั้งหมด วัตถุสุดท้ายและexponentials(ที่ถูกนิยามในฐานะadjointsด้านขวาของproducts)\nมีlimitsสำหรับทุกdiagramsแบบจำกัด\nมีตัวจำแนกวัตถุย่อย\n\nชุดของคุณสมบัติเหล่านี้ทำให้toposเป็นตัวเลือกที่ดี(ในการแทนที่)\\(\\textbf{Set}\\) ในการใช้งานหลากหลาย มันก็มีคุณสมบัติที่ตามาจากนิยามของมัน ตังอย่างเช่นtoposมีcolimitsแบบจำกัดทั้งหมดรวมไปถึงวัตถุเริ่มต้น\nมันอาจจะน่าสนใจในการนิยามตัวจำแนกวัตถุย่อยในฐานะcoproduct(sum)ของสอง สำเนาของวัตถุสุดท้าย (นั้นคือแบบนี้ใน\\(\\textbf{Set}\\)) แต่เราต้องการที่จะให้มีความทั่วไปมากกว่านั้น Topoiที่สิ่งนี้เป็นจริงถูกเรียกว่าBoolean",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>30</span>  <span class='chapter-title'>Topoid</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.13/topoi.html#topoiและlogic",
+    "href": "content/3.13/topoi.html#topoiและlogic",
+    "title": "30  Topoid",
+    "section": "30.3 TopoiและLogic",
+    "text": "30.3 TopoiและLogic\nในทฤษฎีset functionลักษณะเฉพาะอาจจะถูกตีความในฐานะคุณสมบัติในการนิยามบางสมาชิกของset ที่ก็คือpredicate(ภาคแสดง)ที่ก็จริงสำหรับบางสมาชิกและไม่จริงสำหรับตัวอื่นๆ predicate\\(\\operatorname{isEven}\\)เลือกsetย่อยของเลขคู่จากsetของจำนวนธรรมชาติ ในtopos เราสามารถgeneralizeของแนวคิกของpredicateในการเป็นmorphismจากวัตถุ\\(a\\)ไปยัง\\(\\Omega\\) นี้คือเหตุผลว่าทำไม\\(\\Omega\\)ในบางครั้งนั้นจริงถูกเรียกว่าวัตถุความจริง(truth object)\npredicatesนั้นคือส่วนประกอบที่สร้างlogic toposนั้นเก็บเครื่องมือทั้งหมดที่จำเป็นในการศึกษาlogic มันมีproductที่ตรงกับconjunctionในแบบlogic(การและในlogic) coproductsสำหรัdisjunctionsบ(การหรือในแบบlogic)และexponentialsสำหรับimplications axiomsมาตรฐานทั้งหมดของlogicนั้นถูกต้องในtoposยกเว้นกฏแห่งความไม่มีท่ามกลาง(excluded middle)(หรือในความหมายเดียวกันคือ การกำจัดนิเสธสองครั้ง(double negation elimination)) นั้นคือเหตุผลว่าทำไมlogicของtoposนั้นตรงกับlogicแบบintuitionisticหรือconstructive\nlogicแบบintuitionisticหนั้นได้มีความนิยมมาขึ้น ได้พบกับการสนับสนุนที่คาดไม่ถึงจากวิทยาการคอมพิวเตอร์ แนวคิกแบบดังเดิมของความไม่มีท่ามกลางนั้นมีฐานมาจากความเชื่อที่ว่าได้มีความจริงสัมบูรณ์คือทุกๆประโยคนั้นถูกไม่ก็ผิด หรือถ้าในคนโรมโบราณอาจจะพูดtertium non datur(ไม่มีทางเลือกที่สาม)แต่วิธีเดียวที่เราสามารถรู้ว่าบางอย่างนั้นจริงหรือเท็จ นั้นคือถ้าเราสามารถพิสูจน์หรือหักล้างมัน การพิสูจน์คือขบวนการ การคำนวณและเรารู้ว่าการคำนวณใช้เวลาและทรัพยากร ในบางกรณีมันอาจจะไม่มีวันจบ มันไม่สมเหตุสมผลในการที่จะอ้างว่าประโยคนั้นถูกถ้าเราไม่สามารถพิสูจน์มันในเวลาที่มีจำนวนจำกัด toposนั้นที่มีวัตถุความจริงที่เหมาะสมกว่าให้กรอบสำหรับการปั้นรูปlogicที่น่าสนใจ",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>30</span>  <span class='chapter-title'>Topoid</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.13/topoi.html#โจทยทาทาย",
+    "href": "content/3.13/topoi.html#โจทยทาทาย",
+    "title": "30  Topoid",
+    "section": "30.4 โจทย์ท้าทาย",
+    "text": "30.4 โจทย์ท้าทาย\n\nแสดงว่าfunction\\(f\\)นั้นคือpullbackของ\\(\\operatorname{true}\\)กับการที่functionลักษณะเฉพาะต้องinjective",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>30</span>  <span class='chapter-title'>Topoid</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html",
+    "href": "content/3.14/lawvere-theories.html",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "",
+    "text": "31.1 Algebraสากล\nได้มีหลากหลายวิธีในการอธิบายalgebrasในหลากหลายขั้นของabstraction เราพยายามในการหาภาษาที่กว่างในการอธิบายสิ่งต่างๆอย่างmonoids groupsหรือrings ในขั้นที่ง่ายที่สุด การส้ราเหล่านี้นิยามoperationsบนสมาชิกของset บวกกับบางกฏที่ต้องถูกบรรลุโดยoperationsเหล่านี้ ตัวอย่างเช่นmonoidสามารถถูกนิยามในรูปแบบของoperationที่สลับกลุ่มได้ เราก็มีสมาชิกunitและกฏของunit แต่ด้วยการจินตนาการนิดหน่อยเราสามาถแปลงสมาชิกunitไปยังoperationว่าง(nullary operation)ที่คือoperationที่ไม่นำargumentsอะไรเลยและreturnsสมาชิกพิเศษของset ถ้าเราต้องการที่จะพูดเกี่ยวกับgroups เราเพื่มoperatorแบบunaryที่นำสมาชิกและreturns inverseของมัน ได้มีกฏของinverseด้านช้ายและขวาที่ไปพร้อมมัน ringนิยามสองoperatorsแบบbinaryกับกฏเพิ่มเติมและอื่นๆ\nภาพใหญ่คือว่าalgebraนั้นถูกนิยามโดยsetของoperationsแบบ\\(n\\)-aryสำหรับค่าต่างๆของ\\(n\\) และsetของidentitiesในความเท่ากัน identitiesเหล่านี้นั้นquantifiedแบบสากลทั้งหมด สมการการสลับหมู่ต้องถูกบรรลุโดยจัดหมู่ที่เป็นไปได้ของสามสมาชิกและอื่นๆ\nโดยบังเอิญที่สิ่งนี้ขจัดfieldsออกจากการพิจารณา สำหรับเหตุผลเรียบง่ายที่ศูนย์(unitของการบวก)นั้นไม่มีinverseของการคูณ กฏของinverseสำหรับfieldไม่สามารถถูกquantifiedแบบสากล\nนิยามนี้ของalgebraสากลสามารถถูกขยายไปยังcategoryนอกเหนือจาก\\(\\textbf{Set}\\)ถ้าเราแทนที่operations(functions)ดัวยmorphisms แทนที่ของset เราเลือกวัตถุ\\(a\\)(ที่ถูกเรียกว่าวัตถุแบบgeneric)\noperationแบบunaryนั้นคือแค่endomorphismของ\\(a\\) แต่แล้วอะไรคือaritiesอื่นๆ(arityคือตัวเลขของargumentsสำหรับoperationที่ให้มา) ? operationแบบbinary(arity 2)สามารถถูกนิยามในฐานะmorphismจากproduct\\(a\\times a\\)กลับไปยัง\\(a\\) operation \\(n\\)-aryแบบทั่วไปคือmorphismจากยกกำลัง\\(n\\)ของ\\(a\\)ไปยัง\\(a\\)\n\\[\n\\alpha_n :: a^n \\to a\n\\]\noperationแบบnullaryคือmorphismจากวัตถุสุดท้าย(ยกกำลังศูนย์ของ\\(a\\)) ดังนั้นสิ่งที่เราต้องการทั้งหมดในการที่จะนิยามalgebraใดๆก็ตามคือcategoryที่วัตถุต่างๆนั้นคือการยกกำลังของวัตถุพิเศษ\\(a\\)หนึ่ง algebraเฉพาะเจาะจงนั้นถูกเขียนลงไปในhom-setsของcategoryนี้ นี้คือทฤษฎีแบบLawvereอย่างย่อๆ\nการได้มาของทฤษฎีแบบLawvereนั้นต้องผ่านหลายหลายขั้นตอนดังนั้นนี้คือแผนการ",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#algebraสากล",
+    "href": "content/3.14/lawvere-theories.html#algebraสากล",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "",
+    "text": "Categoryของsets\\(\\textbf{FinSet}\\)\nskeletonของมัน\\(\\textbf{F}\\)\noppositeของมัน\\(\\textbf{F}^\\text{op}\\)\nทฤษฎีแบบLawvere\\(\\textbf{L}\\)คือวัตถุในcategory\\(\\textbf{Law}\\)\nmodel\\(M\\)ของcategoryแบบLawvereคือวัตถุในcategory\\(\\textbf{Mod}(\\textbf{Law}, \\textbf{Set})\\)",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#ทฤษฎแบบlawvere",
+    "href": "content/3.14/lawvere-theories.html#ทฤษฎแบบlawvere",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.2 ทฤษฎีแบบLawvere",
+    "text": "31.2 ทฤษฎีแบบLawvere\nทฤษฎีแบบLawvereทั้งหมดมีแกน(backbone)แบบเดียวกัน วัตถุทั้งหมดในทฤษฎีแบบLawvereนั้นสร้างมาจากหนึ่งวัตถุโดยการใช้products(จริงๆก็คือการยกกำลัง) แต่แล้วอะไรคือวิธีการที่เรานิยามproductsเหล่านี้ในcategoryทั่วๆไป? มันกลับมาเป็นว่าเราสามารถนิยามproductsโดยการใช้การโยงจากcategoryที่ง่ายกว่า ในความเป็นจริงแล้วcategoryที่ง่ายกว่านี้อาจจะนิยามcoproductsแทนที่จะเป็นproducts และเราจะใช้functorแบบcontravariantในการฝังมันในcategoryเป้าหมายของเรา functorแบบcontravariantเปลี่ยนcoproductsไปยังproductsและinjectionsไปยังprojections\nทางเลือกแยยทั่วๆไปสำหรับแกนของทฤษฎีแบบLawvereคือcategoryของsetsจำกัด\\(\\textbf{FinSet}\\) มันมีsetว่าง\\(\\emptyset\\) setที่มีสมาชิกเดียว\\(1\\) setที่มีสองสมาชิก\\(2\\) และอื่นๆ วัตถุทั้งหมดในcategoryนี้สามารถถูกสร้างจากsetที่มีสมาชิกเดียวโดยการใช้coproducts(โดยมองsetว่างในฐานะกรณีพิเศษของcoproductแบบnullary) ตัวอย่างเช่นsetที่มีสองสมาชิกคือsumของสองsetที่มีสมาชิกเดียว \\(2=1+1\\) ในการแสดงในHaskell\ntype Two = Either () ()\nแต่ถึงแม้มันเป็นธรรมชาติในการคิดว่าได้มีแค่หนึ่งsetว่าง ได้อาจจะมีหลายsetที่มีสมาชิกเดียวที่จำเพาะ โดยเฉพาะเช่นset\\(1+\\emptyset\\)นั้นแตกต่างจากset\\(\\emptyset+1\\)และแตกต่างจาก\\(1\\)ถึงแมัพวกกันจะisomorphic coproductในcategoryของsetนั้นไม่มีความสลับกลุ่ม เราสามารถแก้สถานการณ์นั้นโดนการสร้างcategoryที่ชี้หาsetที่isomorphicกันทั้งหมด categoryอย่างนั้นถูกเรียกว่าskeleton ในอีกความหมายหนึ่งbackboneของทฤษฎีแบบLawvereคือskeleton\\(\\textbf{F}\\)ของ\\(\\textbf{FinSet}\\) วัตถุในcategoryนี้สามารถถูกชี้กับเลขธรรมชาติ(รวมไปถึงศูนย์)ที่ตรงกันกับการนับสมาชิกใน\\(\\textbf{FinSet}\\) coproductมีบทบาทในการบวก morphismsใน\\(\\textbf{F}\\)คู่กับfunctionระหว่างsetจำกัด ตัวอย่างเช่นได้มีmorphismที่เป็นเอกลักษณ์จาก\\(n\\)ไปยัง\\(\\emptyset\\)(ยกเว้น\\(\\emptyset\\to\\emptyset\\)) morphisms \\(n\\)จาก\\(1\\)ไปยัง\\(n\\)(morphisms) morphismหนึ่งจาก\\(n\\)ไปยัง\\(1\\)และอื่นๆ ในที่นี้\\(n\\)นั้นบ่งบอกถึงวัตถุใน\\(\\textbf{F}\\)ที่คู่กับsetที่มีสมาชิกทั้งหมดใน\\(\\textbf{FinSet}\\)ที่ถูกชี้ตัวผ่านisomorphisms\nในการใช้category\\(\\textbf{F}\\)เราสามารถนิยามอย่างรัดกุมทฤษฎีแบบLawvereในฐานะcategory\\(\\textbf{L}\\) ที่มีfunctorพิเศษเป็นคู่อย่าง\n\\[\nI_\\textbf{L}::\\textbf{F}^\\text{op}\\to\\textbf{L}\n\\]\nfunctorนี้อาจจะเป็นbijectionบนวัตถุและมันอาจจะคงproductที่จำกัดไว้(productใน\\(\\textbf{F}^\\text{op}\\)นั้นเหมือนกับcoproductsใน\\(\\textbf{F}\\))\n\\[\nI_\\textbf{L}(m\\times n) = I_\\textbf{L}m\\times I_\\textbf{L}n\n\\]\nคุณอาจจะในบางครั้งเห็นfunctorนี้ถูกทำให้อยู่ในฐานะidentity-บน-วัตถุ ที่หมายความว่าวัตถุใน\\(\\textbf{F}\\)และ\\(\\textbf{L}\\)นั้นเหมือนกัน ดังนั้นเราจะใช้ชื่อเดียวกันกับมัน เราจะเขียนมันในฐานะจำนวนธรรมชาติ แต่ต้องจำไว้ว่าวัตถุใน\\(\\textbf{F}\\)นั้นำปม่เหมือนกับset(พวกมันคือclasseต่างๆของsetที่isomorphicกัน)\nhom-setsใน\\(\\textbf{L}\\)นั้นโดยทั่วไปนั้นมีคุณค่ามากกว่าตังที่อยู่ใน\\(\\textbf{F}^\\text{op}\\) พวกมันอาจจะเก็บmorphismนอกเหนือจากสิ่งที่ตรงกับfunctionต่างๆใน\\(\\textbf{FinSet}\\)(ตัวหลังนั้นในบางครั้งถูกเรียกว่าoperationsของproductพื้นฐาน(basic product operations)) กฎของความเท่ากันของทฤษฎีแบบLawvereนั้นถูกเขียนในmorphismsเหล่านี้\nข้อสังเกตที่สำคัญคือว่าsetที่มีสมาชิกเดียว\\(1\\)ใน\\(\\textbf{F}\\)นั้นถูกโยงไปยังบางวัตถุที่เราก็เรียกว่า\\(1\\)ใน\\(\\textbf{L}\\) และวัตถุอื่นๆใน\\(\\textbf{L}\\)นั้นคือตัวยกกำลังของวัตถุนี้โดยอัตโนมัติ ตัวอย่างเช่นsetที่มีสองสมาชิก\\(2\\)ใน\\(\\textbf{F}\\)คือcoproduct\\(1+1\\)ดังนั้นมันต้องถูกโดยงไปยังproduct\\(1\\times1\\)(หรือ\\(1^2\\))ใน\\(\\textbf{L}\\) ในแนวทางนี้แล้วcategory\\(\\textbf{F}\\)กระทำเหมือนlogarithmของ\\(\\textbf{L}\\)\nภายในmorphismsใน\\(\\textbf{L}\\) เรามีสิ่งต่างๆที่ย้ายโดยfunctor\\(I_\\textbf{L}\\)จาก\\(\\textbf{F}\\) พวกมันมีบทบาททางโครงสร้างใน\\(\\textbf{L}\\) โดยเฉพาะเช่นinjectionsของcoproduct\\(i_k\\)กลายมาเป็นprojectionsของproduct\\(p_k\\) วิธีคิดที่มีประโยชน์คือการจินตนาการถึงprojectionของ\n\\[\np_k :: 1^n \\to 1\n\\]\nในฐานะตัวเริ่มต้นสำหรับfunctionที่มี\\(n\\)ตัวแปลที่ไม่สนใจทั้งหมดแค่แปรที่\\(k\\)เท่านั้น ในทางกลับกันmorphismsคงที่\\(n\\to1\\)ใน\\(\\textbf{F}\\) หลายมาเป็นmorphismsแบบdiagonal\\(1\\to1^n\\)ใน\\(\\textbf{L}\\) พวกมันตรงกับการทำสำเนาของตัวแปรต่าง\nmorphismsที่น่าสนใจใน\\(\\textbf{L}\\) คือตัวต่างๆที่นิยามoperationsแบบ\\(n\\)-aryที่นอกเหนือจากprojections มันคือmorphismเหล่านี้ที่แยกทฤษฎีแบบLawvereออกจากอีกตัวหนึ่ง สิ่งเหล่านี้คือการคูณ การบวกและการเลือกสมาชิกunitและอื่นๆที่นิยามalgebra แต่ในการทำให้\\(\\textbf{L}\\)เป็นcategoryแบบสมบูรณ์ เราก็ต้แงการoperationsแบบผสม\\(n\\to m\\)(หรือในแบบเดียวกันคือ\\(1^n \\to 1^m\\)) เนื่องด้วยโครงสร้างที่เรียบง่ายของcategory พวมกันกลับมาเป็นproductของmorphismsที่เรียบง่ายกว่าของtype\\(n \\to 1\\) นี้คือการgeneralizationเท่าไปของประโยคที่ว่าfunctionที่returns productกลับมาคือproductของfunctions(หรือในการที่เราได้เห็นก่อนหน้านี้นั้นคือว่าhom-functorนั้นcontinuous)\n\n\n\nทฤษฎีแบบLawvere\\(\\textbf{L}\\)นั้นขึ้นมาจาก\\(\\textbf{F}^\\text{op}\\)จากที่มันได้รับmorphisms”น่าเบื่อ”ที่นิยามproductต่างๆ มันเพื่มmorphisms”น่าสนใจ”ที่อธิบายoperationsแบบบ\\(n\\)-ary\n\n\nLawvereก่อให้เกิดcategory\\(\\textbf{Law}\\)ที่morphismต่างๆคือfunctorsที่คงไว้ซึ่งproductจำกัดและสลับกลุ่มได้กับfunctors\\(I\\) ถ้ามีสองทฤษฎี \\((\\textbf{L}, I_{\\textbf{L}})\\)และ\\((\\textbf{L'}, I'_{\\textbf{L'}})\\) morphismระหว่างมันคือfunctor\\(F :: \\textbf{L} \\to \\textbf{L'}\\)ในการที่ว่า\n\\[\n\\begin{gather*}\n  F\\ (m \\times n) = F\\ m \\times F\\ n \\\\\n  F \\circ I_{\\textbf{L}} = I'_{\\textbf{L'}}\n\\end{gather*}\n\\]\nmorphismระหว่างทฤษฎีแบบLawvereเก็บแนวคิดของการตีความของหนึ่งทฤษฎีภายในอีกตัว ตัวอย่างเช่นการคูณของgroupอาจจะถูกตีความในฐานะการคูณแบบmonoidถ้าเราไม่สนใจinverse\nตัวอย่างที่ตรงไปตรงมาที่เรียบง่ายที่สุดของcategoryแบบLawvereคือ\\(\\textbf{F}^\\text{op}\\)มันเอง(ที่ตรงกับตัวเลือกของfunctor identityสำหรับ\\(I_\\textbf{L}\\))ทฤษฎีแบบLawvereที่ไม่มีoperationsหรือกฏกลับมาเป็นวัตถุเริ่มต้นใน\\(\\textbf{Law}\\)\nในจุดๆนี้มันอาจจะมีประโยชน์ในการแสดงตัวอย่างที่ไม่ตรงไปตรงมาของทฤษฎีแบบLawvere แต่มันอาจจะยากในการอธิบายโดยที่ไม่สนใจว่าmodelคืออะไร",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#modelsของทฤษฎแบบlawvere",
+    "href": "content/3.14/lawvere-theories.html#modelsของทฤษฎแบบlawvere",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.3 ModelsของทฤษฎีแบบLawvere",
+    "text": "31.3 ModelsของทฤษฎีแบบLawvere\nกุญแจในการทำความเข้าใจทฤษฎีแบบLawvereนั้นคือการเข้าใจได้ว่าทฤษฎีแบบนี้เป็นการgeneralizationแต่ละalgebrasหลากหลายตัวที่มีฌครงสร้างเดียวกัน ตัวอย่างเช่นทฤษฎีแบบLawvereของmonoidนั้นอธิบายแก่นแท้ของความเป็นmonoid มันต้องถูกต้องสำหรับทุกๆmonoid monoidบางตัวจะกลายมาเป็นmodelของtheoryแบบนั้น modelนั้นถูกนิยามในฐานะfunctorจากทฤษฎีแบบLawvere\\(\\textbf{L}\\)ไปยังcategoryของ\\(\\textbf{Set}\\)(ได้มีการgeneralizationของทฤษฎีแบบLawvereที่ใช้categoryอื่นๆสำหรับmodelแต่ในที่นี้เราจะเพ่งเล็งไปที่\\(\\textbf{Set}\\)อย่างเดียว) เนื่องด้วยโครงสร้างของ\\(\\textbf{L}\\)ขึ้นอยู่อย่างมากกับproduct เราต้องการว่าfunctorแบบนี้ต้องคงไว้ซึ่งproductsจำกัด modelของ\\(\\textbf{L}\\)นั้นก็ถูกเรียกว่าalgebraบนทฤษฎีแบบLawvere\\(\\textbf{L}\\) ดังนั้นถูกนิยามโดยfunctorอย่าง\n\\[\n\\begin{gather*}\n  M :: \\textbf{L} \\to \\textbf{Set} \\\\\n  M\\ (a \\times b) \\cong M\\ a \\times M\\ b\n\\end{gather*}\n\\]\nสังเกตว่าเราต้องการคงไว้ของproductsไว้แค่จนถึงisomorphism สิ่งนี้นั้นสำคัญมากเพราะว่าการคงไว้แบบเข้มงวดของproductsก็จะขจัดทฤษฎีต่างๆที่น่าสนใจ\nคงไว้ของproductโดยmodelหมายความว่าimageของ\\(M\\)ใน\\(\\textbf{Set}\\)คือsetที่ต่อเนื่องกันสร้างโดยpowerของset\\(M \\ 1\\) คือimageของวัตถุ\\(1\\)จาก\\(\\textbf{L}\\) เรามาเรียกsetนี้ว่า\\(a\\)(setนี้นั้นในบางครังถูกเรียกว่าsortและalgebraแบบนั้นถูกเรียกว่าsingle-sorted ได้มีการgeneralizationแบบของทฤษฎีแบบLawvereไปยังalgebrasแบบmulti-sorted) โดยเฉพาะoperationsแบบbinaryจาก\\(\\textbf{L}\\)นั้นถูกโยงไปยังfunctions\n\\[\na \\times a \\to a\n\\]\nเหมือนกับfunctorใดๆก็ตาม มันเป็นไปได้ว่าหลายmorphismsใน\\(\\textbf{L}\\)นั้นถูกยุบไปยังfunctionเดียวกันใน\\(\\textbf{Set}\\)\nโดยบังเอิญความจริงที่ว่ากฏทั้งหมดนั้นเป็นความเท่ากับที่สามารถquantifiedแบบสากลหมายความว่าทุกๆทฤษฎีแบบLawvereมีmodelที่ตรงไปตรงมาคือfunctorคงที่ที่โยงทุกวัตถุไปยังsetที่มีสมาชิกเดียวและทุกๆmorphismsไปยังfunction identityของมัน\nmorphismทั่วๆไปใน\\(\\textbf{L}\\)ของรูปแบบ\\(m\\to n\\)นั้นถูกโยงไปยังfunction\n\\[\na^m \\to a^n\n\\]\nถ้าเรามีสองmodelที่แตกต่างกัน\\(M\\)และ\\(N\\) การแปลงแบบธรรมชาติระหว่างพวกมันคือชุดของfunctionsที่ถูกชี้โดย\\(n\\)\n\\[\n\\mu_n :: M\\ n \\to N\\ n\n\\]\nหรือในแบบเดียวกัน\n\\[\n\\mu_n :: a^n \\to b^n\n\\]\nที่\\(b = N \\ 1\\)\nสังเกตว่าเงื่อไขความเป็นธรรมชาติรับรองการคงไว้ของopeartionของ\\(n\\)-aryอย่าง\n\\[\nN\\ f \\circ \\mu_n = \\mu_1 \\circ M\\ f\n\\]\nที่\\(f :: n \\to 1\\)คือ\\(n\\)-ary operation ใน\\(\\textbf{L}\\).\nfunctorsที่นิยามmodelก่อให้เกิดcategoryของmodelต่างๆ\\(\\textbf{Mod}(\\textbf{L}, \\textbf{Set})\\) กับการแปลงแบบธรรมชาติในฐานะmorphisms\nลองพิจารณาmodelสำหรับงทฤษฎีแบบLawvereที่ตรงไปตรงมาอย่าง\\(\\textbf{F}^\\text{op}\\) modelแบบนี้นั้นถูกกำหนดโดยค่าของมันที่\\(1\\) \\(M \\ 1\\) เนื่องด้วย\\(M \\ 1\\)สามารถเป็นsetใดๆก็ตามได้มีmodelที่มากมายพอๆกับจำนวณsetใน\\(\\textbf{Set}\\) นาเหนือจากไปนี้ทุกๆmorphismใน\\(\\textbf{Mod}(\\textbf{F}^\\text{op}, \\textbf{Set})\\)(ที่คือการแปลงแบบธรรมชาติระหว่างfunctor\\(M\\)และ\\(N\\))นั้นถูกกำหนดอย่าง เป็นเอกลักษณ์โดยส่วนประกอบของมันที่ \\(M \\ 1\\) ในทางกลับกันทุกๆfunction\\(M\\ 1 \\to N\\ 1\\)ก่อให้เกิดการแปลงแบบธรรมชาติระหว่างสองmodel \\(M\\)และ\\(N\\) ดังนั้น\\(\\textbf{Mod}(\\textbf{F}^\\text{op}, \\textbf{Set})\\)นั้นเท่ากับ\\(\\textbf{Set}\\)",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#ทฤษฎของmonoids",
+    "href": "content/3.14/lawvere-theories.html#ทฤษฎของmonoids",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.4 ทฤษฎีของMonoids",
+    "text": "31.4 ทฤษฎีของMonoids\nตัวอย่างที่ไม่ตรงไปตรงมาแต่ง่ายที่สุดของทฤษฎีแบบLawvereอธิบายโครงสร้างของmonoids มันคือทฤษฎีเดียวที่สกัดโครงสร้างของmonoidsที่เป็นไปได้ทั้งหมดในความหมายที่ว่าmodelของทฤษฎีนี้ขยายไปยังทั้งcategory\\(\\textbf{Mon}\\)ของmonoids เราได้เห็นการสร้างแบบสากลแล้วที่แสดงว่าทุกๆmonoidสามารถถูกได้มาจากmonoidอิสระที่เหมาะสมโดยการตามหาsetย่อยของmorphisms ดังนั้นmonoidอิสระตัวหนึ่งนั้นได้วางนัยmonoidหลายๆตัวแล้ว แต่ไต้มีmonoidอิสระนับไม่จำกัด ทฤษฎีแบบLawvereสำหรับ\\(\\textbf{L}_\\textbf{Mod}\\)รวมพวกมันทั้งหมดในการสร้างที่งดงามเพียงครั้งเดียว\nทุกๆmonoidต้องมีunit ดังนั้นเราจำเป็นต้องมีmorphismพิเศษ\\(\\eta\\)ใน\\(\\textbf{L}_\\textbf{Mod}\\)ที่จาก\\(0\\)ไปยัง\\(1\\) สังเกตว่าได้ไม่สามารถมีmorphismที่ตรงกันใน\\(\\textbf{F}\\) morphismแบบนั้นอาจจะไปในทิศทางตรงกันข้ามจาก\\(1\\)ไปยัง\\(0\\)ที่ใน\\(\\textbf{FinSet}\\)ก็จะคือfunctionจากsetที่มีสมาชิกเดียวไปยังsetว่าง functionแบบนั้นไม่มีอยู่\nต่อไปลองพิจารณาmorphisms\\(2 \\to 1\\)ที่คือสมาชิิกของ\\(\\textbf{L}_\\textbf{Mod}(2,1)\\)ที่ต้องมีรูปแบบแรกเริ่มของoperationsแบบbinaryทั้งหมด ในการสร้างmodelsใน\\(\\textbf{Mod}(\\textbf{L}_\\textbf{Mod}, \\textbf{Set})\\) morphismsเหล่านี้จะถูกโยงไปยังfunctionจากproductแบบCartesianของ\\(M\\ 1 \\times M\\ 1\\)ไปยัง\\(M\\ 1\\) ในอีกความหมายหนึ่งfunctionที่มีสองargument\nคำถามคือ มีfunctionsที่มีสองargumentsกี่ตัวที่เราสามารถเขียนโดยการใช้แค่operatorของmonoid เรามาเรียกสองargument\\(a\\)และ\\(b\\) ได้มีfunctionหนึ่งที่ละเว้นทั้งสองargumentsและreturn unitของmonoid แล้วก็มีสองprojectionsที่return\\(a\\)และ\\(b\\)ตามลำดับ พวกมันนั้นตามด้วยfunctionsที่return\\(ab\\), \\(ba\\), \\(aa\\), \\(bb\\), \\(aab\\)และอื่นๆ ในความเป็นจริงแล้วได้มีfunctionแบบนี้เป็นจำนวนfunctionของสองargumentที่เท่ากับสมาชิกในmonoidอิสระที่มีgenerators\\(a\\)และ\\(b\\) สังเกตว่า\\(\\textbf{L}_\\textbf{Mod}(2,1)\\)ต้องมีmorphismเหล่านี้นเพราะว่าหนึ่งในmodelคือmonoidอิสระ ในmonoidอิสระ พวกมันตรงกับfunctionsแต่ละfunctions modelอื่นๆอาจจะยุบหลายmorphismใน\\(\\textbf{L}_\\textbf{Mod}(2,1)\\)ไปยังfunctionเดียว แต่ไม่สำหรับmonoidอิสระ\nถ้าเราเรียกmonoidอิสระที่มี\\(n\\) generatorsว่า\\(n^*\\) เราอาจจะจับคู่hom-set \\(\\textbf{L}(2,1)\\)กับhom-set\\(\\textbf{Mod}(1^*,2^*)\\)ใน\\(\\textbf{Mod}\\)ที่คือcategoryของmonoid โดยทั่วไปแล้วเราเลือก\\(\\textbf{L}_\\textbf{Mod}(m,n)\\)ไปยัง\\(\\textbf{Mod}(n^*,m^*)\\) ในอีกความหมายหนึ่งcategory\\(\\textbf{L}_\\textbf{Mod}\\)นั้นตรงกันข้ามกับcategoryของmonoidsอิสระ\ncategoryของmodelsของทฤษฎีแบบLawvereสำหรับmonoids\\(\\textbf{Mod}(\\textbf{L}, \\textbf{Set})\\)นั้นเท่ากับcategoryของmonoidทั้งหมดอย่าง\\(\\textbf{Mod}\\)",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#ทฤษฎแบบlawvereและmonad",
+    "href": "content/3.14/lawvere-theories.html#ทฤษฎแบบlawvereและmonad",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.5 ทฤษฎีแบบLawvereและMonad",
+    "text": "31.5 ทฤษฎีแบบLawvereและMonad\nในการที่คุณอาจจะจำได้ทฤษฎีพีชคณิตสามารถถูกอธิบายโดยการใช้monad (โดยเฉพาะเช่นพีชคณิตสำหรับmonad) มันจรึงไม่แปลกใจที่ได้มีความเชื่อมโยงระหว่างทฤษฎีแบบLawvereและmonad\nเนิ่มด้วยเรามาดูในวิธีที่ทฤษฎีแบบLawvereก่อให้เกิดmonad มันทำแบบนี้ผ่านadjunctionระหว่างfunctorหลงลืมกับfunctorอิสระ functorหลงลืม\\(U\\)กำหนดsetของแต่ละmodel setนี้นั้นถูกให้มาโดยการหาค่าของfunctor\\(M\\)จาก\\(\\textbf{Mod}(\\textbf{L}, \\textbf{Set})\\)ที่วัตถุ\\(1\\)ใน\\(\\textbf{L}\\)\nในอีกทางของการหา\\(U\\)คือการใช้ประโยชน์ของความจริงที่ว่า\\(\\textbf{F}^\\text{op}\\) คือวัตถุแรกเริ่มใน\\(\\textbf{Law}\\) มันหมายความว่าสำหรับทฤษฎีแบบLawvere\\(\\textbf{L}\\)ได้มีfunctorที่เป็นเอกลักษณ์\\(\\textbf{F}^\\text{op}\\to\\textbf{L}\\) functorนี้สร้างfunctorตรงข้ามบนmodel(เนื่องด้วยmodelต่างๆนั้นคือfunctorsจากทฤษฎีไปยังsets)\n\\[\n\\textbf{Mod}(\\textbf{L}, \\textbf{Set})\\to\\textbf{Mod}(\\textbf{F}^\\text{op}, \\textbf{Set})\n\\]\nมันสามารถถูกแสดงว่า\\(U\\)ที่ถูกนิยามนั้นคือadjointด้านช้ายโดยตลอดนั้นคือfunctorอิสระ\\(F\\)\nมันนั้นสามารถมองเห็นได้อย่างง่ายสำหรับsetจำกัด functorอิสระ\\(F\\)สร้างalgebraอิสระ algebraอิสระนั้นคือmodelโดยเฉพาะใน\\(\\textbf{Mod}(\\textbf{L}, \\textbf{Set})\\)นั้นถูกสร้างโดยgeneratorแบบsetจำกัด\\(n\\) เราสามารถเขียน\\(F\\)ในฐานะfunctorที่สามารถมีตัวแทนได้อย่าง\n\\[\n\\textbf{L}(n,-) :: \\textbf{L}\\to\\textbf{Set}\n\\]\nในการแสดงว่ามันนั้นอิสระ สิ่งที่เราต้องทำทั้งหมดในการแสดงว่ามันคือadjointด้านช้ายไปยังfunctorหลงลืมอย่าง\n\\[\n\\textbf{Mod}(\\textbf{L}(n, -), M) \\cong\\textbf{Set}(n, U(M))\n\\]\nเรามาทำให้ด้านขวาง่ายขึ้นอย่าง\n\\[\n\\textbf{Set}(n, U(M))\\cong\\textbf{Set}(n, M \\ 1)\\cong (M \\ 1)^n\\cong M \\ n\n\\]\n(ผมได้ใช้ความเป็นจริงที่ว่าsetของmorphismsนั้นisomorphicไปยังexponentialที่ในกรณีนี้คือแค่productที่ผ่านทำซ้ำ) adjunctionนั้นคือผลของYoneda lemmaว่า\n\\[\n[\\textbf{L},\\textbf{Set}]\\big( \\textbf{L}(n, -), M) \\big)\\cong M \\ n\n\\]\nด้วยกันfunctorหลงลืมและอิสระนิยามmonad\\(T=U\\circ F\\)บน\\(\\textbf{Set}\\)ดังนั้นทุกๆทฤษฎีแบบLawvereสร้างmonad\nมันกลับมาเป็นว่าcategoryของalgebrasสำหรับmonadนี้นั้นเท่ากับcategoryของmodel\nคุณอาจจะจำได้ว่าalgebraแบบmonadนิยามวิธีการในการหาค่าexpressionที่ถูกสร้างโดยการใช้monad ทฤษฎีแบบLawvereนิยามoperationแบบn-aryที่สามารถถูกใช้ในการสร้างexpressions modelให้วิธีการมาในการหาค่าของexpressionเหล่านี้\nแต่ความสัมพันธ์ระหว่างmonadและทฤษฎีแบบLawvereไม่ได้ไปในทั้งสองทิศทาง มีแค่monadแบบที่มีarityที่จำกัด(finitary)ที่นำไปสู่ทฤษฎีแบบLawvere monadแบบที่มีarityที่จำกัดนั้นก่อมาจากfunctorที่มีarityที่จำกัด การกระทำของมันบนset\\(a\\)ใดๆก็ตามสามารถถูกประเมินค่าโดยการใช้coendว่า\n\\[\nF\\ a = \\int^n a^n \\times (F\\ n)\n\\]\nเนื่องด้วยcoendนั้นวางนัยแบบทั่วไปของcoproductหรือsum สูตรแบบนี้คือการgeneralizationของการขยายอนุกรมกำลัง หรือเราสามารถใช้วิธีคิดที่ว่าfunctorนั้นคือวางนัยแบบทั่วไปของภาชนะ ในกรณีนี้แล้วภาชนะที่มีarityที่จำกัดของ\\(a\\)ต่างๆสามารถถูกอธิบายในฐานะsumของรูปและเนื้อหา ในที่นี้\\(F \\ n\\)คือsetของรูปร่างของการเก็บ\\(n\\)สมาชิกและเนื้อหาคือ\\(n\\)-tupleของสมาชิก ตัวมันเองคือสมาชิกของ\\(a^n\\) ตัวอย่างเช่นlist(ในฐานะfunctor)นั้นมีarityที่จำกัด ที่มีรูปหนึ่งสำหรับแต่และarity treeนั้นมีรูปร่างมากกว่าarityและอื่นๆและอื่นๆ\nตัวอย่างแรก monadsทั้งหมดที่ถูกสร้างจากทฤษฎีแบบLawvereนั้นมีarityที่จำกัด และพวกกันสามารถถูกแสดงใรฐานะcoends\n\\[\nT_{\\textbf{L}}\\ a = \\int^n a^n \\times \\textbf{L}(n, 1)\n\\]\nในทางกลับกันการให้มาซึ่งmonadที่มีarityที่จำกัด\\(T\\)บน\\(\\textbf{Set}\\) เราสามารถสร้างทฤษฎีแบบLawvere เราเริ่มโดยการสร้างcategoryแบบKleisliสำหรับ\\(T\\) ในการคุณอาจจะจำได้ morphismในcategoryแบบKleisliสำหรับจาก\\(a\\)ไปยัง\\(b\\)นั้นให้มาโดยmorphismในcategoryภายใต้\n\\[\na \\to T\\ b\n\\]\nในตอนที่เราจำกัดบนsetจำกัด สิ่งนี้มาเป็น\n\\[\nm \\to T\\ n\n\\]\ncategoryตรงกันข้ามไปยังcategoryแบบKleisliนี้\\(\\textbf{KL}_T^\\text{op}\\)ถูกจำกัดไปยังsetที่จำกัดคือทฤษฎีแบบLawvereในที่เราสนใจ โดยเฉพาะเช่นhom-set\\(\\textbf{L}(n,1)\\)ที่อธิบายoperationsแบบ\\(n\\)-aryใน\\(\\textbf{L}\\)นั้นให้มาโดยhom-set\\(\\textbf{KL}_T(1,n)\\)\nมันกลายมาเป็นว่าmonadส่วนใหญ่ที่เราพบในการเขียนโปรแกรมนั้นมีarityที่จำกัด ที่มีข้อยกเว้นที่น่าสนใจของmonadแบบcontinuation มันเป็นไปได้ในการขยาย แนวคิดของทฤษฎีแบบLawvereนอกเหนือจากoperationที่มีarityที่จำกัด",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#monadในฐานะcoends",
+    "href": "content/3.14/lawvere-theories.html#monadในฐานะcoends",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.6 MonadในฐานะCoends",
+    "text": "31.6 MonadในฐานะCoends\nเรามาสำรวจสูตรcoendในรายละเอียดมากขึ้น\n\\[\nT_\\textbf{L}a=\\int^na^n\\times\\textbf{L}(n,1)\n\\]\nในการเริ่มต้น coendนี้นั้นนำมาบนprofunctor\\(P\\)ใน\\(\\textbf{F}\\)ที่ถูกนิยามว่า\n\\[\nP\\ n\\ m = a^n \\times \\textbf{L}(m, 1)\n\\]\nprofunctorนี้เป็นcontravariantในargument\\(n\\)แรก ลองพิจารณาในวิธีการที่มันlift morphismต่างๆ morphismsใน\\(\\textbf{FinSet}\\)นั้นคือการโยงของsetจำกัด\\(f::m\\to n\\) การโยงแบบนั้นอธิบายการเลือกของสมาชิก\\(m\\)ตัวจากsetที่มี\\(n\\)สมาชิก (การเลือกช้ำนั้นเป็นไปได้) มันสามารถถูกliftไปยังการโยงของการยกกำลังของ\\(a\\)โดนเฉพาะเช่น(สังเกตทิศทาง)\n\\[\na^n \\to a^m\n\\]\nการยกนั้นแค่เลือกสมาชิก\\(m\\)จากtupleของ\\(n\\)สมาชิก(อาจจะเป็นไปได้กับการเลือกช้ำ)\n\n\n\n\n\nตัวอย่างเช่น เรามานำ\\(f_k :: 1 \\to n\\)ที่คือการเลือกของสมาชิกที่\\(k\\)จากsetที่มี\\(n\\)สมาชิก มันliftไปยังfunctionที่นำtupleของ\\(n\\)สมาชิกของ\\(a\\)และreturnตัวที่\\(k\\)มา\nหรือเรานำ\\(f::m\\to1\\)มา ที่คือfunctionคงที่ที่โยงสมาชิก\\(m\\)ตัวทั้งหมดไปยังตัวหนึ่ง มันที่ถูกliftคือfunctionที่นำสมาชิกเดียวของ\\(a\\)และทำช้ำมัน\\(m\\)รอบ\n\\[\n\\lambda{}x \\to (\\underbrace{x, x,\\ ...\\ , x}_{m})\n\\]\nคุณอาจจะสังเกตว่ามันนั้นไม่ชัดเจนในทันทีว่าprofunctorที่เราสนใจนั้นคือcovariantในargumentที่สอง hom-functor\\(\\textbf{L}(m,1)\\)นั้นเป็นcontravariantใน\\(m\\)จริงๆ แต่เรากำลังนำcoendไปไม่ในcategory\\(\\textbf{L}\\)แต่ในcategory\\(\\textbf{F}\\) ตัวแปลcoend \\(n\\)นั้นไปบนsetที่จำกัด(หรือแกนของสิ่งนั้น) category\\(\\textbf{L}\\)เก็บตรงกันข้ามของ\\(\\textbf{F}\\) ดังนั้นmorphism\\(m\\to n\\)ใน\\(\\textbf{F}\\)คือสมาชิกของ\\(\\textbf{L}(n,m)\\)ใน\\(\\textbf{L}\\) (การembedนั้นให้มาโดยfunctor\\(I_\\textbf{L}\\))\nเรามาตรวจสอบการใช้งานของ\\(\\textbf{L}(m,1)\\)ในฐานะfunctorจาก\\(\\textbf{F}\\)ไปยัง\\(\\textbf{Set}\\) เราต้องการที่จะlift function\\(f::m\\to n\\)ดังนั้นเป้าหมายของเราคือการเขียนfunctionจาก\\(\\textbf{L}(m,1)\\)ไปยัง\\(\\textbf{L}(n,1)\\) ตามจากfunction\\(f\\)ได้มีmorphismใน\\(\\textbf{L}\\)จาก\\(n\\)ไปยัง\\(m\\)(สังเกตทิศทาง) การประกอบก่อนของmorphismนี้กับ\\(\\textbf{L}(m,1)\\)ให้setย่อยของ\\(\\textbf{L}(n,1)\\)อย่าง\n\n\n\nสังเกตว่าการliftของfunction\\(1\\to n\\)เราสามารถไปจาก\\(\\textbf{L}(1,1)\\)ไปยัง\\(\\textbf{L}(n,1)\\) เราจะมาใช้ความจริงนี้หลังจากนี้\nproductของfunctorแบบcontravariant\\(a^n\\)และfunctorแบบcovariant\\(\\textbf{L}(m,1)\\)คือprofunctor\\(\\textbf{F}^\\text{op}\\times\\textbf{F}\\to\\textbf{Set}\\) จำได้ว่าcoendสามารถถูกนิยามในฐานะcoproduct(การบวกแบบdisjoint)ของทุกๆสมาชิกแนวทแยงของprofunctorที่ที่บางสมาชิกนั้นถูกระบุ การระบุนั้นตรงกับเงื่อนไขcowedge\nในที่นี้coendเริ่มในฐานะการบวกแบบdisjointของsets\\(a^n \\times \\textbf{L}(n, 1)\\)บน\\(n\\)ต่างๆทั้งหมด การระบุสามารถถูกสร้างโดยการแสดงcoendในฐานะcoequalizer เราเริ่มด้วยตัวที่ไม่ได้อยู่ในแนวทแยง\\(a^n \\times \\textbf{L}(m, 1)\\) ในการได้มาของตัวในแนวทแยง เราสามารถใช้morphism\\(f::m\\to n\\)ไปที่ตัวแรกหรือตัวที่สองของproduct ผลลัพธ์ทั้งสองก็ถูกระบุว่า\n\n\n\n\\[\nf::m\\to n\n\\]\nผมได้แสดงก่อนหน้านี้ว่าการliftของ\\(f::1\\to n\\)ทำให้เกิดสองการแปลงอย่างนี้\n\\[\na^n\\to a\n\\]\nและ\n\\[\n\\textbf{L}(1, 1) \\to \\textbf{L}(n, 1)\n\\]\nดังนั้นเริ่มมาจาก\\(a^n\\times\\textbf{L}(1,1)\\)เราสามารถไปถึงทั้งสอง\n\\[\na\\times\\textbf{L}(1, 1)\n\\]\nในตอนที่เราlift\\(\\langle f,\\operatorname{id}\\rangle\\)และ\n\\[\na^n\\times\\textbf{L}(n, 1)\n\\]\nในตอนที่เราlift\\(\\langle \\operatorname{id}, f\\rangle\\) สิ่งนี้ไม่ได้หมายความว่าทุกๆสมาชิกของ\\(a^n\\times\\textbf{L}(n, 1)\\)สามารถถูกระบุด้วย\\(a\\times\\textbf{L}(1, 1)\\) นั้นก็เพราะว่าไม่ทุกสมาชิกของ\\(\\textbf{L}(n, 1)\\)สามารถเข้าถึงจาก\\(\\textbf{L}(1, 1)\\) จำได้ว่าเราสามารถแค่lift morphismsจาก\\(\\textbf{F}\\) operationแบบ\\(n\\)-aryที่ไม่ตรงไปตรงมาใน\\(\\textbf{L}\\)ไม่สามารถถูกสร้างโดยการlift morphism\\(f::1\\to n\\)\nในอีกความหมายหนึ่ง เราสามารถแค่ระบุaddends(endsเกี่ยวกับการบวก)ในสูตรของcoendที่\\(\\textbf{L}(n, 1)\\)สามารถไปถึงจาก\\(\\textbf{L}(1, 1)\\)ผ่านการใช้งานของmorphismsแบบเรียบง่าย พวกมันทั้งหมดนั้นเท่ากับ\\(a\\times\\textbf{L}(1, 1)\\) morphismsแบบเรียบง่ายนั้นคือตัวที่คือimageของmorphismต่างใน\\(\\textbf{F}\\)\nเรามาดูว่าสิ่งเหล่านี้ทำงานอย่างไรในกรณีที่ง่ายที่สุดของทฤษฎีแบบLawvere \\(\\textbf{F}^\\text{op}\\)มันเอง ในทฤษฎีแบบนี้ ทุกๆ\\(\\textbf{L}(n, 1)\\)สามารถถูกเข้าถึงได้จาก\\(\\textbf{L}(1, 1)\\) นั้นก็เพราะว่า\\(\\textbf{L}(1, 1)\\)คือสิ่งที่มีสมาชิกเดียวที่เก็บแค่morphism identity และ\\(\\textbf{L}(n, 1)\\)แค่เก็บmorphismsที่ตรงกับinjections \\(1\\to n\\)ใน\\(\\textbf{F}\\)ที่คือmorphismsแบบทั่วไป ดังนั้นทุกaddendsในcoproductนั้นเท่ากันทั้งหมดและเราได้สิ่งนี้มา\n\\[\nT \\ a = a\\times\\textbf{L}(1, 1)\n\\]\nที่คือmonad identity",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#ทฤษฎแบบlawvereของผลขางเคยงside-effect",
+    "href": "content/3.14/lawvere-theories.html#ทฤษฎแบบlawvereของผลขางเคยงside-effect",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.7 ทฤษฎีแบบLawvereของผลข้างเคียง(Side Effect)",
+    "text": "31.7 ทฤษฎีแบบLawvereของผลข้างเคียง(Side Effect)\nเนื่องด้วยได้มีความสัมพันธ์ที่แน่นแบบนี้ระหว่างmonadและทฤษฎีแบบLawvere มันเป็นธรรมชาติมากในการถามคำถามว่าทฤษฎีแบบLawvereสามารถถูกใช้ในการเขียนโปรแกรมในฐานะทางเลือกนอกเหนือจากmonad ปัญกาใหญ่ของmonadคือพวกมันไม่ปนะกอบกันอย่างง่ายๆ ไม่มีสูตรทั่วไปในการสร้างตัวแปลงของmonad ทฤษฎีแบบLawvereมีข้อดีในจุดๆนี้คือพวกมันสามารถประกอบกันโดยการใช้coproductและproductแบบtensor ในอีกทางหนึ่ง มีแค่monadที่มีarityจำกัดที่สามารถถูกแปลงไปยังทฤษฎีแบบLawvere ตัวที่อยู่นอกเหนือจากนี้คือmonadแบบcontinuation(ต่อเนื่อง) ได้มีการค้นคว้าที่กำลังทำอยู่ในพื้นที่นี้(ลองดูในบรรณานุกรม)\nในการให้คุณได้ลองสัมผัสในวิธีการที่ทฤษฎีแบบLawvereสามารถถูกใช้กับoperationแบบnullaryหนึ่ง\\(0\\to1\\) modelของทฤษฎีนี้คือfunctorที่โยง\\(1\\)ไปยังบางset\\(a\\)และโยงoperationแบบnullaryไปยังfunction\nraise :: () -&gt; a\nเราสามารถได้monadMaybeกลับมาโดยการใช้สูตรของcoend เรามาพิจารณาว่าการบวกของoperationแบบnullaryทำกับhom-sets\\(\\textbf{L}(n,1)\\) นอกเหนือจากการสร้าง\\(\\textbf{L}(0,1)\\)(ที่นั้นไม่อยู่ใน\\(\\textbf{F}^\\text{op}\\)) มันก็เพิ่มmorphismใหม่ไปยัง\\(\\textbf{L}(n,1)\\) พวกมันคือผลของmorphismประกอบของtype\\(n\\to0\\)กับ\\(0\\to1\\)ของเรา การเพิ่มนี้นั้นถูกระบุทั้งหมดกับ\\(a^0\\times\\textbf{L}(0,1)\\)ในสูตรของcoendเพราะว่าพวกมันสามารถถูกได้มาจาก\n\\[\na^n\\times\\textbf{L}(0, 1)\n\\]\nโดยการlift\\(0\\to n\\)ในทั้งสองแบบที่แตกต่างกัน\n\n\n\n\\[\nf::0\\to n\n\\]\ncoendลดไปยัง\n\\[\nT_\\textbf{L}a=a^0+a^1\n\\]\nหรือถ้าใช้เครื่องหมายแบบHaskell\ntype Maybe a = Either () a\nที่นั้นเท่ากับ\ndata Maybe a = Nothing | Just a\nสังเกตว่าทฤษฎีแบบLawvereนี้รองรับการraisingของexceptionsไม่ใช่การจัดการของพวกมัน",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#โจทยทาทาย",
+    "href": "content/3.14/lawvere-theories.html#โจทยทาทาย",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.8 โจทย์ท้าทาย",
+    "text": "31.8 โจทย์ท้าทาย\n\nลองเขียนmorphismทั้งหมดระหว่าง\\(2\\)และ\\(3\\)ใน\\(\\textbf{F}\\)(แกนของ\\(\\textbf{FinSet}\\))\nลองแสดงว่าcategoryของmodelสำหรับทฤษฎีแบบLawvereของmonoidนั้นเท่ากับcategoryของalgebraแบบmonad สำหรับmonadแบบlist\nทฤษฎีแบบLawvereของmonoidสร้างmonadแบบlist ลองแสดงว่าoperationแบบ binaryของมันสามารถถูกสร้างโดยการใช้ลูกศรKleisliที่ตรงกัน\n\\(\\textbf{FinSet}\\)คือcategoryย่อยของ\\(\\textbf{Set}\\)และได้มีfunctorมราฝังมันใน\\(\\textbf{Set}\\) ทุกๆfunctorบน\\(\\textbf{Set}\\)สามารถถูกจำกัดไปยัง\\(\\textbf{FinSet}\\) ลองแสดงว่สfunctorที่มีarityที่จำกัดคือส่วนขยายKanด้านช้ายของการจำกัดของมัน",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#อานเพม",
+    "href": "content/3.14/lawvere-theories.html#อานเพม",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "31.9 อ่านเพิ่ม",
+    "text": "31.9 อ่านเพิ่ม\n\nFunctorial semantics of algebraic theories1โดย F. William Lawvere\nNotions of Computation Determine MonadsโดยGordon Plotkin และ John Power",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.14/lawvere-theories.html#footnotes",
+    "href": "content/3.14/lawvere-theories.html#footnotes",
+    "title": "31  ทฤษฎีแบบLawvere (Lawvere Theories)",
+    "section": "",
+    "text": "http://www.tac.mta.ca/tac/reprints/articles/5/tr5.pdf↩︎",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ทฤษฎีแบบLawvere (Lawvere Theories)</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.15/monads-monoids-and-categories.html",
+    "href": "content/3.15/monads-monoids-and-categories.html",
+    "title": "32  Monads Monoids และ Categoryต่างๆ",
+    "section": "",
+    "text": "32.1 Bicategories\nหนึ่งในด้านที่ยากที่สุดของทฤษฎีcategoryนั้นคือการเปลี่ยนมุมมองไปมา ลองนำcategoryของsetเป็นตัวอย่าง เราได้ใช้ในการนิยามsetในรูปแบบของสมาชิก setว่างนั้นไปมีสมาชิก setที่มีสมาชิกเดียวก็มีสมาชิกเดียว productแบบCartesianของสองsetคือsetของคู่และอื่นๆ แต่ในตอนที่เราพูดเกี่ยวกับcategory\\(\\textbf{Set}\\) ผมของให้คุณได้ลืมเกี่ยวกับเนื้อหาของsetและหันมาสนใจบนmorphisms(ลูกศร)ระหว่างพวกมัน คุณนั้นได้รับอณุญาติ ในบางเวลาในการส่องเข้าไปภายใต้สิ่งคลุมอยู่ในการดูว่าการสร้างแบบสากลบางประเภทใน\\(\\textbf{Set}\\)ถูกอธิบายในรูปแบบของสมาชิกต่างๆ วัตถุสุดท้ายกลายมาเป็นsetที่มีสมาชิกเดียวและอื่นๆ แต่สิ่งเหล่านี้เป็นแค่การตรวจสอบให้มั่นใจ\nfunctorถูกนิยามในฐานะการโยงของcategoryต่างๆ มันเป็นธรรมชาติในการพิจารณาการโยงในฐานะmorphismในcategory functorกลายมาเป็นmorphismในcategoryของcategoryต่างๆ(categoryขนาดเล็ก ถ้าเราต้องการที่จะหลีกหนีเกี่ยวกับขนาด) โดนการมองfunctorในฐานะลูกศร เราละทิ้งข้อมูลเกี่ยวกับการกระทำของมันบนส่วนที่อยู่ข้างในของcategory(นั้นคือวัตถุและmorphisms)แค่เหมือนกับการที่เราละทิ้งข้อมูลเกี่ยวกับการกระทำของfunctionบนสมาชิกของsetในตอนที่เรามองมันในฐานะลูกศรใน\\(\\textbf{Set}\\) แต่functorระหว่างสองcategoryใดๆก็ตามก็ก่อให้เกิดcategory ในเวลานี้คุณถูกถามในการพิจารณาบางอย่างที่เคยเป็นลูกศรในcategoryหนึ่งในการเป็นวัตถุของอีกตัวหนึ่ง ในcategoryแบบfunctor functorคือวัตถุและการแปลแบบธรรมชาติคือmorphisms เราได้ค้นพบว่าสิ่งเดียวกันสามารถเป็นลูกศรในcategoryหนึ่งและเป็นวัตถุในอีกตัวหนึ่ง มุมมองแบบตรงๆของวัตถุในฐานะคำนามและลูกศรในฐานะคำกริยาไม่ถูกต้องอีกแล้ว\nแทนที่จะสลับระหว่างสองมุมมอง เราสามารถพยายามในการรวมพวกมันไปเป็นตัวหนึ่ง นี้คือวิธีการที่เราจะได้มาซึ่งแนวคิดของ\\(\\textbf{2}\\)-categoryที่วัตถุนั้นถูกเรียกว่า\\(0\\)-cell morphismคือ\\(1\\)-cellsและmorphismระหว่างmorphismsคือ\\(2\\)-cells\ncategoryของcategory\\(\\textbf{Cat}\\) นั้นคือตัวอย่างที่ชัดเจน เรามีcategoryในฐานะ\\(0\\)-cell functorในฐานะ\\(1\\)-cell และการแปลงแบบธรรมชาติในฐานะ\\(2\\)-cell กฎต่างๆของ\\(\\textbf{2}\\)-categoryบอกเราว่า\\(1\\)-cellระหว่างสอง\\(0\\)-cellไดๆก็ตามก่อให้เกิดcategory(ในอีกความหมายหนึ่ง\\(\\textbf{C}(a,b)\\)คือhom-categoryแทนที่จะเป็นhom-set) สิ่งนี้เข้ากันได้ดีกับเงื่อยไขของเราก่อนหน้านี้ที่functorระหว่างสองcategoryใดๆก็ตามก่อให้เกิดcategoryแบบfunctor\nโดยเฉพาะเช่น \\(1\\)-cellจาก\\(0\\)-cellsใดๆก็ตามกลับไปหาตนเองก็ก่อให้เกิดcategory hom-category\\(\\textbf{C}(a,a)\\) แต่categoryนั้นมีโครงสร้างมากกว่า สมาชิกของ\\(\\textbf{C}(a,a)\\)สามารถถูกมองในฐานะลูกศรใน\\(\\textbf{C}\\)หรือในฐานะวัตถุใน\\(\\textbf{C}(a,a)\\) ในฐานะลูกศร พวกมันสามารถถูกประกอบในระหว่างตัวมันเอง แต่ในตอนที่เรามองของพวกมันในฐานะวัตถุ การประกอบกันกลายมาเป็นการโยงระหว่างคู่ของวัตถุไปยังวัตถุ ในความเป็นจริงมันดูเหมือนอย่างมากกับproduct (ถ้าให้แม่นยำมันคือเป็นproductแบบtensor) productแบบtensorนี้มีunitคือ\\(1\\)-cellที่เป็นidentity มันกลับมาเป็นว่าใน\\(\\textbf{2}\\)-category hom-category \\(\\textbf{C}(a,a)\\)นั้นคือcategoryแบบmonoidโดยอัตโนมัติกับproductแบบtensorนิยามในฐานะการประกอบกันของ\\(1\\)-cell กฏการสลับหมู่และunitก็ตามมาจากกฏของcategoryที่เป็นคู่กัน\nเรามาดูว่าสิ่งนี้หมายความว่าอะไรในตัวอย่างมาตราฐานของ\\(\\textbf{2}\\)-category\\(\\textbf{Cat}\\) hom-category \\(\\textbf{Cat}(a,a)\\)คือcategoryของendofunctorsบน\\(a\\) การปรพะอบกันของendofunctorsมีบทบาทของproductแบบtensorในมัน functor identityคือunitของproductนี้ เราได้เห็นมาก่อนหน้านี้ว่าendofunctorก็ให้เกิดcategoryแบบmonoid(เราฝช้ความจริงในนิยามของmonad) แต่ในตอนนี้เราเห็นว่านี้คือปรากฏการณ์ที่ทั่วไปมากกว่านี้คือ endo-1-cellsใน\\(\\textbf{2}\\)-categoryใดๆก็ตามก่อให้เกิดcategoryแบบmonoid เราจะกลับมากันในสิ่งนี้ในภายหลังในตอนที่เราได้วางนียแบบทั่วไปของmonad\nคุณอาจจะจำได้ว่าในcategoryแบบmonoidทั่วไป เราไม่ได้ย้ำถึงกฏของmonoidที่ถูกบรรลุแบบตรงๆ มันนั้นมักจะเพียงพอแล้วสำหรับกฏของunitและกฏการสลับกลุ่มในการที่จะถูกบรรลุจนไปถึงisomorphism ในง\\(\\textbf{2}\\)-category กฏทางmonoidใน\\(\\textbf{C}(a,a)\\)ตามมาจากกฎการประกอบกันของสำหรับ\\(1\\)-cell กฏเหล่านี้นั้นเคร่งครัด ดังนั้นเราจะได้มาซึ่งcategoryแบบmonoidที่เคร่งครัดโดยตรอด แต่มันนั้นเป็นไปได้ในการผ่อนกฏเหล่านี้ไปด้วยกัน ตัวอย่างเช่นเราสามารถพูดได้ว่าการประกอบกันของ\\(1\\)-cell identity \\(\\operatorname{id}_a\\)กับอีก\\(1\\)-cell\\(f::a\\to b\\)นั้นisomorphicแทนที่จะเท่ากับ\\(f\\) isomorphismของ\\(1\\)-cellนั้นถูกนิยามโดยการใช้\\(2\\)-cell ในอีกความหมายหนึ่งได้มี\\(2\\)-cellอย่าง\n\\[\n\\rho :: f\\circ\\operatorname{id}_a\\to f\n\\]\nที่มีinverse\nเราสามารถทำแบบเดียวกันสำหรับidentityด้านช้ายและกฏการสลับกลุ่ม \\(\\textbf{2}\\)-category ที่ไม่เคร่งครัดมากถูกเรียกว่าbicategory(ได้มีกฏความสอดคล้องกันที่ผมจะละเว้นไว้ในที่นี้)\nในการที่คาดไว้ endo-\\(1\\)-cellในbicategoryก่อให้เกิดcategoryแบบmonoidทั่วไปที่มีกฏที่ไม่เคร่งครัด\nตังอย่างที่สำคัญของbicategoryคือcategoryของspan spanระหว่างสองวัตถุ\\(a\\)และ\\(b\\)คือวัตถุ\\(x\\)และคู่ของmorphisms\n\\[\n\\begin{gather*}\n  f :: x \\to a \\\\\n  g :: x \\to b\n\\end{gather*}\n\\]\nคุณอาจจะจำได้ว่าเราได้ใช้spanในนิยามของproductแบบcategory ในที่นี้เราต้องการที่จะมองในที่spansในฐานะ\\(1\\)-cellในbicategory เริ่มแรกคือการนิยามการประกอบกันของspans\n\\[\n\\begin{gather*}\n  f' :: y \\to b \\\\\n  g' :: y \\to c\n\\end{gather*}\n\\]\nการประกอบกันควรที่จะเป็นspanที่สมากับบางยอด\\(z\\) ตัวเลือกที่เป็นธรรมชาติที่สุดสำหรับมันคือpullbackของ\\(g\\)กับ\\(f'\\) จำได้ว่าpullbackคือวัตถุ\\(z\\)คู่กับสองmorphismsอย่าง\n\\[\n\\begin{gather*}\n  h :: z \\to x \\\\\n  h' :: z \\to y\n\\end{gather*}\n\\]\nในการที่ว่า\n\\[\ng \\circ h = f' \\circ h'\n\\]\nที่เป็นสากลกับวัตถุทั้งหมดแบบนี้\nต่อจากนี้เรามาเพ่งเล็งไปยังspansบนcategoryของset ในกรณีนี้ pullbackคือแค่setของคู่\\((p,q)\\)จากproductแบบCartesian \\(x\\times y\\)ในแบบที่ว่า\n\\[\ng\\ p = f'\\ q\n\\]\nmorphismระหว่างสองspanที่มีด้านจบเดียวกันนั้นถูกนิยามในฐานะmorphism\\(h\\)ระหว่างปลายของมัน ในการที่ว่าtriangleที่เหมาะสมcommuteกัน\nโดยสรุปแล้วในbicategory\\(\\textbf{Span}\\) \\(0\\)-cellคือset \\(1\\)-cellsคือspan \\(2\\)-cellคือmorphismของspan \\(1\\)-cell identityคือspanแบบลดรูป(degenerate)ที่ทั้งสมวัตถุนั้นคือตัวเดียวกันและสองmorphismคือidentity\nเราได้เห็นอีกตัวอย่างหนึ่งของbicategoryก่อนหน้านี้คือbicategory\\(\\textbf{Prof}\\)ของprofunctiosที่ \\(0\\)-cellคือcategory \\(1\\)-cellคือprofunctorและ\\(2\\)-cellคือการแปลงแบบธรรมชาติ การประกอบกันของprofunctorนั้นให้มาโดยcoend",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Monads Monoids และ Categoryต่างๆ</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.15/monads-monoids-and-categories.html#bicategories",
+    "href": "content/3.15/monads-monoids-and-categories.html#bicategories",
+    "title": "32  Monads Monoids และ Categoryต่างๆ",
+    "section": "",
+    "text": "\\(0\\)-cellคือ \\(a, b\\) \\(1\\)-cellsคือ\\(f, g\\)และ\\(2\\)-cellคือ \\(\\alpha\\)\n\n\n\n\n\n\n\n\n\n\n\nกฎidentityในbicategoryนั้นอยู่จนไปถึงisomorphism(\\(2\\)-cellที่สามารถinvertได้\\(\\rho\\))",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Monads Monoids และ Categoryต่างๆ</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.15/monads-monoids-and-categories.html#monads",
+    "href": "content/3.15/monads-monoids-and-categories.html#monads",
+    "title": "32  Monads Monoids และ Categoryต่างๆ",
+    "section": "32.2 Monads",
+    "text": "32.2 Monads\nจนถึงตอนนี้คุณควรที่จะมีความคุ้นชินกับนิยามของmonadในฐานะmonoidในcategoryของendofunctors เรากลับมาหานิยามนี้อีกครั้งกับความเข้าใจใหม่ว่าcategoryของendofunctorsคือแค่hom-categoryขนาดเล็กหนึ่งของendo-1-cells ในbicategory\\(\\textbf{Cat}\\)เรารู้ว่ามันคือcategoryแบบmonoidที่productแบบtensorมาจากการประกอบกันของendofunctor monoidนั้นถูกนิยามในฐานะวัตถุในcategoryแบบmonoid(ในที่นี้คือก็จะเป็นendofunctor\\(T\\))คู่กับmorphismสองตัว morphismsระหว่างendofunctorต่างๆนั้นคือการแปลงแบบธรรมชาติ morphismหนึ่งโยงunitแบบmonoid (ที่คือendofunctor identity)ไปยัง\\(T\\)\n\\[\n\\eta :: I\\to T\n\\]\nmorphismที่สองโยงproductแบบtensor \\(T\\otimes T\\)ไปยัง\\(T\\) productแบบtensorนั้นให้มาโดยการประกอบกันของendofunctor ดังนั้นเราได้\n\\[\n\\mu :: T\\circ T\\to T\n\\]\n\n\n\n\n\nเราสังเกตสิ่งนี้ในฐานะสองoperationsทำการนิยามmonad(พวกมันถูกเรียกว่าreturnและjoinในHaskell)และเรารู้ว่ากฎmonoidเปลี่ยนไปเป็นกฏของmonad\nในตอนนี้เรามามำสิ่งที่พูดถึงendofunctorออกทั้งหมดจากนิยามนี้ เราเริ่มด้วยbicategory\\(\\textbf{C}\\)และเลือก\\(0\\)-cell\\(a\\)ในมัน ในการที่เราได้เหห็นก่อนหน้านี้hom-category\\(\\textbf{C}(a,a)\\)คือcategoryแบบmonoid ดังนั้นเราสามารถนิยามmonoidใน\\(\\textbf{C}(a,a)\\)โดยการเลือก1-cell\\(T\\)และ\\(2\\)-cellอย่าง\n\\[\n\\begin{align*}\n  \\eta & :: I \\to T         \\\\\n  \\mu  & :: T \\circ T \\to T\n\\end{align*}\n\\]\nที่บรรลุกฏของmonoid เราเรียกสิ่งนี้ว่าmonad\n\n\n\n\n\nนั้นคือนิยามที่กว้างที่สุดของmonadโดยการใช้แค่\\(0\\)-cell \\(1\\)-cellและ\\(2\\)-cell มันลดไปยังmonadทั่วๆไปในตอนที่ใช้มันกับbicategory\\(\\textbf{Cat}\\) แต่เรามาดูว่าเกิดอะไรขึ้นในbicategoriesอื่นๆ\nเรามาสร้างmonadใน\\(\\textbf{Span}\\) เราเลือก\\(0\\)-cellที่คือsetที่ ในสำหรับเหตุผลที่จะชัดเจนมากขึ้นหลังจากนี้ ผมจะเรียกว่า\\(\\text{Ob}\\) ต่อมาเราเลือก endo-1-cellที่คือspanจาก\\(\\text{Ob}\\)ไปยัง\\(\\text{Ob}\\) มันมีsetที่จุดยอดที่ผมจะเรียกว่า\\(\\text{Ar}\\)ร่วมกับสองfunctionsอย่าง\n\\[\n\\begin{align*}\n  \\text{dom} & :: \\text{Ar} \\to \\text{Ob} \\\\\n  \\text{cod} & :: \\text{Ar} \\to \\text{Ob}\n\\end{align*}\n\\]\n\n\n\n\n\nเราจะเรียกสมาชิกของset\\(\\text{Ar}\\)ว่า”ลูกศร(arrows)” ถ้าผมก็จะบอกคุณให้เรียกสมาชิกของ\\(\\text{Ob}\\)ว่า”วัตถุ(object)“คุณอาจจะได้คำใบ้ว่าสิ่งนี้จะนำไปสู่อะไร สองfunctions\\(\\text{dom}\\)และ\\(\\text{cod}\\)กำหนดdomainและcodomainไปยัง”ลูกศร”\nในการทำให้spanของเราไปยังmonad เราต้องการสอง\\(2\\)-cell \\(\\eta\\)และ\\(\\mu\\) unitแบบmonoidในกรณีนี้คือspanแบบตรงไปตรงมาจาก\\(\\text{Ob}\\)ไปยัง\\(\\text{Ob}\\)กับจุดยอดที่\\(\\text{Ob}\\)และสองfunctions identity \\(2\\)-cell \\(\\eta\\)คือfunctionระหว่างปลาย\\(\\text{Ob}\\)และ\\(\\text{Ar}\\) ในอีกความหมายหนึ่ง\\(\\eta\\)กำหนด”ลูกศร”ไปยังทุกๆ”วัตถุ” \\(2\\)-cellใน\\(\\textbf{Span}\\)ต้องบรรลุเงื่อนไขการสลับหมู่ในกรณีนี้\n\\[\n\\begin{align*}\n  \\text{dom} & \\circ \\eta = \\operatorname{id} \\\\\n  \\text{cod} & \\circ \\eta = \\operatorname{id}\n\\end{align*}\n\\]\n\n\n\n\n\nในส่วนประกอบนี้แล้วสิ่งนี้กลายมาเป็น\n\\[\n\\text{dom}\\ (\\eta\\ \\text{ob}) = \\text{ob} = \\text{cod}\\ (\\eta\\ \\text{ob})\n\\]\nที่\\(\\text{ob}\\)คือ”วัตถุ“ใน\\(\\text{Ob}\\) ในอีกความหมายหนึ่ง\\(\\eta\\)กำหนดไปยังทุกๆ”วัตถุ“และ”ลูกศร”ที่domainและcodomainคือ”วัตถุ“นั้น เราจะเรียก”ลูกศร”พิเศษนี้ว่า”ลูกศรidentity”\n\\(2\\)-cellตัวที่สอง\\(\\mu\\)กรระทำบนการประกอบกันของspan\\(\\text{Ar}\\)กับตัวมันเอง การประกอบกันนั้นถูกนิยามในฐานะpullback ดังนั้นสมาชิกของมันคือคู่ของสมาชิกจาก\\(\\text{Ar}\\)(คู่ของ”ลูกศรต่างๆ”\\((a_1,a_2)\\)) เงื่อนไขจของpullbackคือ\n\\[\n\\text{cod}\\ a_1 = \\text{dom}\\ a_2\n\\]\nเราเรียกว่า\\(a_1\\)และ\\(a_2\\)ว่า”ประกอบได้“เพราะว่าdomainของตัวหนึ่งคือcodomainของอีกตัวหนึ่ง\n\n\n\n\n\n\\(2\\)-cell \\(\\mu\\)คือfunctionที่โยงคู่ของลูกศรที่สามารถประกอบกันได้\\((a_1, a_2)\\)ไปยังลูกศรเดี่ยว\\(a_3\\)จาก\\(\\text{Ar}\\) ในอีกความหมายหนึ่ง\\(\\mu\\)นิยามการประกอบกันของลูกศร\nมันง่ายที่จะตรวจสอบว่ากฏmonadคู่กับidentityและกฏการสลับหมู่ตรงกับลูกศร เราได่แค่นิยามcategory(ย้ำว่าcategoryขนาดเล็กในที่วัตถุและลูกศรก่อให้เกิดset)\nดังนั้นโดยสรุป categoryคือแค่monadในbicategoryของspans\nสิ่งที่สุดยอดเกี่ยวกับผลลัพธ์นี้คือว่ามันวางcategoryในระดับเดียวกันกับโครงสร้างทางพีชคณิตอย่างmonadและmonoids ได้ไม่มีความพิเศษเกี่ยวกับการเป็นcategory มันคือสองsetและสี่function ในความเป็นจริงแล้วเราไม่ต้องการsetแยกสำหรับวัตถุ เพราะว่าวัตถุสามารถถูกนิยามด้วยarrow identity(พวกมันตรงกับแบบหนึ่งต่อหนึ่ง) ดังนั้นมันคือแค่setและบางfunction เมื่อพิจารณาถึงบทบาทที่สำคัญของทฤษฎีcategoryในคณิตศาสตร์ทั้งหมด มันเป็นความเข้าใจที่ถ่อมตน",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Monads Monoids และ Categoryต่างๆ</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.15/monads-monoids-and-categories.html#โจทยทาทาย",
+    "href": "content/3.15/monads-monoids-and-categories.html#โจทยทาทาย",
+    "title": "32  Monads Monoids และ Categoryต่างๆ",
+    "section": "32.3 โจทย์ท้าทาย",
+    "text": "32.3 โจทย์ท้าทาย\n\nลองสร้างกฏunitและการสลับหมู่สำหรับproductแบบtensorที่ถูกนิยามในฐานะการประกอบกันของendo-1-cellsในbicategory\nลองทดสอบว่ากฏของmonadสำหรับmonadใน\\(\\textbf{Span}\\)ตรงกับกฏunitและการสลับหมู่ในcategoryที่ได้มา\nลองแสดงว่าmonadใน\\(\\textbf{Prof}\\)คือfunctor identityบนวัตถุ\nอะไรคือalgebraแบบmonadสำหรับmonadใน\\(\\textbf{Span}\\)",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Monads Monoids และ Categoryต่างๆ</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.15/monads-monoids-and-categories.html#บรรณานกรม",
+    "href": "content/3.15/monads-monoids-and-categories.html#บรรณานกรม",
+    "title": "32  Monads Monoids และ Categoryต่างๆ",
+    "section": "32.4 บรรณานุกรม",
+    "text": "32.4 บรรณานุกรม\n\nBlogของPaweł Sobociński1\n\n(Page 342) (Page 345)",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Monads Monoids และ Categoryต่างๆ</span>"
+    ]
+  },
+  {
+    "objectID": "content/3.15/monads-monoids-and-categories.html#footnotes",
+    "href": "content/3.15/monads-monoids-and-categories.html#footnotes",
+    "title": "32  Monads Monoids และ Categoryต่างๆ",
+    "section": "",
+    "text": "https://graphicallinearalgebra.net/2017/04/16/a-monoid-is-a-category-a-category-is-a-monad-a-monad-is-a-monoid/↩︎",
+    "crumbs": [
+      "Part 3",
+      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Monads Monoids และ Categoryต่างๆ</span>"
+    ]
+  },
+  {
     "objectID": "content/etc/glossary.html",
     "href": "content/etc/glossary.html",
-    "title": "29  คำเฉพาะและคำแปลของมัน",
+    "title": "33  คำเฉพาะและคำแปลของมัน",
     "section": "",
     "text": "คำอังกฤษ\nคำแปลไทย\n\n\n\n\nComposition\nการประกอบกัน\n\n\nCategory Theory\nทฤษฎีcategory\n\n\nSide Effects\nผลข้างเคียง\n\n\nreturn type\nคืนค่าที่เป็นtype\n\n\nassociativity\nคุณสมบัติการเปลี่ยนหมู่\n\n\nidentity function\nfunction identity\n\n\nuniversal\nเป็นสากล\n\n\nfunction call\nเรียกใช้function\n\n\nexpression\nสูตร\n\n\nconcept\nแนวคิด\n\n\nhigher-order function\nfunctionลำดับสูง\n\n\nsingleton set\nsetที่มีสมาชิกเพียงตัวเดียว\n\n\nPattern matching\nจับคู่รูปแบบ\n\n\nwildcard pattern\nรูปแบบตัวแทน\n\n\nfree category\ncategory อิสระ\n\n\ngeneralization\nการวางนัยทั่วไป\n\n\nembellished\nประดับ\n\n\nuniversal construction\nการสร้างแบบสากล\n\n\nInitial Object\nวัตถุเริ่มต้น\n\n\nuniqueness up to isomorphism\nเอกลักษณ์จนถึงความisomorphism\n\n\nopposite category\ncategoryตรงข้าม\n\n\nfactorize\nแยกตัวประกอบ\n\n\ntagged untion\nunionที่มีการระบุตัว\n\n\nfinite set\nsetจำกัด\n\n\nembedding\nการฝัง\n\n\noperation\nวิธีการ",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>29</span>  <span class='chapter-title'>คำเฉพาะและคำแปลของมัน</span>"
+      "<span class='chapter-number'>33</span>  <span class='chapter-title'>คำเฉพาะและคำแปลของมัน</span>"
     ]
   },
   {
     "objectID": "content/etc/acknowledgments.html",
     "href": "content/etc/acknowledgments.html",
-    "title": "30  Original Book’s Acknowledgments (Sketch)",
+    "title": "34  Original Book’s Acknowledgments (Sketch)",
     "section": "",
     "text": "ผมอยากจะขอบคุณ คุณEdward KmettและคุณGershom Bazermanในการตรวจสอบคณิตศาสตร์และlogicของผม ผมขอบคุณอาสาสมัครหลายคนที่ทำการแก้ไขข้อผิดพลาดโดยผมและปรับปรุงหนังสือเล่มนี้\nผมอยากจะขอบคุณ คุณAndrew Suttonสำหรับการเขียนcode ที่แสดงแนวคิดของmonoidในC++ใหม่ที่ตามมาจากข้อเสนอล่าสุดของคุณและBjarne Stroustrup\nผมของขอบคุณEric Nieblerสำหรับและให้การเขียนcomposeที่ฉลาดที่ทำการใช้ featureของC++14ในการทำการใช้งานtype inference ผมสามารถที่จะตัดทั้งส่วนของmagicของtemplateแบบสมัยเก่าที่ทำในสิ่งเดียวกันโดยการใช้ type traits โล่งอกไปที!",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>30</span>  <span class='chapter-title'>Original Book's Acknowledgments (Sketch)</span>"
+      "<span class='chapter-number'>34</span>  <span class='chapter-title'>Original Book's Acknowledgments (Sketch)</span>"
     ]
   },
   {
     "objectID": "content/etc/colophon.html#footnotes",
     "href": "content/etc/colophon.html#footnotes",
-    "title": "31  Original Book’s Colophon (Sketch)",
+    "title": "35  Original Book’s Colophon (Sketch)",
     "section": "",
     "text": "https://hmemcpy.com/↩︎\nhttps://mercury.postlight.com/web-parser/↩︎\nhttps://www.crummy.com/software/BeautifulSoup↩︎\nhttps://pandoc.org↩︎\nhttps://github.com/hugomaiavieira/pygments-style-github↩︎",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>31</span>  <span class='chapter-title'>Original Book's Colophon (Sketch)</span>"
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>Original Book's Colophon (Sketch)</span>"
     ]
   },
   {
     "objectID": "content/etc/copyleft.html#footnotes",
     "href": "content/etc/copyleft.html#footnotes",
-    "title": "32  Original Book’s Copyleft Notice (Sketch)",
+    "title": "36  Original Book’s Copyleft Notice (Sketch)",
     "section": "",
     "text": "https://www.gnu.org/philosophy/free-sw.en.html↩︎",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Original Book's Copyleft Notice (Sketch)</span>"
+      "<span class='chapter-number'>36</span>  <span class='chapter-title'>Original Book's Copyleft Notice (Sketch)</span>"
     ]
   }
 ]
