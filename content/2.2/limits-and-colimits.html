@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -526,7 +526,7 @@ window.Quarto = {
 <p>ในกรณีทั่วไปเงื่อนไขนี้แปลไปเป็นเงื่อนไขที่สามเหลี่ยมเหล่านี้ที่ด้านข้างหนึ่งคือการ แยกตัวแปรmorphismต่างๆต้องcommute</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/conecommutativity.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/conecommutativity.jpg" height="200" class="figure-img"></p>
 <figcaption>สามเหลี่ยมcommuteที่เชื่อมต่อconeสองอันที่แยกตัวแปรmorphism<span class="math inline">\(h\)</span>(ในที่นี้coneด้านข้างคือconeสากรที่มี<span class="math inline">\(\lim D\)</span>ในฐานะยอกของมัน)</figcaption>
 </figure>
 </div>
@@ -701,7 +701,7 @@ c\rightarrow\operatorname{Nat}(\Delta_c,D)
 <p>เหมือนจะทุกการสร้างในทฤษฎีcategory limitก็มีรูปdualในcategoryตรงข้าม ถ้าคุณทำการกลับทิศทางของลูกศรทั้งหมดในcone คุณก็จะได้co-coneและตัวที่เป็นสากลของสิ่งเหล่านี้ถูกเรียกว่าcolimit สังเกตได้ว่ากาารกลับทิศทางนั้นก็มีผลต่อmorphismที่แยกตัวประกอบที่ในตอนนี้ใหลจากco-coneสากลไปยังco-coneอื่นๆ</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/colimit.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/colimit.jpg" height="200" class="figure-img"></p>
 <figcaption>Coconeกับmorphismแยกตัวประกอบ<span class="math inline">\(h\)</span>ที่ทำการเชื่อมต่อยอดทั้งสอง</figcaption>
 </figure>
 </div>
@@ -835,6 +835,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -869,7 +887,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1145,12 +1167,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/2.1/declarative-programming.html" class="pagination-link  aria-label=" &lt;span="" (sketch)&lt;="" span&gt;"="">
+      <a href="../../content/2.1/declarative-programming.html" class="pagination-link" aria-label="การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">การเขียนโปรแกรมแบบdeclarative(การประกาศ) (Sketch)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/2.3/free-monoids.html" class="pagination-link" aria-label="<span class='chapter-number'>14</span>&nbsp; <span class='chapter-title'>Monoidแบบอิสระ(Free Monoid) (Sketch)</span>">
+      <a href="../../content/2.3/free-monoids.html" class="pagination-link" aria-label="Monoidแบบอิสระ(Free Monoid) (Sketch)">
         <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monoidแบบอิสระ(Free Monoid) (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

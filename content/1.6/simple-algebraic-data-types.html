@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -633,7 +633,7 @@ a\times(b+c) = a\times b+a\times c
 <p><code>e</code>ใน<code>case e</code>นั้นจะเท่ากับ<code>Left "Hi!"</code> เราจะจับคู่รูปแบบ<code>Left y</code>โดยการแทนที่ <code>Hi!</code>โดย<code>y</code> เนื่องด้วย<code>x</code>ได้ถูกจับคู่ไปยัง<code>2</code>แล้ว ผลของส่วน<code>case of</code>และfunctionทั้งหมดก็จะเป็น<code>Left (2, "Hi!")</code>ในแบบที่คาดไว้</p>
 <p>ผมจะไม่พิสูจน์ว่าทั้งสองfunctionนั้นเป็นinverseของกันและกันถ้าคุณคิดเกี่ยวกับมัน มันจำเป็นต้องเป็น มันก็คือแค่การบรรจุใหม่อย่างตรงไปตรงมาของเนื้อหาในdata structureทั้งสอง มันคือข้อมูลเดียวกันแค่มีรูปแบบที่ต่างกัน</p>
 <p>นักคณิตศาสตร์มีชื่อให้กับmonoidที่มีความสัมพันธ์กันนี้ มันถูกเรียกว่า<em>semiring</em> มันไม่ใช่<em>ring</em>เพราะว่าเราไม่สามารถนิยามการลบกันของtype นั้นก็คือเหตุผลว่าทำไมsemiringจึงในบางครั้งถูกเรียกว่า<em>rig</em> ซึ่งเป็นการเล่นคำว่า “ringที่ไม่มีตัวn” (ด้านลบ, negative) แต่ยกเว้นสิ่งนี้เราสามารถที่จะได้ประสบการมากมายจากการแปลงstatementที่เกี่ยวกับจำนวนธรรมชาติที่เป็นrigไปยังstatementที่เกี่ยวกับtype นี่คือตารางในการแปลที่มีสิ่งต่างๆที่เราให้ความสนใจ</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Numbers</th>
@@ -681,7 +681,7 @@ x = 1 + a + a*a + a*a*a + a*a*a*a...</code></pre>
 <p>แต่listก็มีอะไรมากกว่านั้นและเราจะกลับมายังdata structureแบบrecursiveหลังจากที่เราเรียนเกี่ยวกับfunctorและfixed point</p>
 <p>การแก้สมการด้วยตัวแปรที่เป็นเครื่องหมาย ที่ก็คือalgebra มันคือสิ่งที่ให้typeมีชื่อว่าtypeข้อมูลแบบalgebraic</p>
 <p>สุดท้ายแล้วเราควรที่จะพูดถึงการตีความที่สำคัญเป็นอย่างมากของalgebraของtypeต่างๆ สังเกตว่าproductของสองtype<code>a</code>และ<code>b</code>นั้นต้องมีค่าของtype<code>a</code><em>และ</em>ค่าของtype<code>b</code> นั่นหมายความว่าtypeทั้งสองต้องอยู่ในtypeแบบproductนั้น sumระหว่างtypeทั้งสองในอีกทางหนึ่งประกอบด้วย ค่าของtype<code>a</code><em>หรือ</em>ค่าของtype<code>b</code> ดังนั้นมันเพียงพอที่จะให้อย่างใดอย่างหนึ่งอยู่ในtypeแบบsumนั้น <em>และ</em>และ<em>หรือ</em>ในทางตรรกศาสตร์(Logic)ก็เป็น<em>semiring</em>และมันสามารถที่จะถูกโยงไปสู่ทฤษฎีtypeว่า</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Logic</th>
@@ -817,6 +817,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -851,7 +869,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1127,12 +1149,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/1.5/products-and-coproducts.html" class="pagination-link  aria-label=" &lt;span="" (draft)&lt;="" span&gt;"="">
+      <a href="../../content/1.5/products-and-coproducts.html" class="pagination-link" aria-label="ProductและCoproduct (Draft)">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ProductและCoproduct (Draft)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/1.7/functors.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>Functors (Sketch)</span>">
+      <a href="../../content/1.7/functors.html" class="pagination-link" aria-label="Functors (Sketch)">
         <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

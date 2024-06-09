@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -579,7 +579,7 @@ a+0=a
 <p>คุณอาจจะถามว่าคำถามว่าในทุกๆmonoidที่เป็นcategory (categoryที่มีวัตถุเพียงอย่างเดียว)นิยามmonoidที่เป็นsetกับoperatorที่เป็นbinaryอย่างเป็นเอกลักษณ์ได้หรือเปล่า มันเป็นการที่ว่าเราสามารถที่จะสกัดsetออกจากcategoryที่มีวัตถุเพียงอย่างเดียว setตัวนี้คือsetของmorphism (ในตัวอย่างของเราก็คือตัวบวก) ในอีกคำหนึ่งเรามีhom-set <span class="math inline">\(\textbf{M}(m,m)\)</span> ของวัตถุเดี่ยว<span class="math inline">\(m\)</span>ในcategory<span class="math inline">\(\textbf{M}\)</span> เราสามารถที่จะนิยามoperationที่เป็นbinaryอย่างง่ายดายในsetนี้นั่นก็คือ productแบบmonoidalระหว่างสองสมาชิกในsetคือสมาชิกที่ตรงกันกับ morphismที่เป็นตัวประกอบของสองmorphismที่ตรงกันกับสองสมาชิกก่อนหน้านี้นั้น ถ้าคุณให้สมาชิกสองตัวของ<span class="math inline">\(\textbf{M}(m,m)\)</span>ที่ตรงกันกับ <span class="math inline">\(f\)</span>และ<span class="math inline">\(g\)</span> productของทั้งสองจะตรงกันกับการประกอบกันของ<span class="math inline">\(f\circ g\)</span> การประกอบกันจะมีอยู่ตลอด เพราะว่าสิ่งเริ่มต้นและปลายทางของmorphismเหล่านี้ก็คือวัตถุเดียวกัน และการมีกฎของการเปลี่ยนหมู่ก็อยู่ในกฎของcategory morphism identityก็คือสมาชิกnaturalของproductนี้ ดังนั้นเราสามารถที่จะ กู้setที่เป็นmonoidจากcategoryที่เป็นmonoidได้ตลอด สำหรับทุกๆความตั้งใจและวัตถุประสงค์ สองสิ่งนี้เป็นสิ่งเดียวกัน</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/monoidhomset.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/monoidhomset.jpg" height="200" class="figure-img"></p>
 <figcaption>hom-setของmonoidถูกมองในฐานะmorphismsและจุดในset</figcaption>
 </figure>
 </div>
@@ -689,6 +689,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -723,7 +741,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -999,12 +1021,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/1.2/types-and-functions.html" class="pagination-link  aria-label=" &lt;span="" (draft)&lt;="" span&gt;"="">
+      <a href="../../content/1.2/types-and-functions.html" class="pagination-link" aria-label="Typeและfunction (Draft)">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/1.4/kleisli-categories.html" class="pagination-link" aria-label="<span class='chapter-number'>5</span>&nbsp; <span class='chapter-title'>CategoryแบบKleisli (Draft)</span>">
+      <a href="../../content/1.4/kleisli-categories.html" class="pagination-link" aria-label="CategoryแบบKleisli (Draft)">
         <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">CategoryแบบKleisli (Draft)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

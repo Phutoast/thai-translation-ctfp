@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -480,7 +480,7 @@ window.Quarto = {
 <p>แบบนี้มันไม่ใช้สิ่งที่นามธรรมไร้สาระ(abstract nonsense)แล้วหรอ? ไม่ต้องกังวงไป เรามาเริ่มจากสิ่งที่เป็นรูปธรรมก่อน โดยการคิดว่าลูกศร(หรือที่ก็ถูกเรียกว่า<em>morphisms</em>)ให้เป็นfunction ถ้าคุณมีfunction <span class="math inline">\(f\)</span> ที่นำargumentของtype <span class="math inline">\(A\)</span>และคืนค่า(return)ที่เป็นtype <span class="math inline">\(B\)</span>กลับมา ในทางกลับกันคุณก็จะมีfunctionอีกอันหนึ่งอย่าง<span class="math inline">\(g\)</span>ที่นำของtype <span class="math inline">\(B\)</span>และคืนค่าที่เป็นtype <span class="math inline">\(C\)</span>กลับมา คุณสามารถที่จะประกอบทั้งสองfunctionนี้โดยการนำผลลัพธ์ของ<span class="math inline">\(f\)</span>ไปใส่ใน<span class="math inline">\(g\)</span> แล้วคุณก็จะได้นิยามfunctionอีกแบบที่นำค่าในtype <span class="math inline">\(A\)</span>และคืนค่าที่เป็นtype <span class="math inline">\(C\)</span>กลับมา</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/img_1330.jpg" class="quarto-figure quarto-figure-center figure-img" height="175"></p>
+<p><img src="images/img_1330.jpg" height="175" class="figure-img"></p>
 <figcaption>ในcategoryถ้ามีลูกศรจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(B\)</span>และลูกศรจาก<span class="math inline">\(B\)</span>ไปยัง<span class="math inline">\(C\)</span>แล้วก็จะต้องมีลูกศรโดยตรงจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(C\)</span>และนี้ก็คือการประกอบของทั้งสอง แผงผังนี้ยังไม่เป็นcategoryก็เพราะว่ามันยังขาดmorphisms identity</figcaption>
 </figure>
 </div>
@@ -646,6 +646,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -680,7 +698,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -956,12 +978,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/0.0/preface.html" class="pagination-link  aria-label=" &lt;span="" (draft)&lt;="" span&gt;"="">
+      <a href="../../content/0.0/preface.html" class="pagination-link" aria-label="คำนำ (Draft)">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">คำนำ (Draft)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/1.2/types-and-functions.html" class="pagination-link" aria-label="<span class='chapter-number'>3</span>&nbsp; <span class='chapter-title'>Typeและfunction (Draft)</span>">
+      <a href="../../content/1.2/types-and-functions.html" class="pagination-link" aria-label="Typeและfunction (Draft)">
         <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Typeและfunction (Draft)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -505,7 +505,7 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    second <span class="ot">=</span> bimap <span class="fu">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/bimap.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/bimap.jpg" height="200" class="figure-img"></p>
 <figcaption>bimap</figcaption>
 </figure>
 </div>
@@ -599,7 +599,7 @@ Figure&nbsp;9.1: การโยงทั้งสอง
 <div class="sourceCode" id="cb14"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">bimap ::</span> (fu a <span class="ot">-&gt;</span> fu a') <span class="ot">-&gt;</span> (gu b <span class="ot">-&gt;</span> gu b')</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">-&gt;</span> bf (fu a) (gu b) <span class="ot">-&gt;</span> bf (fu a') (gu b')</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>ถ้าคุณชอบปัญหาจิ๊กซอว์ การโยกย้ายtypeแบบนี้สามารถให้ความบันเทิงกับคุณเป็นชั่วโมงเลย</p>
-<p>ดันนั้นมันกลับเป็นว่าเราไม่ต้องที่จะพิสูจน์ว่า<code>Maybe</code>เป็นfunctor ความจริงนี้ตามมาจากวิธีการที่มันถูกสร้างในฐานะsumของพื้นฐานที่มีความเป็นfunctor</p>
+<p>ดังนั้นมันกลับเป็นว่าเราไม่ต้องที่จะพิสูจน์ว่า<code>Maybe</code>เป็นfunctor ความจริงนี้ตามมาจากวิธีการที่มันถูกสร้างในฐานะsumของพื้นฐานที่มีความเป็นfunctor</p>
 <p>ผู้อ่านที่ช่างสังเกตอยากจะถามคำถามว่า ถ้าการได้รับมาของinstaceของ<code>Functor</code>สำหรับtypeข้อมูลแบบพีชคณิตนั้นมีความเป็นกลไกอย่างมาก แล้าเราสามารถทำให้การทำแบบนี้เป็นอัตโนมัติและกระทำโดยcomplterได้หรือเปล่า แน่นอนว่ามันสามารถทำได้และมันทำอยู่ คุณต้องเปิดใช้งานextensionของHaskellบางตัวโดยการนำบรรทัดนี้เข้ามาข้างบนของไฟล์ของโค้ด(source file)</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE DeriveFunctor #-}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>แล้วก็เพิ่ม<code>deriving Functor</code>ไปยังdata structureของคุณ</p>
@@ -697,7 +697,7 @@ F::\textbf{C}^\text{op}\rightarrow\textbf{D}
 <p>ถ้าเราพิจารณาว่า<span class="math inline">\(Fa\)</span>นั้นเหมือนกับ<span class="math inline">\(Ga\)</span>และ<span class="math inline">\(Fb\)</span>เหมือนกับ<span class="math inline">\(Gb\)</span> ทั้งหมดสามารถที่จะถูกอธิบายว่า <span class="math inline">\(Gf::(b\rightarrow a)\rightarrow(Ga\rightarrow Gb)\)</span>มันคือ”functorที่มีการแปลงเล็กน้อย” การโยงระหว่างcategoryต่างๆนั้นกลับทิศทางของmorphismในรูปแบบนี้จะถูกเรียกว่าfunctorแบบ<em>contravariant</em> สังเกตว่าfunctorแบบcontravariantนั้นก็เป็นแค่functorธรรมดาจากcategoryตรงข้าม อนึ่งfunctorธรรมดา(เป็นแบบที่เราได้ทำการศึกษาจนถึงจุดนี้)จะถูกเรียกว่าfunctorแบบ<em>covariant</em></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/contravariant.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/contravariant.jpg" height="200" class="figure-img"></p>
 <figcaption>bimap</figcaption>
 </figure>
 </div>
@@ -732,7 +732,7 @@ F::\textbf{C}^\text{op}\rightarrow\textbf{D}
 <p>functionทั้งสามมาคู่กับค่าเริ่มต้น เหมือนกับ<code>Bifunctor</code>ในการประกาศinstanceของ<code>Profunctor</code>คุณต้องมีทางเลือกของการเขียน<code>dimap</code>และทำการยอมรับค่าเริ่มต้นสำหรับ<code>lmap</code>และ<code>rmap</code>หรือเขียนทั้ง<code>lmap</code>และ<code>rmap</code>และยอมรับค่าเริ่มต้นสำหรับ<code>dimap</code></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/dimap.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/dimap.jpg" height="200" class="figure-img"></p>
 <figcaption>dimap</figcaption>
 </figure>
 </div>
@@ -880,6 +880,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -914,7 +932,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1190,12 +1212,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/1.7/functors.html" class="pagination-link  aria-label=" &lt;span="" (sketch)&lt;="" span&gt;"="">
+      <a href="../../content/1.7/functors.html" class="pagination-link" aria-label="Functors (Sketch)">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functors (Sketch)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/1.9/function-types.html" class="pagination-link" aria-label="<span class='chapter-number'>10</span>&nbsp; <span class='chapter-title'>TypeประเภทFunctions (Sketch)</span>">
+      <a href="../../content/1.9/function-types.html" class="pagination-link" aria-label="TypeประเภทFunctions (Sketch)">
         <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">TypeประเภทFunctions (Sketch)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

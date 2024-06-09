@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -448,7 +448,7 @@ window.Quarto = {
 <p>แทนที่จะสลับระหว่างสองมุมมอง เราสามารถพยายามในการรวมพวกมันไปเป็นตัวหนึ่ง นี้คือวิธีการที่เราจะได้มาซึ่งแนวคิดของ<span class="math inline">\(\textbf{2}\)</span>-categoryที่วัตถุนั้นถูกเรียกว่า<span class="math inline">\(0\)</span>-cell morphismคือ<span class="math inline">\(1\)</span>-cellsและmorphismระหว่างmorphismsคือ<span class="math inline">\(2\)</span>-cells</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/twocat.png" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/twocat.png" height="200" class="figure-img"></p>
 <figcaption><span class="math inline">\(0\)</span>-cellคือ <span class="math inline">\(a, b\)</span> <span class="math inline">\(1\)</span>-cellsคือ<span class="math inline">\(f, g\)</span>และ<span class="math inline">\(2\)</span>-cellคือ <span class="math inline">\(\alpha\)</span></figcaption>
 </figure>
 </div>
@@ -462,7 +462,7 @@ window.Quarto = {
 <p>ที่มีinverse</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/bicat.png" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
+<p><img src="images/bicat.png" height="200" class="figure-img"></p>
 <figcaption>กฎidentityในbicategoryนั้นอยู่จนไปถึงisomorphism(<span class="math inline">\(2\)</span>-cellที่สามารถinvertได้<span class="math inline">\(\rho\)</span>)</figcaption>
 </figure>
 </div>
@@ -702,6 +702,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -736,7 +754,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1012,12 +1034,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/3.14/lawvere-theories.html" class="pagination-link  aria-label=" &lt;span="" (lawvere="" theories)="" (sketch)&lt;="" span&gt;"="">
+      <a href="../../content/3.14/lawvere-theories.html" class="pagination-link" aria-label="ทฤษฎีแบบLawvere (Lawvere Theories) (Sketch)">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">ทฤษฎีแบบLawvere (Lawvere Theories) (Sketch)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/etc/glossary.html" class="pagination-link" aria-label="<span class='chapter-number'>33</span>&nbsp; <span class='chapter-title'>คำเฉพาะและคำแปลของมัน</span>">
+      <a href="../../content/etc/glossary.html" class="pagination-link" aria-label="คำเฉพาะและคำแปลของมัน">
         <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">คำเฉพาะและคำแปลของมัน</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
