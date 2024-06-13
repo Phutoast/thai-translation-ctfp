@@ -208,7 +208,7 @@ elemToTuple e = (name e, symbol e, atomicNumber e)
 atomicNumber :: Element -> Int
 ```
 
-คู่กับไวยากรณ์ของrecordสำหรับ`Element`
+คู่กับsyntaxของrecordสำหรับ`Element`
 function`startsWithSymbol`ของเราก็กลายมาเป็นสิ่งที่อ่านได้ง่ายขึ้น
 
 ```Haskell

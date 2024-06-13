@@ -89,7 +89,7 @@ $$
 
 function$g$ สามารภถูกเรียกว่ารูปแบบของ$h$ที่*uncurried*แล้ว
 
-การcurryนั้นจริงๆแล้วถูกสร้างไปยังไวยากรณ์ของHaskell functionที่นำfunctionหลับมา 
+การcurryนั้นจริงๆแล้วถูกสร้างไปยังsyntaxของHaskell functionที่นำfunctionหลับมา 
 
 ```Haskell
 a -> (b -> c)

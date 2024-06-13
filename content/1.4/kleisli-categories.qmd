@@ -303,7 +303,7 @@ type Writer a = (a, String)
 
 ในตอนนี้ผมก็แค่นิยามชื่อแฝง(alias)ของtypeซึ่งมีความเท่ากันกับ`typedef`(หรือ`using`)ในC++
 type`Write`ถูกparameterizedโดยตัวแปรtype`a`และเท่ากันกับpairของ`a`และ`String`
-ไวยากรณ์ของpairนั้นมีความเรียบง่ายคือเป็นแค่สองitemในวงเล็บที่ถูกแยกโดยลูกน้ำ
+syntaxของpairนั้นมีความเรียบง่ายคือเป็นแค่สองitemในวงเล็บที่ถูกแยกโดยลูกน้ำ
 
 morphismของเราคือfunctionจากtypeอะไรก็ได้ไปยังtype`Writer`บางอย่าง
 

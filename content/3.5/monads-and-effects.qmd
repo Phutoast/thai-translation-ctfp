@@ -94,7 +94,7 @@ triples = [(x, y, z) | z <- [1..]
                      , x^2 + y^2 == z^2]
 ```
 
-นี่คือแค่การแต่งไวยากรณ์ให้ง่ายขึ้น(syntactic sugar)สำหรับmonadแบบlist(พูดให้ชัดเจน`MonadPlus`)
+นี่คือแค่การแต่งsyntaxให้ง่ายขึ้น(syntactic sugar)สำหรับmonadแบบlist(พูดให้ชัดเจน`MonadPlus`)
 
 คุณอาจจะเห็นการสร้างในภาษาfunctionalหรือimperativeภายใต้หน้ากากgeneratorsและcoroutines
 

@@ -280,7 +280,7 @@ instance Functor Maybe where
 
 ### FunctorในC++
 
-เราสามารถที่จะลองวิธีคล้ายๆกันในC++ได้หรือเปล่า? constructorของtypeนั้นมีลักษณะเช่นเดียวกันกับclassแบบtemplateเหมือน`optional`ดังนั้นโดยการเปรียบเทียบแล้วเราคงที่จะทำการparameterized`fmap`คู่กับ*template template parameter`F`*นี่คือไวยากรณ์ของมัน
+เราสามารถที่จะลองวิธีคล้ายๆกันในC++ได้หรือเปล่า? constructorของtypeนั้นมีลักษณะเช่นเดียวกันกับclassแบบtemplateเหมือน`optional`ดังนั้นโดยการเปรียบเทียบแล้วเราคงที่จะทำการparameterized`fmap`คู่กับ*template template parameter`F`*นี่คือsyntaxของมัน
 
 ```C++
 template<template<class> F, class A, class B>
