@@ -1,17 +1,23 @@
-# ความเป็นFunctor (Sketch)
+# ความเป็นFunctor (Draft)
 
-ในตอนนี้คุณได้รู้ว่าfunctorคืออะไรและได้เห็นตัวอย่างต่างๆของมัน เรามาดูวิธีในการสร้างfunctorที่ใหญ่กว่าจากตัวเล็กๆ 
+ในตอนนี้คุณได้รู้ว่าfunctorคืออะไรและได้เห็นตัวอย่างต่างๆของมัน 
+เรามาดูวิธีในการสร้างfunctorที่ใหญ่กว่าจากตัวเล็กๆ 
 มันนั้นน่าสนใจโดยเฉพาะเช่นการที่จะเห็นconstructorของtype(ที่คือการโยงระหว่างวัตถุในcategory)
 สามารถถูกเสริมเติมให้เป็นfunctor(ที่รวมไปภึงการโยงระหว่างmorphism)
 
 ## Bifunctors
 
 เนื่องด้วยว่าfunctorsคือmorphismใน$\textbf{Cat}$(categoryของcategory)ความเข้าใจหลายๆอย่างที่เกี่ยวกับmorphism (และfunctionโดยเฉพาะ)
-ก็สามารถถูกใช้ได้กับfunctorsเช่นเดียวกัน ตัวอย่างเช่นเหมือนกันกับการที่คุณมีfunctionที่มีสองargument คุณสามารถที่จะมีfunctorที่มีสองargumentหรือ*bifunctor* ถ้าพูดถึงการกระทำบนวัตถุ bifunctorนั้นโยงทุกๆคู่ของวัตถุอันหนึ่งจากcategory$\textbf{C}$และวัตถุจากcategory$\textbf{D}$ไปยังวัตถุในcategory$\textbf{E}$ สังเกตได้ว่าสิ่งนี้ก็แค่คือการโยงจากการคูณแบบ*Cartesian*ของcategoryอย่าง$\textbf{C}\times\textbf{D}$ไปยัง$\textbf{E}$
+ก็สามารถถูกใช้ได้กับfunctorsเช่นเดียวกัน ตัวอย่างเช่นเดียวกันกับการที่คุณมีfunctionที่มีสองargument 
+คุณสามารถที่จะมีfunctorที่มีสองargumentหรือ*bifunctor* 
+ถ้าพูดถึงการกระทำบนวัตถุ bifunctorนั้นโยงทุกๆคู่ของวัตถุอันหนึ่งจากcategory$\textbf{C}$และวัตถุจากcategory$\textbf{D}$
+ไปยังวัตถุในcategory$\textbf{E}$ สังเกตได้ว่าสิ่งนี้ก็แค่คือการโยงจากการคูณแบบ*Cartesian*
+ของcategoryอย่าง$\textbf{C}\times\textbf{D}$ไปยัง$\textbf{E}$
 
 ![](images/bifunctor.jpg){fig-align="center" height=200}
 
-สิ่งนี้ค่อนข้างตรงไปตรงมา แต่ความเป็นfunctorหมายความว่าbifunctorต้องทำการโยงmorphismเช่นเดียวกัน แต่ในตอนนี้มันต้องโยงคู่ของmorphismที่ตัวหนึ่งมาจาก$\textbf{C}$
+สิ่งนี้ค่อนข้างตรงไปตรงมา แต่ความเป็นfunctorหมายความว่า
+bifunctorต้องทำการโยงmorphismเช่นเดียวกัน แต่ในตอนนี้มันต้องโยงคู่ของmorphismที่ตัวหนึ่งมาจาก$\textbf{C}$
 และตัวหนึ่งมาจาก$\textbf{D}$ไปยังmorphismใน$\textbf{E}$
 
 อีกครั้งว่าคู่ของmorphismคือแค่morphismเดี่ยวในproduct category $\textbf{C}\times\textbf{D}$ไปยัง$\textbf{E}$ 
@@ -26,7 +32,8 @@ $$
 ดังนั้นคูณแบบCartesianของcategoryก็เป็นcategory
 
 วิธีที่ง่ายกว่าในการคิดเกี่ยวกับbifunctorก็คงจะเป็นการพิจารณามันในแต่ละargumentแยกออกไป ดังนั้นแทนที่จะแปลฏทางfunctor 
-(การรักษาสมบัติการเปลี่ยนหมู่และidentity) จากfunctorไปยังbifunctor มันดีพอที่จะทดสอบมันโดยการแยกออกเป็นที่ละargument แต่โดยทั่วไปแล้ว 
+(การรักษาสมบัติการเปลี่ยนหมู่และidentity) จากfunctorไปยังbifunctor 
+มันดีพอที่จะทดสอบมันโดยการแยกออกเป็นที่ละargument แต่โดยทั่วไปแล้ว 
 ความเป็นfunctorแบบแยกๆไม่สามารถที่จะพิสูจน์ความเป็นfunctorทั้งหมด categoryที่ไม่ความเป็นfunctorแบบทั้งหมด จะถูกเรียกว่า*premonoidal*
 
 เรามานิยามbifunctorในHaskell ในกรณีนี้ทั้งสามcategoryนั้นเหมือนกันนั้นก็คือcategoryของtypeในHaskell 
