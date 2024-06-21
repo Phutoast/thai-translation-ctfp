@@ -621,7 +621,7 @@ G\ f \circ \tau_a \circ \operatorname{id}_a
 <p><span class="math display">\[
 \operatorname{id}_b \circ \tau_b \circ F\ f
 \]</span></p>
-<p>ความเท่ากันของพวกมัน โดยเงื่อนไขของwedge นั้นไม่ใช้อย่างอื่นนอกจากเงื่อนไขความเป็นธรมมชาติสำหรับ<span class="math inline">\(\tau\)</span></p>
+<p>ความเท่ากันของพวกมัน โดยเงื่อนไขของwedge นั้นไม่ไช่อย่างอื่นนอกจากเงื่อนไขความเป็นธรมมชาติสำหรับ<span class="math inline">\(\tau\)</span></p>
 </section>
 <section id="coends" class="level2" data-number="27.5">
 <h2 data-number="27.5" class="anchored" data-anchor-id="coends"><span class="header-section-number">27.5</span> Coends</h2>
@@ -636,7 +636,7 @@ G\ f \circ \tau_a \circ \operatorname{id}_a
 <p><span class="math display">\[
 \int^c p\ c\ c
 \]</span></p>
-<p>เหมือนกับendที่เกี่ยวข้องกับproduct coendนั้นเกี่ยวข้องกับcoproductหรือsum (ในแนวนี้ มันมีความคล้ายกับintegralที่คือlimitของsum) แทนที่จะมีprojections เรามีinjectionsที่ไปจากสมาชิกแนวทแยงของprofunctorลงไปยังcoend ถ้ามันไม่ใช้สำหรับ เงื่อนไขของcowedge เราอาจจะพูดได้ว่าcoendของprofunctor นั้นคือ<span class="math inline">\(p\ a\ a\)</span>หรือ<span class="math inline">\(p\ b\ b\)</span>หรือ<span class="math inline">\(p\ c\ c\)</span>และอื่นๆ หรือเราอาจจะพ๔ดได้ว่าได้มี<span class="math inline">\(a\)</span>แบบนี้สำหรับที่coendคือแค่set<span class="math inline">\(p\ a\ a\)</span> quantifierแบบสากลที่เราได้ใช้ในนิยามของendหลายมาเป็นquantifierการมีอยู่สำหรับcoend</p>
+<p>เหมือนกับendที่เกี่ยวข้องกับproduct coendนั้นเกี่ยวข้องกับcoproductหรือsum (ในแนวนี้ มันมีความคล้ายกับintegralที่คือlimitของsum) แทนที่จะมีprojections เรามีinjectionsที่ไปจากสมาชิกแนวทแยงของprofunctorลงไปยังcoend ถ้ามันไม่ไช่สำหรับ เงื่อนไขของcowedge เราอาจจะพูดได้ว่าcoendของprofunctor นั้นคือ<span class="math inline">\(p\ a\ a\)</span>หรือ<span class="math inline">\(p\ b\ b\)</span>หรือ<span class="math inline">\(p\ c\ c\)</span>และอื่นๆ หรือเราอาจจะพ๔ดได้ว่าได้มี<span class="math inline">\(a\)</span>แบบนี้สำหรับที่coendคือแค่set<span class="math inline">\(p\ a\ a\)</span> quantifierแบบสากลที่เราได้ใช้ในนิยามของendหลายมาเป็นquantifierการมีอยู่สำหรับcoend</p>
 <p>นั้นคือเหตุผลที่ในHaskellเทียม เราอาจจะนิยามcoendในฐานะ</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>exists a<span class="op">.</span> p a a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>แนวทางมาตราฐานของการเขียนquantifierการมีอยู่ในHaskellคือการใช้constructorsข้อมูลแบบquantifiedแบบสากล(universally quantified data constructors) ดังนั้นเราสามารถนิยาม</p>
