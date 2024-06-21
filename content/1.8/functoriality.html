@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 9&nbsp; ความเป็นFunctor (Sketch)</title>
+<title>ทฤษฎีcategoryสำหรับโปรแกรมเมอร์ - 9&nbsp; ความเป็นFunctor (Draft)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -144,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.8/functoriality.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.8/functoriality.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Draft)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -235,7 +235,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/1.8/functoriality.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Draft)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -460,9 +460,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.8/functoriality.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/1.1/category-the-essence-of-composition.html">Part 1</a></li><li class="breadcrumb-item"><a href="../../content/1.8/functoriality.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Draft)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Sketch)</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ความเป็นFunctor (Draft)</span></h1>
 </div>
 
 
@@ -482,13 +482,13 @@ window.Quarto = {
 <p>ในตอนนี้คุณได้รู้ว่าfunctorคืออะไรและได้เห็นตัวอย่างต่างๆของมัน เรามาดูวิธีในการสร้างfunctorที่ใหญ่กว่าจากตัวเล็กๆ มันนั้นน่าสนใจโดยเฉพาะเช่นการที่จะเห็นconstructorของtype(ที่คือการโยงระหว่างวัตถุในcategory) สามารถถูกเสริมเติมให้เป็นfunctor(ที่รวมไปภึงการโยงระหว่างmorphism)</p>
 <section id="bifunctors" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="bifunctors"><span class="header-section-number">9.1</span> Bifunctors</h2>
-<p>เนื่องด้วยว่าfunctorsคือmorphismใน<span class="math inline">\(\textbf{Cat}\)</span>(categoryของcategory)ความเข้าใจหลายๆอย่างที่เกี่ยวกับmorphism (และfunctionโดยเฉพาะ) ก็สามารถถูกใช้ได้กับfunctorsเช่นเดียวกัน ตัวอย่างเช่นเหมือนกันกับการที่คุณมีfunctionที่มีสองargument คุณสามารถที่จะมีfunctorที่มีสองargumentหรือ<em>bifunctor</em> ถ้าพูดถึงการกระทำบนวัตถุ bifunctorนั้นโยงทุกๆคู่ของวัตถุอันหนึ่งจากcategory<span class="math inline">\(\textbf{C}\)</span>และวัตถุจากcategory<span class="math inline">\(\textbf{D}\)</span>ไปยังวัตถุในcategory<span class="math inline">\(\textbf{E}\)</span> สังเกตได้ว่าสิ่งนี้ก็แค่คือการโยงจากการคูณแบบ<em>Cartesian</em>ของcategoryอย่าง<span class="math inline">\(\textbf{C}\times\textbf{D}\)</span>ไปยัง<span class="math inline">\(\textbf{E}\)</span></p>
+<p>เนื่องด้วยว่าfunctorsคือmorphismใน<span class="math inline">\(\textbf{Cat}\)</span>(categoryของcategory)ความเข้าใจหลายๆอย่างที่เกี่ยวกับmorphism (และfunctionโดยเฉพาะ) ก็สามารถถูกใช้ได้กับfunctorsเช่นเดียวกัน ตัวอย่างเช่นเดียวกันกับการที่คุณมีfunctionที่มีสองargument คุณสามารถที่จะมีfunctorที่มีสองargumentหรือ<em>bifunctor</em> ถ้าพูดถึงการกระทำบนวัตถุ bifunctorนั้นโยงทุกๆคู่ของวัตถุอันหนึ่งจากcategory<span class="math inline">\(\textbf{C}\)</span>และวัตถุจากcategory<span class="math inline">\(\textbf{D}\)</span> ไปยังวัตถุในcategory<span class="math inline">\(\textbf{E}\)</span> สังเกตได้ว่าสิ่งนี้ก็แค่คือการโยงจากการคูณแบบ<em>Cartesian</em> ของcategoryอย่าง<span class="math inline">\(\textbf{C}\times\textbf{D}\)</span>ไปยัง<span class="math inline">\(\textbf{E}\)</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/bifunctor.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>
 </figure>
 </div>
-<p>สิ่งนี้ค่อนข้างตรงไปตรงมา แต่ความเป็นfunctorหมายความว่าbifunctorต้องทำการโยงmorphismเช่นเดียวกัน แต่ในตอนนี้มันต้องโยงคู่ของmorphismที่ตัวหนึ่งมาจาก<span class="math inline">\(\textbf{C}\)</span> และตัวหนึ่งมาจาก<span class="math inline">\(\textbf{D}\)</span>ไปยังmorphismใน<span class="math inline">\(\textbf{E}\)</span></p>
+<p>สิ่งนี้ค่อนข้างตรงไปตรงมา แต่ความเป็นfunctorหมายความว่า bifunctorต้องทำการโยงmorphismเช่นเดียวกัน แต่ในตอนนี้มันต้องโยงคู่ของmorphismที่ตัวหนึ่งมาจาก<span class="math inline">\(\textbf{C}\)</span> และตัวหนึ่งมาจาก<span class="math inline">\(\textbf{D}\)</span>ไปยังmorphismใน<span class="math inline">\(\textbf{E}\)</span></p>
 <p>อีกครั้งว่าคู่ของmorphismคือแค่morphismเดี่ยวในproduct category <span class="math inline">\(\textbf{C}\times\textbf{D}\)</span>ไปยัง<span class="math inline">\(\textbf{E}\)</span> เรานิยามmorphismในการคูณแบบCartesianของcategoryต่างๆในฐานะคู่ของmorphismที่เริ่มจากคู่แรกของวัตถุไปยังอีกคู่หนึ่งของวัตถุ คู่morphismเหล่านี้สามารถถูกประกอบในวิธีที่ตรงไปตรงมา</p>
 <p><span class="math display">\[
 (f, g) \circ (f', g') = (f \circ f', g \circ g')
