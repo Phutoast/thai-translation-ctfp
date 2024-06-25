@@ -1,5 +1,5 @@
 
-# TypeประเภทFunctions (Sketch)
+# TypeประเภทFunctions (Draft)
 
 มาจนถึงจุดนี้ผมได้ข้ามความหมายของtypeประเภทfunctions 
 typeประเภทfunctionนั้นมีความแตกต่างจากtypeอื่นๆ
