@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.4.557">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -664,7 +664,7 @@ G\ f \circ \tau_a \circ \operatorname{id}_a
 (a, b) \sim (c, d)\ \text{iff}\ a * d = b *
 \]</span></p>
 <p>มันง่ายมากในการตรวจสอบว่านี้คือความสัมพันธ์แบบเท่ากัน คู่ของ<span class="math inline">\((a,b)\)</span>นั้นถูกตีความในฐานะเศษส่วน<span class="math inline">\(\frac{a}{b}\)</span>และเศษส่วนที่ตัวเศษและตัวส่วนมีตัวหารเดียวกันนั้นถูกจับไว้ด้วยกัน จำนวนตรรกยะคือชุดของความเท่ากันของเศษส่วนอย่างนี้</p>
-<p>คุณอาจจะจำได้จากการสนทนาก่อนหน้านี้ของlimitsและcolimitsว่าhom-functorนั้นcontinuous นั้นก็คือมันคงไว้ในlimits ในทางเดียวกัน(Dually) hom-functorแบบcontravariantเปลี่ยนcolimitsไปยังlimits คุณสมบัติเหล่านี้สามารถถูกวางนัยแบบทั่วไปไปยังendsและcoends ที่ก็คือการgeneralizationของlimitsและcolimitsตามลำดับ โดยเฉพาะเช่น เราได้identityที่น่าสนใจในการแปลงcoendsไปยังendsอย่าง</p>
+<p>คุณอาจจะจำได้จากการสนทนาก่อนหน้านี้ของlimitsและcolimitsว่าhom-functorนั้นcontinuous นั้นก็คือมันคงไว้ในlimits ในทางเดียวกัน(Dually) hom-functorแบบcontravariantเปลี่ยนcolimitsไปยังlimits คุณสมบัติเหล่านี้สามารถถูกgeneralizeแบบทั่วไปไปยังendsและcoends ที่ก็คือการgeneralizationของlimitsและcolimitsตามลำดับ โดยเฉพาะเช่น เราได้identityที่น่าสนใจในการแปลงcoendsไปยังendsอย่าง</p>
 <p><span class="math display">\[
 \textbf{Set}(\int^x p\ x\ x, c) \cong \int_x \textbf{Set}(p\ x\ x, c)
 \]</span></p>
@@ -684,7 +684,7 @@ G\ f \circ \tau_a \circ \operatorname{id}_a
 \]</span></p>
 <p>ความเท่ากันนี้นั้นครายกับสูตรของfunction deltaของDirac(นั้นคือfunction<span class="math inline">\(\delta(a - z)\)</span> หรือก็distributionที่มีจุดยอดinfiniteที่<span class="math inline">\(a=z\)</span>) ในที่นี้hom-functorเล่นในตำแหน่งของfunction delta</p>
 <p>นำมารวมกันทั้งสองความเท่ากัยนั้นมักจะถูกเรียกว่าYoneda lemmaช้อนเร้น</p>
-<p>ในการพิสูจน์สมาการที่สองเราจะใช้ผลลัพธ์เนื่องมาจากembeddingแบบYoneda ที่บอกว่าสองวัตถุนั้นisomorphicต่อเมื่อhom-functorsของพวกมันนั้นisomorphic ในอีกความหมายหนึ่ง<span class="math inline">\(a \cong b\)</span>ก็ต่อเมื่อได้มีการแปลงแบบธรรมชาติของtype</p>
+<p>ในการพิสูจน์สมการที่สองเราจะใช้ผลลัพธ์เนื่องมาจากembeddingแบบYoneda ที่บอกว่าสองวัตถุนั้นisomorphicต่อเมื่อhom-functorsของพวกมันนั้นisomorphic ในอีกความหมายหนึ่ง<span class="math inline">\(a \cong b\)</span>ก็ต่อเมื่อได้มีการแปลงแบบธรรมชาติของtype</p>
 <p><span class="math display">\[
 [\textbf{C}, \textbf{Set}](\textbf{C}(a, -), \textbf{C}(b, =)]
 \]</span></p>
@@ -723,7 +723,7 @@ c^{(F\ a)}
 <p>นั้นเท่ากับนิยามของHaskellจาก<code>Data.Profunctor.Composition</code>หลังจากการเปลี่ยนชื่อเรามี</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Procompose</span> q p a b <span class="kw">where</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Procompose</span><span class="ot"> ::</span> q a c <span class="ot">-&gt;</span> p c b <span class="ot">-&gt;</span> <span class="dt">Procompose</span> q p a b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>นี้ได้ใช้typeแบบข้อมูลแบบalgebraicที่ถูกวางนัยแล้วหรือsyntaxแบบGADTที่คือตัวแปลtypeอิสระ(ในที่นี้คือ<code>c</code>)นั้นคือquantifierของการมีอยู่แล้ว constructorช้อมูล(ที่ถูกuncurried)<code>Procompose</code>จึงเท่ากับ</p>
+<p>นี้ได้ใช้typeแบบข้อมูลแบบalgebraicที่ถูกgeneralizeแล้วหรือsyntaxแบบGADTที่คือตัวแปลtypeอิสระ(ในที่นี้คือ<code>c</code>)นั้นคือquantifierของการมีอยู่แล้ว constructorช้อมูล(ที่ถูกuncurried)<code>Procompose</code>จึงเท่ากับ</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>exists c<span class="op">.</span> (q a c, p c b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>unitของการประกอบกันที่ก็ถูกนิยามคือhom-functor สิ่งนี้ตามมาจากYoneda lemmaช้อนเร้น ดังนั้นมันมีเหตุผลในการถามคำถามถ้าได้มีcategoryที่profunctorsนั้นทำงานเป็นmorphismsหรือเปล่า คำตอบคือใช้ที่มีข้อแม้ว่าทั้งกฏการสลับกลุ่มและกฏidentityสำหรับการประกอบกันของprofunctorนั้นใช้ได้จนไปถึงคือisomorphismแบบธรรมชาติ categoryอย่างนี้ที่กฏนั้นตรงไปยังisomorphismนั้นถูกเรียกว่าbicategory(ที่มีความกว้างมากกว่า2-category)ดังนั้นเรามีbicategory<span class="math inline">\(\textbf{Prof}\)</span>ที่วัตถุคือcategories morphismsคือprofunctors และmorphismsระหว่างmorphisms(หรือในอีกคำๆหนึ่งtwo-cells)นั้นคือหารแปลงแบบธรรมชาติ ใรความเป็นจริงแล้ว เราสามารถไปได้ใกลกว่านี้ เพราะว่านอกเหนือจากprofunctors เราก็มีfunctorsทั่วไปในฐานะmorphismsระหว่างcategories categoryที่มีmorphismsสองแบบนั้นจะถูกเรียกว่าcategoryแบบdouble</p>
 <p>Profunctorsมีบทบาทสำคัญในlibrary lensของHaskellและlibraryลูกศร</p>

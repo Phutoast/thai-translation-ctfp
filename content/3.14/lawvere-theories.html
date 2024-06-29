@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.4.557">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -584,7 +584,7 @@ N\ f \circ \mu_n = \mu_1 \circ M\ f
 </section>
 <section id="ทฤษฎของmonoids" class="level2" data-number="31.4">
 <h2 data-number="31.4" class="anchored" data-anchor-id="ทฤษฎของmonoids"><span class="header-section-number">31.4</span> ทฤษฎีของMonoids</h2>
-<p>ตัวอย่างที่ไม่ตรงไปตรงมาแต่ง่ายที่สุดของทฤษฎีแบบLawvereอธิบายโครงสร้างของmonoids มันคือทฤษฎีเดียวที่สกัดโครงสร้างของmonoidsที่เป็นไปได้ทั้งหมดในความหมายที่ว่าmodelของทฤษฎีนี้ขยายไปยังทั้งcategory<span class="math inline">\(\textbf{Mon}\)</span>ของmonoids เราได้เห็นการสร้างแบบสากลแล้วที่แสดงว่าทุกๆmonoidสามารถถูกได้มาจากmonoidอิสระที่เหมาะสมโดยการตามหาsetย่อยของmorphisms ดังนั้นmonoidอิสระตัวหนึ่งนั้นได้วางนัยmonoidหลายๆตัวแล้ว แต่ไต้มีmonoidอิสระนับไม่จำกัด ทฤษฎีแบบLawvereสำหรับ<span class="math inline">\(\textbf{L}_\textbf{Mod}\)</span>รวมพวกมันทั้งหมดในการสร้างที่งดงามเพียงครั้งเดียว</p>
+<p>ตัวอย่างที่ไม่ตรงไปตรงมาแต่ง่ายที่สุดของทฤษฎีแบบLawvereอธิบายโครงสร้างของmonoids มันคือทฤษฎีเดียวที่สกัดโครงสร้างของmonoidsที่เป็นไปได้ทั้งหมดในความหมายที่ว่าmodelของทฤษฎีนี้ขยายไปยังทั้งcategory<span class="math inline">\(\textbf{Mon}\)</span>ของmonoids เราได้เห็นการสร้างแบบสากลแล้วที่แสดงว่าทุกๆmonoidสามารถถูกได้มาจากmonoidอิสระที่เหมาะสมโดยการตามหาsetย่อยของmorphisms ดังนั้นmonoidอิสระตัวหนึ่งนั้นได้generalizemonoidหลายๆตัวแล้ว แต่ไต้มีmonoidอิสระนับไม่จำกัด ทฤษฎีแบบLawvereสำหรับ<span class="math inline">\(\textbf{L}_\textbf{Mod}\)</span>รวมพวกมันทั้งหมดในการสร้างที่งดงามเพียงครั้งเดียว</p>
 <p>ทุกๆmonoidต้องมีunit ดังนั้นเราจำเป็นต้องมีmorphismพิเศษ<span class="math inline">\(\eta\)</span>ใน<span class="math inline">\(\textbf{L}_\textbf{Mod}\)</span>ที่จาก<span class="math inline">\(0\)</span>ไปยัง<span class="math inline">\(1\)</span> สังเกตว่าได้ไม่สามารถมีmorphismที่ตรงกันใน<span class="math inline">\(\textbf{F}\)</span> morphismแบบนั้นอาจจะไปในทิศทางตรงกันข้ามจาก<span class="math inline">\(1\)</span>ไปยัง<span class="math inline">\(0\)</span>ที่ใน<span class="math inline">\(\textbf{FinSet}\)</span>ก็จะคือfunctionจากsetที่มีสมาชิกเดียวไปยังsetว่าง functionแบบนั้นไม่มีอยู่</p>
 <p>ต่อไปลองพิจารณาmorphisms<span class="math inline">\(2 \to 1\)</span>ที่คือสมาชิิกของ<span class="math inline">\(\textbf{L}_\textbf{Mod}(2,1)\)</span>ที่ต้องมีรูปแบบแรกเริ่มของoperationsแบบbinaryทั้งหมด ในการสร้างmodelsใน<span class="math inline">\(\textbf{Mod}(\textbf{L}_\textbf{Mod}, \textbf{Set})\)</span> morphismsเหล่านี้จะถูกโยงไปยังfunctionจากproductแบบCartesianของ<span class="math inline">\(M\ 1 \times M\ 1\)</span>ไปยัง<span class="math inline">\(M\ 1\)</span> ในอีกความหมายหนึ่งfunctionที่มีสองargument</p>
 <p>คำถามคือ มีfunctionsที่มีสองargumentsกี่ตัวที่เราสามารถเขียนโดยการใช้แค่operatorของmonoid เรามาเรียกสองargument<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span> ได้มีfunctionหนึ่งที่ละเว้นทั้งสองargumentsและreturn unitของmonoid แล้วก็มีสองprojectionsที่return<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span>ตามลำดับ พวกมันนั้นตามด้วยfunctionsที่return<span class="math inline">\(ab\)</span>, <span class="math inline">\(ba\)</span>, <span class="math inline">\(aa\)</span>, <span class="math inline">\(bb\)</span>, <span class="math inline">\(aab\)</span>และอื่นๆ ในความเป็นจริงแล้วได้มีfunctionแบบนี้เป็นจำนวนfunctionของสองargumentที่เท่ากับสมาชิกในmonoidอิสระที่มีgenerators<span class="math inline">\(a\)</span>และ<span class="math inline">\(b\)</span> สังเกตว่า<span class="math inline">\(\textbf{L}_\textbf{Mod}(2,1)\)</span>ต้องมีmorphismเหล่านี้นเพราะว่าหนึ่งในmodelคือmonoidอิสระ ในmonoidอิสระ พวกมันตรงกับfunctionsแต่ละfunctions modelอื่นๆอาจจะยุบหลายmorphismใน<span class="math inline">\(\textbf{L}_\textbf{Mod}(2,1)\)</span>ไปยังfunctionเดียว แต่ไม่สำหรับmonoidอิสระ</p>
@@ -623,7 +623,7 @@ N\ f \circ \mu_n = \mu_1 \circ M\ f
 <p><span class="math display">\[
 F\ a = \int^n a^n \times (F\ n)
 \]</span></p>
-<p>เนื่องด้วยcoendนั้นวางนัยแบบทั่วไปของcoproductหรือsum สูตรแบบนี้คือการgeneralizationของการขยายอนุกรมกำลัง หรือเราสามารถใช้วิธีคิดที่ว่าfunctorนั้นคือวางนัยแบบทั่วไปของภาชนะ ในกรณีนี้แล้วภาชนะที่มีarityที่จำกัดของ<span class="math inline">\(a\)</span>ต่างๆสามารถถูกอธิบายในฐานะsumของรูปและเนื้อหา ในที่นี้<span class="math inline">\(F \ n\)</span>คือsetของรูปร่างของการเก็บ<span class="math inline">\(n\)</span>สมาชิกและเนื้อหาคือ<span class="math inline">\(n\)</span>-tupleของสมาชิก ตัวมันเองคือสมาชิกของ<span class="math inline">\(a^n\)</span> ตัวอย่างเช่นlist(ในฐานะfunctor)นั้นมีarityที่จำกัด ที่มีรูปหนึ่งสำหรับแต่และarity treeนั้นมีรูปร่างมากกว่าarityและอื่นๆและอื่นๆ</p>
+<p>เนื่องด้วยcoendนั้นgeneralizeแบบทั่วไปของcoproductหรือsum สูตรแบบนี้คือการgeneralizationของการขยายอนุกรมกำลัง หรือเราสามารถใช้วิธีคิดที่ว่าfunctorนั้นคือgeneralizeแบบทั่วไปของภาชนะ ในกรณีนี้แล้วภาชนะที่มีarityที่จำกัดของ<span class="math inline">\(a\)</span>ต่างๆสามารถถูกอธิบายในฐานะsumของรูปและเนื้อหา ในที่นี้<span class="math inline">\(F \ n\)</span>คือsetของรูปร่างของการเก็บ<span class="math inline">\(n\)</span>สมาชิกและเนื้อหาคือ<span class="math inline">\(n\)</span>-tupleของสมาชิก ตัวมันเองคือสมาชิกของ<span class="math inline">\(a^n\)</span> ตัวอย่างเช่นlist(ในฐานะfunctor)นั้นมีarityที่จำกัด ที่มีรูปหนึ่งสำหรับแต่และarity treeนั้นมีรูปร่างมากกว่าarityและอื่นๆและอื่นๆ</p>
 <p>ตัวอย่างแรก monadsทั้งหมดที่ถูกสร้างจากทฤษฎีแบบLawvereนั้นมีarityที่จำกัด และพวกกันสามารถถูกแสดงใรฐานะcoends</p>
 <p><span class="math display">\[
 T_{\textbf{L}}\ a = \int^n a^n \times \textbf{L}(n, 1)

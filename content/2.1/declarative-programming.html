@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.4.557">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -517,7 +517,7 @@ window.Quarto = {
 <p>ในวิธีทางแบบสากลก็สามารถถูกใช้ในการเขียนโปรแกรมตัวอย่างเช่นในการเขียนray tracing เราประกาศตำแหน่งของตาและตำแหน่งของแหล่งของแสง และหาเส้นทางที่ลำแสงอาจจะเชื่อมพวกมันเข้าด้วยกัน เราไม่ได้ลดเวลาในการเคลื่อนที่อยากเปิดเผยของแต่ละลำแสง แต่เราใช้กฏของSnellและเรขาคณิตของการสะท้อนที่ที่ได้ผลเหมือนกัน</p>
 <p>ความแตกต่างที่ใหญ่ที่สุดระหว่างวิธีแบบเฉพาะแห่งและแบบสากลคือการที่พวกมันพิจารณาพื้นที่และสำคัญไปกว่านั้นคือเวลา วิธีแบบเฉพาะแห่งยอมรับความพึงพอใจแบบฉับพลันของที่นี้และตรงนี้ ในขณะที่วิธีแบบสากลนั้น มีมุมมองที่อยู่กับที่ในระยะยาว อย่างกับว่าอนาคตได้ถูกกำหนดไว้แล้ว และเราแค่วิเคราะห์คุณสมบัติของจักรวาลนิรันดร</p>
 <p>ไม่มีที่ไหนที่สามารถจะแสดงให้เห็นได้ดีไปกว่าแนวทางของFunctional Reactive Programming (FRP)กับการปฏิสัมพันธ์ของผู้ใช้ โดยแทนที่จะเขียนhandlersแยกกันสำหรับการกระทำของผู้ใช้ในทุกๆรูปแบบ ทั้งหมดมีการเข้าถึงต่อstateที่เป็นส่วนรวมและสามารถเปลี่ยนได้ FRPพิจารณาเหตุการภายนอกในฐานะรายการที่ไม่มีที่สิ้นสุดและใช้การเปลี่ยนแปลงหลายๆอย่างกับมัน ในทางแนวคิดแล้ว รายการของการกระทำของเรานั้นอยู่ที่นี่และมีอยู่แล้วในฐานะข้องมูลinputกับโปรแกรมของเรา ในมุมมองของโปรแกรม ไม่มีความแตกต่างระหว่างlistของตัวเลขของ<span class="math inline">\(\pi\)</span> listของเลขสุ่มเทียมหรือlistของตำแหน่งmouseที่มาจากhardwareของคอมพิวเตอร์ ในแต่ละกรณีถ้าคุณต้องไปยังตัวเลขในตำแหน่งที่<span class="math inline">\(n\)</span>th คุณต้องผ่านทั้ง<span class="math inline">\(n-1\)</span>ตัวเลขก่อน ในตอนใช้กับเหตุการที่ขึ้นกับเวลา เราเรียกคุณสมบัตินี้ว่า<em>causality</em>(ความสัมพันธ์ระหว่างเหตุและผล)</p>
-<p>แล้วสิ่งนี้เกี่ยวกับทฤษฎีcategoryอย่างไร? ผมจะเสนอว่าทฤษฎีcategoryนั้นสนับสนุนแนวทางแบบสากรและดังนั้นรองรับการเขียนโปรแกรมแบบdeclarative ก่อนอื่นเลยคือไม่เหมือนcalculus มันไม่มีเครื่องหมายที่มีอยู่แล้วของระยะทางหรือบริเวณข้างเคียงหรือเวลา สิ่งที่เรามีอยู่ทั้งหมดคือวัตถุนามธรรมและการเชื่อมต่อที่เป็นนามธรรมระหว่างมัน ถ้าคุณสามารถไปจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(B\)</span>ผ่านลำดับของขั้นต่างๆ คุณสามารถที่จะไปได้ในกระโดดครั้งเดียว มากไปกว่านั้น เครื่องมือส่วนใหญ่ทฤษฎีcategoryคือการสร้างแบบสากลที่เป็นจุดสูงสุดของแนวทางแบบสากล เราได้เห็นมันในการใช้งานแล้ว ตัวอย่างเช่นในนิยามของproductแบบcategorical มันสามารถถูกทำได้โดยการกำหนดคุณสมบัติของมัน (ที่เป็นแนวทางที่declarativeอย่างมาก มันคือวัตถุที่ที่projectionสองตัวและเป็นวัตถุที่ดีที่สุด) มันทำให้บางคุณสมบัติมีประโยชน์ที่สุด ที่ก็คือคุณสมบัติของการแยกตัวประกอบของprojectionของวัตถุอื่นๆ</p>
+<p>แล้วสิ่งนี้เกี่ยวกับทฤษฎีcategoryอย่างไร? ผมจะเสนอว่าทฤษฎีcategoryนั้นสนับสนุนแนวทางแบบสากลและดังนั้นรองรับการเขียนโปรแกรมแบบdeclarative ก่อนอื่นเลยคือไม่เหมือนcalculus มันไม่มีเครื่องหมายที่มีอยู่แล้วของระยะทางหรือบริเวณข้างเคียงหรือเวลา สิ่งที่เรามีอยู่ทั้งหมดคือวัตถุนามธรรมและการเชื่อมต่อที่เป็นนามธรรมระหว่างมัน ถ้าคุณสามารถไปจาก<span class="math inline">\(A\)</span>ไปยัง<span class="math inline">\(B\)</span>ผ่านลำดับของขั้นต่างๆ คุณสามารถที่จะไปได้ในกระโดดครั้งเดียว มากไปกว่านั้น เครื่องมือส่วนใหญ่ทฤษฎีcategoryคือการสร้างแบบสากลที่เป็นจุดสูงสุดของแนวทางแบบสากล เราได้เห็นมันในการใช้งานแล้ว ตัวอย่างเช่นในนิยามของproductแบบcategorical มันสามารถถูกทำได้โดยการกำหนดคุณสมบัติของมัน (ที่เป็นแนวทางที่declarativeอย่างมาก มันคือวัตถุที่ที่projectionสองตัวและเป็นวัตถุที่ดีที่สุด) มันทำให้บางคุณสมบัติมีประโยชน์ที่สุด ที่ก็คือคุณสมบัติของการแยกตัวประกอบของprojectionของวัตถุอื่นๆ</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/productranking.jpg" class="quarto-figure quarto-figure-center figure-img" height="200"></p>

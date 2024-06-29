@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.4.557">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -561,7 +561,7 @@ q'=(Fg)q
 <p>เหมื่อนทั่วไป <code>forall</code>นั้นไม่บังคับแต่ผมชอบที่จะเขียนมันอย่างชัดแจ้งเพื่อที่จะย้ำความเป็นpolymorphismแบบparametricของการแปลงแบบธรรมชาติ</p>
 <p>LemmaของYonedaบอกเราว่าการแปลงแบบธรรมชาติเหล่านี้นั้นตรงกันแบบหนึ่งต่อหนึ่งกับสมาชิกของ<code>F a</code></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">forall</span> x <span class="op">.</span> (a <span class="ot">-&gt;</span> x) <span class="ot">-&gt;</span> <span class="dt">F</span> x ≅ <span class="dt">F</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>ในทางด้านขวาของสมาการนี้คือสิ่งที่เรามักจะพิจารณาเป็นdata structure จำการตีความแบบนี้ของfunctorในฐานะภาชนะแบบกว้างๆได้หรือเปล่า? <code>F a</code> เป็นภาชนะของ<code>a</code> แต่ในทางด้านช้ายคือfunctionแบบpolymorphicที่นำfunctionในฐานะargument lemmaของYonedaนั้นบอกเราว่าตัวแทนของทั้งสองนั้นเท่ากัน ก็คือพวกมันเก็บข้อมูลเดียวกัน</p>
+<p>ในทางด้านขวาของสมการนี้คือสิ่งที่เรามักจะพิจารณาเป็นdata structure จำการตีความแบบนี้ของfunctorในฐานะภาชนะแบบกว้างๆได้หรือเปล่า? <code>F a</code> เป็นภาชนะของ<code>a</code> แต่ในทางด้านช้ายคือfunctionแบบpolymorphicที่นำfunctionในฐานะargument lemmaของYonedaนั้นบอกเราว่าตัวแทนของทั้งสองนั้นเท่ากัน ก็คือพวกมันเก็บข้อมูลเดียวกัน</p>
 <p>อีกทางหนึ่งของการพูดคือว่าถ้าให้functionแบบpolymorphicกับเราของtypeอย่าง</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell code-with-copy"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">alpha ::</span> <span class="kw">forall</span> x <span class="op">.</span> (a <span class="ot">-&gt;</span> x) <span class="ot">-&gt;</span> <span class="dt">F</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>และผมจะสร้างภาชนะของ<code>a</code> เคล็ดลับคือสิ่งที่เราได้ใช้ในการพิสูจน์ของlemmaของYonedaคือเราเรียกfunctionนี้กับ<code>id</code>ในการที่ได้มาซึ่งสมาชิกของ<code>F a</code></p>
