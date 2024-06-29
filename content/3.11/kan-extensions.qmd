@@ -170,7 +170,7 @@ $$
 
 ![](images/kan112.jpg){fig-align="center" height=200}
 
-ในการแทนที่categoryที่มีสมาชิกเดียว$\textbf{1}$ด้วย$\textbf{A}$ นิยามนี้ถูกวางนัยแบบเป็นธรรมชาติไปยังส่วนขยายKanด้านช้ายที่มีเครื่องหมายอย่าง $\operatorname{Lan}_KD$
+ในการแทนที่categoryที่มีสมาชิกเดียว$\textbf{1}$ด้วย$\textbf{A}$ นิยามนี้ถูกgeneralizeแบบเป็นธรรมชาติไปยังส่วนขยายKanด้านช้ายที่มีเครื่องหมายอย่าง $\operatorname{Lan}_KD$
 
 ![](images/kan12.jpg){fig-align="center" height=200}
 

@@ -298,7 +298,7 @@ $$
 
 มันง่ายมากในการตรวจสอบว่านี้คือความสัมพันธ์แบบเท่ากัน คู่ของ$(a,b)$นั้นถูกตีความในฐานะเศษส่วน$\frac{a}{b}$และเศษส่วนที่ตัวเศษและตัวส่วนมีตัวหารเดียวกันนั้นถูกจับไว้ด้วยกัน จำนวนตรรกยะคือชุดของความเท่ากันของเศษส่วนอย่างนี้
 
-คุณอาจจะจำได้จากการสนทนาก่อนหน้านี้ของlimitsและcolimitsว่าhom-functorนั้นcontinuous นั้นก็คือมันคงไว้ในlimits ในทางเดียวกัน(Dually) hom-functorแบบcontravariantเปลี่ยนcolimitsไปยังlimits คุณสมบัติเหล่านี้สามารถถูกวางนัยแบบทั่วไปไปยังendsและcoends ที่ก็คือการgeneralizationของlimitsและcolimitsตามลำดับ โดยเฉพาะเช่น เราได้identityที่น่าสนใจในการแปลงcoendsไปยังendsอย่าง
+คุณอาจจะจำได้จากการสนทนาก่อนหน้านี้ของlimitsและcolimitsว่าhom-functorนั้นcontinuous นั้นก็คือมันคงไว้ในlimits ในทางเดียวกัน(Dually) hom-functorแบบcontravariantเปลี่ยนcolimitsไปยังlimits คุณสมบัติเหล่านี้สามารถถูกgeneralizeแบบทั่วไปไปยังendsและcoends ที่ก็คือการgeneralizationของlimitsและcolimitsตามลำดับ โดยเฉพาะเช่น เราได้identityที่น่าสนใจในการแปลงcoendsไปยังendsอย่าง
 
 $$
 \textbf{Set}(\int^x p\ x\ x, c) \cong \int_x \textbf{Set}(p\ x\ x, c)
@@ -331,7 +331,7 @@ $$
 
 นำมารวมกันทั้งสองความเท่ากัยนั้นมักจะถูกเรียกว่าYoneda lemmaช้อนเร้น 
 
-ในการพิสูจน์สมาการที่สองเราจะใช้ผลลัพธ์เนื่องมาจากembeddingแบบYoneda ที่บอกว่าสองวัตถุนั้นisomorphicต่อเมื่อhom-functorsของพวกมันนั้นisomorphic ในอีกความหมายหนึ่ง$a \cong b$ก็ต่อเมื่อได้มีการแปลงแบบธรรมชาติของtype
+ในการพิสูจน์สมการที่สองเราจะใช้ผลลัพธ์เนื่องมาจากembeddingแบบYoneda ที่บอกว่าสองวัตถุนั้นisomorphicต่อเมื่อhom-functorsของพวกมันนั้นisomorphic ในอีกความหมายหนึ่ง$a \cong b$ก็ต่อเมื่อได้มีการแปลงแบบธรรมชาติของtype
 
 $$
 [\textbf{C}, \textbf{Set}](\textbf{C}(a, -), \textbf{C}(b, =)]
@@ -391,7 +391,7 @@ data Procompose q p a b where
     Procompose :: q a c -> p c b -> Procompose q p a b
 ```
 
-นี้ได้ใช้typeแบบข้อมูลแบบalgebraicที่ถูกวางนัยแล้วหรือsyntaxแบบGADTที่คือตัวแปลtypeอิสระ(ในที่นี้คือ`c`)นั้นคือquantifierของการมีอยู่แล้ว constructorช้อมูล(ที่ถูกuncurried)`Procompose`จึงเท่ากับ
+นี้ได้ใช้typeแบบข้อมูลแบบalgebraicที่ถูกgeneralizeแล้วหรือsyntaxแบบGADTที่คือตัวแปลtypeอิสระ(ในที่นี้คือ`c`)นั้นคือquantifierของการมีอยู่แล้ว constructorช้อมูล(ที่ถูกuncurried)`Procompose`จึงเท่ากับ
 
 ```Haskell
 exists c. (q a c, p c b)
